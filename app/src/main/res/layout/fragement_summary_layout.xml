@@ -1,0 +1,202 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    tools:context="com.nhpm.fragments.CompleteVerifiedFragment">
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+
+            android:background="@drawable/gray_border"
+            android:layout_width="match_parent"
+            android:weightSum="1"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8">
+                <TextView
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:text="@string/totalVerify"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/noOfVerifiedLayout"
+                android:background="@drawable/gray_border"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".2">
+                <TextView
+                    android:id="@+id/noofVerifiedTV"
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="450"
+                    android:textColor="@color/blue"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+
+            android:background="@drawable/gray_border"
+            android:layout_width="match_parent"
+            android:weightSum="1"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_margin="10dp"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8">
+                <TextView
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:text="@string/errorRecrd"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/errorRecordLayout"
+                android:background="@drawable/gray_border"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".2">
+                <TextView
+                    android:id="@+id/errorRecTV"
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="112"
+                    android:textColor="@color/blue"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+
+            android:background="@drawable/gray_border"
+            android:layout_width="match_parent"
+            android:weightSum="1"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8">
+                <TextView
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:text="@string/numBlockData"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/noOfBlockLayout"
+                android:background="@drawable/gray_border"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".2">
+                <TextView
+                    android:id="@+id/noOfBlocksTV"
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:textColor="@color/blue"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="@drawable/gray_border"
+            android:layout_width="match_parent"
+            android:weightSum="1"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/noOfNHPSIDLayout"
+                android:layout_margin="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8">
+                <TextView
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:text="@string/NoofNHps"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:background="@drawable/gray_border"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".2">
+                <TextView
+                    android:id="@+id/noOfNhpsTV"
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="450"
+                    android:textColor="@color/blue"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:background="@drawable/gray_border"
+            android:layout_width="match_parent"
+            android:weightSum="1"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8">
+                <TextView
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:text="@string/Idprinted"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/printHistoryLayout"
+                android:background="@drawable/gray_border"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".2">
+                <TextView
+                    android:id="@+id/idPrintedTV"
+                    android:padding="5dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="48"
+                    android:textColor="@color/blue"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- TODO: Update blank fragment layout -->
+
+</FrameLayout>

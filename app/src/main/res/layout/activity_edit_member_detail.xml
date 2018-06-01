@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.example.psqit.sampleapp.MemberDetailActivity">
+    <include layout="@layout/header_layout" />
+    <ScrollView android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/head"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        >
+        <LinearLayout android:id="@+id/toplay"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+            <include layout="@layout/member_details_1" />
+            <include layout="@layout/member_details_2" />
+            <include layout="@layout/additional_member_detail_1" />
+
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:background="#1BB7BF"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:id="@+id/editdone"
+            android:textAllCaps="false"
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:text="@string/done"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_margin="5dp"
+            android:layout_alignParentBottom="true"
+            />
+    </LinearLayout>
+</RelativeLayout>
+

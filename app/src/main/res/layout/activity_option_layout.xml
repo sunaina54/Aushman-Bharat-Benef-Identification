@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <include
+        android:id="@+id/head"
+        layout="@layout/header_layout"
+        android:visibility="gone" />
+
+    <include layout="@layout/updated_header_layout"
+        android:layout_marginTop="30dp" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </include>
+
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/margine_10"
+        android:layout_marginRight="@dimen/margine_10"
+        android:layout_marginBottom="@dimen/margine_10"
+        android:id="@+id/parentLayout"
+        android:layout_marginTop="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/textView"
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Find Beneficiary by Name"
+            android:textAlignment="center" />
+
+        <LinearLayout
+            style="@style/blueBorderEditText"
+            android:id="@+id/adhaarLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            style="@style/textViewYellow"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fab_margin"
+            android:textSize="@dimen/text_size_18sp"
+            android:text="Enter Beneficiary Aadhar Number" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+
+            <EditText
+                android:id="@+id/aadhaarET"
+                style="@style/textViewYellow"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0.75"
+                android:inputType="number"
+                android:maxLength="12"
+                android:textColor="@color/black"
+                android:background="@drawable/edittext_background_login"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:padding="10dp" />
+       <!--     <EditText
+                android:id="@+id/aadhaarET"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="0.75"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_background_login"
+                android:hint="Ration Card Number"
+                android:text="123456789012345"
+                android:imeOptions="actionNext"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:maxLength="15"
+                android:paddingTop="5dp"
+                android:textAlignment="center"
+                android:textSize="20sp" />-->
+
+            <Button
+                android:id="@+id/proceedBT"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.25"
+                android:background="@drawable/button_background_orange_ehit"
+                android:padding="2dp"
+                android:text="@string/Proceed"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/margine_10"
+            android:id="@+id/nonAadhaarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+           >
+
+           <!-- <TextView
+                android:id="@+id/noAadhaarTV"
+                style="@style/textViewYellow"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:text="Do not have Aadhaar?"
+                android:textSize="@dimen/text_size_18sp" />-->
+
+            <TextView
+                style="@style/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margine_20"
+                android:id="@+id/noAadhaarTV"
+                android:textSize="22sp"
+                android:text="Do not have Aadhaar?"
+                android:textAlignment="center"
+                android:textColor="@color/textSearch" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/noAadhaarOptionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/nameLocationBTN"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Name and Location"
+                android:visibility="gone"
+
+                />
+
+            <Button
+                android:id="@+id/mobileNumberBTN"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Mobile Number"
+
+                />
+
+            <Button
+                android:id="@+id/householdBTN"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Household" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

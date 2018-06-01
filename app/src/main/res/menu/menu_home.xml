@@ -1,0 +1,56 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/profile"
+        android:title="@string/profile"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+
+    <item android:id="@+id/appConfig"
+        android:title="Configuration"
+        android:orderInCategory="60"
+        app:showAsAction="withText"
+        android:visible="true"
+        />
+    <item android:id="@+id/changePin"
+        android:title="@string/resetPin"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+
+    <item android:id="@+id/update"
+        android:title="@string/checkUpdate"
+        android:orderInCategory="60"
+        app:showAsAction="withText"
+        android:visible="true"/>
+    <item android:id="@+id/notification"
+        android:title="@string/notification"
+        android:orderInCategory="60"
+        app:showAsAction="withText"
+        android:visible="true"/>
+    <item android:id="@+id/villageWise"
+        android:title="Download Village Data"
+        android:orderInCategory="60"
+        app:showAsAction="withText"
+        android:visible="false"/>
+
+    <item android:id="@+id/deleteHousehold"
+        android:visible="false"
+        android:title="@string/deleteEb"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+
+
+    <item android:id="@+id/clearDevice"
+        android:title="@string/clearDevice"
+        android:orderInCategory="60"
+        app:showAsAction="withText"
+        android:visible="true"/>
+
+    <item android:id="@+id/logout"
+        android:title="@string/Logout"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+
+
+
+</menu>

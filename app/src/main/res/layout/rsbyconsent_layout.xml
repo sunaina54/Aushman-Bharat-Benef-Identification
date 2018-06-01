@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/errorTV"
+            android:layout_gravity="center_horizontal"
+            android:text=""
+            android:textColor="@color/red"/>
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/consent"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+        <TextView
+            android:id="@+id/deleteMsg"
+            style="@style/textView"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="@string/rsbyconsent_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/tryAgainBT"
+
+                android:background="@drawable/button_background_orange_ehit"
+                android:layout_marginTop="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="35dp"
+                android:textAllCaps="false"
+                android:text="@string/Confirm_Submit"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_marginRight="5dp"
+                />
+
+            <Button
+                android:id="@+id/cancelBT"
+
+                android:background="@drawable/button_background_orange"
+                android:layout_marginTop="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="35dp"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:textColor="@color/yellow_dark"
+                android:text="@string/cancel"
+                android:layout_marginRight="5dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--  </android.support.v7.widget.CardView>-->
+
+</LinearLayout>

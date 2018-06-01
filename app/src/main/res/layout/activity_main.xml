@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#96d3d3d3"
+    tools:context=".MainActivity">
+
+ <LinearLayout
+     android:layout_centerInParent="true"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:gravity="center_horizontal"
+     android:orientation="vertical">
+   <ImageView
+
+    android:visibility="visible"
+    android:id="@+id/image"
+    android:background="@drawable/emblem_of_the_roi"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:scaleType="fitXY"
+    />
+    <TextView
+        android:layout_margin="20dp"
+        android:text="@string/launcher_screen_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/yellow_dark"/>
+ </LinearLayout>
+</RelativeLayout>

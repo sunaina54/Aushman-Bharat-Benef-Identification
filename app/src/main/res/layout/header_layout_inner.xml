@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/head"
+    android:background="@color/sky_shign"
+    android:layout_height="50dp">
+    <ImageView android:id="@+id/back"
+        android:layout_height="@dimen/back_size"
+        android:layout_width="@dimen/back_size"
+        android:src="@drawable/back_icon"
+       android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+
+        />
+<TextView
+    android:id="@+id/head1"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+   android:text="efs"
+    android:textColor="@color/white"
+    android:textSize="20dp"
+    android:gravity="center_vertical|center_horizontal"
+  />
+    <ImageView
+        android:text="FLASH"
+        android:id="@+id/flash"
+        android:layout_weight="1"
+        android:layout_alignParentRight="true"
+        android:onClick="toggleFlash"
+        android:src="@drawable/flash"
+        android:layout_marginRight="15dp"
+        android:layout_centerVertical="true"
+        android:layout_width="35dp"
+        android:layout_height="35dp"/>
+</RelativeLayout>

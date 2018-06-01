@@ -1,0 +1,340 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.fragments.AadharAuthQrCode">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/aadhaarCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardElevation="2dp"
+                android:padding="5dp"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:id="@+id/qrCodeAadhaarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <Button
+                        android:id="@+id/captureAadharDetBT"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/rounded_shape_yello_button"
+                        android:text="Capture Aadhaar detail by QR Code"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_15sp" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Aadhaar Number"
+                        android:textColor="@color/blue" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:visibility="gone">
+
+                        <EditText
+                            android:id="@+id/qrCodeAadharNumberET"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1.8"
+                            android:background="@drawable/edit_text_border"
+                            android:enabled="false"
+                            android:inputType="none"
+                            android:maxLength="12"
+                            android:paddingLeft="5dp"
+                            android:textSize="@dimen/text_size_15sp" />
+
+
+                        <CheckBox
+                            android:layout_weight="0.2"
+                            android:id="@+id/aadhaarNoCheck"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="2dp"
+                            android:checked="true"
+                            android:visibility="gone"/>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_weight=".5"
+                            android:padding="2dp">
+
+                            <ImageView
+                                android:id="@+id/qrCodeAadhaarVerifiedIV"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/right_tick"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/qrCodeAadhaarRejectedIV"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/cancel"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/qrCodeAadhaarPendingIV"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/exclamation"
+                                android:scaleType="fitXY"
+                                android:visibility="gone" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Name"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_size_15sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:layout_weight="0.9"
+                            android:id="@+id/qrCodeNameAsInAadhaarET"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/edit_text_border"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz. "
+                            android:enabled="false"
+                            android:inputType="none"
+                            android:paddingLeft="5dp"
+                            android:textSize="@dimen/text_size_15sp" />
+
+                        <CheckBox
+                            android:layout_weight="0.1"
+                            android:id="@+id/nameCheck"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="2dp"
+                            android:checked="true"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Date of birth"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_size_15sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <EditText
+                            android:layout_weight="0.9"
+                            android:id="@+id/qrCodeDobAsInAadhaarET"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/edit_text_border"
+                            android:enabled="false"
+                            android:inputType="none"
+                            android:paddingLeft="5dp"
+                            android:textSize="@dimen/text_size_15sp" />
+
+                        <CheckBox
+                            android:layout_weight="0.1"
+                            android:id="@+id/dobCheck"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="2dp"
+                            android:checked="false"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Gender"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_size_15sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <EditText
+                            android:id="@+id/qrCodeGenderAsInAadhaarET"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.9"
+                            android:layout_height="40dp"
+                            android:background="@drawable/edit_text_border"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz. "
+                            android:enabled="false"
+                            android:inputType="none"
+                            android:paddingLeft="5dp"
+                            android:textSize="@dimen/text_size_15sp" />
+                        <CheckBox
+                            android:layout_weight="0.1"
+                            android:id="@+id/genderCheck"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="2dp"
+                            android:checked="false"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Pincode"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_size_15sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <EditText
+                            android:id="@+id/qrCodePincodeET"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.9"
+                            android:layout_height="40dp"
+                            android:background="@drawable/edit_text_border"
+                            android:enabled="false"
+                            android:inputType="none"
+                            android:maxLength="6"
+                            android:paddingLeft="5dp"
+                            android:textSize="@dimen/text_size_15sp" />
+                        <CheckBox
+                            android:layout_weight="0.1"
+                            android:id="@+id/pincodeCheck"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="2dp"
+                            android:checked="false"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/adhar"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone">
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Name in SECC and name as in aadhaar are of same person."
+                            android:textSize="@dimen/text_size_13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/validatedLayout"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                       android:weightSum="1"
+                       >
+                        <CheckBox
+                            android:id="@+id/consentCheck"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:text="@string/aadhar_consent_check" />
+                        <Button
+                            android:id="@+id/validateAdhaarBT"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_shape_yello_button"
+                            android:text="@string/validatee"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:visibility="gone"
+                            android:textSize="@dimen/text_size_15sp" />
+                        <Button
+                            android:id="@+id/proceedBT"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_shape_yello_button"
+                            android:text="@string/proceed"
+                            android:visibility="gone"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_15sp" />
+
+
+                        <Button
+                            android:id="@+id/validateAdhaarLaterBT"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_shape_yello_button"
+                            android:text="Validate Later"
+                            android:visibility="gone"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_15sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</FrameLayout>

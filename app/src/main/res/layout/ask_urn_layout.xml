@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:padding="2dp"
+            android:visibility="visible"
+            android:gravity="center_horizontal"
+
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_shine"
+            android:text="@string/enterUrn"/>
+
+        <TextView
+            android:padding="2dp"
+            android:visibility="gone"
+            android:gravity="center_horizontal"
+            android:id="@+id/invalidUrnTV"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:text="@string/invalid_urn"/>
+
+        <EditText
+            android:background="@drawable/edittext_background_gray_corner"
+            android:id="@+id/deletPinET"
+            android:paddingLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textSize="@dimen/text_size_15sp"
+            android:maxLength="17"
+            android:inputType="number"
+            android:hint="@string/enterUrn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/proceedBT"
+                android:layout_marginTop="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="35dp"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:text="@string/proceed"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/button_background_orange_ehit"/>
+            <Button
+                android:id="@+id/cancelBT"
+                android:layout_marginTop="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="35dp"
+                android:textAllCaps="false"
+                android:textColor="@color/yellow_dark"
+                android:text="@string/cancel"
+                android:background="@drawable/button_background_orange"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--  </android.support.v7.widget.CardView>-->
+
+</LinearLayout>

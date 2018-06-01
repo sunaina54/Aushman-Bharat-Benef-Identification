@@ -1,0 +1,64 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.fragments.ChooseNewHeadFragment">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/memberList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+       <LinearLayout
+           android:visibility="gone"
+           android:id="@+id/footerSyncLayout"
+           android:layout_centerHorizontal="true"
+           android:layout_alignParentBottom="true"
+           android:layout_margin="5dp"
+           android:layout_width="match_parent"
+           android:paddingLeft="50dp"
+           android:paddingRight="50dp"
+           android:layout_height="wrap_content">
+           <Button
+               android:id="@+id/syncBT"
+               android:layout_marginRight="2dp"
+               android:text="@string/syncAll"
+               android:layout_width="match_parent"
+               android:layout_height="35dp"
+               style="@style/button"/>
+
+       </LinearLayout>
+   </RelativeLayout>
+    </LinearLayout>
+
+      <!-- <LinearLayout
+           android:visibility="gone"
+           android:id="@+id/footerSyncLayout"
+           android:layout_centerHorizontal="true"
+           android:layout_alignParentBottom="true"
+           android:layout_margin="5dp"
+           android:layout_width="match_parent"
+           android:paddingLeft="50dp"
+           android:paddingRight="50dp"
+           android:layout_height="wrap_content">
+           <Button
+               android:id="@+id/syncBT"
+               android:layout_marginRight="2dp"
+               android:text="Sync All"
+               android:layout_width="match_parent"
+               android:layout_height="35dp"
+               style="@style/button"/>
+
+       </LinearLayout>-->
+   </RelativeLayout>
+
+</FrameLayout>

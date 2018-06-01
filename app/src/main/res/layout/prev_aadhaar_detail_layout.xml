@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/adhaarStatusLayout"
+    android:layout_height="wrap_content"
+    android:visibility="visible">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:background="@drawable/tab_button_shape"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/mediumTextview"
+                android:text="@string/adharDetail"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight=".7"
+                android:layout_height="wrap_content"
+                android:text="@string/adharnum"
+                style="@style/textViewBlue"/>
+            <TextView
+                android:id="@+id/prevAadhaarNoTV"
+                android:layout_width="0dp"
+                android:layout_weight="1.3"
+                android:layout_height="wrap_content"
+                android:text="-"
+                style="@style/textView"/>
+          </LinearLayout>
+
+
+        <LinearLayout
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight=".7"
+                android:layout_height="wrap_content"
+                android:text="@string/nameasadhar"
+                style="@style/textViewBlue"/>
+            <TextView
+                android:id="@+id/prevNameAsAadhaarTV"
+                android:layout_width="0dp"
+                android:layout_weight="1.3"
+                android:layout_height="wrap_content"
+                android:text="-"
+                style="@style/textView"/>
+        </LinearLayout>
+        <LinearLayout
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight=".7"
+                android:layout_height="wrap_content"
+                android:text="@string/capturingMOde"
+                style="@style/textViewBlue"/>
+            <TextView
+                android:id="@+id/prevCaptureMode"
+                android:layout_width="0dp"
+                android:layout_weight="1.3"
+                android:layout_height="wrap_content"
+                android:text="-"
+                style="@style/textView"/>
+        </LinearLayout>
+        <LinearLayout
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight=".7"
+                android:layout_height="wrap_content"
+                android:text="@string/status"
+                style="@style/textViewBlue"/>
+         <!--   <TextView
+                android:id="@+id/prevAdhaarStatusTV"
+                android:layout_width="0dp"
+                android:layout_weight="1.3"
+                android:layout_height="wrap_content"
+                android:text="-"
+                style="@style/textView"/>-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_height="25dp"
+                android:id="@+id/aadharStatusIV"
+               android:visibility="gone"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

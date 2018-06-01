@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/headerLayout"
+        layout="@layout/header_layout"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_below="@+id/headerLayout"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_margin="1dp"
+        android:background="@color/white"
+        android:id="@+id/tabLL">
+
+        <LinearLayout
+            android:layout_weight="0.33"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:id="@+id/personalDetailsLL"
+            android:background="@drawable/arrow_white">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/personal_detail_tv"
+                style="@style/textViewTabLayout"
+               android:layout_marginLeft="30dp"
+
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="0.33"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:id="@+id/familyDetailsLL"
+            android:background="@drawable/arrow_gray">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/family_detail_tv"
+                style="@style/textViewTabLayout"
+                android:layout_marginLeft="30dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="0.33"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:id="@+id/printEcardLL"
+            android:background="@drawable/arrow_gray">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/print_card"
+                style="@style/textViewTabLayout"
+                android:layout_marginLeft="30dp"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLL"
+        android:id="@+id/fragContainer">
+
+    </FrameLayout>
+
+</RelativeLayout>

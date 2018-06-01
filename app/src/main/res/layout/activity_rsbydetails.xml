@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.Activities.RSBYDetails">
+    <include layout="@layout/header_layout" android:id="@+id/header"/>
+    <LinearLayout
+        android:layout_below="@+id/header"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="@dimen/text_size_13sp"
+            android:text="@string/RSBYurnNo"
+            android:textColor="@color/blue"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/rsbyURNNoET"
+                android:layout_width="0dp"
+                android:inputType="number"
+                android:maxLength="17"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_border"
+                android:layout_height="40dp" />
+            <Button
+                android:visibility="gone"
+                android:text="@string/validatee"
+                android:layout_marginLeft="3dp"
+                android:textAllCaps="false"
+                android:textColor="@color/white_shine"
+                android:textSize="@dimen/text_size_15sp"
+                android:id="@+id/updateDetailBT"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_shape_yello_button"/>
+            <RelativeLayout
+                android:visibility="gone"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight=".3">
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:id="@+id/bankVerifiedIV"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/right_tick"
+                    />
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:id="@+id/bankRejectedIV"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/cancel"
+                    />
+                <ImageView
+                    android:visibility="visible"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:id="@+id/bankPendingIV"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/exclamation"
+                    />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_margin="20dp"
+            android:text="@string/submit"
+            android:layout_marginLeft="3dp"
+            android:textAllCaps="false"
+            android:textColor="@color/white_shine"
+            android:textSize="@dimen/text_size_15sp"
+            android:id="@+id/submitBT"
+            android:layout_width="match_parent"
+
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_shape_yello_button"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

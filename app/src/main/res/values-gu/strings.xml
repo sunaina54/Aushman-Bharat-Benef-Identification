@@ -1,0 +1,836 @@
+<resources>
+
+    <!--LOGIN SCREEN-->
+
+    <string name="nhps_logo">નેશનલ હેલ્થ પ્રોટેક્શન સ્કીમ</string>
+    <string name="nhps_logo_govt">ભારત સરકાર</string>
+    <string name="nhps_logo_mohfw">આરોગ્ય અને પરિવાર કલ્યાણ મંત્રાલય</string>
+    <string name="nhps_cp">કૉપિરાઇટ © 2016 નેશનલ ઇન્ફોર્મેટિક્સ સેન્ટર</string>
+    <string name="login_ekyc_check">વધુ આગળ વધવા માટે EKYC સંમતિ તપાસો.</string>
+    <string name="offline_login_bt">PIN સાથે લૉગિન</string>
+    <string name="internet_connection_msg">Nકોઈ ઇન્ટરનેટ કનેક્શન મળ્યું નથી.</string>
+    <string name="server_error">સર્વર સાથે કનેક્ટ કરી</string>
+    <string name="slow_internet_connection_msg">માફ કરશો, તે જેવી ધીમું ઇન્ટરનેટ કનેક્શન અથવા સર્વર પ્રતિસાદ આપી રહ્યું નથી તેમ લાગે છે.</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_get_data">GetDataActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_memberlist">MemberlistActivity</string>
+    <string name="title_activity_member_detail">MemberDetailActivity</string>
+    <string name="title_activity_edit_member_detail">EditMemberDetailActivity</string>
+    <string name="title_activity_add_member">AddMemberActivity</string>
+    <string name="launcher_screen_label">એનએચપીએસ ક્ષેત્ર માન્યતા સિસ્ટમ</string>
+    <string name="adhar_hint">તમારા 12-અંકની આધાર દાખલ</string>
+    <string name="login_hint">ઓટીપી સાથે લૉગિન</string>
+    <string name="verifier_login">ચકાસણીકાર લૉગિન</string>
+    <string name="please_wait">મહેરબાની કરી રાહ જુવો ...</string>
+    <string name="checking_device_registraion">તપાસી ઉપકરણ નોંધણી, કૃપા કરીને રાહ જુઓ ..</string>
+    <string name="checking_device">ઉપકરણ પ્રમાણીકરણ</string>
+    <string name="updated_version_msg">અપડેટ સંસ્કરણ ઉપલબ્ધ છે. કૃપા કરીને ડાઉનલોડ કરો અને અરજી અપડેટ કરો.</string>
+    <string name="device_auth_check_msg">તમારું ઉપકરણ(IMEI1: 123456,IMEI2: 7654322) એનએચપીએસ ક્ષેત્ર ચકાસણી સિસ્ટમ સાથે નોંધાયેલ નથી</string>
+    <string name="auth_option_label">UIDAI ના આધાર પ્રમાણિત કરવા માટે નીચે વિકલ્પ પસંદ કરો</string>
+    <string name="bio_metric_option">બાયોમેટ્રિક</string>
+    <string name="sms_otp_option">એસએમએસ ઓટીપી</string>
+    <string name="invalid_otp">અમાન્ય ઓટીપી</string>
+    <string name="otp_lable_title">ઓટીપી તમારા આધાર Registerd મોબાઇલ નંબર પર યુઆઈડીએઆઈ દ્વારા મોકલવામાં દાખલ કરો.</string>
+    <string name="otp_msg_forEsign">ઓટીપી દાખલ કરો તમારા આધાર માં યુઆઈડીએઆઈ દ્વારા મોકલવામાં ડિઝાઇન માટે મોબાઇલ નંબર રજીસ્ટર</string>
+    <string name="confirm_eSign_process">અહીં અમે તમારી eSign મળી છે, ચકાસણી સભ્ય હસ્તાક્ષર પ્રક્રિયા માટે કૃપા કરીને પુષ્ટિ કરો</string>
+    <string name="alloted_location">ચકાસણી માટે પસંદ કરેલ સ્થાન.</string>
+    <string name="state_name">રાજ્ય</string>
+    <string name="district_name">જીલ્લા</string>
+    <string name="tehsil">સબ ડિસ્ટ્રિક્ટ.</string>
+    <string name="village">ગામ / નગર</string>
+    <string name="ward">વોર્ડ</string>
+    <string name="nameTitme">નામ</string>
+    <string name="codeTitle">સંહિતા</string>
+    <string name="houseSearchTag">કૌટુંબિક નામ હેડ દાખલ</string>
+    <string name="alloted_screen_header">ઘર</string>
+    <string name="serachHouseNumber">તમારી શોધ લખાણ દાખલ કરો</string>
+    <string name="search_head_name">ઘર શોધવા માટે સભ્ય નામ દાખલ કરો</string>
+    <string name="search_start_digit_aadhaar">ઘર શોધવા માટે આધાર નંબર દાખલ કરો</string>
+    <string name="search_family_member">શોધ નિવાસી દ્વારા સભ્ય નામ</string>
+    <string name="search_aadhaar_number">શોધ નિવાસી દ્વારા આધાર સંખ્યા</string>
+    <string name="search">શોધ</string>
+    <string name="search_by_aadhaar">આધાર નંબર દ્વારા શોધો ઘરગથ્થુ</string>
+    <string name="search_by_member_name">સભ્ય નામ દ્વારા શોધો ઘરગથ્થુ</string>
+    <string name="searchHouseNumber">શોધ ઘરગથ્થુ</string>
+    <string name="search_options">સભ્ય નામ, ઘરેલુ નં અથવા આધાર દ્વારા શોધો કૌટુંબિક નં</string>
+    <string name="search_popup_msg">પસંદિત હાઉસ વિગતો.</string>
+    <string name="house_member_list">હાઉસ સભ્ય યાદી
+
+
+        </string>
+    <string name="send_offline_date">ઑફલાઇન અપડેટ સભ્યો મેળવો</string>
+    <string name="updated_member">અપડેટ સભ્યો મેળવો</string>
+    <string name="get_member_by_urn">ફૂલદાની દ્વારા સભ્યો મેળવો</string>
+    <string name="esign_verified">સાઇન ઇન કરો ચકાસ્યું સભ્ય</string>
+    <string name="edit_member_detail">અપડેટ</string>
+    <string name="english_name">ઇંગલિશ માં નામ</string>
+    <string name="regional_name">પ્રાદેશિક ભાષામાં ભાષાનું નામ</string>
+    <string name="english_father_name">પિતા \'ઓ ઇંગલિશ માં નામ </string>
+    <string name="regional_father_name">પિતા \'ઓ પ્રાદેશિક ભાષામાં ભાષાનું નામ</string>
+    <string name="english_mother_name">મધર \'ઓ ઇંગલિશ માં નામ</string>
+    <string name="regional_mother_name">મધર \'ઓ પ્રાદેશિક ભાષામાં ભાષાનું નામ</string>
+    <string name="english_relation">ઇંગલિશ કુટુંબ વડા સાથે સંબંધ</string>
+    <string name="regional_relation">પ્રાદેશિક ભાષામાં પરિવારના વડા સાથે સંબંધ</string>
+    <string name="gender">જાતિ</string>
+    <string name="date_of_birth">જન્મ તારીખ</string>
+    <string name="marital_status">વૈવાહિક સ્થિતિ</string>
+    <string name="english_address">ઇંગલિશ સરનામું</string>
+    <string name="regional_address">પ્રાદેશિક ભાષા સરનામું</string>
+    <string name="disability_status">ડિસેબિલિટી સ્થિતિ</string>
+    <string name="cast_group">જાતિ / આદિવાસી ગ્રુપ</string>
+    <string name="additonal_detail">વધારાની માહિતી</string>
+    <string name="aadhaar_number">આધાર સંખ્યા</string>
+    <string name="aadhaar_name">આધાર તરીકે નામ</string>
+    <string name="aadhaar_enrolled_id">આધાર નોંધણીને આઈડી</string>
+    <string name="bank_name">બેંકનું નામ</string>
+    <string name="branch_name">શાખાનું નામ</string>
+    <string name="ifsc_code">હુંએફએસસી કોડ</string>
+    <string name="account_number">આધાર નોંધણીને આઈડી</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="govt_photo_idcard_type">સરકાર ફોટો હુંડી કાર્ડ પ્રકાર</string>
+    <string name="govt_photo_id_number">સરકાર ફોટો હુંડી કાર્ડ નંબર</string>
+    <string name="govt_scan_image">સરકાર ફોટો હુંડી કાર્ડ સ્કેન છબી</string>
+    <string name="urn_rsby">ફૂલદાની આરએસબીવાય સંખ્યા</string>
+    <string name="rsby_verify">પરથી ચકાસો આરએસબીવાય</string>
+    <string name="beneficiary_photo">લાભાર્થી ફોટો</string>
+    <string name="verify_mobile">મોબાઇલ ચકાસો</string>
+    <string name="other_aadhaar_detail">અન્ય આધાર વિગતવાર</string>
+    <string name="aadhar_dob">જન્મ તારીખ</string>
+    <string name="aadhar_gender">જાતિ</string>
+    <string name="aadhar_phone">ફોન</string>
+    <string name="aadhar_email">ઇમેઇલ</string>
+    <string name="aadhar_address">સરનામું</string>
+    <string name="aadhar_care_of">સાચવણી કરવી</string>
+    <string name="aadhar_house">ઘર</string>
+    <string name="aadhar_street">સ્ટ્રીટ</string>
+    <string name="land_mark">જમીન માર્ક</string>
+    <string name="location">લોકેશન</string>
+    <string name="vill_town_city">ગામ / નગર / શહેર</string>
+    <string name="sub_district">સબ ડિસ્ટ્રિક્ટ</string>
+    <string name="district">જીલ્લા</string>
+    <string name="state">રાજ્ય</string>
+    <string name="pincode">પીન કોડ</string>
+    <string name="post_office">ટપાલખાતાની કચેરી</string>
+    <string name="rsby_member_details">શોધ</string>
+    <string name="urn_msg">આરએસબીવાય થી વિગતવાર આનયન સભ્ય ફૂલદાની દાખલ</string>
+    <string name="esign_msg">તમે સાઇન ઇન કરી રહ્યાં</string>
+    <string name="send_all">બધા મોકલો</string>
+    <string name="send">મોકલો</string>
+    <string name="eSign">ઈ સાઇન</string>
+    <string name="verified">ચકાસણી</string>
+    <string name="offline_list">ઑફલાઇન અપડેટ યાદી</string>
+    <string name="downloaded_block_msg">ડાઉનલોડ નવી ઇન્યૂમરેશન બ્લોક માહિતી</string>
+    <!--LOCATION SELECTED-->
+    <string name="complete_verified">પૂર્ણ ચકાસ્યું સભ્યો</string>
+    <string name="partial_verified">આંશિક ચકાસ્યું સભ્યો</string>
+    <string name="signed_members">સાઇન ઇન કરો સભ્યો</string>
+    <string name="updated_members_list">અપડેટ સભ્ય યાદી</string>
+    <string name="aadhar_not_register">અમાન્ય IMEI નંબર. મોબાઇલ ઉપકરણ ક્ષેત્ર માન્યતા માટે નોંધાયેલ નથી.</string>
+    <string name="mobileno_not_reg_with_adhar">આ આધાર માટે મોબાઇલ નંબર યુઆઈડીએઆઈ સાથે નોંધાયેલ નથી</string>
+
+    <string name="member_status_msg">કૃપા કરીને સભ્ય સ્થિતિ પસંદ</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">હેલો ખાલી ટુકડો</string>
+    <string name="login_tool_tip">1.દાખલ માન્ય આધાર સંખ્યા\n  ડાઉનલોડ કરવા ઓ ટી પી અને સમન્વય ડેટા સાથે -પ્રેસ લૉગિન\n2.પીન સાથે દબાવો પ્રવેશ ચકાસણી માટે જાઓ.</string>
+    <string name="invalid_login">માન્ય આધાર સંખ્યા દાખલ કરો.</string>
+    <string name="urn_hint">17 આંકડાના ફૂલદાની દાખલ</string>
+
+    //HOME SCREEN
+    <string name="total_no_of_members">સભ્યો કુલ કોઈ-</string>
+
+
+    //CAPTURE PHONE NUMBER SCREEN
+    <string name="whose_mobile">મોબાઇલ નંબર આવતી</string>
+    <string name="mobile_number_hint">10-અંકનો મોબાઇલ નંબર દાખલ કરો</string>
+
+    //CAPTURE PHOTO SCREEN
+    <string name="photo_text">ફોટોગ્રાફ સ્પષ્ટ દર્શાવે લાભાર્થી ચહેરો કેપ્ચર કૃપા કરીને</string>
+    <string name="photo_error_text">ફેસ શોધાયેલ કરી શકાઈ નથી, ફોટોગ્રાફ સ્પષ્ટ દર્શાવે લાભાર્થી ચહેરો કેપ્ચર કૃપા કરીને</string>
+
+    //MEMBER STATUS
+    <string name="yet_to_survey">છતાં સર્વે</string>
+    <string name="under_survey">સર્વે હેઠળ</string>
+    <string name="validated">માન્ય</string>
+    <string name="locked">લૉક</string>
+    <string name="unlock">અનલૉક</string>
+    <string name="synced">સમન્વય</string>
+
+    //SECC MEMBER DETAIL
+    <string name="locked_msg">તમે રેકોર્ડ ફેરફાર કરવા આગળ કોઈ સમર્થ નથી રહેશે. તમને ખાતરી છે?</string>
+
+    <string name="aadhaar_connect_error">UIDAI સર્વર માંથી કનેક્ટ કરવામાં અક્ષમ, કૃપા કરી ફરી પ્રયાસ કરો. </string>
+
+    <string name="aadhaar_already_captured">આધાર પહેલેથી ઉપયોગમાં લેવાઇ ગઇ હોય, તો તમે જ્યારે સમન્વય કરવાનું સમસ્યાઓ હોઈ શકે છે.</string>
+    <string name="validator_adhaar_captured">તમે દાખલ કરેલ ચકાસણીકાર આધાર number.It સમસ્યા હોય શકે છે, જ્યારે સમન્વયિત કરવા.</string>
+    <string name="aadhaar_not_validate">તમે માન્ય ન હોય આધાર ના, તેને સમસ્યા હોય શકે છે, જ્યારે સમન્વયિત કરવા</string>
+
+    <string name="ok">ઠીક છે</string>
+    <string name="permission_camera_rationale">કૅમેરાની ઍક્સેસ શોધ માટે જરૂરી છે</string>
+    <string name="no_camera_permission">આ એપ્લિકેશન ચલાવવા શકતા નથી કારણ કે તે કેમેરા પરવાનગી નથી.  એપ્લિકેશન હવે બહાર નિકળી જશે.</string>
+    <string name="low_storage_error">ફેસ ડિટેક્ટર ડિપેન્ડન્સી નીચા ઉપકરણ સંગ્રહ કારણે ડાઉનલોડ કરી શકાતી નથી</string>
+    <string name="squarecamera__app_name">સ્ક્વેર કેમેરા</string>
+    <string name="squarecamera__action_settings">સેટિંગ્સ</string>
+    <string name="squarecamera__start_image_capture">નવું ચિત્ર લો!</string>
+    <string name="squarecamera__capture_image">તે અરર!</string>
+    <string name="squarecamera__save_image">સાચવેલા</string>
+    <string name="squarecamera__cancel">રદ કરો</string>
+    <string name="squarecamera__swap_camera">સ્વેપ</string>
+    <string name="squarecamera__flash">ફ્લેશ</string>
+    <string name="squarecamera__auto_flash">ઓટો ફ્લેશ</string>
+    <string name="squarecamera__no_flash">કોઈ ફ્લેશ</string>
+    <string name="squarecamera__recapture_image">પુનઃ પ્રાપ્ત ચિત્ર</string>
+    <string name="squarecamera__capturing_image">નવું ચિત્ર ટેકિંગ</string>
+    <string name="squarecamera__done">પૂર્ણ</string>
+    <string name="squarecamera__request_write_storage_permission_text">મંજૂરી તમારા ઉપકરણ પર તમારો ફોટો સાચવી માટે જરૂરી છે</string>
+    <string name="proceed_validation">પ્રારંભ માન્યતા</string>
+    <string name="sync_household">સમન્વયન ઘરગથ્થુ</string>
+    <string name="with_aadhaar1">(આધાર સાથે)</string>
+    <string name="without_aadhaar">(આધાર વગર)</string>
+    <string name="alert_for_reset">ઘર માટે સર્વેક્ષણ ડેટા ગૂમ થઈ જશે. ઘરગથ્થુ \ ખસેડવામાં આવશે \'બાકી ઘરગથ્થુ \'</string>
+    <string name="alert_for_unlock">ઘરગથ્થુ \'હેઠળ સર્વે \' ખસેડવામાં આવશે</string>
+    <string name="delete_eb">ઇબી કાઢી નાખો</string>
+    <string name="minor_nominee_msg">કૃપા કરીને 18 વર્ષ નોમિની ઉપર પસંદ</string>
+
+
+    //Capture Adhaar Activity
+    <string name="radio_qrcode">QR કોડ</string>
+    <string name="radio_manual">મેન્યુઅલ</string>
+    <string name="name_as_aadhar">આધાર તરીકે નામ:</string>
+    <string name="name_as_sec">એસઇસીસી નામ:</string>
+    <!--<string name="aadhar_confirmation_msg">Please confirm names as given above are of same person and consent of HOF/Member has been taken to use for NHPS</string>-->
+    <string name="aadhar_confirmation_msg">ઉપર આપેલ એક જ વ્યક્તિ છે નામો પુષ્ટિ કરો.</string>
+    <string name="aadhar_not_readable">ક્યૂઆર કોડ વાંચવા માટે સમર્થ નથી. આધાર નંબર મેળવે કૃપા કરીને મેન્યુઅલી </string>
+    <string name="aadhar_invalid_data">આધાર અમાન્ય ડેટા સમાવી જાતે કૃપા કરીને ચકાસો</string>
+    <string name="Confirm_Submit">પુષ્ટિ</string>
+    <string name="Resend">ફરિથી</string>
+    <string name="adhar_consent_msg">વધુ આગળ વધવા માટે આધાર સંમતિ કૃપા કરીને તપાસો</string>
+    <string name="aadhar_consent_check">લાભાર્થી એનએચપીએસ માટે તેના / તેણીના આધાર વિગતો પૂરી પાડવા માટે કોઈ વાંધો છે</string>
+
+    <string name="sync_cancel">વિક્ષેપ સમન્વયિત કરી રહ્યું છે</string>
+    // Execption handling msg
+    <string name="execption_handaling_on_downloading_data">કારણ કે અમાન્ય સ્થાન ડેટા ડાઉનલોડ કરવા માટે સક્ષમ નથી / ડેટા ફોર્મેટ</string>
+
+    <string name="yet_to_validate">છતાં માન્ય કરવા</string>
+
+
+    <string name="name_as_rsby">આરએસબીવાય નામ:</string>
+    <string name="rsbyconsent_text">આ ઘરગથ્થુ / લાભાર્થી Secc મારફતે પ્રવેશ ક્યારેય.</string>
+    <string name="rsbycard_imported">આરએસબીવાય કાર્ડ સફળતાપૂર્વક આયાત થઈ. તમે ઉપકરણને દૂર કરી શકે છે.</string>
+    <string name="rsbydatanotavailable">તમે આર એસ બી વાય કાર્ડથી RSBY ઘરગથ્થુ જે એસ ઇ સી સી શામેલ નથી આયાત કરી શકો છો.</string>
+
+    // RSBY cardReader
+    <string name="cardRemovedError">આરએસબીવાય કાર્ડ દૂર કરવામાં આવે છે / નથી શામેલ કરી.</string>
+    <string name="cardRemovedMsg">કાર્ડ દૂર</string>
+    <string name="cardReadingPopupMsg">કાર્ડ અલગ નથી હોતાં, ત્યારે વાંચન.</string>
+    <string name="noDeviceAttached">કોઈ કાર્ડ રીડર / યુએસબી પોર્ટ કાર્ડ રીડર સત્તા માટે સમર્થ નહિં જોડાયેલું છે.</string>
+    <string name="deviceNotSupported">ઉપકરણ સપોર્ટેડ નથી.</string>
+    <string name="permissionDenied">પરવાનગી નકારાઈ.</string>
+    <string name="dublicateCard">ડુપ્લિકેટ કાર્ડ ફૂલદાની નંબર પહેલેથી અસ્તિત્વમાં છે.</string>
+    <string name="cardExpire">કાર્ડની સમયસીમા સમાપ્ત.</string>
+    <string name="cardCategoryNotMatch">પત્તાની શ્રેણી સાથે મેળ ખાતી નથી.</string>
+    <string name="cardInvalidStateCode">આરએસબીવાય કાર્ડ રાજ્ય કોડ એસઇસીસી માહિતી સાથે મેળ ખાતું નથી.</string>
+    <string name="cardInvalidDistrictCode">આરએસબીવાય કાર્ડ જિલ્લા કોડ એસઇસીસી માહિતી સાથે મેળ ખાતું નથી.</string>
+    <string name="cardSavedSucess">આરએસબીવાય પત્તાની સફળતાપૂર્વક આયાત થઈ.</string>
+    <string name="cardReadedPreviewScreen">રેકોર્ડ સેવ કરવા આયાત ક્લિક કરો.</string>
+    <string name="invaliCardData">અમાન્ય ડેટા.</string>
+    <string name="disconnectCard">કાર્ડ રીડર ડિસ્કનેક્ટ કરો.</string>
+
+
+    // Gov Id capturing Navigation
+    <string name="haveYouEnrolled">તમે આધાર દ્વારા પ્રવેશ કર્યો છે.</string>
+    <string name="provideMobileNo">તમારો મોબાઇલ નંબર પૂરો પાડો.</string>
+    <string name="uaidiWillCall">તમે આધાર નોંધણી માટે ટૂંક સમયમાં તમારો સંપર્ક કરવામાં આવશે</string>
+    <string name="enterEid">તમારા ઈદ દાખલ કરો.</string>
+    <string name="doYouHaveAnyGovId">તમે તેને પર કોઇ સરકારી ID કર્યા સભ્ય ફોટો કરો.</string>
+
+    /// Sync
+    <string name="validateAshaOtp">આશા ઓટીપી દ્વારા માન્ય</string>
+
+    //
+    <string name="enterUrn">ફૂલદાની નંબર દાખલ કરો.</string>
+    <string name="invalid_urn">અમાન્ય ફૂલદાની</string>
+    //
+    <string name="enterOtp">દાખલ કરો પ્રાપ્ત ઓટીપી</string>
+
+    <string name="appLanguage">માન્ય આરએસબીવાય ફૂલદાની</string>
+    <string name="UpdateApp">અપડેટ એપ્લિકેશન</string>
+    <string name="pleaseConnectToInternet">લૉગઆઉટ કરવા માટે ઇન્ટરનેટથી તમારા ઉપકરણ કનેક્ટ કરો.</string>
+    <string name="pleaseSelectEb">કૃપા કરીને ગણતરી બ્લોક પસંદ</string>
+    <string name="nhpsFieldValidation">એનએચપીએસ ક્ષેત્ર માન્યતા</string>
+    <string name="Delete">કાઢી નાખો</string>
+    <string name="uHave">તમારી પાસે</string>
+    <string name="deleteEbMsg">ઘરગથ્થુ બાકી છે. તમારો ડેટા કાઢી નાખ્યા પછી પણ ગુમ થઈ જશે. શું તમે ખરેખર કાઢી નાખવા માંગો છો?</string>
+    <string name="tryAgain">ફરીથી પ્રયત્ન કરો</string>
+    <string name="deletingUnsyncHouseHold">યુએન સમન્વયિત ઘરોમાં પ્રથમ સમન્વયન કરો.</string>
+    <string name="plzWaitDataDownloading">કૃપા કરીને રાહ જુઓ, ડેટા ડાઉનલોડ થઈ રહી છે ..</string>
+    <string name="blockEmptyMsy">પસંદ કરેલ ગણના બ્લોકમાં કોઈ ઘર મળ્યું નથી, કૃપા કરીને અલગ ગણના બ્લોક પસંદ કરો અને ફરી પ્રયાસ કરો ...</string>
+
+    <string name="applicationSetUpMsg">કૃપા કરીને રાહ જુઓ, એપ્લિકેશન સુયોજિત કરવામાં આવી રહી છે</string>
+    <string name="noHouseHoldAllotted">કોઈ ઘરગથ્થુ આ ઇન્યૂમરેશન બ્લોક ફાળવવામાં તમારા અવેક્ષક સંપર્ક કરો</string>
+    <string name="dataSetuped">તમે ક્ષેત્ર માન્યતા શરૂ કરવા માટે તૈયાર છે.</string>
+    <string name="pleaseEnterEid">તમારા ઈદ દાખલ કરો.</string>
+    <string name="pleaseEnterValidEid">માન્ય ઈદ દાખલ કરો.</string>
+    <string name="pleaseEnterValidTime">માન્ય ટાઇમસ્ટેમ્પ દાખલ કરો.</string>
+    <string name="serverNotResponding">માફ કરશો, સર્વર પ્રતિસાદ આપી રહ્યું નથી ફરી પ્રયત્ન કરો</string>
+    <string name="configSetting">સેટિંગ્સ ગોઠવવામાં કૃપા કરીને રાહ જુઓ ...</string>
+    <string name="tryAgainMessage">ધીમું ઇન્ટરનેટ કનેક્શન જેવા લાગે</string>
+    <string name="urnNo">ફૂલદાની નં</string>
+    <string name="issueTimeStamp">આના પર રજૂ કર્યું સમય સ્ટેમ્પ:</string>
+    <string name="hofName">એચઓએફ નામ:</string>
+    <string name="doorHouse">ડોર હાઉસ:</string>
+    <string name="villageCode">ગામ કોડ:</string>
+    <string name="blockCode">બ્લોક કોડ:</string>
+    <string name="panchayatCode">પંચાયત નગર કોડ:</string>
+    <string name="districtCode">જિલ્લા કોડ:</string>
+    <string name="stateCode">રાજ્ય કોડ:</string>
+    <string name="endDate">અંતિમ તારીખ :</string>
+    <string name="insuranceCompanyCode">વીમા કંપની :</string>
+    <string name="policyAmount">નીતિ રકમ: </string>
+    <string name="policyNo">નીતિ નં:</string>
+    <string name="startDate">પ્રારંભ તારીખ:</string>
+    <string name="cardCsn">પત્તાની સીએસએન:</string>
+    <string name="cardType">કાર્ડ પ્રકાર:</string>
+    <string name="cardCategory">પત્તાની કેટેગરી:</string>
+    <string name="cardRenew">પત્તાની સુધી નવેસરથી:</string>
+
+    <string name="memberName">સભ્ય નામ:</string>
+    <string name="genderMale">લિંગ : પુરૂષ</string>
+    <string name="genderFemale">લિંગ: સ્ત્રી</string>
+    <string name="genderOther">લિંગ: અન્ય</string>
+    <string name="dateOfBirth">જન્મ તારીખ : </string>
+    <string name="memberId">સભ્ય હુંડી:</string>
+    <string name="relationName">સંબંધ નામ:</string>
+    <string name="minutiaeAval">ક્ષુદ્ર સ્થિતિ: ઉપલબ્ધ</string>
+    <string name="minutiaeUnAval">ક્ષુદ્ર સ્થિતિ: ઉપલબ્ધ નથી</string>
+    <string name="plzConfrmNoGovId">કૃપા કરીને ખાતરી કરો લાભાર્થી કોઈ સરકારી હુંડી છે કે</string>
+    <string name="smsCharge">એસએમએસ મોકલવા માટે ખર્ચ તમારા મોબાઇલ બિલ બનાવવામાં આવશે</string>
+    <string name="eB">ગણતરી બ્લોક</string>
+    ///
+    <string name="enterPin">4-અંકનો PIN દાખલ</string>
+    <string name="Proceed">આગળ વધો</string>
+    <string name="forgotPin">પીન ભૂલી ગયા છો?</string>
+    <string name="proceedToForgotPassword">આધાર OTP સાથે આ એપ્લિકેશન કૃપા કરીને લૉગિન કરો
+         સત્તાધિકરણ અને પિન વિકલ્પ ઉપર જમણી મેનુ રીસેટ પર જાઓ</string>
+    <string name="plzEnterPin">પિન દાખલ કરો</string>
+    <string name="plzEnterConfirmPin">પુષ્ટિ પિન દાખલ કરો</string>
+    <string name="plzEnterValidPin">માન્ય PIN દાખલ કરો.</string>
+    <string name="yourValidationDataNotDownloaded">તમારું માન્યતા માહિતી ડાઉનલોડ કરવામાં આવ્યો નથી,
+         કૃપા કરીને લૉગિન કરો ઓનલાઇન માટે, ડાઉનલોડ માન્યતા માહિતી</string>
+    <string name="noDownloadedEbFound">કોઈ ડાઉનલોડ ગણતરી બ્લોક મળી</string>
+    <string name="plzWaitCheckUpdat">અપડેટ સંસ્કરણ ચકાસણી કૃપા કરીને રાહ જુઓ ...</string>
+    <string name="seccDashboard">SECC ડેશબોર્ડ</string>
+    <string name="rsbyDashboard">RSBY ડેશબોર્ડ</string>
+    <string name="totalHousehold">Total ડેશબોર્ડ</string>
+    <string name="pendingHousehold">બાકી ઘરગથ્થુ</string>
+    <string name="underSurvey">સર્વે હેઠળ</string>
+    <string name="surveyAndLocked">સર્વેક્ષણ \ u0026 લૉક</string>
+    <string name="Synced">સમન્વય</string>
+
+
+    //4 apr 2017
+    <string name="aadharDetails">QR કોડ દ્વારા આધાર વિગતવાર કેપ્ચર</string>
+    <string name="tvAdhar">આધાર સંખ્યા</string>
+    <string name="nameasadhar">આધાર તરીકે નામ</string>
+    <string name="dob">આધાર તરીકે જન્મ તારીખ</string>
+    <string name="gen">આધાર તરીકે જાતિ</string>
+    <string name="SECCname">SECC નામ અને આધાર તરીકે નામ જ વ્યક્તિ છે.</string>
+    <string name="assignLocation">તમારું સોંપેલ સ્થાન</string>
+    <string name="verifier">ચકાસણીકાર નામ</string>
+    <string name="dash">-</string>
+    <string name="statecode">34</string>
+    <string name="tehsilCode">001</string>
+    <string name="dishCode">04</string>
+    <string name="area">વિસ્તાર</string>
+    <string name="EnumBlock">ગણતરી બ્લોક</string>
+    <string name="Ifsc">IFSC કોડ</string>
+    <string name="searchBank">શોધ બેન્ક વિગતવાર</string>
+    <string name="BankName">બેંકનું નામ</string>
+    <string name="BranchBnk">બેંક ની શાખા</string>
+    <string name="AccNo">ખાતા નંબર</string>
+    <string name="validatee">માન્ય</string>
+
+    <string name="validateMobile">મોબાઇલ નંબર માન્ય કરો</string>
+
+
+    <string name="submit">સબમિટ</string>
+    <string name="downloadenum">ડાઉનલોડ ઇન્યૂમરેશન બ્લોક વિગતો</string>
+    <string name="syncExistingBlock">* નવી ગણતરી બ્લોક ડેટા ડાઉનલોડ કરવા માટે,
+                                 પ્રથમ સમન્વય કરો. તમારી હાલની ગણતરી બ્લોક ડેટા.</string>
+    <string name="download">ડાઉનલોડ</string>
+    <string name="selectedlocation">પસંદ કરેલ સ્થાન</string>
+    <string name="syncHousehold">માન્ય નિવાસીઓમાં સમન્વયિત કરવા માટે ક્લિક કરો</string>
+    <string name="SyncNonAdhar">સમન્વયન બિન આધાર માન્ય નિવાસીઓમાં</string>
+    <string name="resetEnumBlock">રીસેટ ઇન્યૂમરેશન બ્લોક ઘરગથ્થુ </string>
+    <string name="pinHint">4-અંકનો PIN દાખલ કરો</string>
+    <string name="confrmPin">PIN ની પુષ્ટિ</string>
+    <string name="reset">રીસેટ</string>
+    <string name="noMember">કોઈ સભ્ય મળી</string>
+    <string name="update">અપડેટ</string>
+    <string name="RSBYmember">RSBY સભ્યો</string>
+    <string name="ErrorNotSubmit">ભૂલ / સબમિટ</string>
+    <string name="submitted">સબમિટ</string>
+    <string name="done">પૂર્ણ</string>
+    <string name="enrolId">નોંધણી આઈડી</string>
+    <string name="hintEnrolId">29 આંકડાના નોંધણી આઈડી દાખલ</string>
+
+
+    <string name="nameinEnrolmt">નોંધણી માં નામ</string>
+    <string name="pudduchery">પુડુચેરી</string>
+    <string name="puducherysmall">પુડુચેરી</string>
+    <string name="puducherytaluk">પુડુચેરી તાલુકાના</string>
+    <string name="selctEnumBlock">ગણતરીદાર બ્લોક પસંદ કરો</string>
+    <string name="getHousedata">હાઉસ ડેટા મેળવો</string>
+    <string name="selectVillTwn">ગામ / નગર પસંદ કરો</string>
+    <string name="selectWard">વોર્ડ પસંદ</string>
+    <string name="getdata">ડેટા મેળવવા</string>
+    <string name="copytolocalDb">જ્યારે કૃપા કરીને રાહ જુઓ
+                         સંપૂર્ણ માહિતી સર્વર માંથી મેળવ્યાં કરવામાં આવી રહી છે
+                         અને સ્થાનિક ડેટાબેઝમાં નકલ</string>
+    <string name="yes">હા</string>
+    <string name="no">કોઈ</string>
+    <string name="enterMob">તમારો મોબાઇલ નંબર દાખલ</string>
+    <string name="enterenrolId">તમારી નોંધણી ID દાખલ</string>
+    <string name="enterEID">તમારા ઈદ દાખલ</string>
+    <string name="syntax">ઉદા: (dd / mm / YYYY hh: mm: ss)</string>
+    <string name="RSBYurnNo">RSBY ફૂલદાની કોઈ</string>
+    <string name="dashboard">ડેશબોર્ડ</string>
+    <string name="secc">શોધ / ડાઉનલોડ SECC સભ્ય</string>
+    <string name="RSBYdata">RSBY ડેટા</string>
+    <string name="hhdno">એચએચડી કોઈ</string>
+    <string name="nameText">નામ (સભ્ય ID)</string>
+    <string name="relation">સંબંધ</string>
+    <string name="fatherName">પિતાનું નામ</string>
+    <string name="mother">માતાનું</string>
+    <string name="dobCaps">ડીઓબી</string>
+    <string name="genderCaps">જાતિ</string>
+    <string name="MarritalStatus">વૈવાહિક સ્થિતિ</string>
+    <string name="Adharcardno">આધાર કાર્ડ નંબર </string>
+    <string name="occupation">વ્યવસાય</string>
+    <string name="RSBYStateInsurance">આરએસબીવાય અથવા રાજ્ય વીમા નં</string>
+    <string name="RationNo">રેશન કાર્ડ નંબર</string>
+    <string name="memberStatus">સભ્ય સ્થિતિ</string>
+    <string name="updatedetailsIBT">અપડેટ 1111</string>
+    <string name="nameMmbrId">નામ (સભ્ય આઈડી)</string>
+    <string name="selcthouseholdstatus">ઘરગથ્થુ સ્થિતિ પસંદ</string>
+    <string name="slctHodFmly">કુટુંબ સ્થિતિ વડા પસંદ</string>
+    <string name="chooseNewHead">નવા વડા પસંદ</string>
+    <string name="othrMmbr">અન્ય સભ્ય માતાનો</string>
+    <string name="save">સેવ</string>
+    <string name="lock">લોક</string>
+    <string name="RSBYhousehold">આરએસબીવાય નિવાસીઓમાં</string>
+    <string name="validateMmbr">માન્ય સભ્ય માતાનો</string>
+    <string name="nonvalidateMembr">નોન માન્ય સભ્ય માતાનો</string>
+    <string name="membrNominee">સભ્યની નામાંકન માટે</string>
+    <string name="nomineeName">નામાંકન નામ</string>
+    <string name="nomineeNameHint">નોમિની નામ દાખલ કરો</string>
+    <string name="enterrelationname">સંબંધ નામ દાખલ</string>
+    <string name="guardianName">ગાર્ડિયન નામ</string>
+    <string name="guardianNameHint">વાલી નામ દાખલ કરો</string>
+    <string name="notVerified">ચકાસેલી નથી </string>
+    <string name="enteRPin">PIN દાખલ કરો</string>
+    <string name="go">જાઓ</string>
+    <string name="offlinelist">ઑફલાઇન હાઉસ નં 004 માટે યાદી અપડેટ કરી.</string>
+    <string name="validateOtp">ઇન્ટરનેટ મારફતે માન્ય</string>
+    <string name="validateSms">એસએમએસ દ્વારા માન્ય</string>
+    <string name="validateLater">પાછળથી માન્ય</string>
+    <string name="capturePhoto">ફોટો કૅપ્ચર</string>
+    <string name="captureGps">કેપ્ચર જીપીએસ સ્થાન</string>
+    <string name="printPreview">પ્રિંટ પૂર્વાવલોકનને</string>
+    <string name="submitEsign">સબમિટ ઇ સાઇન</string>
+
+    //04.04.2017
+
+
+    <string name="plzEnterAadhaar">આધાર નંબર દાખલ કરો</string>
+    <string name="plzEnterValidAadhaar">માન્ય આધાર નંબર દાખલ કરો</string>
+    <string name="plzEnterDob">આધાર તરીકે જન્મ તારીખ દાખલ કરો</string>
+    <string name="plzEnterGender">આધાર તરીકે લિંગ દાખલ કરો</string>
+    <string name="plzEnterName">આધાર તરીકે નામ દાખલ કરો</string>
+    <string name="plzEnterCorrectNoAndName">આધાર તરીકે યોગ્ય આધાર નંબર અને નામ દાખલ કરો</string>
+    <string name="unableToConnectUiadiaServer">યુઆઇડીએઆઇ સર્વર માંથી કનેક્ટ કરવામાં અક્ષમ, કૃપા કરી ફરી પ્રયાસ કરો.</string>
+    <string name="connectionTerminated">કનેક્શન સમાપ્ત, કૃપયા ફરી પ્રયાસ કરો</string>
+    <string name="selectNewEB">નવી ગણતરી બ્લોક પસંદ કરો</string>
+    <string name="Update">અપડેટ</string>
+    <string name="cancel">રદ કરો</string>
+    <string name="enterThePin">પિન દાખલ કરો</string>
+    <string name="enteTheCorrectPin">સાચી PIN દાખલ કરો</string>
+    <string name="appUpdatePopUp">અપડેટ ઉપલબ્ધ આવૃત્તિ</string>
+    <string name="currentVersion">વર્તમાન આવૃત્તિ :</string>
+    <string name="updateVersion">અપડેટ સંસ્કરણ:</string>
+    <string name="mobileNetworkNotAval">મોબાઇલ ઉપલબ્ધ નથી નેટવર્ક</string>
+    <string name="enterOtpRec">ઓટીપી દાખલ</string>
+    <string name="enterValidOtp">માન્ય ઓટીપી દાખલ</string>
+
+
+    // 5.april
+    // dropdown menu
+    <string name="profile">પ્રોફાઇલ</string>
+    <string name="Logout">લૉગ આઉટ</string>
+    <string name="home">ઘર</string>
+    <string name="plzEnter4digitPin">4-અંકની PIN દાખલ કરો</string>
+    <string name="PrintHistory">પ્રિંટ ઇતિહાસ</string>
+    <string name="collectDataMember">સભ્ય માટે ડેટા એકત્રિત</string>
+    <string name="checkUpdate">સોફ્ટવેર અપડેટ્સ</string>
+    <string name="resetPin">રીસેટ પિન</string>
+    <string name="deleteEb">એન્યુમનેરેશન બ્લોક કાઢી નાખો</string>
+    <string name="clearDevice">સ્પષ્ટ ઉપકરણ </string>
+    <string name="searchRsbyFam">આરએસબીવાય કૌટુંબિક શોધ</string>
+    <string name="Preview">પૂર્વદર્શન</string>
+    <string name="Unlock">અનલૉક</string>
+    <string name="resetHousehold">રીસેટ ઘરગથ્થુ</string>
+    <string name="ReadCard">કાર્ડ વાંચો</string>
+    <string name="searchMember">શોધ સભ્ય</string>
+    <string name="importRsby">આયાત આરએસબીવાય કાર્ડ</string>
+    <string name="syncHouse">સમન્વયન ઘરગથ્થુ</string>
+    <string name="assignedLocation">એસાઈન્ડ લોકેશન</string>
+    <string name="head">હેડ</string>
+    <string name="oldHead">જુની હેડ</string>
+    <string name="sortByHousehold">ઘરવપરાશની હુંડી # સૉર્ટ</string>
+    <string name="sortByName">નામ દ્વારા સૉર્ટ કરો</string>
+    <string name="sortByUrn">ફૂલદાની દ્વારા સૉર્ટ કરો</string>
+    <string name="reSync">ફરી સમન્વયન</string>
+    <string name="noPendingAadharTOValidate">કોઈ બાકી આધાર માન્ય કરવા છે </string>
+    <string name="validateSucess">માન્ય સફળતા #</string>
+    <string name="validateFail">માન્ય નિષ્ફળ #</string>
+    <string name="allDataWillLost">તમારો તમામ ડેટા અને કામ ખોવાઈ જશે.</string>
+    <string name="confirmDelete">કાઢી નાખવાની પુષ્ટિ કરો</string>
+    <string name="plzCaptureAadhaardetails">કૃપા કરીને આધાર વિગતો કેપ્ચર</string>
+    <string name="pinDoesNotMAtchWithConfirm">પિન અને પુષ્ટિ મેળ ખાતા નથી</string>
+    <string name="selectNewHead">પસંદ કુટુંબ નવા વડા</string>
+    <string name="noMemberFoundForNewHead">કોઈ સભ્ય નવા વડા પસંદ કરવા માટે જોવા મળે છે.</string>
+    <string name="unableToCaptureImage">છબી કેપ્ચર કરવામાં અસમર્થ જરૂરી પરવાનગી આપો; ફરીથી પ્રયત્ન કરો</string>
+    <string name="governmentId">છબી કેપ્ચર કરવામાં અસમર્થ જરૂરી પરવાનગી આપો; ફરીથી પ્રયત્ન કરો...</string>
+    <string name="plzEnterGovId">સરકારી ID નંબર દાખલ કરો</string>
+    <string name="plzEnterNameAsGovId">સરકારી ID તરીકે નામ દાખલ કરો</string>
+    <string name="plzCaptureGovId">સરકારી ID ફોટો કેપ્ચર કૃપા કરીને</string>
+    <string name="enter24digitEid">24-અંક નોંધણી ID દાખલ</string>
+    <string name="enterNameInEid">નોંધણી ID તરીકે નામ દાખલ કરો</string>
+    <string name="plzEnterVoterIdNum">મતદાર ID નંબર દાખલ કરો</string>
+    <string name="plzEnterNameAsVoterId">માં મતદાર ID તરીકે નામ દાખલ કરો</string>
+    <string name="plzEnterRationCardNum">રેશનની કાર્ડ નંબર દાખલ કરો</string>
+    <string name="plzEnterNameAsRationCard">રાશન કાર્ડ તરીકે નામ દાખલ કરો</string>
+    <string name="plzEnterNaregaNum">NREGA કામ કાર્ડ નંબર દાખલ કરો</string>
+    <string name="plzEnterNameAsNarega">NREGA કામ કાર્ડ તરીકે નામ દાખલ કરો</string>
+    <string name="plzEnterDrivingNum">ડ્રાઇવિંગ લાયસન્સ નંબર દાખલ કરો</string>
+    <string name="plzEnterNameAsDriving">ડ્રાઇવિંગ લાયસન્સ તરીકે નામ દાખલ કરો</string>
+    <string name="plzEnterBirthCerfNum">જન્મ પ્રમાણપત્ર નંબર દાખલ કરો</string>
+    <string name="plzEnterNameAsBirthCerf">જન્મ પ્રમાણપત્ર તરીકે નામ દાખલ કરો</string>
+    <string name="plzEnterId">દાખલ ID નંબર</string>
+    <string name="plzEnterNameAsId">આઈડી તરીકે નામ દાખલ કરો</string>
+    <string name="plzEnterValidMobNo">માન્ય મોબાઇલ નંબર દાખલ કરો.</string>
+    <string name="plzEnterMobNo">તમારો મોબાઇલ નંબર દાખલ કરો.</string>
+    <string name="plzEnterSchemeNum">યોજના નંબર દાખલ કરો</string>
+    <string name="plzEnter17digitUrn">દાખલ કરો 17 આંકડાના ફૂલદાની સંખ્યા</string>
+    <string name="Youare">તમે છો</string>
+    <string name="levelUser">એક માન્યકર્તા તરીકે સ્તર user.Please લૉગિન</string>
+    <string name="inactiveUser">અસક્રિય વપરાશકર્તા</string>
+    <string name="validat_nonvalidate">માન્ય / નોન માન્ય સભ્યના</string>
+    <string name="plzEnterGaurdianName"> વાલી નામ દાખલ કરો</string>
+    <string name="plzEnterNomineeName">નોમિની નામ દાખલ કરો</string>
+    <string name="plzEnterRelationName">સંબંધ નામ દાખલ કરો</string>
+    <string name="selectMobileNumberBelongs">પસંદ મોબાઇલ નંબર આવતી</string>
+    <string name="self">સ્વયં</string>
+    <string name="family">કૌટુંબિક</string>
+    <string name="other">અન્ય</string>
+    <string name="plzEnter10DigitMobNum">10-અંકનો મોબાઇલ નંબર દાખલ કરો</string>
+    <string name="plzEnterValidMobNum">માન્ય મોબાઇલ નંબર દાખલ કરો</string>
+    <string name="plzEnterWhoseMobNum">જેની મોબાઇલ નંબર પસંદ કરો</string>
+    <string name="youHaveEnteredValidatorMobileNum">તમે માન્યકર્તા મોબાઇલ નંબર દાખલ કર્યો છે.
+         વધુ આગળ વધવા માટે ઘરના મોબાઇલ નંબર દાખલ કરો.</string>
+    <string name="pleaseTryAgain">મહેરબાની કરીને ફરીથી પ્રયતન કરો</string>
+    <string name="pleaseTakeMemberPic">કૃપા કરીને સભ્ય ફોટો લેવા</string>
+    <string name="enumerationBlock">ગણતરી બ્લોક #</string>
+    <string name="village_">ગામ \ -</string>
+    <string name="Ward_">વાર્ડ -</string>
+    <string name="Town_">નગર-</string>
+    <string name="noHouseholdToSync">ત્યાં સમન્વયિત કરવા માટે કોઈ ઘરોમાં છે</string>
+    <string name="MemberDetail">સભ્ય વિગતવાર</string>
+    <string name="hofShouldNotBeDied">કુટુંબ સભ્ય વડા મૃત્યુ પામ્યા ન કરવો જોઇએ કે સ્થળાંતર</string>
+    <string name="plzSelectRelatonWith">કૃપા કરીને આદર સાથે સંબંધ પસંદ</string>
+    <string name="householdNotEliblePrint">ઘરગથ્થુ કાર્ડ પ્રિન્ટ માટે પાત્ર નથી</string>
+
+
+    //gujrati
+    <string name="setPin">સેટ પિન</string>
+    <string name="totalSyncErrorCount">કુલ સમન્વયન ભૂલ સંખ્યા: </string>
+    <string name="syncComplete">સમન્વયન સમાપ્ત</string>
+    <string name="cancelSync">રદ સમન્વય</string>
+    <string name="plzCaptureMemberPhoto">સભ્ય ફોટો કેપ્ચર કૃપા કરીને</string>
+    <string name="plzCaptureAadhaarDetail">વિગતવાર આધાર મેળવે કૃપા કરીને</string>
+    <string name="plzCaptureGovernId">સરકારી ID ફોટો કેપ્ચર કૃપા કરીને</string>
+    <string name="plzCaptureMobileNum">મોબાઇલ નંબર મેળવે કૃપા કરીને</string>
+    <string name="plzCaptureNomineeDetail">કૃપા કરીને નોમિની વિગતો મેળવે</string>
+    //5april2017
+    <string name="adharnum">આધાર સંખ્યા</string>
+    <string name="name">નામ</string>
+    <string name="email">ઇમેઇલ</string>
+    <string name="address">સરનામું</string>
+    <string name="scanAdhar">સ્કેન આધાર કાર્ડ</string>
+    <string name="verifyforNHPS">આધાર સાથે NHPS ચકાસવા</string>
+    <string name="verifyforNHPSwoAdhar">આધાર વિના NHPS ચકાસવા</string>
+    <string name="enterurnNo">17 આંકડાના ફૂલદાની કોઈ દાખલ</string>
+    <string name="saveLater">સેવ \ u0026 પછીથી ડાઉનલોડનો</string>
+    <string name="placeBarcode">તેને સ્કેન કરવા માટે વ્યૂફાઇન્ડર લંબચોરસ બારકોડને મૂકો.</string>
+    <string name="membrDashboard">સભ્ય ડેશબોર્ડ </string>
+    <string name="searchFamily">સભ્ય નામ અથવા ઘરગથ્થુ નહીવત અથવા આધાર સંખ્યા દ્વારા શોધો કુટુંબ</string>
+    <string name="searchByhodfamily">કુટુંબ સભ્ય વડા દ્વારા શોધો</string>
+    <string name="or">અથવા</string>
+    <string name="searchparamtr">અન્ય પરિમાણો મારફતે શોધ</string>
+    <string name="chngeBlock">બ્લોક બદલો</string>
+    <string name="searchByfmyadhar">કુટુંબ સભ્ય નામ, ઘરેલુ કોઈ અને આધાર સંખ્યા દ્વારા શોધો</string>
+    <string name="searchbyMembr">સભ્ય નામ દ્વારા શોધો</string>
+    <string name="notAbleFindmmbr">સભ્ય શોધવા સક્ષમ નથી?</string>
+    <string name="slctRelation">સંબંધ પસંદ</string>
+    <string name="validateforNHPS">આધાર સાથે NHPS માટે માન્ય</string>
+    <string name="proceed">આગળ વધો</string>
+
+
+    //next
+    <string name="tinNum">ટીન નંબર</string>
+    <string name="membrTin">સભ્યની ટીન નંબર દાખલ કરો</string>
+    <string name="membersName">સભ્ય નામ દાખલ કરો</string>
+    <string name="enterRelationship">સંબંધ દાખલ</string>
+    <string name="father">પિતા</string>
+    <string name="enterFatherName">પિતાના નામ દાખલ કરો</string>
+    <string name="mothhr">મધર</string>
+    <string name="entermothrName">માતાના નામ દાખલ કરો</string>
+    <string name="slctDate">તારીખ પસંદ કરો</string>
+    <string name="enterAdharCardNUm">દાખલ આધાર કાર્ડ નંબર (12 અંકો)</string>
+    <string name="motherMobNum">સભ્યની મોબાઇલ નંબર દાખલ કરો</string>
+    <string name="membrOccupation">સભ્યની વ્યવસાય દાખલ</string>
+    <string name="membrInsurance">સભ્ય રાજ્ય વીમા નંબર દાખલ કરો</string>
+    <string name="enterRationno">રાશન કાર્ડ \'ઓ નંબર દાખલ કરો</string>
+    <string name="scanImage">સ્કેન છબી</string>
+    <string name="takePhoto">ફોટો પાડ</string>
+    <string name="QRcodeInsideFrame">ક્યૂઆર કોડ મૂકો ફ્રેમ અંદર</string>
+    <string name="crrntVersion">વર્તમાન આવૃત્તિ : 1.0.12.3</string>
+    <string name="updateVrsn">અપડેટ સંસ્કરણ : 1.0.12.3</string>
+    <string name="releseDate">પ્રસારણ તારીખ : 22.06.1992</string>
+    <!--  <string name="cancel">Cancel</string>-->
+    <string name="adharverificatin">આધાર ચકાસણી</string>
+    <string name="OTPauth">ઓટીપી ઑથ</string>
+    <string name="MobileNumberStatus">મોબાઇલ નંબર સ્થિતિ (ચકાસાયેલું / ચકાસણી નથી)</string>
+    <string name="validateURN">માન્ય ફૂલદાની</string>
+    <string name="inCaseOfNonADhar">નોન આધાર કિસ્સામાં સભ્ય ફોટો કેપ્ચર</string>
+    <string name="getBankDetails">બેન્ક વિગતો મેળવવા</string>
+    <string name="validateBankAcc">માન્ય બેંક એકાઉન્ટ</string>
+    <string name="noHousehold">ઘરોમાં નં-</string>
+    <string name="noSyncHousehold">સમન્વિત કરેલી ઘરગથ્થુ કોઈ-</string>
+    <string name="noofSyncMmbr">સમન્વિત કરેલી સભ્યો નં-</string>
+    <string name="NhpsId">એનએચપીએસ આઈડી</string>
+    <string name="FatherName">પિતા નામ</string>
+    <string name="photo">ફોટો</string>
+    <string name="print">પ્રિંટ</string>
+    <string name="cardPreview">પત્તાની પૂર્વદર્શન ફ્રન્ટ</string>
+    <string name="cardPreviewBack">પત્તાની પૂર્વદર્શન પાછા</string>
+    <string name="defRelationHead">નવા વડા સાથે સંબંધ વ્યાખ્યાયિત</string>
+    <string name="houshold">ઘરગથ્થુ#</string>
+    <string name="OTPverifctn">ઓટીપી ચકાસણી</string>
+    <string name="Enterotp">ઓટીપી દાખલ</string>
+    <string name="verifyCaps">ચકાસો</string>
+    <string name="sync">સમન્વયન</string>
+    <string name="enterEnrol">29 આંકડાના નોંધણી આઈડી દાખલ  </string>
+    <string name="NameasEnrol">નોંધણી માં નામ</string>
+    <string name="totalVerify">કુલ ચકાસણી અને સબમિટ સભ્યના</string>
+    <string name="errorRecrd">ભૂલ રેકોર્ડ</string>
+    <string name="numBlockData">બ્લોક્સની અંદર જ માહિતીનું નં</string>
+    <string name="NoofNHps">એનએચપીએસ આઈડી સંખ્યા</string>
+    <string name="Idprinted">આઈડી મુદ્રિત સંખ્યા</string>
+    <string name="syncAll">બધુ સમન્વયિત</string>
+    <string name="esignAll">ઈસાઇન બધા</string>
+    <string name="sortBy">આ પ્રમાણે સૉર્ટ કરો</string>
+    <string name="totalMembr">કુલ સભ્ય</string>
+
+
+    //06.04.2017
+
+
+    <string name="notAbleToSendSms">એસએમએસ સામાન્ય નિષ્ફળતા કારણે મોકલી</string>
+    <string name="smsDeleiverd">એસએમએસ વિતરિત</string>
+    <string name="smsNotDeleiverd">એસએમએસ વિતરિત કર્યું નથી</string>
+    <string name="sendingSms1">એનએચપીએસ મોબાઇલ નંબર માન્યતા માટે ઓટીપી છે </string>
+    <string name="sendingSms2">અને 30 મિનિટ માટે માન્ય છે. \ n (ઓછામાં નિર્મિત</string>
+    <string name="total">કુલ</string>
+    <string name="partialVerified">25-આંશિક 200 કુટુંબ પૈકી ચકાસણી.</string>
+    <string name="pendingOutfmlY">100 બાકી 200 કુટુંબ પૈકી.</string>
+    <string name="notAbleFindHousehold">ઘરગથ્થુ શોધવામાં સમર્થ ન?</string>
+    <string name="verifiedMmber">ચકાસ્યું સભ્ય#</string>
+    <string name="UrnNum">ફૂલદાની નંબર</string>
+    <string name="UrnId">ફૂલદાની આઈડી</string>
+    <string name="houseHoldStatus">ઘરગથ્થુ સ્થિતિ</string>
+    <string name="error">ભૂલ</string>
+    <string name="syncDateTime">સમન્વયન તારીખ / સમય</string>
+    <string name="showMore">વધારે બતાવ</string>
+    <string name="searchFamilyAdharHousehold">*શોધ કુટુંબ સભ્ય, આધાર ના, ઘરગથ્થુ કોઈ.</string>
+    <string name="visitedHousehold">મુલાકાત લીધી ઘરગથ્થુ</string>
+    <string name="validatedHoshold">માન્ય ઘરગથ્થુ</string>
+    <string name="partialValidateHoshold">આંશિક માન્ય ઘરગથ્થુ</string>
+    <string name="ReadyTosynced">સમન્વયિત કરવા માટે તૈયાર</string>
+    <string name="syncError">સમન્વયન ભૂલ</string>
+    <string name="syncValidError">સમન્વયિત કરો / માન્યતા ભૂલ</string>
+    <string name="readyToSync">સમન્વય કરવા માટે તૈયાર</string>
+    <string name="syncedHousehold">સમન્વયિત ઘરગથ્થુ</string>
+    <string name="validationError">માન્યતા ભૂલ</string>
+    <string name="validateAll">માન્ય બધા</string>
+    <string name="downloadAll">બધા ડાઉનલોડ કરો</string>
+    <string name="verifyOutFamily">200 કુટુંબ બહાર 25-ચકાસ્યો.</string>
+    <string name="typeOfIdCard">આઈડી કાર્ડ પ્રકાર</string>
+    <string name="idNumber">ID નંબર</string>
+    <string name="nameAsInId">આઈડી તરીકે નામ</string>
+    <string name="nameSECC">SECC નામ અને સરકારી ID નામ જ વ્યક્તિ છે.</string>
+    <string name="logout">લૉગ આઉટ</string>
+    <string name="household4">ઘરગથ્થુ # 0004</string>
+    <string name="total5">કુલ સભ્ય # 5</string>
+    <string name="noida">સેક્ટર 62, નોઈડા, ઉત્તરપ્રદેશ</string>
+    <string name="confirm">પુષ્ટિ</string>
+    <string name="selectDate">તારીખ પસંદ કરો</string>
+    <string name="membrmobilenum">સભ્યની મોબાઇલ નંબર દાખલ કરો</string>
+    <string name="entrMembrOccupation">સભ્યની વ્યવસાય દાખલ</string>
+    <string name="entrMembrInsurance">સભ્ય રાજ્ય વીમા નંબર દાખલ કરો</string>
+    <string name="sbmitedVerified">સબમિટ કરી છે અને ચકાસણી</string>
+    <string name="yetToSurveyed">હજુ સુધી સર્વેક્ષણ</string>
+
+    <string name="underSurveyed">હેઠળ સર્વેક્ષણ</string>
+    <string name="memberType">સભ્ય પ્રકાર</string>
+    <string name="householdno">ઘરગથ્થુ કોઈ</string>
+    <string name="syncLockDate">સમન્વયિત કરો / લોક તારીખ</string>
+    <string name="memberid">સભ્ય ID #</string>
+    <string name="verifyLater">પછીથી ચકાસો</string>
+    <string name="motherName">મધર \'ઓ નામ</string>
+    <string name="householdhash">ઘરગથ્થુ#</string>
+    <string name="housenum">હાઉસ નં</string>
+    <string name="rahulKumar">રાહુલ કુમાર</string>
+    <string name="male">નર</string>
+    <string name="seeError">ભૂલ દેખાઈ</string>
+    <string name="updateNotSync">અપડેટ કર્યો પણ સમન્વયિત કરશો</string>
+    <string name="resendOtp">ઓટીપી ફરી મોકલો</string>
+    <string name="adharDetail">આધાર વિગતવાર</string>
+    <string name="capturingMOde">કબજે સ્થિતિ</string>
+    <string name="status">સ્થિતિ</string>
+    <string name="RSBYurn">આરએસબીવાય ફૂલદાની</string>
+    <string name="additnlSchemeDetail">વધારાની યોજના વિગતવાર</string>
+    <string name="stateScemeName">રાજ્ય સ્કીમનું નામ</string>
+    <string name="stateSchemeId">રાજ્ય યોજના આઈડી ને</string>
+    <string name="GovtIdDetail">સરકારી. આઈડી વિગતવાર</string>
+    <string name="govtIdType">સરકારી આઈડી પ્રકાર</string>
+    <string name="IdNum">આઈડી નંબર</string>
+    <string name="nameASinId">આઈડી માં નામ</string>
+    <string name="memberPhoto">સભ્ય ફોટો</string>
+    <string name="mobNumDetail">મોબાઇલ નંબર વિગતવાર</string>
+    <string name="whoseMobile">કોની મોબાઇલ</string>
+    <string name="nomineDetail">નામાંકન વિગતવાર</string>
+    <string name="guardianame">ગાર્ડિયન નામ</string>
+    <string name="reqForConn">માહિતી કરેક્શન માટે વિનંતી</string>
+    <string name="NHPSdetail">NHPS વિગતો</string>
+    <string name="hhd">એચએચડી</string>
+    <string name="validationStatus">માન્યતા સ્થિતિ</string>
+    <string name="NHPSidHash">એનએચપીએસ આઈડી#</string>
+    <string name="housholdIdhash">ઘરગથ્થુ આઈડી#</string>
+    <string name="houseHldStatus">ઘરગથ્થુ સ્થિતિ </string>
+    <string name="membrStatus">સભ્ય સ્થિતિ</string>
+    <string name="sncDate">સમન્વયન તારીખ</string>
+    <string name="synVersion">સમન્વયન આવૃત્તિ</string>
+    <string name="validateBy">દ્વારા માન્ય</string>
+    <string name="stateDash">રાજ્ય-</string>
+    <string name="distt">જીલ્લા</string>
+    <string name="villTwn">ગામ / નગર</string>
+    <string name="EnumBlockHash">ગણતરી બ્લોક #</string>
+    <string name="noofSecchshld">SECC ઘરોમાં નં-</string>
+    <string name="noRSBYhshld">RSBY ઘરોમાં નં-</string>
+    <string name="noFsyncHshld">સમન્વયિત ઘરોમાં કોઈ-</string>
+    <string name="noFSycMmber">સમન્વિત કરેલી સભ્યો નં-</string>
+    <string name="selctNewHead">નવા વડા પસંદ</string>
+    <string name="newHead">નવા વડા</string>
+    <string name="membrType">સભ્ય પ્રકાર</string>
+    <string name="adhar">આધાર</string>
+    <string name="govId">સરકારી આઈડી ને</string>
+    <string name="errorDetail">ભૂલ વિગત</string>
+    <string name="adharNtValidtd">1. માન્ય આધાર</string>
+    <string name="mobNotValidtd">2.મોબાઇલ પર કોઈ માન્ય</string>
+    <string name="augDate">23 ઑગસ્ટ 2016</string>
+    <string name="errorMsg">ક્ષતી સંદેશ:</string>
+    <string name="totalmmbrHash">કુલ સભ્ય#</string>
+    <string name="dataSource">માહિતીનું પ્રાપ્તિસ્થાન</string>
+    <string name="urnHash">ફૂલદાની#</string>
+    <string name="houseHoldidhash">ઘરગથ્થુ આઈડી#</string>
+    <string name="rePrint">પુનઃમુદ્રણ</string>
+    <string name="houseHash">ઘર#</string>
+    <string name="adharGovId">આધાર / સરકારી આઈડી ને</string>
+    <string name="noErrrFound">કોઈ ભૂલ મળી</string>
+    <string name="policyDetails">નીતિ વિગતો</string>
+    <string name="cardDetails">કાર્ડ વિગતો</string>
+    <string name="membrDetails">સભ્ય વિગતો</string>
+    <string name="importt">આયાત</string>
+    <string name="slctNewHead">નવા વડા પસંદ</string>
+    <string name="fathrHsbndName">પિતા / પતિ નામ</string>
+    <string name="Dob">જન્મ તારીખ</string>
+    <string name="Reader">રીડર:</string>
+    <string name="ACS">એસીએસ</string>
+    <string name="IdentiveScm">ઓળખવા/ઓસીએમ</string>
+    <string name="HIDomni">એચહુંડી ઑમ્નીકી</string>
+    <string name="Refresh">તાજું</string>
+    <string name="familyDetails">કૌટુંબિક વિગત</string>
+    <string name="memberDetails">સભ્ય વિગતો</string>
+    <string name="photoDetails">ફોટાની વિગતો</string>
+    <string name="minutiaDetails">ક્ષુદ્ર વિગતો</string>
+    <string name="InsuranceDetails">વીમા વિગતો</string>
+    <string name="balanceDetails">બેલેન્સ વિગતો</string>
+    <string name="csnCcCt">સીએસએન, સીસી, સીટી</string>
+    <string name="readRsbyCard">વાંચો આરએસબીવાય કાર્ડ</string>
+    <string name="textVView">લખાણજુઓ</string>
+    <string name="auto">ઓટો</string>
+    <string name="stateHealthSchmName">રાજ્ય આરોગ્ય સ્કીમનું નામ</string>
+    <string name="stateHealthSchemeId">રાજ્ય આરોગ્ય યોજના આઈડી ને </string>
+    <string name="valdteHealthSchemeId">માન્ય આરોગ્ય યોજના આઈડી ને</string>
+    <string name="updateVErsionApp">અપડેટ સંસ્કરણ ઉપલબ્ધ છે, કૃપા કરીને ડાઉનલોડ કરો અને અરજી અપડેટ</string>
+    <string name="captrMemberPhoto">કેપ્ચર સભ્ય ફોટો </string>
+    <string name="captureGovId">સરકારી કેપ્ચર કરો. આઈડી</string>
+    <string name="validateNum">માન્ય મોબાઇલ નંબર</string>
+    <string name="bankDetails">બેંકની વિગત</string>
+    <string name="captureRSBYurn">કેપ્ચર આરએસબીવાય ફૂલદાની</string>
+    <string name="captureNomineeDetails">કેપ્ચર નામાંકન વિગતવાર</string>
+    <string name="addSchemeDetails">વધારાની યોજના વિગતવાર</string>
+    <string name="adharAvlble">આધાર ઉપલબ્ધ</string>
+    <string name="adharNtPreprd">તૈયાર નથી આધાર</string>
+    <string name="validateAdhar">માન્ય આધાર (યુઆઇડીએઆઇ)</string>
+    <string name="enrolIdDetail">નોંધણી આઈડી વિગતો</string>
+    <string name="validateRsbyUrn">માન્ય આરએસબીવાય ફૂલદાની</string>
+    <string name="noMenitiaDetail">સભ્યો આરએસબીવાય કાર્ડ હાજર નથી</string>
+    <string name="noMenitiaDetail1">ના આંગળી પ્રિન્ટ </string>
+    <string name="downloadingSoftware">સોફ્ટવેરનું નવીનતમ સંસ્કરણ ડાઉનલોડ કરી</string>
+    <string name="cancelDownloading">ડાઉનલોડ રદ</string>
+    <string name="updateNotAvailable">તમે નવીનતમ સોફ્ટવેર વાપરી રહ્યા</string>
+    <string name="appConfig">એપ્લિકેશન ગોઠવણી</string>
+    <string name="releaseDate">પ્રસારણ તારીખ : </string>
+    <string name="welcomeTo">સ્વાગત</string>
+    <string name="version">સંસ્કરણ : </string>
+    <string name="loginConsent">યુઆઇડીએઆઇ ડેટાબેઝમાંથી તમારો ગ્રાહક (કેવાયસી) ડેટા જાણવા માટે મારા આધાર નંબર આપવાની મને કોઈ વાંધો નથી.</string>
+    <string name="loginWithAdhar">આધાર ઓટીપી સાથે પ્રવેશ કરો</string>
+
+
+    <string name="selectState">રાજ્ય પસંદ કરો</string>
+    <string name="submitStateItem">સબમિટ કરો</string>
+    <string name="mobileHint">તમારો 10-અંકનો મોબાઇલ નંબર દાખલ કરો</string>
+    <string name="EmailHint">તમારું ઈમેલ એડ્રેસ લખો</string>
+    <string name="passwordHint">તમારો પાસવર્ડ નાખો</string>
+    <string name="nonAdharloginConsent">મારી મોબાઇલ નંબર આપવા માટે મને કોઈ વાંધો નથી
+        યુઆઇડીએઆઇ ડેટાબેસથી તમારા ગ્રાહકને (કેવાયસી) ડેટા મેળવવો</string>
+    <string name="mailLoginConsent">મારા માટે ઇ-મેલ આપવા માટે મને કોઈ વાંધો નથી
+        યુઆઇડીએઆઇ ડેટાબેસથી તમારા ગ્રાહકને (કેવાયસી) ડેટા મેળવવો</string>
+    <string name="loginwithEmail">સાથે લોગ ઇન કરો</string>
+    <string name="title_activity_app_config">AppConfigActivity</string>
+    <string name="user_not_register">અમાન્ય ઇ-મેઇલ</string>
+    <string name="pleaseEnterUserName">કૃપા કરીને વપરાશકર્તા નામ દાખલ કરો</string>
+    <string name="enterValiduserName">કૃપા કરીને ઈ-મેલ દાખલ કરો</string>
+    <string name="enterValidPassword">કૃપા કરી પાસવર્ડ દાખલ કરો.</string>
+    <string name="Alert"></string>
+
+    <string name="nomineeMsg">"નોંધ* : કૃપા કરીને ખાતરી કરો કે પસંદ કરેલ ઉમેદવારની સ્થિતિ નીચેની શ્રેણીઓમાં ઘટી રહી નથી\n"
+            "1. Member Migrated\n"
+            "2. Member died\n"
+            "3. Unknown member\n"
+            "4. Enrollment through RSBY"</string>
+
+</resources>

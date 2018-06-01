@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.activity.ProfileActivity">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header_layout" />
+
+    <ScrollView
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingBottom="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <ImageView
+                    android:id="@+id/verifierProfileIV"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/default_pic"
+                    android:scaleType="fitXY" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|bottom"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:paddingLeft="5dp"
+                    android:text="@string/adharnum" />
+
+                <TextView
+                    android:id="@+id/verifierAadharNoTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7"
+                    android:text="-" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:paddingLeft="5dp"
+                    android:text="@string/name" />
+
+                <TextView
+                    android:id="@+id/verifierNameTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:paddingLeft="5dp"
+                    android:text="@string/genderCaps" />
+
+                <TextView
+                    android:id="@+id/genderTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:paddingLeft="5dp"
+                    android:text="@string/mobile_number" />
+
+                <TextView
+                    android:id="@+id/mobileTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:paddingLeft="5dp"
+                    android:text="@string/email" />
+
+                <TextView
+                    android:id="@+id/emailTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:paddingLeft="5dp"
+                    android:text="@string/address" />
+
+                <TextView
+                    android:id="@+id/addressTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="@string/address" />
+
+                <TextView
+                    android:id="@+id/designTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/downloadLocationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_background_gray">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="#f19463"
+                    android:gravity="center"
+                    android:text="Downloaded location"
+                    android:textColor="#fff"
+
+                    />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/profileDownloadedLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+            <!--    <LinearLayout
+                    style="@style/blueBorderEditText"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:text="@string/state" />
+
+                    <TextView
+                        android:id="@+id/stateTV"
+                        style="@style/textViewBlue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/blueBorderEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:text="@string/district" />
+
+                    <TextView
+                        android:id="@+id/districtTV"
+                        style="@style/textViewBlue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/blueBorderEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:text="@string/sub_district" />
+
+                    <TextView
+                        android:id="@+id/subDistrictTV"
+                        style="@style/textViewBlue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/blueBorderEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:text="@string/village" />
+
+                    <TextView
+                        android:id="@+id/villagetTV"
+                        style="@style/textViewBlue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/wardLayout"
+                    style="@style/blueBorderEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:text="@string/ward" />
+
+                    <TextView
+                        android:id="@+id/wardTV"
+                        style="@style/textViewBlue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ebLayout"
+                    style="@style/blueBorderEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="visible"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:text="@string/eB" />
+
+                    <TextView
+                        android:id="@+id/ebTV"
+                        style="@style/textViewBlue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7" />
+                </LinearLayout>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_background_gray"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Application Configuration"
+                android:textColor="#000"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+<LinearLayout
+    android:visibility="gone"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="15dp"
+                android:background="#f19463"
+                android:gravity="center"
+                android:text="Data Source"
+                android:textColor="#fff"
+
+                />
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Data Category" />
+
+                <TextView
+                    android:id="@+id/dataCatogeryTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Secc data download" />
+
+                <TextView
+                    android:id="@+id/seccDataTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="RSBY card import" />
+
+                <TextView
+                    android:id="@+id/rsbyDataTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Surveyor Area" />
+
+                <TextView
+                    android:id="@+id/surveyorDataTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+</LinearLayout>
+            <TextView
+                style="@style/textViewYellow"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/Bg_btn_color"
+                android:gravity="center"
+                android:text="Identification Parameters"
+                android:textColor="#fff"
+
+                />
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Identification mode" />
+
+                <TextView
+                    android:id="@+id/identificationModeTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Aadhar validation mode" />
+
+                <TextView
+                    android:id="@+id/aadharValidationModeTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="EKYC mode" />
+
+                <TextView
+                    android:id="@+id/ekycModeTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="DemoGraphic mode" />
+
+                <TextView
+                    android:id="@+id/demoGraphicModeTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Capture photo" />
+
+                <TextView
+                    android:id="@+id/capturePhotoModeTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <LinearLayout
+
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Nominee Servey" />
+
+                <TextView
+                    android:id="@+id/nomineeserveyModeTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/textViewYellow"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/Bg_btn_color"
+                android:gravity="center"
+                android:text="Printing"
+                android:textColor="#fff"
+
+                />
+
+            <LinearLayout
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Card Print" />
+
+                <TextView
+                    android:id="@+id/cardPrintModeTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+
+            <TextView
+                android:visibility="gone"
+                style="@style/textViewYellow"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/Bg_btn_color"
+                android:gravity="center"
+                android:text="Zoom"
+                android:textColor="#fff"
+
+                />
+
+            <LinearLayout
+
+                style="@style/blueBorderEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:weightSum="1">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:text="Zoom Enabled" />
+
+                <TextView
+                    android:id="@+id/zoomModeTV"
+                    style="@style/textViewBlue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".7" />
+            </LinearLayout>
+            <TextView
+                style="@style/textViewYellow"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/Bg_btn_color"
+                android:gravity="center"
+                android:text="National Notification"
+                android:textColor="#fff"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/nationalNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            <TextView
+                style="@style/textViewYellow"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/Bg_btn_color"
+                android:gravity="center"
+                android:text="State Notification"
+                android:textColor="#fff"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/profileNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

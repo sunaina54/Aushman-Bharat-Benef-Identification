@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.nhpm.CameraUtils.squarecamera.EditSavePhotoFragment">
+
+    <View
+        android:id="@+id/topView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <LinearLayout
+        android:id="@+id/saveLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#9dffffff"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+
+        android:weightSum="1">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+
+           >
+
+        <ImageButton
+            android:id="@+id/save_photo"
+            android:layout_width="60dp"
+            android:layout_height="58dp"
+
+            android:scaleType="fitXY"
+            android:src="@drawable/qr_right_button"
+
+           />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+
+            >
+        <ImageButton
+            android:id="@+id/cancel"
+            android:layout_width="60dp"
+            android:layout_height="58dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/qr_wrong_button"
+             android:onClick="onCancel"/>
+    </LinearLayout>
+    </LinearLayout>
+
+    <com.nhpm.CameraUtils.squarecamera.SquareImageView
+        android:id="@+id/photo"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:scaleType="fitXY"
+     android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>

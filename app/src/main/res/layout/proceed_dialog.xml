@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:paddingTop="20dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textView"
+                        android:text="@string/stateDash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@id/stateNameTV"
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textViewYellow"
+                        android:text="-"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="@dimen/text_size_12sp"
+                    style="@style/textView"
+                    android:text="@string/distt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@id/distNameTV"
+                    android:textSize="@dimen/text_size_12sp"
+                    style="@style/textViewYellow"
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textView"
+                        android:text="@string/sub_district"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@id/tehsilNameTV"
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textViewYellow"
+                        android:text="-"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textView"
+                        android:text="@string/villTwn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/vtNameTV"
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textViewYellow"
+                        android:text="-"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textView"
+                        android:text="@string/ward"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/wardCodeTV"
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textViewYellow"
+                        android:text="-"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textView"
+                        android:text="@string/EnumBlock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/ebTV"
+                        android:textSize="@dimen/text_size_12sp"
+                        style="@style/textViewYellow"
+                        android:text="-"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1.2"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="@dimen/text_size_15sp"
+                        android:padding="2dp"
+                        android:layout_width="wrap_content"
+                        android:text="@string/EnumBlockHash"
+                        android:textColor="@color/black_shine"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="@dimen/text_size_15sp"
+                        android:layout_marginLeft="2dp"
+                        android:id="@+id/blockCodeTV"
+                        android:padding="2dp"
+                        android:textColor="@color/blue"
+                        android:layout_width="wrap_content"
+                        android:text="0001"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/textViewYellow"
+                        android:textSize="@dimen/text_size_12sp"
+                        android:textStyle="bold"
+                        android:padding="2dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.80"
+                        android:text="@string/noofSecchshld"
+                        android:textColor="@color/black_shine"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="@dimen/text_size_12sp"
+                        android:layout_marginLeft="2dp"
+                        android:id="@+id/totalHouseholdTV"
+                        android:textColor="@color/blue"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.20"
+                        android:text="0"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/rsbyLayout"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/textViewYellow"
+                        android:textSize="@dimen/text_size_12sp"
+                        android:textStyle="bold"
+                        android:padding="2dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.80"
+                        android:text="@string/noRSBYhshld"
+                        android:textColor="@color/black_shine"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="@dimen/text_size_12sp"
+                        android:layout_marginLeft="2dp"
+                        android:id="@+id/totalRsbyHouseholdTV"
+                        android:textColor="@color/blue"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.20"
+                        android:text="0"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/textViewYellow"
+                        android:textSize="@dimen/text_size_12sp"
+                        android:textStyle="bold"
+                        android:padding="2dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.80"
+                        android:text="@string/noFsyncHshld"
+                        android:textColor="@color/black_shine"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="@dimen/text_size_12sp"
+                        android:layout_marginLeft="2dp"
+                        android:id="@+id/syncedMemberTV"
+                        android:textColor="@color/blue"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.20"
+                        android:text="0"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/textViewYellow"
+                        android:textSize="@dimen/text_size_12sp"
+                        android:textStyle="bold"
+                        android:padding="2dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.80"
+                        android:text="@string/total_no_of_members"
+                        android:textColor="@color/black_shine"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        style="@style/textViewBlue"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="2dp"
+                        android:id="@+id/totalMemberTV"
+                        android:textColor="@color/blue"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.20"
+                        android:text="0"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/textViewYellow"
+                        android:textSize="@dimen/text_size_12sp"
+                        android:textStyle="bold"
+                        android:padding="2dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.80"
+                        android:text="@string/noFSycMmber"
+                        android:textColor="@color/black_shine"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        style="@style/textViewBlue"
+                        android:layout_marginLeft="2dp"
+                        android:id="@+id/totalSyncMemberTV"
+                        android:textColor="@color/blue"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.20"
+                        android:text="0"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight=".8"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <Button
+                    style="@style/button"
+                    android:id="@+id/goValidationBT"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:textAllCaps="false"
+                    android:text="@string/proceed_validation"
+                    android:textSize="@dimen/text_size_12sp" />
+                <Button
+                    style="@style/button"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/goSyncBT"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:textAllCaps="false"
+                    android:text="@string/sync_household"
+                    android:textSize="@dimen/text_size_12sp"/>
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:weightSum="1"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:layout_marginRight="1dp"
+                        style="@style/button"
+                        android:visibility="gone"
+                        android:textSize="@dimen/text_size_12sp"
+                        android:id="@+id/deleteBT"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="35dp"
+                        android:textAllCaps="false"
+                        android:text="@string/delete_eb"/>
+                    <Button
+                        style="@style/button"
+                        android:textSize="@dimen/text_size_12sp"
+                        android:id="@+id/cancelBT"
+                        android:layout_width="0dp"
+                        android:layout_weight=".5"
+                        android:layout_height="35dp"
+                        android:textAllCaps="false"
+                        android:visibility="gone"
+                        android:text="@string/cancel"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--  </android.support.v7.widget.CardView>-->
+
+</LinearLayout>

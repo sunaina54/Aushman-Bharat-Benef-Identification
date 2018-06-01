@@ -1,0 +1,833 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/head"
+        layout="@layout/header_layout" />
+
+    <FrameLayout
+        android:id="@+id/fragContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head"></FrameLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/head"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/loctext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/head"
+                android:layout_margin="10dp"
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text=""
+                android:textColor="@color/black_shine"
+                android:textSize="@dimen/text_size_18sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/loctext"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardElevation="5dp"
+                card_view:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:id="@+id/lay1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/loctext"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/rounded_shape_grey">
+
+                    <RelativeLayout
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/downloadenum"
+                            android:textSize="@dimen/text_size_18sp"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/title"
+                        android:layout_margin="2dp"
+                        android:background="@color/white_shine"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+
+                        <LinearLayout
+                            android:id="@+id/downloadBloackLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/downloaded_block_msg"
+                                    android:textSize="@dimen/text_size_15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="2dp"
+                                    android:text="@string/syncExistingBlock"
+                                    android:textColor="@color/red"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.5"
+                                    android:background="@drawable/rounded_shape_edittext">
+
+                                    <Spinner
+                                        android:id="@+id/blockSP"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="30dp"
+                                        android:layout_below="@+id/blocklabel"
+                                        android:overScrollMode="never"
+                                        android:scrollbars="none"
+                                        android:spinnerMode="dropdown" />
+                                </LinearLayout>
+
+                                <Button
+                                    android:id="@+id/downloadBT"
+                                    android:layout_width="0dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_weight=".5"
+                                    android:background="@drawable/rounded_shape_yello_button"
+                                    android:text="@string/download"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/white_shine"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+
+                            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/locationCard"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                card_view:cardBackgroundColor="@color/white"
+                                card_view:cardCornerRadius="5dp"
+                                card_view:cardElevation="5dp"
+                                card_view:cardUseCompatPadding="true">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/loctext"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="1dp">
+
+                                    <RelativeLayout
+                                        android:id="@+id/title1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_centerVertical="true"
+                                            android:text="@string/selectedlocation"
+                                            android:textColor="@color/yellow_dark"
+                                            android:textSize="@dimen/text_size_15sp"
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/title1"
+                                        android:layout_marginLeft="5dp"
+                                        android:background="@color/white_shine"
+                                        android:orientation="vertical"
+                                        android:padding="4dp">
+
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="2dp"
+                                            android:visibility="gone">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentLeft="true"
+                                                android:text="@string/verifier"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/verifierNameTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerHorizontal="true"
+                                                android:text="@string/verifier"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/stateCodeTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentRight="true"
+                                                android:text="34"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp"
+                                                android:visibility="gone" />
+                                        </RelativeLayout>
+
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="2dp">
+
+                                            <TextView
+                                                android:id="@+id/statetext"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentLeft="true"
+                                                android:text="@string/state_name"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/stateNameTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerHorizontal="true"
+                                                android:text="-"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentRight="true"
+                                                android:text="34"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp"
+                                                android:visibility="gone" />
+                                        </RelativeLayout>
+
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="2dp">
+
+                                            <TextView
+                                                android:id="@+id/disttext"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentLeft="true"
+                                                android:text="@string/district_name"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/distNameTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerHorizontal="true"
+                                                android:text="-"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/distCodeTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentRight="true"
+                                                android:text="04"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp"
+                                                android:visibility="gone" />
+                                        </RelativeLayout>
+
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="2dp">
+
+                                            <TextView
+                                                android:id="@+id/subdisttext"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentLeft="true"
+                                                android:text="@string/tehsil"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/tehsilNameTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignBaseline="@+id/subdisttext"
+                                                android:layout_centerHorizontal="true"
+                                                android:text="-"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/tehsilCodeTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignBaseline="@+id/subdistvalue"
+                                                android:layout_alignParentRight="true"
+                                                android:text="001"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp"
+                                                android:visibility="gone" />
+                                        </RelativeLayout>
+
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="2dp"
+                                            android:visibility="gone">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentLeft="true"
+                                                android:text="@string/area"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/areaTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerHorizontal="true"
+                                                android:text="-"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp" />
+                                        </RelativeLayout>
+
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="2dp">
+
+                                            <TextView
+                                                android:id="@+id/vtLableTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentLeft="true"
+                                                android:text="@string/village"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/villTownNameTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerHorizontal="true"
+                                                android:text="-"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/villTownCodeTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentRight="true"
+                                                android:text="003"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp"
+                                                android:visibility="gone" />
+                                        </RelativeLayout>
+
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="2dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentLeft="true"
+                                                android:text="@string/ward"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/wardNameTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerHorizontal="true"
+                                                android:text="-"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/wardCodeTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentRight="true"
+                                                android:text="003"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp"
+                                                android:visibility="gone" />
+                                        </RelativeLayout>
+
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="2dp">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentLeft="true"
+                                                android:text="@string/EnumBlock"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:id="@+id/enumerationBlockTV"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerHorizontal="true"
+                                                android:text="-"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+
+                                                android:layout_height="wrap_content"
+                                                android:layout_alignParentRight="true"
+                                                android:text="-"
+                                                android:textColor="@color/black_shine"
+                                                android:textSize="@dimen/text_size_12sp"
+                                                android:visibility="gone" />
+                                        </RelativeLayout>
+
+                                    </LinearLayout>
+                                </RelativeLayout>
+                            </android.support.v7.widget.CardView>
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/blockList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:scrollbars="vertical"
+                            tools:listitem="@layout/block_list_item" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/syncButtonCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardElevation="5dp"
+                card_view:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:id="@+id/syncRelativeLayout"
+                    style="@style/buttonGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <Button
+                        android:id="@+id/syncAadhaarCollectedBT"
+                        style="@style/buttonGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="5dp"
+                        android:text="@string/syncHousehold" />
+                    />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:background="@drawable/arrow_righttt" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"></LinearLayout>
+
+                <Button
+                    android:id="@+id/syncEBDataBT"
+                    style="@style/buttonGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:text="@string/SyncNonAdhar"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/resetDataBT"
+                    style="@style/buttonGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:text="@string/resetEnumBlock"
+                    android:visibility="gone" />
+            </android.support.v7.widget.CardView>
+
+            <!--  <android.support.v7.widget.CardView
+                  xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                  android:id="@+id/locationCard"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="5dp"
+                  card_view:cardBackgroundColor="@color/white"
+                  card_view:cardCornerRadius="5dp"
+                  card_view:cardElevation="5dp"
+                  card_view:cardUseCompatPadding="true">
+
+                  <RelativeLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@+id/loctext"
+                      android:layout_centerHorizontal="true"
+                      android:layout_marginTop="10dp">
+
+                      <RelativeLayout
+                          android:id="@+id/title1"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:padding="2dp">
+
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerHorizontal="true"
+                              android:layout_centerVertical="true"
+                              android:text="Selected Location"
+                              android:textColor="@color/yellow_dark"
+                              android:textSize="@dimen/text_size_15sp"
+                              android:textStyle="bold" />
+
+                      </RelativeLayout>
+
+                      <LinearLayout
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@+id/title1"
+                          android:layout_marginLeft="5dp"
+                          android:background="@color/white_shine"
+                          android:orientation="vertical"
+                          android:padding="15dp">
+
+                          <RelativeLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:padding="2dp"
+                              android:visibility="gone">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:text="Verifier Name"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/verifierNameTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_centerHorizontal="true"
+                                  android:text="Verifier Name"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/stateCodeTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentRight="true"
+                                  android:text="34"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp"
+                                  android:visibility="gone" />
+                          </RelativeLayout>
+
+                          <RelativeLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:padding="2dp">
+
+                              <TextView
+                                  android:id="@+id/statetext"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:text="@string/state_name"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/stateNameTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_centerHorizontal="true"
+                                  android:text="-"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentRight="true"
+                                  android:text="34"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp"
+                                  android:visibility="gone" />
+                          </RelativeLayout>
+
+                          <RelativeLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:padding="2dp">
+
+                              <TextView
+                                  android:id="@+id/disttext"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:text="@string/district_name"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/distNameTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_centerHorizontal="true"
+                                  android:text="-"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/distCodeTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentRight="true"
+                                  android:text="04"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp"
+                                  android:visibility="gone" />
+                          </RelativeLayout>
+
+                          <RelativeLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:padding="2dp">
+
+                              <TextView
+                                  android:id="@+id/subdisttext"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:text="@string/tehsil"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/tehsilNameTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignBaseline="@+id/subdisttext"
+                                  android:layout_centerHorizontal="true"
+                                  android:text="-"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/tehsilCodeTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignBaseline="@+id/subdistvalue"
+                                  android:layout_alignParentRight="true"
+                                  android:text="001"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp"
+                                  android:visibility="gone" />
+                          </RelativeLayout>
+
+                          <RelativeLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:padding="2dp"
+                              android:visibility="gone">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:text="Area"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/areaTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_centerHorizontal="true"
+                                  android:text="-"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp" />
+                          </RelativeLayout>
+
+                          <RelativeLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:padding="2dp">
+
+                              <TextView
+                                  android:id="@+id/vtLableTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:text="@string/village"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/villTownNameTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_centerHorizontal="true"
+                                  android:text="-"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/villTownCodeTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentRight="true"
+                                  android:text="003"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp"
+                                  android:visibility="gone" />
+                          </RelativeLayout>
+
+                          <RelativeLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:padding="2dp">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:text="@string/ward"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/wardNameTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_centerHorizontal="true"
+                                  android:text="-"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/wardCodeTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentRight="true"
+                                  android:text="003"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp"
+                                  android:visibility="gone" />
+                          </RelativeLayout>
+
+                          <RelativeLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:padding="2dp">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentLeft="true"
+                                  android:text="Enumeration Block"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:id="@+id/enumerationBlockTV"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_centerHorizontal="true"
+                                  android:text="-"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp" />
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+
+                                  android:layout_height="wrap_content"
+                                  android:layout_alignParentRight="true"
+                                  android:text="-"
+                                  android:textColor="@color/black_shine"
+                                  android:textSize="@dimen/text_size_12sp"
+                                  android:visibility="gone" />
+                          </RelativeLayout>
+
+                      </LinearLayout>
+                  </RelativeLayout>
+              </android.support.v7.widget.CardView>-->
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/header_layout" android:id="@+id/header" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:weightSum="1"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/partialVerifiedBT"
+                android:layout_marginLeft="1dp"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:text="@string/RSBYmember"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_size_13sp"
+                android:textColor="@color/white_shine"
+                android:background="@drawable/tab_button_shape"
+                />
+            <Button
+                android:id="@+id/completeVerifiedBT"
+                android:layout_marginLeft="1dp"
+                android:padding="3dp"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight=".35"
+                android:text="@string/ErrorNotSubmit"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_size_13sp"
+                android:textColor="@color/white_shine"
+                android:background="@drawable/tab_button_shape"
+
+                />
+            <Button
+                android:id="@+id/signedMemberBT"
+                android:padding="3dp"
+                android:layout_marginLeft="1dp"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight=".33"
+                android:text="@string/submitted"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_size_13sp"
+                android:textColor="@color/white_shine"
+                android:background="@drawable/tab_button_shape"
+
+                />
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/fragContainer"
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:layout_height="match_parent"
+            android:background="@color/white_shine">
+
+        </FrameLayout>
+
+    </LinearLayout>
+</RelativeLayout>

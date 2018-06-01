@@ -1,0 +1,61 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    tools:context="com.nhpm.fragments.CompleteVerifiedFragment">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView android:id="@+id/detailtext"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_below="@+id/head"
+                android:textColor="@color/black_shine"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:text="@string/offlinelist"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/offlineList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/detailtext"
+                android:layout_marginBottom="50dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:background="#1BB7BF"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/sendAllBT"
+            android:textAllCaps="false"
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:text="@string/esignAll"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_margin="5dp"
+            />
+    </LinearLayout>
+</RelativeLayout>
+    <!-- TODO: Update blank fragment layout -->
+
+</FrameLayout>

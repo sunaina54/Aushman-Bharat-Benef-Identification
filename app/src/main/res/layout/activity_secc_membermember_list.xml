@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_secc_membermember_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.activity.SeccMemberListActivity">
+    <include layout="@layout/household_header_layout" android:id="@+id/header" />
+    <LinearLayout
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+
+                android:text="@string/selcthouseholdstatus"
+                android:textColor="@color/blue"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+              android:background="@drawable/edittext_background_gray_corner"
+
+                android:layout_height="wrap_content">
+                <Spinner
+                    android:id="@+id/familyStatusSP"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/headMemberStatusLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/slctHodFmly"
+                    android:textColor="@color/blue"
+                    />
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:weightSum="2"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/blueBorderSpine"
+                        android:layout_weight="1.2">
+                        <Spinner
+                            android:id="@+id/headMemberStatusSP"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:overScrollMode="never"
+                            android:scrollbars="none"
+                            android:spinnerMode="dropdown" />
+
+                    </LinearLayout>
+                    <RelativeLayout
+                        android:id="@+id/chooseHeadLayout"
+                        android:layout_width="0dp"
+                        android:visibility="gone"
+                        android:layout_weight=".8"
+                        android:background="@drawable/rounded_shape_edittext"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:id="@+id/chooseHeadBT"
+                            style="@style/button"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:layout_alignParentRight="true"
+                            android:text="@string/chooseNewHead"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    <FrameLayout
+        android:id="@+id/famlistContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/printPreview"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/printPreview"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:background="@drawable/button_background_orange_ehit"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>

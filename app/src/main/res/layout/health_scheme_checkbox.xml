@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/sstateHealthSchemeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/stateHealthSchmName"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_size_13sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/schemeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.33"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:weightSum="1">
+
+                <CheckBox
+                    android:id="@+id/schemeCheckBox1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".4"
+                    android:textColor="@color/blue" />
+
+
+                <EditText
+                    android:id="@+id/schemeEditText1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:paddingLeft="10dp"
+                    android:inputType="number"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:hint="@string/provideStateHealthSchemeId"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/edit_text_border"
+                    android:enabled="false" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/schemeLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.33"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:visibility="gone"
+                android:weightSum="1">
+
+                <CheckBox
+                    android:id="@+id/schemeCheckBox2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".4"
+                    android:textColor="@color/blue" />
+
+
+                <EditText
+                    android:id="@+id/schemeEditText2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:paddingLeft="10dp"
+                    android:inputType="number"
+                    android:hint="@string/provideStateHealthSchemeId"
+                    android:layout_weight="0.6"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:background="@drawable/edit_text_border"
+                    android:enabled="false" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/schemeLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.33"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:weightSum="1">
+
+                <CheckBox
+                    android:id="@+id/schemeCheckBox3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".4"
+                    android:textColor="@color/blue" />
+
+
+                <EditText
+                    android:id="@+id/schemeEditText3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:hint="@string/provideStateHealthSchemeId"
+                    android:paddingLeft="10dp"
+                    android:inputType="number"
+                    android:textSize="@dimen/text_size_12sp"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/edit_text_border"
+                    android:enabled="false" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

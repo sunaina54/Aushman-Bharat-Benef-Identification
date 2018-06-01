@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        style="@style/textViewYellow"
+        android:text="@string/defRelationHead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/newHeadTV"
+            style="@style/textView"
+            android:textStyle="bold"
+            android:text="-"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/rounded_shape_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <Spinner
+        android:visibility="visible"
+        android:id="@+id/relationSP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Spinner>
+    </LinearLayout>
+    <Button
+        android:layout_margin="20dp"
+        android:id="@+id/relationUpdateBT"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/update"
+        style="@style/button"/>
+</LinearLayout>

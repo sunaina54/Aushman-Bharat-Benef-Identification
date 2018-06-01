@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:id="@+id/sstateHealthSchemeLayout"
+    android:padding="10dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="@dimen/text_size_13sp"
+        android:text="@string/stateHealthSchmName"
+        android:textColor="@color/blue"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@drawable/square_shape_textview"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/healthSchemeNameSP"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="2dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+    <EditText
+        android:visibility="gone"
+        android:layout_marginTop="2dp"
+        android:id="@+id/stateHealthNameET"
+        android:layout_width="match_parent"
+        android:enabled="true"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz. 1234567890"
+        style="@style/blueBorderEditText"
+        android:layout_height="40dp" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/stateHealthSchemeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="@dimen/text_size_13sp"
+            android:text="@string/stateHealthSchemeId"
+            android:textColor="@color/blue"
+            />
+    <LinearLayout
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <EditText
+            android:textSize="@dimen/text_size_12sp"
+            style="@style/blueBorderEditText"
+            android:id="@+id/stateHealthIdET"
+            android:layout_width="0dp"
+            android:layout_weight="1.7"
+            android:enabled="true"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz. 1234567890"
+            android:layout_height="40dp" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight=".3">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:id="@+id/bankVerifiedIV"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/right_tick"
+                />
+            <ImageView
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:id="@+id/bankRejectedIV"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/cancel"
+                />
+            <ImageView
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:id="@+id/bankPendingIV"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/exclamation"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+    </LinearLayout>
+    <Button
+        android:visibility="gone"
+        android:layout_margin="5dp"
+        android:text="@string/valdteHealthSchemeId"
+        android:textAllCaps="false"
+        android:layout_marginLeft="3dp"
+        android:textColor="@color/white_shine"
+        android:textSize="@dimen/text_size_15sp"
+        android:id="@+id/validateHealthIdET"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@drawable/rounded_shape_yello_button"/>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginRight="2dp"
+            android:gravity="center"
+            android:background="@color/green"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/verified"
+            android:textColor="@color/white_shine"
+            android:layout_height="30dp" />
+        <TextView
+            android:layout_marginLeft="2dp"
+            android:gravity="center"
+            android:background="@color/red"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/notVerified"
+            android:textColor="@color/white"
+            android:layout_height="30dp" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

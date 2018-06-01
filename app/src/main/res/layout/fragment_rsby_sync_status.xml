@@ -1,0 +1,45 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.fragments.SyncStatusFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/sortLayout"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            style="@style/blueBorderEditText"
+            android:layout_height="35dp">
+            <Spinner
+                android:id="@+id/sortSP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/sortLayout"
+            android:id="@+id/syncMemberList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            />
+
+
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/syncAllBT"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/syncAll"
+            style="@style/button"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</FrameLayout>

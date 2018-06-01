@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view1"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loctext"
+        card_view:cardBackgroundColor="@color/white"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+            <Button
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text_size_12sp"
+                android:layout_alignParentRight="true"
+                android:id="@+id/proceedBT"
+                style="@style/buttonGrey"
+                android:text="@string/Proceed"
+                android:layout_width="100dp"
+                android:layout_height="30dp" />
+
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textView"
+                android:text="@string/state"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@id/stateNameTV"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textViewYellow"
+                android:text="-"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView android:textStyle="bold"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textView"
+                android:text="@string/district"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@id/distNameTV"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textViewYellow"
+                android:text="-"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textView"
+                android:text="@string/sub_district"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@id/tehsilNameTV"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textViewYellow"
+                android:text="-"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textView"
+                android:text="@string/village"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/vtNameTV"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textViewYellow"
+                android:text="-"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/wardLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textView"
+                android:text="@string/ward"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/wardCodeTV"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textViewYellow"
+                android:text="-"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ebLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textView"
+                android:text="@string/eB"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/ebTV"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textViewYellow"
+                android:text="-"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/suvEbLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textView"
+                android:text="@string/subEnumBlock"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/subEbTV"
+                android:textSize="@dimen/text_size_12sp"
+                style="@style/textViewYellow"
+                android:text="-"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

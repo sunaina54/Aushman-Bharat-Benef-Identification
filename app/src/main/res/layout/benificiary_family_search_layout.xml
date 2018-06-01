@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <include
+        android:id="@+id/head"
+        layout="@layout/header_layout"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margine_10"
+        android:orientation="vertical">
+
+        <include layout="@layout/updated_header_layout"></include>
+
+      <!--  <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/logo_ayushman_bharat" />
+
+            <TextView
+                android:id="@+id/login1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="@string/loginScreenLabel"
+                android:textColor="@color/red_login_label"
+                android:textSize="@dimen/text_size_20sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margine_30">
+
+            <TextView
+                style="@style/textView"
+                android:textSize="22sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_find_beneficiary"
+                android:textAlignment="center" />
+
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/rounded_shape_edittext">
+                <Spinner
+                    android:id="@+id/cardTypeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/rationCardET"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_background_login"
+                    android:hint="Ration Card Number"
+                    android:text="123456789012345"
+                    android:imeOptions="actionNext"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="15dp"
+                    android:maxLength="15"
+                    android:paddingTop="5dp"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+                    <EditText
+                        android:id="@+id/rsbyET"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
+                        android:hint="RSBY URN"
+                        android:imeOptions="actionNext"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:text="12345678901234567"
+                        android:paddingTop="5dp"
+                        android:visibility="gone"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:maxLength="17"
+                        android:textSize="20sp" />
+                    <EditText
+                        android:id="@+id/ahlTinET"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
+                        android:hint="AHLTIN"
+                        android:text="12345678901234567890123456789"
+                        android:imeOptions="actionNext"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:visibility="gone"
+                        android:paddingTop="5dp"
+                        android:maxLength="29"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+                    <EditText
+                        android:id="@+id/mobileET"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
+                        android:hint="@string/mobile_number"
+                        android:text="8123456789"
+                        android:imeOptions="actionNext"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:paddingTop="5dp"
+                        android:visibility="gone"
+                        android:textAlignment="center"
+                        android:textSize="20sp"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/cardTypeTV"
+                    style="@style/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margine_15"
+                    android:layout_weight="0.2"
+                    android:text="Ration Card"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/searchBTN"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/adhar"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:padding="@dimen/margine_10"
+                android:text="@string/searchBTN"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                style="@style/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margine_20"
+                android:id="@+id/findByNameTV"
+                android:textSize="22sp"
+                android:text="@string/byNameText"
+                android:textAlignment="center"
+                android:textColor="@color/textSearch" />
+
+            <TextView
+                android:id="@+id/noMemberTV"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="100dp"
+                android:visibility="gone"
+                android:background="@drawable/edittext_background_login"
+                android:imeOptions="actionNext"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:lines="2"
+                android:textColor="@color/red_label"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

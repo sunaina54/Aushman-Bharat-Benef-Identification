@@ -1,0 +1,223 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+
+    </style>
+
+    <style name="myTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="colorAccent">@color/acent</item>
+
+    </style>
+
+
+    <style name="splashTheme" parent="@android:style/Theme.Holo.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
+    </style>
+
+
+    <style name="TransparentProgressDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="title">
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="button">
+        <item name="android:padding">4dip</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/rounded_shape_yello_button</item>
+    </style>
+
+    <style name="buttonGrey">
+        <item name="android:padding">4dip</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/tab_button_shape</item>
+    </style>
+
+    <style name="statusBack">
+        <item name="android:padding">4dip</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">#E4E4E4</item>
+    </style>
+
+    <style name="statusBackSelected">
+        <item name="android:padding">4dip</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@color/yellow</item>
+    </style>
+
+    <style name="button_18sp">
+        <item name="android:padding">4dip</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/rounded_shape_yello_button</item>
+    </style>
+
+    <style name="textViewBlue">
+        <item name="android:padding">2dip</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/tiffiny_blue</item>
+    </style>
+
+    <style name="textViewYellow">
+        <item name="android:padding">2dip</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/tiffiny_blue</item>
+    </style>
+
+    <style name="label">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="textValue">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="textView">
+        <item name="android:padding">5dip</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black_shine</item>
+    </style>
+
+    <style name="textViewTabLayout">
+        <item name="android:padding">10dip</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
+    <style name="textViewFamilMember">
+        <item name="android:padding">5dip</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white_shine</item>
+    </style>
+
+    <style name="largeTextview">
+        <item name="android:padding">0dip</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white_shine</item>
+    </style>
+
+    <style name="mediumTextview">
+        <item name="android:padding">2dip</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white_shine</item>
+    </style>
+
+    <style name="smallTextview">
+        <item name="android:padding">2dip</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/white_shine</item>
+    </style>
+
+    <style name="radio">
+        <item name="android:padding">2dip</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black_shine</item>
+    </style>
+
+
+    <style name="blueBorderEditText">
+
+        <item name="android:paddingLeft">15dip</item>
+
+        <item name="android:paddingTop">5dip</item>
+        <item name="android:paddingRight">5dip</item>
+
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/edittext_background_gray_corner</item>
+    </style>
+
+    <style name="blueBorderSpine">
+        <item name="android:padding">1dip</item>
+        <item name="android:background">@drawable/edit_text_border</item>
+    </style>
+
+    <style name="greyBorderEditText">
+        <item name="android:padding">5dip</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@drawable/square_shape_textview</item>
+    </style>
+
+    <style name="squarecamera__CameraFullScreenTheme" parent="squarecamera__CameraFullScreenTheme.Base">
+
+    </style>
+
+    <style name="squarecamera__CameraFullScreenTheme.Base" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="squarecamera__CameraFullScreenTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="squarecamera__CameraFullScreenTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="squarecamera__CameraFullScreenTheme.NoUI" parent="squarecamera__CameraFullScreenTheme.Base">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <dimen name="squarecamera__activity_horizontal_margin">16dp</dimen>
+    <dimen name="squarecamera__activity_vertical_margin">16dp</dimen>
+    <dimen name="squarecamera__cover_start_height">300dp</dimen>
+    <dimen name="squarecamera__cover_start_width">250dp</dimen>
+
+    <style name="CustomDialog" parent="android:Theme.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="myTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="myTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="myTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Dialog" parent="android:Theme.Dialog">
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
+
+</resources>

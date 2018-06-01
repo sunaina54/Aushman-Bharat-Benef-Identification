@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+
+    >
+
+
+    <RelativeLayout
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:background="#000"
+     >
+<ImageView
+    android:id="@+id/mCancelPopUp"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:src="@drawable/qr_wrong_button"/>
+
+        <ImageView
+            android:id="@+id/imageView"
+android:layout_below="@+id/mCancelPopUp"
+android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:scaleType="fitXY"
+
+            android:layout_height="match_parent" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

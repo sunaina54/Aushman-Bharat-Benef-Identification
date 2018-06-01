@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/english"
+        android:title="Select English language"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+
+    <item android:id="@+id/hindi"
+        android:title="हिन्दी भाषा चुनें"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+
+    <item android:id="@+id/update"
+        android:title="Check Updates"
+        android:orderInCategory="60"
+        app:showAsAction="withText"
+        android:visible="false"/>
+
+</menu>

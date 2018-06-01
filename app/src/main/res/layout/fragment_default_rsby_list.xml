@@ -1,0 +1,47 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.rsbyFieldValidation.fragment.DefaultRsbyListFragment">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycleViewRsbyData">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/footerLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/saveBT"
+            android:layout_marginRight="2dp"
+            android:text="@string/save"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+            style="@style/button"/>
+        <Button
+            android:id="@+id/lockBT"
+            android:layout_marginLeft="2dp"
+            android:text="@string/lock"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+            style="@style/button"/>
+    </LinearLayout>
+</RelativeLayout>
+</FrameLayout>

@@ -1,0 +1,562 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.example.psqit.sampleapp.MemberDetailActivity">
+    <include layout="@layout/header_layout" />
+    <ScrollView android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/head"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
+        <RelativeLayout android:id="@+id/toplay"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <android.support.v7.widget.CardView
+                android:id="@+id/tincard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/tinlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/tintext"
+                        android:text="@string/tinNum"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:visibility="gone"
+                        android:id="@+id/tin"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="@string/membrTin"
+                        android:inputType="number"
+                        android:paddingLeft="8dp"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:textSize="15dp"
+android:maxLength="20"
+                        android:textColor="@color/gray"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/tintext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/namecard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+android:layout_below="@+id/tincard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/namelay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/nametext"
+                        android:text="@string/name"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="@string/membersName"
+                        android:inputType="textCapWords"
+                        android:paddingLeft="8dp"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:textSize="15dp"
+                        android:textColor="@color/gray"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/nametext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/relationcard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/namecard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/relalay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/reltext"
+                        android:text="@string/relation"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:id="@+id/relation"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="8dp"
+                        android:imeOptions="actionNext"
+                        android:textSize="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/gray"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+
+                        android:hint="@string/enterRelationship"
+                        android:inputType="textCapWords"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/reltext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/fathercard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/relationcard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/fatherlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/fathertext"
+                        android:text="@string/father"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:id="@+id/father"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="8dp"
+                        android:imeOptions="actionNext"
+                        android:textSize="15dp"
+                        android:singleLine="true"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+
+                        android:textColor="@color/gray"
+                        android:inputType="textCapWords"
+                        android:hint="@string/enterFatherName"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/fathertext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/mothercard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/fathercard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/motherlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/mothertext"
+                        android:text="@string/mothhr"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:id="@+id/mother"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="8dp"
+                        android:imeOptions="actionNext"
+                        android:textSize="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/gray"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+
+                        android:hint="@string/entermothrName"
+                        android:inputType="textCapWords"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/mothertext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/dobgendercard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/mothercard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/doblay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:padding="5dp">
+                    <LinearLayout android:id="@+id/lay1"
+                        android:layout_height="wrap_content"
+                        android:weightSum="3"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        >
+                        <RelativeLayout android:id="@+id/one"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+
+                                android:id="@+id/dobtext"
+                                android:text="@string/dobCaps"
+                                android:textColor="@color/blue"
+                                />
+                            <TextView
+                                android:id="@+id/dob"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:paddingLeft="5dp"
+                                android:hint="@string/slctDate"
+                                android:gravity="center_vertical"
+                                android:background="@drawable/square_shape_textview"
+                                android:layout_below="@+id/dobtext"
+                                />
+                        </RelativeLayout>
+                        <RelativeLayout android:id="@+id/two"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+
+                                android:id="@+id/gendertext"
+                                android:text="@string/gender"
+                                android:textColor="@color/blue"
+                                />
+                            <Spinner
+                                android:id="@+id/gender"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:overScrollMode="never"
+                                android:scrollbars="none"
+
+                                android:layout_below="@+id/gendertext"
+                                android:spinnerMode="dropdown" />
+
+                        </RelativeLayout>
+                        <RelativeLayout android:id="@+id/three"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+
+                                android:id="@+id/maritaltext"
+                                android:text="@string/MarritalStatus"
+                                android:textColor="@color/blue"
+                                />
+                            <Spinner
+                                android:id="@+id/marital"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:overScrollMode="never"
+                                android:scrollbars="none"
+
+                                android:layout_below="@+id/maritaltext"
+                                android:spinnerMode="dropdown" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/adharcard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/dobgendercard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/adharlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/adhartext"
+                        android:text="@string/Adharcardno"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:id="@+id/adhaar"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="8dp"
+                        android:hint="@string/enterAdharCardNUm"
+                        android:gravity="center_vertical"
+                        android:maxLength="12"
+                        android:textColor="@color/gray"
+
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:textSize="15dp"
+                        android:inputType="number"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/adhartext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/mobilecard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/adharcard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/mobilelay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/mobiletext"
+                        android:text="@string/mobile_number"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:id="@+id/mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="8dp"
+                        android:hint="@string/motherMobNum"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:singleLine="true"
+                        android:textColor="@color/gray"
+
+                        android:imeOptions="actionNext"
+                        android:textSize="15dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/mobiletext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/occupcard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/mobilecard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/occuplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/occuptext"
+                        android:text="@string/occupation"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:id="@+id/occup"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="8dp"
+                        android:imeOptions="actionNext"
+                        android:textSize="15dp"
+                        android:textColor="@color/gray"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+android:maxLength="15"
+                        android:singleLine="true"
+                        android:hint="@string/membrOccupation"
+                        android:inputType="textCapWords"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/occuptext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/inscard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/occupcard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/inslay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/instext"
+                        android:text="@string/RSBYStateInsurance"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:id="@+id/inss"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="8dp"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textSize="15dp"
+                        android:textColor="@color/gray"
+android:maxLength="15"
+                        android:singleLine="true"
+                        android:hint="@string/membrInsurance"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/instext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/rationcard"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/inscard"
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="10dp"
+                card_view:cardElevation="2dp"
+                android:visibility="gone"
+
+                card_view:cardUseCompatPadding="true">
+                <RelativeLayout android:id="@+id/rationlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+
+                        android:id="@+id/rationtext"
+                        android:text="@string/RationNo"
+                        android:textColor="@color/blue"
+                        />
+                    <EditText
+                        android:id="@+id/ration"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:paddingLeft="8dp"
+                        android:imeOptions="actionDone"
+                        android:textSize="15dp"
+                        android:textColor="@color/gray"
+
+                        android:hint="@string/enterRationno"
+                        android:singleLine="true"
+                        android:inputType="number"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/square_shape_textview"
+                        android:layout_below="@+id/rationtext"
+                        />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </ScrollView>
+    <TextView android:id="@+id/editdone"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:background="@color/blue"
+        android:text="done"
+        android:textColor="@color/white"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="18dp"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>
+

@@ -1,0 +1,67 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.fragments.DefaultFamilyListFragment">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/memberList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+       <LinearLayout
+           android:visibility="visible"
+           android:id="@+id/footerLayout"
+           android:layout_centerHorizontal="true"
+           android:layout_alignParentBottom="true"
+           android:layout_margin="5dp"
+           android:gravity="center_horizontal"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+           <Button
+               android:id="@+id/saveBT"
+               android:layout_marginRight="2dp"
+               android:text="@string/save"
+               android:layout_width="150dp"
+               android:layout_height="35dp"
+               style="@style/button"
+               android:visibility="gone"/>
+           <Button
+               android:id="@+id/lockBT"
+               android:layout_marginLeft="2dp"
+               android:text="@string/lock"
+               android:layout_width="150dp"
+               android:layout_height="35dp"
+               style="@style/button"/>
+       </LinearLayout>
+
+       <LinearLayout
+           android:visibility="gone"
+           android:id="@+id/footerSyncAllLayout"
+           android:layout_centerHorizontal="true"
+           android:layout_alignParentBottom="true"
+           android:layout_margin="5dp"
+           android:layout_width="match_parent"
+           android:paddingLeft="50dp"
+           android:paddingRight="50dp"
+           android:layout_height="40dp">
+           <Button
+               android:id="@+id/syncBotton"
+               android:layout_marginRight="2dp"
+               android:text="@string/syncAll"
+               android:layout_width="match_parent"
+               android:layout_height="35dp"
+               style="@style/button"/>
+
+       </LinearLayout>
+   </RelativeLayout>
+
+</FrameLayout>

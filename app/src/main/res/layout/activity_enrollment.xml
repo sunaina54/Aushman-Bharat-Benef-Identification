@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.Activities.EnrollmentActivity">
+    <include layout="@layout/header_layout" android:id="@+id/header" />
+
+    <LinearLayout
+        android:id="@+id/enrollmentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:text="@string/enrolId"
+            android:textColor="@color/blue"
+
+            android:textSize="@dimen/text_size_13sp" />
+
+        <EditText
+            android:id="@+id/enrollmentNameET"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/edit_text_border"
+            android:hint="@string/hintEnrolId"
+            android:paddingLeft="15dp"
+            android:textSize="@dimen/text_size_15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:text="@string/nameinEnrolmt"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_size_13sp" />
+
+        <EditText
+            android:id="@+id/enrollmentIdET"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingLeft="5dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/enrollmentSubmitBT"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:text="@string/submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_15sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

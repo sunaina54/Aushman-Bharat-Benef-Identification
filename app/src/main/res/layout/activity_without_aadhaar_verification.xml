@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.Activities.WithoutAadhaarVerificationActivity">
+    <include layout="@layout/header_layout"
+        android:id="@+id/header"/>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/wihout_aadhaar_layout"
+            android:id="@+id/header"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:background="#1BB7BF"
+        android:weightSum="2"
+        android:layout_height="wrap_content">
+        <Button android:id="@+id/updateNhpsBT"
+            android:layout_margin="5dp"
+            android:textAllCaps="false"
+            android:text="@string/save"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="@color/white_shine"
+            android:layout_width="0dp"
+            android:textSize="@dimen/text_size_15sp"
+            android:padding="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:layout_marginRight="1dp"
+            android:layout_height="45dp"/>
+        <Button
+            android:id="@+id/lockBT"
+            android:layout_margin="5dp"
+            android:textAllCaps="false"
+            android:text="@string/lock"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="@color/white_shine"
+            android:layout_width="0dp"
+            android:textSize="@dimen/text_size_15sp"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:layout_marginRight="1dp"
+            android:layout_height="45dp"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,86 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <!--<item android:id="@+id/searchFamily"
+        android:title="Search Member"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item android:id="@+id/validateAaadhaar"
+        android:visible="false"
+        android:title="Validate Pending Aadhaar"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item android:id="@+id/sync"
+        android:title="Sync Household"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item android:id="@+id/assignedLoc"
+        android:title="Assigned Location"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item android:id="@+id/syncRsby"
+        android:title="Sync RSBY Household"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item android:id="@+id/profile"
+        android:title="Profile"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item android:id="@+id/home"
+        android:title="Home"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item
+        android:visible="true"
+        android:id="@+id/rsbyFamily"
+        android:title="Search RSBY Family"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item android:id="@+id/logout"
+        android:title="Logout"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />-->
+
+    <item android:id="@+id/searchFamily"
+        android:title="@string/searchMember"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item
+        android:visible="true"
+        android:id="@+id/rsbyFamily"
+        android:title="@string/importRsby"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item android:id="@+id/sync"
+        android:title="@string/syncHouse"
+        android:orderInCategory="60"
+        app:showAsAction="withText"
+        android:visible="false"/>
+    <item android:id="@+id/profile"
+        android:title="@string/profile"
+        android:orderInCategory="60"
+        android:visible="false"
+        app:showAsAction="withText" />
+    <item android:id="@+id/assignedLoc"
+        android:title="@string/assignedLocation"
+        android:orderInCategory="60"
+        android:visible="false"
+        app:showAsAction="withText" />
+
+    <item android:id="@+id/syncRsby"
+        android:title="Sync RSBY Household"
+        android:orderInCategory="60"
+        app:showAsAction="withText"
+        android:visible="false"/>
+    <item android:id="@+id/home"
+        android:title="@string/home"
+        android:visible="true"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+    <item android:id="@+id/logout"
+        android:title="@string/Logout"
+        android:orderInCategory="60"
+        app:showAsAction="withText" />
+
+</menu>

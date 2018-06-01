@@ -1,0 +1,224 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/family_bg"
+    android:id="@+id/fragContainer"
+    tools:context="com.nhpm.fragments.PersonalDetailsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margine_20">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margine_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/beneficiaryName"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/beneficiaryNameTV"
+                    style="@style/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/family_detail_tv"
+                    android:textStyle="bold" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <Spinner
+
+                        android:id="@+id/govtIdSP"
+                        android:layout_width="250dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="2dp"
+                        android:layout_marginTop="10dp"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"
+                        android:spinnerMode="dropdown" />
+
+                    <EditText
+                        android:id="@+id/govtIdET"
+                        android:layout_width="300dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="@dimen/margine_20"
+                        android:background="@drawable/edittext_background_white"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:hint="@string/enter_id_et"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/noAadhaarLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margine_10"
+                        android:text="@string/no_family_id"
+                        android:textColor="@color/textSearch" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/family_id_photo" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/beneficiaryPhotoIV"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:background="@drawable/edittext_background_white" />
+
+
+                    <Button
+                        android:id="@+id/captureImageBT"
+                        android:layout_width="150dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margine_20"
+                        android:background="@drawable/rounded_shape_yello_button"
+                        android:padding="@dimen/margine_10"
+                        android:text="@string/upload"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margine_10">
+
+
+                    <TextView
+                        android:id="@+id/memberNameTV"
+                        android:layout_width="300dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_white"
+                        android:imeOptions="actionNext"
+                        android:hint="@string/familyMemberName"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/add_icon"
+                        android:layout_marginLeft="@dimen/margine_20"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true">
+
+
+
+
+        <Button
+            android:id="@+id/verifyFamilyBT"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/margine_20"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:padding="@dimen/margine_10"
+            android:text="@string/verify"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size" />
+
+        <Button
+            android:id="@+id/addfamilyCardBT"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="@dimen/margine_10"
+            android:layout_toLeftOf="@+id/saveBT"
+            android:layout_marginBottom="@dimen/margine_20"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:padding="@dimen/margine_10"
+            android:text="@string/add_card"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size" />
+    <Button
+        android:id="@+id/saveBT"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+    android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/margine_20"
+        android:background="@drawable/rounded_shape_yello_button"
+        android:padding="@dimen/margine_10"
+        android:text="@string/save_preview"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size" />
+
+
+</RelativeLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>
+

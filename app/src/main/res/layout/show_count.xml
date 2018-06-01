@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/countPopUpLayoutwidthMargin"
+            android:layout_marginRight="@dimen/countPopUpLayoutwidthMargin"
+            android:orientation="vertical"
+            android:padding="@dimen/countPopUpLayoutPadding">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/countPopUpHeaderPadding"
+                android:text="Total no.of member and house hold count."
+                android:textColor="@color/black"
+                android:textSize="@dimen/countPopUpHeaderTextSize" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_background_gray"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                        android:text="@string/seccHousholdCount"
+                        android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+                    <TextView
+                        android:id="@+id/seccHouseholdCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                        android:paddingLeft="10dp"
+                        android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/countPopUpLayoutEditLayoutMarginTop"
+                    android:background="@drawable/button_background_gray"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                        android:text="@string/seccMemberCount"
+                        android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+                    <TextView
+                        android:id="@+id/seccMemberCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                        android:paddingLeft="10dp"
+                        android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/countPopUpLayoutEditLayoutMarginTop"
+                    android:background="@drawable/button_background_gray"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                        android:text="@string/rsbyHousholdCount"
+                        android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+                    <TextView
+                        android:id="@+id/rsbyHouseholdCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                        android:paddingLeft="10dp"
+                        android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/countPopUpLayoutEditLayoutMarginTop"
+                    android:background="@drawable/button_background_gray"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                        android:text="@string/rsbyMemberCount"
+                        android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+                    <TextView
+                        android:id="@+id/rsbyMemberCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:padding="@dimen/countPopUpLayoutEdittextPadding"
+                        android:paddingLeft="10dp"
+                        android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/proceedBT"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/countPopUpLayoutButtonHeight"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="@dimen/countPopUpLayoutEditLayoutMarginTop"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background_orange_ehit"
+                    android:text="@string/proceed"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+                <Button
+                    android:id="@+id/cancelBT"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/countPopUpLayoutButtonHeight"
+                    android:layout_marginTop="@dimen/countPopUpLayoutEditLayoutMarginTop"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background_orange"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+
+                    android:textColor="@color/yellow_dark"
+                    android:textSize="@dimen/countPopUpLayoutTextSize" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <!--  </android.support.v7.widget.CardView>-->
+    </ScrollView>
+</LinearLayout>

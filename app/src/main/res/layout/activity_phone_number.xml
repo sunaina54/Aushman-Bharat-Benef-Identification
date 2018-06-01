@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.activity.PhoneNumberActivity">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            style="@style/label"
+            android:text="@string/mobile_number"
+            android:textColor="@color/blue"
+          />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <AutoCompleteTextView
+                android:id="@+id/mobileNumberET"
+                style="@style/blueBorderEditText"
+                android:layout_width="0dp"
+                android:textSize="16sp"
+                android:layout_height="40dp"
+                android:layout_weight="1.8"
+                android:hint="@string/mobile_number_hint"
+                android:inputType="number"
+                android:maxLength="10" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight=".3">
+
+                <ImageView
+                    android:id="@+id/verifiedIV"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/right_tick"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/rejectedIV"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cancel"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/pendingIV"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/exclamation"
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:text="@string/whose_mobile"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_size_13sp" />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_shape_edittext">
+
+            <Spinner
+                android:id="@+id/whoseMobileNoSP"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/margine_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:visibility="visible"
+                android:id="@+id/consentCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/aadhar_consent_check" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mobileValidateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/margine_5"
+            android:padding="5dp"
+            android:visibility="visible"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/validateMobileOTPBT"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/button_background_orange_ehit"
+                android:text="Validate Mobile"
+                android:textAllCaps="false"
+                android:textColor="@color/white_shine" />
+
+            <Button
+                android:id="@+id/validateViaSmsBT"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/button_background_orange"
+                android:text="@string/validateSms"
+                android:textAllCaps="false"
+                android:textColor="@color/yellow_dark" />
+
+            <Button
+                android:id="@+id/validateLaterBT"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="0.33"
+                android:background="@drawable/button_background_orange"
+                android:text="@string/validateLater"
+                android:textAllCaps="false"
+                android:textColor="@color/yellow_dark"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submitBT"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white_shine"
+            android:textSize="@dimen/text_size_15sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</RelativeLayout>

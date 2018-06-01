@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/head"
+    android:background="@color/sky_shign" android:layout_height="50dp">
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="25dp"
+        android:layout_centerVertical="true"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:src="@drawable/back_icon"
+        android:layout_marginRight="10dp"
+     android:layout_marginLeft="15dp"
+
+        android:visibility="visible"
+        android:layout_alignParentLeft="true"/>
+    <TextView
+        android:id="@+id/centertext"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:paddingLeft="40dp"
+        android:paddingRight="20dp"
+        android:textColor="@color/white"
+        android:text="@string/adharverificatin"
+        android:textSize="18dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

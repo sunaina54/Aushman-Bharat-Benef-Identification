@@ -1,0 +1,70 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.fragments.URNListFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_margin="2dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:background="@drawable/edit_text_border"
+                android:layout_height="wrap_content">
+                <EditText android:id="@+id/searchErrorMembersET"
+                    android:visibility="visible"
+                    android:layout_margin="2dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.7"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:background="@android:color/transparent"
+                    android:textSize="@dimen/text_size_15sp"
+                    android:imeOptions="actionDone"
+                    android:hint="@string/search"
+                    />
+                <RelativeLayout
+                    android:id="@+id/searchRSBY"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".3">
+                    <ImageView
+                        android:layout_centerInParent="true"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/search_black"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/urnList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+        </LinearLayout>
+        <Button
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/downLoadAllUrn"
+            android:textAllCaps="false"
+            android:text="@string/downloadAll"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="@color/white"
+            android:layout_width="300dp"
+            android:textSize="@dimen/text_size_15sp"
+            android:padding="2dp"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:layout_marginRight="1dp"
+            android:layout_height="40dp"/>
+    </RelativeLayout>
+
+
+
+</FrameLayout>

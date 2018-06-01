@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nhpm">
+
+    <uses-feature android:name="android.hardware.usb.host" />
+
+    <!--     <uses-permission android:name="android.permission.sec.MDM_APP_MGMT" /> -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- <uses-permission android:name="android.permission.sec.MDM_HW_CONTROL" /> -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <meta-data
+        android:name="com.google.android.safetynet.ATTEST_API_KEY"
+        android:value="@string/api_key" />
+
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <!-- android:name=".MyApplication" -->
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/nhps_logob"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@style/myTheme">
+        <activity
+            android:name=".activity.SplashNhps"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/splashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.BlockDetailActivity"
+            android:label="@string/title_activity_add_member"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <receiver
+            android:name=".WifiReceiver"
+            android:enabled="true"
+            android:label="ConnectivityActionReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".EditHitfromLocal" />
+
+        <!--
+        <receiver
+            android:name="com.SamsungKnox.SampleAdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN" >
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_receiver" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.SamsungKnox.KIOSKReceiver" >
+            <intent-filter>
+                <action android:name="edm.intent.action.disable.kiosk.mode.result" />
+                <action android:name="edm.intent.action.enable.kiosk.mode.result" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.SamsungKnox.SampleLicenseReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="edm.intent.action.license.status" />
+            </intent-filter>
+        </receiver>
+        -->
+
+        <activity
+            android:name=".activity.SearchOptionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+        <activity
+            android:name=".activity.BaseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.PhoneNumberActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activity.HealthSchemeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activity.SeccMemberDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.GovermentIDCaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustNothing" />
+        <activity
+            android:name=".activity.WithAadhaarActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.PhotoCaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".PrintCard.PrintRSBYCard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.AppUpdateActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.SyncPreviewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.MemberPreviewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.ChangePinActivity"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activity.SetPinActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PinLoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activity.NHPSMemberActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".backgroundService.VerifyAadhaarService"
+            android:exported="false" />
+        <service
+            android:name=".backgroundService.VerifyRsbyURNService"
+            android:exported="false" />
+
+        <activity
+            android:name=".activity.ChooseHeadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChooseNewHeadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SyncHouseholdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ErrorMemberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AssignedLocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NomineeCaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.SeccMemberListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DownloadedListActvity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.SearchActivityWithHouseHold"
+            android:screenOrientation="portrait"
+            android:theme="@style/myTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".CameraUtils.barcode.BarcodeCaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".CameraUtils.squarecamera.CameraActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.CaptureAadhaarActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".PrintCard.PrintCardMainActivity"
+            android:screenOrientation="portrait">
+
+            <!--
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".rsbyFieldValidation.RsbhyHealthSchemeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyAadharCaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyGovermentIdCaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyMobileNumberCaptureActitivty"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyNomineeCaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyPhotoCaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyValidationWithAadharActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyPreviewScreenActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <!--
+            <activity
+            android:name=".CameraUtils.squarecamera.RuntimePermissionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        -->
+        <!--
+        <receiver
+            android:name=".Utility.SmsReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        -->
+
+        <activity
+            android:name=".rsbyFieldValidation.RsbyMainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyMemberDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyMemberPreviewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbyCardDataPreview"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <service
+            android:name=".backgroundService.SyncService"
+            android:exported="false" />
+        <service
+            android:name=".backgroundService.RsbySyncService"
+            android:exported="false" />
+
+        <activity
+            android:name=".rsbyFieldValidation.RsbyChooseNewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbySyncHouseholdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".rsbyFieldValidation.RsbySyncErrorActivity"
+            android:screenOrientation="portrait" />
+
+
+
+        <!--
+            <activity
+            android:name=".RsbyFieldValidation.RsbyCardDataPreview"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        -->
+        <!--
+            <activity
+            android:name=".activity.GovermentIdCapturingNavigation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        -->
+        <activity
+            android:name=".rsbyFieldValidation.RsbyCardReadingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.GovermentIdCapturingNavigation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.ExitActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <!--
+             <activity
+             android:name=".activity.NonAdharLoginActivity"
+             android:screenOrientation="portrait"
+             android:windowSoftInputMode="stateHidden" />
+        -->
+        <activity
+            android:name=".activity.AppConfigActivity"
+            android:label="@string/title_activity_app_config" />
+        <activity
+            android:name=".activity.CaptureAadharDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FamilyListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="in.kdms.irislib.IRISCaptureActivity"
+            android:screenOrientation="portrait" />
+        <!--
+            <activity
+            android:name=".activity.OptionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        -->
+        <activity
+            android:name=".activity.EkycActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.DemoAuthActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.FingerprintResultActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".activity.SignUpActivity"></activity>
+        <activity
+            android:name=".activity.SearchDashboardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".activity.FamilyMembersListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".activity.CollectDataActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+
+        <activity
+            android:name=".activity.FindBeneficiaryByNameActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+
+
+
+    </application>
+
+</manifest>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.nhpm.activity.HealthSchemeActivity">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header_layout" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/header"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/urnNumberLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    android:text="@string/RSBYurnNo"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_13sp" />
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/rsbyURNNoET"
+                        style="@style/blueBorderEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:hint="@string/urn_hint"
+                        android:inputType="number"
+                        android:maxLength="17"
+                        android:textSize="@dimen/text_size_12sp" />
+
+                    <Button
+                        android:id="@+id/updateDetailBT"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight=".5"
+                        android:background="@drawable/rounded_shape_yello_button"
+                        android:text="@string/validatee"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white_shine"
+                        android:textSize="@dimen/text_size_15sp"
+                        android:visibility="gone" />
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
+                        android:layout_weight=".3"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/bankVerifiedIV"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/right_tick"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/bankRejectedIV"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/cancel"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/bankPendingIV"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/exclamation"
+                            android:scaleType="fitXY"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sstateHealthSchemeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/stateHealthSchmName"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_13sp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:id="@+id/schemeLayout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.33"
+                        android:orientation="vertical"
+                        android:padding="2dp"
+                        android:visibility="visible"
+                        android:weightSum="1">
+
+                        <CheckBox
+                            android:id="@+id/schemeCheckBox1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight=".4"
+                            android:textColor="@color/blue" />
+
+
+                        <EditText
+                            android:id="@+id/schemeEditText1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="8dp"
+                            android:layout_weight="0.6"
+                            android:background="@drawable/edit_text_border"
+                            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ :-/\\\."
+                            android:enabled="false"
+                            android:hint="@string/provideStateHealthSchemeId"
+                            android:inputType="text"
+                            android:maxLength="50"
+                            android:paddingLeft="10dp"
+                            android:textSize="@dimen/text_size_12sp" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/schemeLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.33"
+                        android:orientation="vertical"
+                        android:padding="2dp"
+                        android:visibility="gone"
+                        android:weightSum="1">
+
+                        <CheckBox
+                            android:id="@+id/schemeCheckBox2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight=".4"
+                            android:textColor="@color/blue" />
+
+
+                        <EditText
+                            android:id="@+id/schemeEditText2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="8dp"
+                            android:layout_weight="0.6"
+                            android:background="@drawable/edit_text_border"
+                            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ :/\\\."
+                            android:enabled="false"
+                            android:hint="@string/provideStateHealthSchemeId"
+                            android:inputType="text"
+                            android:maxLength="50"
+                            android:paddingLeft="10dp"
+                            android:textSize="@dimen/text_size_12sp" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/schemeLayout3"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.33"
+                        android:orientation="vertical"
+                        android:padding="2dp"
+                        android:visibility="gone"
+                        android:weightSum="1">
+
+                        <CheckBox
+                            android:id="@+id/schemeCheckBox3"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight=".4"
+                            android:textColor="@color/blue" />
+
+
+                        <EditText
+                            android:id="@+id/schemeEditText3"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="8dp"
+                            android:layout_weight="0.6"
+                            android:background="@drawable/edit_text_border"
+                            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ :/\\\."
+                            android:enabled="false"
+                            android:hint="@string/provideStateHealthSchemeId"
+                            android:inputType="text"
+                            android:maxLength="50"
+                            android:paddingLeft="10dp"
+                            android:textSize="@dimen/text_size_12sp" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ssstateHealthSchemeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/stateHealthSchmName"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/square_shape_textview"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/healthSchemeNameSP"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="2dp"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/stateHealthNameET"
+                    style="@style/blueBorderEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="2dp"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ :/\\\."
+                    android:enabled="true"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/stateHealthSchemeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="@string/stateHealthSchemeId"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/text_size_13sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <EditText
+                            android:id="@+id/stateHealthIdET"
+                            style="@style/blueBorderEditText"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1.7"
+                            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ :/\\\."
+                            android:enabled="true"
+                            android:inputType="text"
+                            android:maxLength="50"
+                            android:textSize="@dimen/text_size_12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_weight=".3">
+
+                            <ImageView
+                                android:id="@+id/bankVerifiedIVc"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/right_tick"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/bankRejectedIVc"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/cancel"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/bankPendingIVc"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/exclamation"
+                                android:scaleType="fitXY"
+                                android:visibility="gone" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/validateHealthIdET"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="3dp"
+                    android:background="@drawable/rounded_shape_yello_button"
+                    android:text="@string/valdteHealthSchemeId"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white_shine"
+                    android:textSize="@dimen/text_size_15sp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:background="@color/green"
+                        android:gravity="center"
+                        android:text="@string/verified"
+                        android:textColor="@color/white_shine" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:background="@color/red"
+                        android:gravity="center"
+                        android:text="@string/notVerified"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/submitBT"
+                style="@style/button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:text="@string/submit" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

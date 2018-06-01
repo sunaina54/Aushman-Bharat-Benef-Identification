@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/authOtpTV"
+    android:textColor="@color/red"
+
+    android:layout_gravity="center_horizontal"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp">
+
+
+            <EditText
+                android:id="@+id/recievedMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_background_gray_corner"
+                android:gravity="center"
+                android:hint="@string/enterOtp"
+                android:inputType="number"
+                android:maxLength="5"
+                android:padding="15dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/confirm"
+
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight=".66"
+                android:background="@drawable/button_background_gray"
+                android:text="@string/Confirm_Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/gray"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/resendBT"
+
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight=".66"
+                android:background="@drawable/edittext_background_gray_corner"
+                android:text="@string/Resend"
+                android:textAllCaps="false"
+                android:textColor="@color/gray"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/cancelBT"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight=".66"
+                android:background="@drawable/button_background_orange_ehit"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/timmerTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+
+            android:textColor="@color/black_shine" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,65 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nhpm.fragments.MemberErrorFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/searchMemberET"
+                android:visibility="gone"
+                android:layout_margin="2dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="35dp"
+                android:inputType="text"
+                style="@style/blueBorderEditText"
+                android:textStyle="italic"
+                android:textSize="@dimen/text_size_12sp"
+                android:imeOptions="actionDone"
+                android:hint="@string/searchbyMembr"/>
+            <TextView
+                android:visibility="gone"
+                android:layout_width="0dp"
+                style="@style/textView"
+                android:gravity="right"
+                android:layout_gravity="center_vertical"
+                android:text="@string/sortBy"
+                android:textSize="@dimen/text_size_12sp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".25"/>
+            <LinearLayout
+                android:id="@+id/sortLayout"
+                android:layout_marginRight="1dp"
+                android:layout_margin="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                style="@style/blueBorderEditText"
+                android:layout_height="35dp">
+                <Spinner
+                    android:id="@+id/sortSP"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/errorMemberList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+</FrameLayout>

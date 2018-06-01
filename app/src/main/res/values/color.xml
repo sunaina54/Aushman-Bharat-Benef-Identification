@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">#1565C0</color>
+    <color name="primary_dark">#0D47A1</color>
+    <color name="acent">#1565C0</color>
+    <color name="orange">#f49a4a</color>
+    <color name="blue">#2C9CE6</color>
+    <color name="tiffiny_blue">#075CA9</color>
+    <color name="lite_blue">#ff11a3f1</color>
+
+    <color name="black">#000000</color>
+    <color name="tabsScrollColor">#0f7cc4</color>
+    <color name="red">#ff0000</color>
+    <!--<color name="green">#006400</color>-->
+    <color name="white">#ffffff</color>
+    <color name="l_blue">#3E8AC7</color>
+    <color name="gray">#dddddd</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="textbordercolor">#1B555C57</color>
+    <color name="texthintcolor">#f0ffff</color>
+    <color name="edittextlinecolor">#f0f8ff</color>
+    <color name="purpal">#8b008b</color>
+    <color name="themecolor">#0087e1</color>
+    <color name="fontcolor">#808080</color>
+    <color name="yellow">#f0f019</color>
+    <color name="yellow_dark">#E28301</color>
+    <color name="sky_shign">#16D4C9</color>
+    <color name="red_login_label">#980000</color>
+    <!--
+        <color name="sky_shign">#ED1B24</color>
+    -->
+
+
+    <color name="white_shine">#FFFFFF</color>
+    <color name="black_shine">#141414</color>
+    <color name="edit_text_border">#dddddd</color>
+    <color name="login_edit_text">#f3f3f3</color>
+    <color name="green">#008A00</color>
+    <color name="dark_grey">#E4E4E4</color>
+
+
+    <color name="gray_transparent">#320DABB7</color>
+
+    <color name="sp_bg_color">#ffffff</color>
+    <color name="Bg_color">#2d3f51</color>
+    <color name="Bg_btn_color_lte">#465564</color>
+
+    <color name="Bg_btn_color_stroke">#273e54</color>
+    <color name="Bg_btn_color">#435a71</color>
+    <color name="Bg_bal_color_lte">#02b154</color>
+    <color name="Bg_bal_color_stroke">#048b43</color>
+    <color name="Bg_bal_color">#06b658</color>
+    <color name="Bg_view_color">#e7e1e1</color>
+    <color name="Bg_nhps_header">#ff9933</color>
+    <color name="Bg_nhps_bottom">#099330</color>
+    <color name="tab_color">#2f4f4f</color>
+
+    <color name="Bg_nhps">#FFFFFF</color>
+
+
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    //STATUS COLOR
+    <color name="sync_color">#9e7442</color>
+    <color name="validated_color">#099330</color>
+    <color name="under_survey_color">#808080</color>
+    <color name="yet_to_survey_color">#E28301</color>
+    <color name="locked_color">#E97451</color>
+
+    <color name="member_status_color">#0087e1</color>
+    <color name="head_status_color">#0087e1</color>
+
+
+    <color name="background_color">#dfe3ee</color>
+
+    <color name="scaning_background">#cdd5f0</color>
+    <color name="scan_bg_color">#04a0be</color>
+
+    <color name="textColorPrimary">#FFFFFF</color>
+<color name="textSearch">#0000ff</color>
+    <color name="darkGrey">#999999</color>
+    <color name="family_bg">#EEEEEE</color>
+    <color name="red_label">#E03600</color>
+
+</resources>

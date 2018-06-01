@@ -1,0 +1,70 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_margin="@dimen/margine_30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_margin="@dimen/margine_15"
+            android:textSize="@dimen/font_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvSelectState"
+            android:textColor="@color/black"
+            android:text="@string/selectState"
+            android:visibility="gone"
+            android:layout_gravity="center"
+
+            />
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_shape_edittext">
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/margine_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/submitStateItem"
+                android:text="@string/submitStateItem"
+                android:textSize="@dimen/font_size"
+                android:paddingLeft="@dimen/margine_15"
+                android:paddingRight="@dimen/margine_15"
+
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/disableKiosMode"
+        android:text="Disable Kiosk "
+        android:visibility="gone"
+        android:layout_gravity="center"
+
+        />
+</LinearLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <dimen name="countPopUpHeaderTextSize">15sp</dimen>
+    <dimen name="countPopUpHeaderPadding">8dp</dimen>
+    <dimen name="countPopUpLayoutPadding">15dp</dimen>
+    <dimen name="countPopUpLayoutEdittextPadding">5dp</dimen>
+    <dimen name="countPopUpLayoutTextSize">13sp</dimen>
+    <dimen name="countPopUpLayoutEditLayoutMarginTop">10dp</dimen>
+    <dimen name="countPopUpLayoutButtonHeight">30dp</dimen>
+    <dimen name="countPopUpLayoutwidthMargin">20dp</dimen>
+</resources>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    android:padding="5dp">
+    <LinearLayout
+        android:id="@+id/notificationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/headerMainLayout"
+        android:background="#000"
+        android:visibility="gone">
+
+        <WebView
+            android:id="@+id/notificationWebview"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/firstLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="30dp"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/firstLayoutBackButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/back_btn_black" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/haveYouEnrolled"
+            android:textColor="@color/black_shine"
+            android:textSize="20sp"
+
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/aadharEnrollYes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_background_orange_ehit"
+                android:padding="5dp"
+                android:text="@string/yes"
+                android:textColor="@color/white" />
+
+
+            <Button
+                android:id="@+id/aadharEnrollNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_background_orange"
+                android:padding="5dp"
+                android:text="@string/no"
+                android:textColor="@color/yellow_dark" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mobileNoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="30dp"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/mobileNoLayoutBackButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/back_btn_black" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/provideMobileNo"
+            android:textColor="@color/black_shine"
+            android:textSize="18sp"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/uaidiWillCall"
+            android:textColor="@color/black_shine"
+            android:textSize="13sp"
+
+            />
+
+        <EditText
+            android:id="@+id/captureMobileET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/edittext_background_gray_corner"
+            android:digits="1234567890"
+            android:hint="@string/enterMob"
+            android:inputType="number"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:padding="10dp" />
+
+
+        <Button
+            android:id="@+id/submitMobileNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/button_background_orange_ehit"
+            android:padding="5dp"
+            android:text="@string/Confirm_Submit"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/EidCaptureLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="30dp"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/EidCaptureLayoutBackButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/back_btn_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enterenrolId"
+                android:textColor="@color/black_shine"
+                android:textSize="18sp"
+                android:layout_marginLeft="20dp"/>
+        </LinearLayout>
+
+        <!--<EditText
+            android:id="@+id/captureEidET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/edittext_background_gray_corner"
+            android:hint="Enter your EID"
+            android:padding="10dp" />-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+
+            <LinearLayout
+
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:weightSum="1"
+                android:gravity="center_horizontal">
+            <com.github.pinball83.maskededittext.MaskedEditText
+                android:id="@+id/captureEidET"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/edittext_background_gray_corner"
+                android:hint="@string/enterEID"
+                android:inputType="number"
+
+                android:singleLine="true"
+                android:padding="10dp"
+                app:mask="****/*****/*****"
+                app:notMaskedSymbol="*"
+                android:nextFocusDown="@+id/captureEidTimeStampET"
+
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ex: (1234/12345/12345)"/>
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="1"
+                    android:gravity="center_horizontal">
+
+                    <com.github.pinball83.maskededittext.MaskedEditText
+                        android:id="@+id/captureEidTimeStampET"
+                        android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/edittext_background_gray_corner"
+                        android:hint="@string/enterEID"
+                        android:inputType="number"
+                        android:padding="10dp"
+                        app:mask=" **/**/**** **:**:**"
+
+                        app:notMaskedSymbol="*"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/syntax"/>
+                </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submitEid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/button_background_orange_ehit"
+            android:padding="5dp"
+            android:text="@string/Confirm_Submit"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+</LinearLayout>

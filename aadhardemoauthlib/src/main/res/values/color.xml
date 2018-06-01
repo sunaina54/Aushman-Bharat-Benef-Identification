@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="black">#000000</color>
+    <color name="background_color">#dfe3ee</color>
+    <color name="white">#ffffff</color>
+    <color name="scaning_background">#cdd5f0</color>
+    <color name="scan_bg_color">#04a0be</color>
+    <color name="green">#008744</color>
+    <color name="red">#d62d20</color>
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+
+</resources>

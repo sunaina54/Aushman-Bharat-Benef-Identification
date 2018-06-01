@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">AadharDemoAuth</string>
+    <string-array name="pi_gender">
+        <item>Gender </item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Transgender</item>
+    </string-array>
+
+    <string name="invalid_device">Unauthorized Device</string>
+    <string name="scan_your_fingure">Scan your Finger : </string>
+    <string name="fingure_scan_time_up">Finger Scan Time up</string>
+    <string name="network_not_available">Network not Available</string>
+    <string name="unable_to_get_server_response">Unable to get Server Response</string>
+
+</resources>

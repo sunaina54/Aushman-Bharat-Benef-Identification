@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".DemoAuth"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/etAadhaar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Enter Aadhar No"
+        android:inputType="phone"
+        android:maxLength="12"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="Name"
+        android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <TextView
+            android:id="@+id/tv_Dob"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Date of birth"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+
+        <EditText
+            android:id="@+id/et_dobY"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:hint="YYYY"
+            android:inputType="number"
+            android:maxLength="4"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_dobM"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:hint="MM"
+            android:inputType="number"
+            android:maxLength="2"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_dobD"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:hint="DD"
+            android:inputType="number"
+            android:maxLength="2"
+            android:textSize="18sp" />
+        </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner_gender"
+        android:layout_width="fill_parent"
+        android:padding="3dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/pi_gender" />
+
+    <Button
+        android:id="@+id/btn_auth"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Auth"
+        android:textSize="20sp" />
+    </LinearLayout>

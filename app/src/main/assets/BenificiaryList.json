@@ -1,0 +1,48 @@
+{
+	"beneficiaryList": [{
+			"rashancardNo": "123456789012345",
+			"mobileNo": "8123456789",
+			"ahlTin": "12345678901234567890123456789",
+			"urnNo": "12345678901234567",
+			"Name": "Raj",
+			"FatherName": "Shyam Kumar",
+			"Gender": "M",
+			"Age": "20",
+			"Address": "Delhi"
+		},
+		{
+			"rashancardNo": "123456789012345",
+			"mobileNo": "8123456789",
+			"ahlTin": "12345678901234567890123456789",
+			"urnNo": "12345678901234567",
+			"CardType": "RSBY URN",
+			"Name": "Geeta",
+			"FatherName": "Shyam Kumar",
+			"Gender": "F",
+			"Age": "18",
+			"Address": "Delhi"
+		},
+		{
+			"rashancardNo": "123456789012345",
+			"mobileNo": "8123456789",
+			"ahlTin": "12345678901234567890123456789",
+			"urnNo": "12345678901234567",
+			"Name": "Ram",
+			"FatherName": "Shyam Kumar",
+			"Gender": "M",
+			"Age": "21",
+			"Address": "Delhi"
+		},
+		{
+			"rashancardNo": "123456789012345",
+			"mobileNo": "8123456789",
+			"ahlTin": "12345678901234567890123456789",
+			"urnNo": "12345678901234567",
+			"Name": "Jack",
+			"FatherName": "Shyam Kumar",
+			"Gender": "M",
+			"Age": "20",
+			"Address": "Delhi"
+		}
+	]
+}

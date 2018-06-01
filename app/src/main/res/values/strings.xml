@@ -1,0 +1,1038 @@
+<resources>
+
+
+    <!--LOGIN SCREEN-->
+    <string name="locationNotAllocate">No location allocated</string>
+    <string name="nhps_logo">Pradhan Mantri-Rashtriya Swasthya Suraksha Mission</string>
+    <string name="nhps_logo_govt">Government of India</string>
+    <string name="nhps_logo_mohfw">Ministry of Health and Family Welfare</string>
+    <string name="nhps_cp">Copyright © 2016 NATIONAL INFORMATICS CENTRE</string>
+    <string name="login_ekyc_check">Please check the EKYC consent to proceed further.</string>
+    <string name="offline_login_bt">Login with PIN</string>
+    <string name="not_register_yet">Not Registered Yet</string>
+    <string name="internet_connection_msg">No internet connection found.</string>
+    <string name="server_error">Could not connect to server</string>
+    <string name="slow_internet_connection_msg">Sorry,it seems like slow internet connection or server is not responding.</string>
+    <string name="loginWithAdhar">Login with Aadhaar OTP</string>
+    <string name="app_name">NHPM-FVS-NEW</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_get_data">GetDataActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_memberlist">MemberlistActivity</string>
+    <string name="title_activity_member_detail">MemberDetailActivity</string>
+    <string name="title_activity_edit_member_detail">EditMemberDetailActivity</string>
+    <string name="title_activity_add_member">AddMemberActivity</string>
+    <string name="launcher_screen_label">PM-RSSM Beneficiary Identification</string>
+    <string name="adhar_hint">Enter your 12-digit Aadhaar</string>
+    <string name="login_hint">Login with OTP </string>
+    <string name="verifier_login">Surveyor Login</string>
+    <string name="login">Login</string>
+    <string name="please_wait">Please wait ...</string>
+    <string name="welcomeTo">Welcome To</string>
+    <string name="version">Version : </string>
+    <string name="pleaseWait">Please Wait..</string>
+    <string name="unableToConnectUIDAI">Unable To Connect from UIDAI Server, Please try again.</string>
+    <string name="releaseDate">Release Date : </string>
+    <string name="pleaseDownloadEb">Please download enumeration block data.</string>
+    <string name="checkinUpdateVersion">Please wait checking update version...</string>
+    <string name="pleaseEnterAadhaar">Please enter Aadhaar Number</string>
+    <string name="pleaseConnectInternet">Please connect your device to internet.</string>
+    <string name="dataNotDownload">Data is not downloaded. Please download data to start validation</string>
+    <string name="enterValidAadhaar">Please enter valid Aadhaar Number.</string>
+    <string name="ebNotMaching">Your enumeration block data is not matching with the downloaded data stored in the device.</string>
+    <string name="pleaseEnterAadharOtp">Please enter OTP sent on your Aadhaar registered mobile number </string>
+    <string name="nhpsFieldValidationSystem">NHPS Field Validation System.</string>
+    <string name="loginConsent">I have no objection to provide my Aadhaar number for fetching know your customer(KYC) data from UIDAI database</string>
+    <string name="checking_device_registraion">Checking device registration, Please wait..</string>
+    <string name="checking_device">Device Authentication</string>
+    <string name="updated_version_msg">Updated version is available. Please download and update the application.</string>
+    <string name="device_auth_check_msg">Your device (IMEI1: 123456,IMEI2: 7654322) is not registerd with NHPS Field Verification System</string>
+    <string name="auth_option_label">Choose one of the below option to authenticate aadhaar from UIDAI</string>
+    <string name="bio_metric_option">Biometric</string>
+    <string name="sms_otp_option">SMS OTP</string>
+    <string name="invalid_otp">Invalid OTP</string>
+    <string name="otp_lable_title">Register With</string>
+    <string name="otp_msg_forEsign">Please enter OTP sent by the UIDAI in your Aadhaar registerd mobile number for eSign</string>
+    <string name="confirm_eSign_process">Here we have got your eSign, Please confirm for verified member signing process</string>
+    <string name="alloted_location">Selected Location for verification.</string>
+    <string name="state_name">State</string>
+    <string name="district_name">District</string>
+    <string name="tehsil">Sub district.</string>
+    <string name="village">Village/Town</string>
+    <string name="ward">Ward</string>
+    <string name="nameTitme">Name</string>
+    <string name="codeTitle">Code</string>
+    <string name="houseSearchTag">Enter Head of the Family Name</string>
+    <string name="alloted_screen_header">Home</string>
+    <string name="serachHouseNumber">Enter your search text</string>
+    <string name="search_head_name">Enter Member name to search house</string>
+    <string name="search_start_digit_aadhaar">Enter Aadhaar number to search house</string>
+    <string name="search_family_member">Search Household By Member name</string>
+    <string name="search_aadhaar_number">Search Household By Aadhaar Number</string>
+    <string name="search">Search</string>
+    <string name="search_by_aadhaar">Search household by Aadhaar Number</string>
+    <string name="search_by_member_name">Search household by Member Name</string>
+    <string name="searchHouseNumber">Search Household</string>
+    <string name="search_options">Search Family by member name,Household No. or Aadhaar No.</string>
+    <string name="search_popup_msg">Selected House Details.</string>
+    <string name="house_member_list">House Member List</string>
+    <string name="send_offline_date">Get Offline Updated Members</string>
+    <string name="updated_member">Get Updated Members</string>
+    <string name="get_member_by_urn">Get Members by URN</string>
+    <string name="esign_verified">Sign Verified Member</string>
+    <string name="edit_member_detail">Update</string>
+    <string name="english_name">Name in english</string>
+    <string name="regional_name">Name in Regional Language</string>
+    <string name="english_father_name">Father\'s Name in English</string>
+    <string name="regional_father_name">Father\'s Name in Regional Language</string>
+    <string name="english_mother_name">Mother\'s Name in English</string>
+    <string name="regional_mother_name">Mother\'s Name in Regional Language</string>
+    <string name="english_relation">Relationship with Head of the Family in English</string>
+    <string name="regional_relation">Relationship with Head of the Family in Regional Language</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="marital_status">Marital Status</string>
+    <string name="english_address">Address in English</string>
+    <string name="regional_address">Address in Regional Language</string>
+    <string name="disability_status">Disability Status</string>
+    <string name="cast_group">Caste/Tribal Group</string>
+    <string name="additonal_detail">Additional Detail</string>
+    <string name="aadhaar_number">Aadhaar Number</string>
+    <string name="aadhaar_name">Name as in Aadhaar</string>
+    <string name="aadhaar_enrolled_id">Enrolment ID of Aadhaar</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="branch_name">Branch Name</string>
+    <string name="ifsc_code">IFSC Code</string>
+    <string name="account_number">Enrolment ID of Aadhaar</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="govt_photo_idcard_type">Government Photo ID card Type</string>
+    <string name="govt_photo_id_number">Government Photo ID Card Number</string>
+    <string name="govt_scan_image">Scanned Image of Government Photo ID card</string>
+    <string name="urn_rsby">URN Number of RSBY</string>
+    <string name="rsby_verify">Verify from RSBY</string>
+    <string name="beneficiary_photo">Photo of Beneficiary</string>
+    <string name="verify_mobile">Verify Mobile</string>
+    <string name="other_aadhaar_detail">Other Aadhaar Detail</string>
+    <string name="aadhar_dob">Date Of Birth</string>
+    <string name="aadhar_gender">Gender</string>
+    <string name="aadhar_phone">Phone</string>
+    <string name="aadhar_email">Email</string>
+    <string name="aadhar_address">Address</string>
+    <string name="aadhar_care_of">Care Of</string>
+    <string name="aadhar_house">House</string>
+    <string name="aadhar_street">Street</string>
+    <string name="land_mark">Land Mark</string>
+    <string name="location">Location</string>
+    <string name="vill_town_city">Vill/Town/City</string>
+    <string name="sub_district">Sub District</string>
+    <string name="district">District</string>
+    <string name="state">State</string>
+    <string name="pincode">Pin Code</string>
+    <string name="post_office">Post Office</string>
+    <string name="rsby_member_details">Search</string>
+    <string name="urn_msg">Enter member URN to fetch detail from RSBY</string>
+    <string name="esign_msg">you are signing</string>
+    <string name="send_all">Send All</string>
+    <string name="send">Send</string>
+    <string name="eSign">eSign</string>
+    <string name="verified">Verified</string>
+    <string name="offline_list">Offline Updated List</string>
+    <string name="downloaded_block_msg">Download new Enumeration Block data</string>
+    <!--LOCATION SELECTED-->
+    <string name="complete_verified">Complete Verified Members</string>
+    <string name="partial_verified">Partial Verified Members</string>
+    <string name="signed_members">Signed Members</string>
+    <string name="updated_members_list">Updated Member List</string>
+    <string name="aadhar_not_register">Invalid IMEI number. Mobile device is not registered for field validation.</string>
+    <string name="mobileno_not_reg_with_adhar">Mobile number for this Aadhaar is not registered with UIDAI</string>
+
+    <string name="member_status_msg">Please select member status</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_tool_tip">1.Enter valid Aadhaar Number\n  -Press Login with otp to download and sync data\n2.Press login with pin to go for verification.</string>
+    <string name="invalid_login">Please enter valid Aadhaar Number.</string>
+    <string name="urn_hint">Enter 17-digit URN</string>
+
+    //HOME SCREEN
+    <string name="total_no_of_members">Total no of members-</string>
+
+
+    //CAPTURE PHONE NUMBER SCREEN
+    <string name="whose_mobile">Mobile number belongs to</string>
+    <string name="mobile_number_hint">Enter 10-digit mobile number</string>
+
+    //CAPTURE PHOTO SCREEN
+    <string name="photo_text">Please capture the photograph clearly showing the face of beneficiary</string>
+    <string name="photo_error_text">Face could not be detected, please capture the photograph clearly showing the face of beneficiary</string>
+
+    //MEMBER STATUS
+    <string name="yet_to_survey">Yet To Survey</string>
+    <string name="under_survey">Under Survey</string>
+    <string name="validated">Validated</string>
+    <string name="locked">Locked</string>
+    <string name="unlock">Unlock</string>
+    <string name="synced">Synced</string>
+    <string name="underValidation">Under Validation</string>
+
+    //SECC MEMBER DETAIL
+    <string name="locked_msg">You will not be able to edit the record any further. Are you sure?</string>
+
+    <string name="aadhaar_connect_error">Unable To Connect from UIDAI Server, Please try again. </string>
+
+    <string name="aadhaar_already_captured">Aadhaar has already been used, you may have problems while syncing.</string>
+    <string name="validator_adhaar_captured">You have entered verifier Aadhaar number.It may have problems while syncing.</string>
+    <string name="aadhaar_not_validate">You have not validated aadhar no,it may have problems while syncing</string>
+
+    <string name="ok">OK</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="squarecamera__app_name">SquareCamera</string>
+    <string name="squarecamera__action_settings">Settings</string>
+    <string name="squarecamera__start_image_capture">Take New Picture!</string>
+    <string name="squarecamera__capture_image">Snap It!</string>
+    <string name="squarecamera__save_image">Save</string>
+    <string name="squarecamera__cancel">Cancel</string>
+    <string name="squarecamera__swap_camera">Swap</string>
+    <string name="squarecamera__flash">Flash</string>
+    <string name="squarecamera__auto_flash">Auto Flash</string>
+    <string name="squarecamera__no_flash">No Flash</string>
+    <string name="squarecamera__recapture_image">Retake Picture</string>
+    <string name="squarecamera__capturing_image">Taking New Picture</string>
+    <string name="squarecamera__done">Done</string>
+    <string name="squarecamera__request_write_storage_permission_text">Approval is needed to save your photo on your device</string>
+    <string name="proceed_validation">Start Validation</string>
+    <string name="sync_household">Sync Household</string>
+    <string name="with_aadhaar1">(With Aadhaar)</string>
+    <string name="without_aadhaar">(Without Aadhaar)</string>
+    <string name="alert_for_reset">Surveyed data for the Household will be lost.Household will be moved to \'Pending Household\'</string>
+    <string name="alert_for_unlock">Household will be moved to \'Under Survey\'</string>
+    <string name="delete_eb">Delete EB</string>
+    <string name="minor_nominee_msg">Please select 18 year above nominee</string>
+
+
+    //Capture Adhaar Activity
+    <string name="radio_qrcode">QR code</string>
+    <string name="radio_manual">Manual</string>
+    <string name="name_as_aadhar">Name as in Aadhaar :</string>
+    <string name="name_as_sec">Name as SECC :</string>
+    <!--<string name="aadhar_confirmation_msg">Please confirm names as given above are of same person and consent of HOF/Member has been taken to use for NHPS</string>-->
+    <string name="aadhar_confirmation_msg">Please confirm names as given above are of same person.</string>
+    <string name="aadhar_not_readable">Not able to read QR code. Please capture Aadhar number manually</string>
+    <string name="aadhar_invalid_data">Aadhar contain invalid data please verify manually</string>
+    <string name="Confirm_Submit">Confirm</string>
+    <string name="Resend">Resend</string>
+    <string name="adhar_consent_msg">Please check the Aadhar consent to proceed further</string>
+    <string name="aadhar_consent_check">The beneficiary has no objection to provide his/ her aadhar details for the NHPS</string>
+
+    <string name="sync_cancel">Syncing interrupted</string>
+    // Execption handling msg
+    <string name="execption_handaling_on_downloading_data">Not able to download data because of invalid location/data format</string>
+
+    <string name="yet_to_validate">Yet to Validate</string>
+
+
+    <string name="name_as_rsby">Name as RSBY :</string>
+    <string name="rsbyconsent_text">This household/beneficiary have never enrolled through Secc.</string>
+    <string name="rsbycard_imported">RSBY card imported successfully. You may remove the device.</string>
+    <string name="rsbydatanotavailable">You can import RSBY Household from RSBY Card which is not included in SECC.</string>
+
+    // RSBY cardReader
+    <string name="cardRemovedError">RSBY card is removed/not inserted.</string>
+    <string name="cardRemovedMsg">Card Removed</string>
+    <string name="cardReadingPopupMsg">Do not detach reader</string>
+    <string name="Alert">Alert</string>
+    <string name="OK">OK</string>
+
+    <string name="noDeviceAttached">No card reader connected/USB port not able to power the card reader.</string>
+    <string name="deviceNotSupported">Device not supported.</string>
+    <string name="permissionDenied">Permission Denied.</string>
+    <string name="dublicateCard">URN number already exists.</string>
+    <string name="cardExpire">Card Expired.</string>
+    <string name="cardCategoryNotMatch">Card category does not matched.</string>
+    <string name="cardInvalidStateCode">State code in RSBY card not matching with SECC data.</string>
+    <string name="cardInvalidDistrictCode">District code in RSBY card not matching with SECC data.</string>
+    <string name="cardSavedSucess">RSBY Card imported successfully.</string>
+    <string name="cardReadedPreviewScreen">Please click import to save the record.</string>
+    <string name="invaliCardData">Invalid data.</string>
+    <string name="disconnectCard">Please disconnect the card reader.</string>
+
+
+    // Gov Id capturing Navigation
+    <string name="haveYouEnrolled">Has the beneficiary enrolled for Aadhaar</string>
+    <string name="provideMobileNo">Provide mobile number.</string>
+    <string name="uaidiWillCall">Beneficiary will be contacted soon for Aadhaar enrollment</string>
+    <string name="enterEid">Enter beneficiary EID.</string>
+    <string name="doYouHaveAnyGovId">Do beneficiary have any Government Id having member photo on it.</string>
+
+    /// Sync
+    <string name="validateAshaOtp">Validate through Asha OTP</string>
+
+    //
+    <string name="enterUrn">Enter URN number.</string>
+    <string name="invalid_urn">Invalid URN</string>
+    //
+    <string name="enterOtp">Please enter received OTP</string>
+
+
+    //to be converted to hindi.
+
+    <string name="appLanguage">Language</string>
+    <string name="UpdateApp">Update App</string>
+    <string name="pleaseConnectToInternet">Please connect your device to internet to logout.</string>
+    <string name="pleaseSelectEb">Please select enumeration block</string>
+    <string name="nhpsFieldValidation">PM-RSSM Benificiary Identification</string>
+    <string name="Delete">Delete</string>
+    <string name="uHave">You have</string>
+    <string name="deleteEbMsg">pending household. Your data will be lost after deleting. Are you sure you want to delete?</string>
+    <string name="tryAgain">Try Again</string>
+    <string name="deletingUnsyncHouseHold">Unsync households, please sync first.</string>
+    <string name="plzWaitDataDownloading">Please wait, Data is downloading..</string>
+    <string name="blockEmptyMsy">No household found in the selected enumeration block, Please select different enumeration block and try again...</string>
+    <string name="applicationSetUpMsg">Please wait, Application is being setup</string>
+    <string name="noHouseHoldAllotted">No household allotted for this Enumeration block please contact your supervisor</string>
+    <string name="dataSetuped">You are ready to start field validation.</string>
+    <string name="pleaseEnterEid">Please enter your EID.</string>
+    <string name="pleaseEnterValidEid">Please enter valid EID.</string>
+    <string name="pleaseEnterValidTime">Please enter valid timestamp.</string>
+    <string name="serverNotResponding">We are sorry, Server is not responding please try again</string>
+    <string name="configSetting">Please wait configuring settings...</string>
+    <string name="tryAgainMessage">Seems like slow internet connection</string>
+    <string name="urnNo">URN No. </string>
+    <string name="issueTimeStamp">Issued time stamp : </string>
+    <string name="hofName">HOF name : </string>
+    <string name="doorHouse">Door house : </string>
+    <string name="villageCode">Village code : </string>
+    <string name="blockCode">Block code : </string>
+    <string name="panchayatCode">Panchyat town code : </string>
+    <string name="districtCode">District code : </string>
+    <string name="stateCode">State code : </string>
+    <string name="endDate">End date : </string>
+    <string name="insuranceCompanyCode">Insurance Company : </string>
+    <string name="policyAmount">Policy amount : </string>
+    <string name="policyNo">Policy No. : </string>
+    <string name="startDate">Start date : </string>
+    <string name="cardCsn">Card CSN : </string>
+    <string name="cardType">Card type : </string>
+    <string name="cardCategory">Card category : </string>
+    <string name="cardRenew">Card renewed till : </string>
+    <string name="memberName">Member name : </string>
+    <string name="genderMale">Male</string>
+    <string name="genderFemale">Female</string>
+    <string name="genderOther">Other</string>
+    <string name="dateOfBirth">Date of birth : </string>
+    <string name="memberId">Member ID : </string>
+    <string name="relationName">Relation Name :</string>
+    <string name="minutiaeAval">Minutiae status : Available</string>
+    <string name="minutiaeUnAval">Minutiae status : Not Available</string>
+    <string name="plzConfrmNoGovId">Please confirm that the benificery has no Government ID </string>
+    <string name="smsCharge">Charges for sending SMS will be billed to your mobile</string>
+    <string name="eB">Enumeration Block</string>
+    ///
+    <string name="enterPin">Enter 4-digit Pin</string>
+    <string name="Proceed">Proceed</string>
+    <string name="forgotPin">Forgot pin?</string>
+    <string name="proceedToForgotPassword">Please login in this application with Aadhaar OTP Authentication and go to Reset Pin option top right menu</string>
+    <string name="plzEnterPin">Please enter pin</string>
+    <string name="plzEnterConfirmPin">Please enter confirm pin</string>
+    <string name="plzEnterValidPin">Please enter valid pin.</string>
+    <string name="yourValidationDataNotDownloaded">Your validation data has been not downloaded,Please login online download validation data</string>
+    <string name="noDownloadedEbFound">No downloaded enumeration block found</string>
+    <string name="plzWaitCheckUpdat">Please wait checking update version...</string>
+    <string name="seccDashboard">SECC Dashboard</string>
+    <string name="rsbyDashboard">RSBY Dashboard</string>
+    <string name="totalHousehold">Total Household</string>
+    <string name="pendingHousehold">Pending Household</string>
+    <string name="underSurvey">Under Survey</string>
+    <string name="surveyAndLocked">Surveyed \u0026 Locked</string>
+    <string name="Synced">Synced</string>
+    //4 apr 2017
+    <string name="aadharDetails">Capture Aadhaar detail by QR Code</string>
+    <string name="tvAdhar">Aadhaar Number</string>
+    <string name="nameasadhar">Name as in Aadhaar</string>
+    <string name="dob">Date of birth as in Aadhaar</string>
+    <string name="gen">Gender as in Aadhaar</string>
+    <string name="SECCname">Name in SECC and name as in aadhaar are of same person.</string>
+    <string name="assignLocation">Your assigned location</string>
+    <string name="verifier">Verifier Name</string>
+    <string name="dash">-</string>
+    <string name="statecode">34</string>
+    <string name="tehsilCode">001</string>
+    <string name="dishCode">04</string>
+    <string name="area">Area</string>
+    <string name="EnumBlock">Enumeration Block</string>
+    <string name="Ifsc">IFSC Code</string>
+    <string name="searchBank">Search Bank Detail</string>
+    <string name="BankName">Bank Name</string>
+    <string name="BranchBnk">Bank Branch</string>
+    <string name="AccNo">Account Number</string>
+    <string name="validatee">Validate</string>
+    <string name="demo_auth">Demographic Auth</string>
+
+    <string name="validateMobile">Validate Mobile Number</string>
+
+
+    <string name="submit">Submit</string>
+    <string name="downloadenum">Downloaded Enumeration Block Details</string>
+    <string name="syncExistingBlock">*In order to download new enumeration block data,
+                                first  sync. your existing enumeration block data.</string>
+    <string name="download">Download</string>
+    <string name="selectedlocation">Selected Location</string>
+    <string name="syncHousehold">Click to Sync Validated Households</string>
+    <string name="SyncNonAdhar">Sync Non-Aadhaar Validated Households</string>
+    <string name="resetEnumBlock">Reset Enumeration Block Household</string>
+    <string name="pinHint">Enter 4-digit Pin</string>
+    <string name="confrmPin">Confirm Pin</string>
+    <string name="reset">Reset</string>
+    <string name="noMember">No member found</string>
+    <string name="update">Update</string>
+    <string name="RSBYmember">RSBY Members</string>
+    <string name="ErrorNotSubmit">Error/Not Submitted</string>
+    <string name="submitted">Submitted</string>
+    <string name="done">Done</string>
+    <string name="enrolId">Enrollment ID</string>
+    <string name="hintEnrolId">Enter 29-digit Enrollment ID </string>
+    <string name="nameinEnrolmt">Name as in Enrollment</string>
+    <string name="pudduchery">PUDUCHERRY</string>
+    <string name="puducherysmall">Puducherry</string>
+    <string name="puducherytaluk">PuducherryTaluk</string>
+    <string name="selctEnumBlock">Select Enumerator Block</string>
+    <string name="getHousedata">Get House Data</string>
+    <string name="selectVillTwn">Select Village/Town</string>
+    <string name="selectWard">Select Ward</string>
+    <string name="getdata">GET DATA</string>
+    <string name="copytolocalDb">Please wait while
+                        complete data is being fetched from server
+                        and copying to local database</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="enterMob">Enter your mobile number</string>
+    <string name="enterenrolId">Enter your Enrolment ID</string>
+    <string name="enterEID">Enter your EID</string>
+    <string name="syntax">Ex: (dd/mm/yyyy hh:mm:ss)</string>
+    <string name="RSBYurnNo">RSBY URN No</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="secc">Search/Download SECC Member</string>
+    <string name="RSBYdata">RSBY Data</string>
+    <string name="hhdno">HHD NO</string>
+    <string name="nameText">Name (Member ID)</string>
+    <string name="relation">Relation</string>
+    <string name="fatherName">Father\'s Name</string>
+    <string name="mother">Mother\'s</string>
+    <string name="dobCaps">DOB</string>
+    <string name="genderCaps">Gender</string>
+    <string name="MarritalStatus">Marital Status</string>
+    <string name="Adharcardno">Aadhaar Card Number</string>
+    <string name="occupation">Occupation</string>
+    <string name="RSBYStateInsurance">RSBY or State Insurance No.</string>
+    <string name="RationNo">Ration Card No.</string>
+    <string name="memberStatus">Member Status</string>
+    <string name="updatedetailsIBT">Update1111</string>
+    <string name="nameMmbrId">Name (Member ID)</string>
+    <string name="selcthouseholdstatus">Select household status</string>
+    <string name="slctHodFmly">Select head of the family status</string>
+    <string name="chooseNewHead">Choose New Head</string>
+    <string name="othrMmbr">Other Member\'s</string>
+    <string name="save">Save</string>
+    <string name="lock">Lock</string>
+    <string name="RSBYhousehold">RSBY Households</string>
+    <string name="validateMmbr">Validated Member\'s</string>
+    <string name="nonvalidateMembr">Non Validated Member\'s</string>
+    <string name="membrNominee">Member\'s for Nominee</string>
+    <string name="nomineeName">Nominee Name</string>
+    <string name="nomineeNameHint">Enter nominee name</string>
+    <string name="enterrelationname">Enter relation Name</string>
+    <string name="guardianName">Guardian Name</string>
+    <string name="guardianNameHint">Enter Gaurdian Name</string>
+    <string name="notVerified">Not Verified</string>
+    <string name="enteRPin">Enter Pin</string>
+    <string name="go">Go</string>
+    <string name="offlinelist">Offline updated list for House No. 004.</string>
+    <string name="validateOtp">Validate through Internet</string>
+    <string name="validateSms">Validate through SMS</string>
+    <string name="validateLater">Validate later</string>
+    <string name="capturePhoto">Capture Photo</string>
+    <string name="captureGps">Capture Gps Location</string>
+    <string name="printPreview">Print Preview</string>
+    <string name="submitEsign">Submit With eSign</string>
+    //04.04.2017
+    <string name="plzEnterAadhaar">Please enter Aadhaar number</string>
+    <string name="plzEnterValidAadhaar">Please enter valid Aadhaar number</string>
+    <string name="plzEnterDob">Please enter date of birth as in Aadhaar</string>
+    <string name="plzEnterGender">Please enter gender as in Aadhaar</string>
+    <string name="plzEnterPincode">Please enter pincode as in Aadhaar</string>
+    <string name="plzEnterName">Please enter Name as in Aadhaar</string>
+    <string name="plzEnterCorrectNoAndName">Please enter correct Aadhaar Number and Name as in Aadhaar</string>
+    <string name="unableToConnectUiadiaServer">Unable To Connect from UIDAI Server, Please try again.</string>
+    <string name="connectionTerminated">Connection terminated, please Retry</string>
+    <string name="selectNewEB">Select new enumeration block</string>
+    <string name="selectNewSubEB">Select new sub enumeration block</string>
+    <string name="Update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="with_aadhaar">Aadhaar</string>
+    <string name="non_aadhaar">Non Aadhaar</string>
+    <string name="enterThePin">Enter pin</string>
+    <string name="enteTheCorrectPin">Enter correct pin</string>
+    <string name="appUpdatePopUp">Update available version</string>
+    <string name="currentVersion">Current Version : </string>
+    <string name="updateVersion">Update Version :</string>
+    <string name="mobileNetworkNotAval">Mobile network not available</string>
+    <string name="enterOtpRec">Enter Otp</string>
+    <string name="enterValidOtp">Enter valid otp</string>
+    // 5.april
+    // dropdown menu
+    <string name="profile">Profile</string>
+    <string name="Logout">Logout</string>
+    <string name="home">Home</string>
+    <string name="plzEnter4digitPin">Please enter 4-digit pin</string>
+    <string name="PrintHistory">Print History</string>
+    <string name="collectDataMember">Collect Data for Member</string>
+    <string name="checkUpdate">Software Update</string>
+    <string name="resetPin">Reset Pin</string>
+    <string name="deleteEb">Delete Enumeration Block</string>
+    <string name="clearDevice">Clear Device"</string>
+    <string name="searchRsbyFam">Search RSBY Family</string>
+    <string name="Preview">Preview</string>
+    <string name="Unlock">Unlock</string>
+    <string name="resetHousehold">Reset Household</string>
+    <string name="ReadCard">Read Card</string>
+    <string name="searchMember">Search Member</string>
+    <string name="importRsby">Import RSBY card</string>
+    <string name="syncHouse">Sync Household</string>
+    <string name="assignedLocation">Assigned Location</string>
+    <string name="head">Head</string>
+    <string name="oldHead">Old Head</string>
+    <string name="sortByHousehold">Sort by HouseholdID#</string>
+    <string name="sortByName">Sort by Name</string>
+    <string name="sortByUrn">Sort by URN#</string>
+    <string name="reSync">Re-Sync</string>
+    <string name="noPendingAadharTOValidate">There are no pending aadhaar to validate</string>
+    <string name="validateSucess">Validate Success# </string>
+    <string name="validateFail">Validate Fail# </string>
+    <string name="allDataWillLost">All your data and work will be lost.</string>
+    <string name="confirmDelete">Confirm Delete</string>
+    <string name="plzCaptureAadhaardetails">Please Capture Aadhaar details</string>
+    <string name="pinDoesNotMAtchWithConfirm">Pin and confirm pin don\'t match</string>
+    <string name="selectNewHead">Select New Head of family</string>
+    <string name="noMemberFoundForNewHead">No member found to choose new head.</string>
+    <string name="unableToCaptureImage">Unable to capture image, Please provide necessary permission &amp; Try Again</string>
+    <string name="governmentId">Government Id Detail</string>
+    <string name="plzEnterGovId">Please enter Govt id number</string>
+    <string name="plzEnterNameAsGovId">Please enter name as in Govt id</string>
+    <string name="plzCaptureGovId">Please capture Govt id photo</string>
+    <string name="enter24digitEid">Enter 24-digit Enrollment ID</string>
+    <string name="enterNameInEid">Enter Name as in Enrollment ID</string>
+    <string name="plzEnterVoterIdNum">Enter voter id number</string>
+    <string name="plzEnterNameAsVoterId">Enter Name as in Voter ID</string>
+    <string name="plzEnterRationCardNum">Enter Ration card number</string>
+    <string name="plzEnterNameAsRationCard">Enter Name as in Ration Card</string>
+    <string name="plzEnterNaregaNum">Enter NREGA job card number</string>
+    <string name="plzEnterNameAsNarega">Enter Name as in NREGA job card</string>
+    <string name="plzEnterDrivingNum">Enter Driving License number</string>
+    <string name="plzEnterNameAsDriving">Enter Name as in Driving License</string>
+    <string name="plzEnterBirthCerfNum">Enter Birth Certificate Number</string>
+    <string name="plzEnterNameAsBirthCerf">Enter Name as in Birth Certificate</string>
+    <string name="plzEnterId">Enter ID Number</string>
+    <string name="plzEnterNameAsId">Enter Name as in ID</string>
+    <string name="plzEnterValidMobNo">Please enter valid mobile number.</string>
+    <string name="plzEnterMobNo">Please enter your mobile number.</string>
+    <string name="plzEnterSchemeNum">Please enter scheme number</string>
+    <string name="plzEnterValidSchemeNum">Please enter valid scheme number</string>
+    <string name="plzEnter17digitUrn">Please enter 17-digit URN Number</string>
+    <string name="Youare">You are </string>
+    <string name="levelUser">Level user.Please login as a validator</string>
+    <string name="inactiveUser">Inactive user</string>
+    <string name="validat_nonvalidate">Validated/Non Validated member\'s</string>
+    <string name="plzEnterGaurdianName">Please enter gaurdian name</string>
+    <string name="plzEnterNomineeName">Please enter nominee name</string>
+    <string name="plzEnterRelationName">Please enter relation name</string>
+    <string name="selectMobileNumberBelongs">Select mobile number belongs to</string>
+    <string name="self">Self</string>
+    <string name="family">Family</string>
+    <string name="other">Other</string>
+    <string name="plzEnter10DigitMobNum">Please enter 10-digit mobile number</string>
+    <string name="plzEnterValidMobNum">Please enter valid mobile number</string>
+    <string name="plzEnterWhoseMobNum">Please select whose mobile number</string>
+    <string name="youHaveEnteredValidatorMobileNum">You have entered mobile number of validator. Please enter mobile number of household to proceed further.</string>
+    <string name="pleaseTryAgain">Please try again</string>
+    <string name="pleaseTakeMemberPic">Please take member photo</string>
+    <string name="enumerationBlock">Enumeration Block#</string>
+    <string name="village_">Village\-</string>
+    <string name="Ward_">Ward-</string>
+    <string name="Town_">Town-</string>
+    <string name="noHouseholdToSync">There are no households to sync</string>
+    <string name="MemberDetail">Member Detail</string>
+    <string name="hofShouldNotBeDied">Head of the family member should not be died or migrated</string>
+    <string name="plzSelectRelatonWith">Please select relation with respect to </string>
+    <string name="householdNotEliblePrint">Household not eligible for card print</string>
+    <string name="setPin">Set Pin</string>
+    <string name="totalSyncErrorCount">Total sync error count : </string>
+    <string name="syncComplete">Sync Completed</string>
+    <string name="cancelSync">Cancel Syncing</string>
+    <string name="plzCaptureMemberPhoto">Please capture member photo</string>
+    <string name="plzCaptureAadhaarDetail">Please capture aadhaar detail</string>
+    <string name="plzCaptureGovernId">Please capture Govt id photo</string>
+    <string name="plzCaptureMobileNum">Please capture mobile number</string>
+    <string name="plzCaptureNomineeDetail">Please capture nominee details</string>
+    //5april2017
+    <string name="adharnum">Aadhaar No</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="address">Address</string>
+    <string name="scanAdhar">Scan Aadhaar Card</string>
+    <string name="verifyforNHPS">Verify For NHPS with Aadhaar</string>
+    <string name="verifyforNHPSwoAdhar">Verify For NHPS without Aadhaar</string>
+    <string name="enterurnNo">Enter 17-digit URN No</string>
+    <string name="saveLater">Save\u0026 Download Later</string>
+    <string name="placeBarcode">Place a barcode in the viewfinder rectangle to scan it.</string>
+    <string name="membrDashboard">Member Dashboard</string>
+    <string name="searchFamily">Search family by member name OR Household No OR Aadhaar Number</string>
+    <string name="searchByhodfamily">Search by head of the family member</string>
+    <string name="or">OR</string>
+    <string name="searchparamtr">Search via other parameters</string>
+    <string name="chngeBlock">Change Block</string>
+    <string name="searchByfmyadhar">Search by family member name,Household No and Aadhaar Number</string>
+    <string name="searchbyMembr">Search by member name</string>
+    <string name="notAbleFindmmbr">Not able to find member?</string>
+    <string name="slctRelation">Select Relation</string>
+    <string name="validateforNHPS">Validate For NHPS with Aadhaar</string>
+    <string name="proceed">Proceed</string>
+    //next
+    <string name="tinNum">Tin Number</string>
+    <string name="membrTin">Enter member \'s TIN number</string>
+    <string name="membersName">Enter member \'s name</string>
+    <string name="enterRelationship">Enter relationship</string>
+    <string name="father">Father</string>
+    <string name="enterFatherName">Enter father \'s name</string>
+    <string name="mothhr">Mother</string>
+    <string name="entermothrName">Enter mother \'s name</string>
+    <string name="slctDate">Select Date</string>
+    <string name="enterAdharCardNUm">Enter Aadhaar Card Number(12 digits)</string>
+    <string name="motherMobNum">Enter member \'s mobile number</string>
+    <string name="membrOccupation">Enter member \'s occupation</string>
+    <string name="membrInsurance">Enter member \'s State Insurance number</string>
+    <string name="enterRationno">Enter Ration Card\'s number</string>
+    <string name="scanImage">Scan Image</string>
+    <string name="takePhoto">Take Photo</string>
+    <string name="QRcodeInsideFrame">Put QR Code inside the frame</string>
+    <string name="crrntVersion">Current Version : 1.0.12.3</string>
+    <string name="updateVrsn">Update Version : 1.0.12.3</string>
+    <string name="releseDate">Release Date : 22.06.1992</string>
+    <string name="adharverificatin">Aadhaar Verification</string>
+    <string name="OTPauth">OTP Auth</string>
+    <string name="MobileNumberStatus">Mobile Number Status(Verified/Not verified)</string>
+    <string name="validateURN">Validate URN</string>
+    <string name="inCaseOfNonADhar">Capture Member Photo in case of Non-Aadhaar</string>
+    <string name="getBankDetails">Get Bank Details</string>
+    <string name="validateBankAcc">Validate Bank Acc</string>
+    <string name="noHousehold">No. of Households-</string>
+    <string name="noSyncHousehold">No of Synced Household-</string>
+    <string name="noofSyncMmbr">No. of Synced Members-</string>
+    <string name="NhpsId">NHPS ID</string>
+    <string name="FatherName">Father Name</string>
+    <string name="photo">Photo</string>
+    <string name="print">Print</string>
+    <string name="cardPreview">CardPreview Front</string>
+    <string name="cardPreviewBack">CardPreview Back</string>
+    <string name="defRelationHead">Define relation with new head</string>
+    <string name="houshold">Household#</string>
+    <string name="OTPverifctn">OTP Verification</string>
+    <string name="Enterotp">Enter OTP</string>
+    <string name="verifyCaps">VERIFY</string>
+    <string name="sync">Sync</string>
+    <string name="enterEnrol">Enter 29-digit Enrollment ID  </string>
+    <string name="NameasEnrol">Name as in Enrollment</string>
+    <string name="totalVerify">Total verified and submitted member \'s</string>
+    <string name="errorRecrd">Error record</string>
+    <string name="numBlockData">No. of blocks data</string>
+    <string name="NoofNHps">No of NHPS ID</string>
+    <string name="Idprinted">No of ID Printed</string>
+    <string name="syncAll">Sync All</string>
+    <string name="esignAll">eSign All</string>
+    <string name="sortBy">Sort By</string>
+    <string name="totalMembr">Total Member</string>
+
+
+    //06.04.2017
+
+
+    <string name="notAbleToSendSms">SMS could not be sent</string>
+    <string name="smsDeleiverd">SMS delivered</string>
+    <string name="smsNotDeleiverd">SMS not delivered</string>
+    <string name="sendingSms1">OTP for NHPS mobile number validation is </string>
+    <string name="sendingSms2">and is valid for 30 minutes.\n (Generated at</string>
+    <string name="total">total</string>
+    <string name="partialVerified">25-Partial verified Out of 200 family.</string>
+    <string name="pendingOutfmlY">100-Pending Out of 200 family.</string>
+    <string name="notAbleFindHousehold">Not able to find Household?</string>
+    <string name="verifiedMmber">Verified Member#</string>
+    <string name="UrnNum">Urn number</string>
+    <string name="UrnId">URN ID</string>
+    <string name="houseHoldStatus">Household Status</string>
+    <string name="error">Error</string>
+    <string name="syncDateTime">Sync Date/Time</string>
+    <string name="showMore">Show More</string>
+    <string name="searchFamilyAdharHousehold">*Search Family Member,Aadhaar No,Household No.</string>
+    <string name="visitedHousehold">Visited Household</string>
+    <string name="validatedHoshold">Validated Household</string>
+    <string name="partialValidateHoshold">Partial Validated Household</string>
+    <string name="ReadyTosynced">Ready to synced</string>
+    <string name="syncError">Sync Error</string>
+    <string name="syncValidError">Sync/Validation Error</string>
+    <string name="readyToSync">Ready to sync</string>
+    <string name="syncedHousehold">Synced Household</string>
+    <string name="validationError">Validation Error</string>
+    <string name="validateAll">Validate All</string>
+    <string name="downloadAll">Download All</string>
+    <string name="verifyOutFamily">25-Verified out of 200 family.</string>
+    <string name="typeOfIdCard">Type of ID Card</string>
+    <string name="idNumber">ID Number</string>
+    <string name="nameAsInId">Name as in ID</string>
+    <string name="nameSECC">Name in SECC and name in govt id are of same person.</string>
+    <string name="logout">Logout</string>
+    <string name="household4">Household# 0004</string>
+    <string name="total5">Total Member# 5</string>
+    <string name="noida">Sector 62,Noida,Uttarpradesh </string>
+    <string name="confirm">Confirm</string>
+    <string name="selectDate">Select Date</string>
+    <string name="membrmobilenum">Enter member \'s mobile number</string>
+    <string name="entrMembrOccupation">Enter mamber \'s occupation</string>
+    <string name="entrMembrInsurance">Enter member \'s State Insurance number</string>
+    <string name="sbmitedVerified">Submitted and verified</string>
+    <string name="yetToSurveyed">Yet to surveyed</string>
+    <string name="underSurveyed">Under Surveyed</string>
+    <string name="memberType">Member Type</string>
+    <string name="householdno">Household No</string>
+    <string name="syncLockDate">Sync/Lock Date</string>
+    <string name="memberid">Member ID#</string>
+    <string name="verifyLater">Verify later</string>
+    <string name="motherName">Mother \'s Name</string>
+    <string name="householdhash">HH ID#</string>
+    <string name="housenum">House No.</string>
+    <string name="rahulKumar">RAHUL KUMAR</string>
+    <string name="male">Male</string>
+    <string name="seeError">See Error</string>
+    <string name="updateNotSync">Updated But Not Sync</string>
+    <string name="resendOtp">Resend OTP</string>
+
+    <string name="adharDetail">Aadhar Detail</string>
+    <string name="capturingMOde">Capturing Mode</string>
+    <string name="status">Status</string>
+    <string name="RSBYurn">RSBY URN</string>
+    <string name="additnlSchemeDetail">Additional Scheme Detail</string>
+    <string name="stateScemeName">State Scheme Name</string>
+    <string name="stateSchemeId">State Scheme ID</string>
+    <string name="GovtIdDetail">Govt. Id Detail</string>
+    <string name="govtIdType">Govt Id type</string>
+    <string name="IdNum">ID Number</string>
+    <string name="nameASinId">Name As in ID </string>
+    <string name="memberPhoto">Member Photo</string>
+    <string name="mobNumDetail">Mobile Number Detail</string>
+    <string name="whoseMobile">Whose Mobile</string>
+    <string name="nomineDetail">Nominee Detail</string>
+    <string name="guardianame">Guardian Name</string>
+    <string name="reqForConn">Request for data correction</string>
+    <string name="NHPSdetail">NHPS Details</string>
+    <string name="hhd">HHD</string>
+    <string name="validationStatus">Validation status</string>
+    <string name="NHPSidHash">NHPS ID#</string>
+    <string name="housholdIdhash">HouseholdID#</string>
+    <string name="houseHldStatus">Household status </string>
+    <string name="membrStatus">Member Status</string>
+    <string name="sncDate">Sync Date</string>
+    <string name="synVersion">Sync Version</string>
+    <string name="validateBy">Validated By</string>
+    <string name="surveyedBy">Surveyed By</string>
+    <string name="stateDash">State-</string>
+    <string name="distt">District</string>
+    <string name="villTwn">Vill./Town</string>
+    <string name="EnumBlockHash">Enumeration Block#</string>
+    <string name="noofSecchshld">No. of SECC Households-</string>
+    <string name="noRSBYhshld">No. of RSBY Households-</string>
+    <string name="noFsyncHshld">No of Synced Households-</string>
+    <string name="noFSycMmber">No. of Synced Members-</string>
+    <string name="selctNewHead">Select new Head</string>
+    <string name="newHead">New Head</string>
+    <string name="membrType">Member Type</string>
+    <string name="adhar">Aadhaar</string>
+    <string name="govId">Govt.ID</string>
+    <string name="errorDetail">Error Detail</string>
+    <string name="adharNtValidtd">1. Aadhaar Not validated</string>
+    <string name="mobNotValidtd">2. Mobile no not validated</string>
+    <string name="augDate">23-Aug-2016</string>
+    <string name="errorMsg">Error Message:</string>
+    <string name="totalmmbrHash">Total Member#</string>
+    <string name="dataSource">Data Source</string>
+    <string name="urnHash">URN#</string>
+    <string name="houseHoldidhash">HouseHoldID#</string>
+    <string name="rePrint">Reprint</string>
+    <string name="houseHash">House#</string>
+    <string name="adharGovId">Aadhaar/Govt.ID</string>
+    <string name="noErrrFound">No Error found</string>
+    <string name="policyDetails">Policy Details</string>
+    <string name="cardDetails">Card Details</string>
+    <string name="membrDetails">Member Details</string>
+    <string name="importt">Import</string>
+    <string name="slctNewHead">Select new Head</string>
+    <string name="fathrHsbndName">Father/Husband Name</string>
+    <string name="Dob">Dob</string>
+    <string name="Reader">Reader:</string>
+    <string name="ACS">ACS</string>
+    <string name="selectState">Select State</string>
+    <string name="submitStateItem">Submit</string>
+    <string name="mobileHint">Enter your 10-digit mobile number</string>
+    <string name="EmailHint">Enter your registered E-mail</string>
+    <string name="passwordHint">Enter your Password</string>
+    <string name="nonAdharloginConsent">I have no objection to provide my mobile number for
+       fetching know your customer(KYC) data from UIDAI database</string>
+    <string name="mailLoginConsent">I have no objection to provide my E-mail for
+       fetching know your customer(KYC) data from UIDAI database</string>
+    <string name="loginwithMob">Login with Mobile OTP</string>
+    <string name="loginwithEmail">Login with OTP</string>
+    <string name="title_activity_app_config">AppConfigActivity</string>
+    <string name="appConfig">Application Configuration</string>
+    <string name="user_not_register">Invalid E-mail.</string>
+    <string name="pleaseEnterUserName">Please enter User Name</string>
+    <string name="enterValiduserName">Please enter E-mail.</string>
+    <string name="enterValidPassword">Please enter Password.</string>
+    <string name="IdentiveScm">Identive/SCM</string>
+    <string name="HIDomni">HID Omnikey</string>
+    <string name="Refresh">Refresh</string>
+    <string name="familyDetails">Family Details</string>
+    <string name="memberDetails">Member Details</string>
+    <string name="photoDetails">Photo Details</string>
+    <string name="minutiaDetails">Minutia Details</string>
+    <string name="InsuranceDetails">Insurance Details</string>
+    <string name="balanceDetails">Balance Details</string>
+    <string name="csnCcCt">CSN,CC,CT</string>
+    <string name="readRsbyCard">Read RSBY card</string>
+    <string name="textVView">TextView</string>
+    <string name="auto">Auto</string>
+    <string name="stateHealthSchmName">State Health Scheme Name</string>
+    <string name="stateHealthSchemeId">State Health Scheme ID </string>
+    <string name="valdteHealthSchemeId">Validate Health Scheme ID</string>
+    <string name="updateVErsionApp">Update Version is available, Please download and update the application</string>
+    <string name="captrMemberPhoto">Capture Member Photo </string>
+    <string name="captureGovId">Capture Govt. ID</string>
+    <string name="validateNum">Validate Mobile Number</string>
+    <string name="bankDetails">Bank Details</string>
+    <string name="captureRSBYurn">Capture RSBY URN</string>
+    <string name="captureNomineeDetails">Capture Nominee Detail</string>
+    <string name="addSchemeDetails">Additional Scheme Detail</string>
+    <string name="adharAvlble">Aadhaar Available</string>
+    <string name="adharNtPreprd">Aadhaar Not Prepared</string>
+    <string name="validateAdhar">Validate Aadhaar(UIDAI)</string>
+    <string name="enrolIdDetail">Enrollment ID Details</string>
+    <string name="validateRsbyUrn">Validate RSBY URN</string>
+    <string name="noMenitiaDetail">members are not present in RSBY card</string>
+    <string name="noMenitiaDetail1">finger prints of </string>
+    <string name="downloadingSoftware">Downloading latest version of software\nIt will be downloaded inside NHPS folder on your device Internal memory</string>
+    <string name="cancelDownloading">Cancel downloading</string>
+    <string name="checkingNotofication">Please wait downloading notification</string>
+    <string name="couldNotDownloadNotification">Could not download application notification</string>
+    <string name="notificationDownloaded">Notification downloaded</string>
+    <string name="notification">Download Notification</string>
+    <string name="updateNotAvailable">You are using latest software</string>
+
+
+    // ..////
+
+    <string name="captureRsby">Capture RSBY detail</string>
+    <string name="provideStateHealthSchemeId">Enter Health Scheme ID </string>
+    <string name="pleaseClearDevice">Please clear device</string>
+    <string name="houseHoldNumber">HH ID#</string>
+    <string name="stateScemeName1">State Scheme 1 Name</string>
+    <string name="stateSchemeId1">State Scheme 1 ID</string>
+    <string name="stateScemeName2">State Scheme 2 Name</string>
+    <string name="stateSchemeId2">State Scheme 2 ID</string>
+    <string name="stateScemeName3">State Scheme 3 Name</string>
+    <string name="stateSchemeId3">State Scheme 3 ID</string>
+
+
+    /// Aadhar Kyc
+
+    <string name="mandatory">*</string>
+    <string name="hint_aadhaar">Enter Aadhaar No.</string>
+    <string name="hint_name">Enter Name</string>
+    <string name="powered_by">Powered by </string>
+    <string name="hint_email">New Email Address</string>
+    <string name="hint_account_number">Mobile Verification Code</string>
+    <string name="hint_Yes">YES</string>
+    <string name="hint_No">No</string>
+    <string name="text_Remarriage">Re-Marriage</string>
+    <string name="text_Reemployed">Re-Employed</string>
+    <string name="hint_bank_name">Bank Name</string>
+    <string name="hint_pension">Pension Type</string>
+    <string name="hint_branch_name">Branch Name</string>
+    <string name="content_fingerprint">Image</string>
+    <string name="button_scan_mantra">Scan Fingerprint</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_activity_launch">LaunchActivity</string>
+    <string name="title_activity_iris">IrisActivity</string>
+    <string name="hint_mobile">Enter Mobile Number</string>
+    <string name="hint_new_mobile">Enter New Mobile Number</string>
+    <string name="hint_operator_code">Enter Valid auth Code</string>
+    <string name="hint_otp">Enter OTP</string>
+    <string name="authentication_title">Aadhaar holder Details</string>
+    <string name="button_submit">Send OTP</string>
+    <string name="reset_data">Reset Aadhaar</string>
+    <string name="gohome">Home</string>
+    <string name="ncpi">NPCI Check</string>
+    <string name="mob_link">Aadhaar linked Mobile</string>
+    <string name="button_scan">Scan</string>
+    <string name="button_end">End</string>
+    <string name="button_resend">Resend OTP</string>
+    <string name="step_1">[[STEP 1]]</string>
+    <string name="request_success">Request Successful</string>
+    <string name="request_fail">Request Failed</string>
+    <string name="dummy_text">dummy</string>
+    <string name="ok_button">OK</string>
+    <string name="splash_text">Aadhaar Enabled Identification System</string>
+    <string name="splash_text1">KYC Authentication ,</string>
+    <string name="splash_text2">Mobile Updation ,</string>
+    <string name="splash_text3">KYC Authentication</string>
+    <string name="data_accessing_consent">Resident Data accessing Consent from Aadhaar System</string>
+    <string name="data_sharing_consent">Resident Data Sharing Consent</string>
+    <string name="message1">Thank you for successfully registering for your digital life certificate. Your Pramaan id is </string>
+    <string name="message2">You can view your life certificate on the portal jeevanpramaan.gov.in by giving this Pramaan id.</string>
+    <string name="title_activity_common_apitester">CommonAPITester</string>
+    <string name="title_activity_first_screen">FirstScreen</string>
+    <string name="choose_any_one">Choose any Authentication method</string>
+    <string name="auth">Auth</string>
+    <string name="kyc">KYC</string>
+    <string name="otp">KYC using OTP</string>
+    <string name="mou">MOU (Mobile Updation)</string>
+    <string name="title_activity_auth_type">AuthType</string>
+    <string name="demographic">Demographic</string>
+    <string name="iris">Authentication using Iris</string>
+    <string name="biometric">Authentication using Biometric</string>
+    <string name="auth_otp">Authentication using OTP</string>
+    <string name="submitKyc">e-KYC</string>
+    <string name="back">Resend OTP</string>
+
+    <string name="title_activity_kyctype">KYCType</string>
+
+    <string name="title_activity_otptype">OTPType</string>
+    <string name="type_heading">Choose Aadhaar Authentication Type</string>
+    <string name="otp_request">OTP(on adhaar linked mobile)</string>
+    <string name="title_activity_auth__demo_">Auth_Demo_Activity</string>
+    <string name="title_activity_auth__bio_">Auth_Bio_Activity</string>
+    <string name="title_activity_otp">OTPActivity</string>
+    <string name="title_activity_otp_">OTP_Activity</string>
+    <string name="title_activity_check_device">CheckDevice</string>
+    <string name="title_activity_show_dialog_wait_for_auth">ShowDialogWaitForAuth</string>
+    <string name="bio_device">Biometric Device</string>
+    <string name="iris_device">Iris Device</string>
+    <string name="device_choose_title">Select any Device</string>
+    <string name="title_activity_kyc__bio">KYC_BIO</string>
+    <string name="title_activity_auth__otp">Auth OTP</string>
+    <string name="title_activity_mou__otp">MOU OTP Request</string>
+    <string name="title_activity_kyc__otp">Provide OTP for </string>
+    <!--
+    <string name="demo_auth">Demographic Authentication</string>
+-->
+    <string name="ncpi_check">NPCI LINK VERIFICATION</string>
+    <string name="title_activity_mou__bio">Mou_Bio</string>
+    <string name="title_mou_bio">Enter Resident Data</string>
+    <string name="fingure_scan_time_up">Finger Scan Time up</string>
+    <string name="eye_scan_time_up">Eye Scan Time up</string>
+    <string name="scan_your_fingure">Scan your Finger : </string>
+    <string name="scan_your_eye">Scan your Eye : </string>
+    <string name="header_title">Your Aadhaar Details</string>
+    <string name="invalid_device">Unauthorized Device</string>
+    <string name="unable_to_get_server_response">Unable to get Server Response</string>
+    <string name="network_not_available">Network not Available</string>
+    <string name="title_activity_main_screen">MainScreen</string>
+    <string name="title_activity_home_fragment">HomeFragment</string>
+    <string name="spinner_title">Select Operator</string>
+    <string name="title_activity_ncpi_check">NPCI</string>
+
+    <string name="eKyc">E-kyc</string>
+    <string name="nomineeMsg">"NOTE* : Please ensure that the selected nominee's status is not falling in the following categories.\n"
+            "1. Member Migrated\n"
+            "2. Member died\n"
+            "3. Unknown member\n"
+            "4. Enrollment through RSBY"</string>
+
+
+    <string name="seccHousholdCount">Secc Household Count#</string>
+    <string name="seccMemberCount">Secc Member Count#</string>
+    <string name="rsbyHousholdCount">Rsby Household Count#</string>
+    <string name="rsbyMemberCount">Rsby Member Count#</string>
+
+
+    <string-array name="pi_ms">
+        <item>Match Type</item>
+        <item>Exact</item>
+        <item>Partial</item>
+    </string-array>
+    <string-array name="pi_gender">
+        <item>Gender </item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Transgender</item>
+    </string-array>
+    <string-array name="pi_dobt">
+        <item>DOB Type</item>
+        <item>Verified</item>
+        <item>Declared</item>
+        <item>Approximate</item>
+    </string-array>
+    <string-array name="pi_dobtype">
+        <item>DOB Format</item>
+        <item>YYYY-MM-DD</item>
+        <item>YYYY</item>
+    </string-array>
+
+
+    <string name="subEnumBlock">Sub Enumeration Block</string>
+    <string name="plzSelectGovId">Please Select Govt ID</string>
+    <string name="plzEnterValidGovId">Please enter valid Govt ID number</string>
+
+    <string name="aadhaarConsentMessage">I, the holder of Aadhaar, here by give my consent to use my Aadhaar number, biometric etc for Authentication and e-KYC with UIDIAI.  MeitY/NIC have informed me that my Biometric will not be stored/shared.</string>
+
+
+    <string name="api_key">AIzaSyBKkeV1IUi1FZBFXjPUygGYgT3I44EdE4M</string>
+    <string name="updatingMasters">Please wait..</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="areYouSureToExit">Are you sure to exit?</string>
+    <string name="youHaveExceedPinLimit">You have entered wrong pin more than 3 time.\n Pin login is disabled for 24 hours. </string>
+    <string name="pinLoginDisabled">Pin login is disabled for 24 hours</string>
+
+    <string name="emailTextHint">Email-Id of Registered Operator</string>
+    <string name="mobileTextHint">Mobile Number of Registered Operator</string>
+    <string name="loginScreenLabel">Ayushman Bharat Enrollment Program</string>
+    <string name="emailLoginBTN">Verify and Login</string>
+    <string name="label_find_beneficiary">Find Beneficiary Family</string>
+    <string name="hint_search_beneficiary">Ration Card Number/RSBY URN/AHLTIN/Mobile Number</string>
+    <string name="searchBTN">Search</string>
+    <string name="byNameText">Find Beneficiary by Name</string>
+    <string name="personal_detail_tv">Personal Details</string>
+    <string name="family_detail_tv">Family Details</string>
+    <string name="print_card">Print E-Card</string>
+    <string name="beneficiaryName">Beneficiary Name:</string>
+    <string name="enterAadharNo">Enter Aadhaar Number</string>
+    <string name="verify">Verify</string>
+    <string name="match_score_tv">Name Match Score:</string>
+    <string name="no_aadhar">Click here for no Aadhaar</string>
+    <string name="beneficiary_img">Beneficiary Photo</string>
+    <string name="capture">Capture</string>
+    <string name="enter_mob">Enter Mobile Number</string>
+    <string name="next">Next</string>
+    <string name="enter_id_et">Enter ID Number</string>
+    <string name="no_family_id">Click here for no Family ID</string>
+    <string name="family_id_photo">Family ID Photo</string>
+    <string name="upload">Upload</string>
+    <string name="familyMemberName">Family Member Name</string>
+    <string name="family_match_score_tv">Family Match Score</string>
+    <string name="add_card">Add New Family Card</string>
+    <string name="save_preview">SAVE &amp; PREVIEW</string>
+<string name="member_error">No matches found. Kindly refine your search.</string>
+
+
+</resources>

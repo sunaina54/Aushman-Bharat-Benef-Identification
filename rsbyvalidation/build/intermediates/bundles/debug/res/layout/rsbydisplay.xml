@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/readerlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reader:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupreaders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/radio0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="ACS" />
+
+                <RadioButton
+                    android:id="@+id/radio1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Identive/SCM" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/refresh_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="refreshreaders"
+                android:text="Refresh" />
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="viewxml"
+                android:text="View XML" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <CheckBox
+                android:id="@+id/checkBox_famdet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Family Details" />
+
+            <CheckBox
+                android:id="@+id/checkBox_memdet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Member Details" />
+
+            <CheckBox
+                android:id="@+id/checkBox_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Photo Details" />
+
+            <CheckBox
+                android:id="@+id/checkBox_minudet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minutia Details" />
+
+            <CheckBox
+                android:id="@+id/checkBox_insu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Insurance Details" />
+
+            <CheckBox
+                android:id="@+id/checkBox_bal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Balance Details" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="cardreadstart"
+            android:text="Read" />
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:background="@drawable/edit_text_border"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/gray"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="@string/OTPverifctn"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+
+        <EditText
+            android:id="@+id/otp"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+      android:capitalize="words"
+            android:textSize="14dp"
+            android:imeOptions="actionNext"
+            android:background="@drawable/edit_text_border"
+            android:hint="@string/Enterotp"
+            android:paddingLeft="10dp" />
+
+
+
+
+        <Button
+            android:id="@+id/verify"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/otp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_shape_button"
+            android:text="@string/verifyCaps"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+</RelativeLayout>
