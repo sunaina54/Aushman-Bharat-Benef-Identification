@@ -24,14 +24,15 @@
         >
 
    <LinearLayout
+       android:orientation="vertical"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:id="@+id/noMemberLL"
-       android:visibility="gone">
+       android:visibility="visible">
        <TextView
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:text="@string/member_error"
+           android:text=""
            android:id="@+id/noMemberTV"
            android:textAlignment="center"
            style="@style/textView"
@@ -39,13 +40,13 @@
 
    </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/noMemberLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchListRV"
+            android:scrollbars="vertical">
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchListRV"
-        android:scrollbars="vertical">
-
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 </LinearLayout>

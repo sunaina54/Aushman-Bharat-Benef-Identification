@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,8 +57,9 @@ public class FamilyListActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         headerTV.setText("Family Data");
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
-        noMemberLL.setVisibility(View.GONE);
+        noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
+
 
         familyListRequestModel = (FamilyListRequestModel) getIntent().getSerializableExtra("SearchParam");
         backIV = (ImageView) findViewById(R.id.back);
@@ -123,16 +125,21 @@ public class FamilyListActivity extends BaseActivity {
             @Override
             public void updateUI() {
                 if (familyListResponseModel != null && familyListResponseModel.getResponse() != null
-                        && familyListResponseModel.getResponse().getDocs() != null) {
-                    if (familyListResponseModel.getResponse().getDocs().size() > 0) {
-                        int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
-                        if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
+                        ) {
+                    int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
+                    noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
+                    if ( familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
+                      //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
+                        try {
                             refreshMembersList(familyListResponseModel.getResponse().getDocs());
-                        }else {
+                        }catch (Exception e){
+                            Log.d("TAG","Exception : "+e.toString());
+                        }
+                        /*}else {
                             //mProgressBar.setVisibility(View.GONE);
                             noMemberLL.setVisibility(View.VISIBLE);
                             noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
-                        }
+                        }*/
                     } else {
                        // mProgressBar.setVisibility(View.GONE);
                         noMemberLL.setVisibility(View.VISIBLE);
@@ -223,10 +230,25 @@ public class FamilyListActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final DocsListItem item = mDataset.get(position);
-            holder.nameTV.setText(item.getName());
-            holder.fatherNameTV.setText(item.getFathername());
-            holder.genderTV.setText(item.getGenderid());
-            holder.ageTV.setText(item.getDob());
+            holder.nameTV.setText(item.getName().trim());
+            holder.fatherNameTV.setText(item.getFathername().trim());
+            String gender="";
+            if(item.getGenderid().equalsIgnoreCase("1")){
+                gender="Male";
+            }else if(item.getGenderid().equalsIgnoreCase("2")){
+                gender="Female";
+            }else{
+                gender="Other";
+            }
+            holder.genderTV.setText(gender);
+            String yob="";
+            if(item.getDob()!=null&& item.getDob().length()>4){
+               yob=item.getDob().substring(0,4) ;
+            }else{
+                yob=item.getDob();
+            }
+            holder.ageTV.setText(yob);
+
             holder.motherNameTV.setText(item.getMothername());
             // holder.spouseNameTV.setText(item.gets);
             holder.ahltinTV.setText(item.getAhl_tin());

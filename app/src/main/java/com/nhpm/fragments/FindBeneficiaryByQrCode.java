@@ -142,6 +142,7 @@ public class FindBeneficiaryByQrCode extends Fragment {
         validateAadhaarBT = (Button) view.findViewById(R.id.validateAdhaarBT);
         validateLaterBT = (Button) view.findViewById(R.id.validateAdhaarLaterBT);
         captureAadharDetBT = (Button) view.findViewById(R.id.captureAadharDetBT);
+        captureAadharDetBT.setText("Capture beneficiary detail by QR Code");
         verified = (ImageView) view.findViewById(R.id.aadhaarVerifiedIV);
         rejected = (ImageView) view.findViewById(R.id.aadhaarRejectedIV);
         pending = (ImageView) view.findViewById(R.id.aadhaarPendingIV);
@@ -347,10 +348,10 @@ public class FindBeneficiaryByQrCode extends Fragment {
 
                     return;
                 }
-                if (!consentCB.isChecked()) {
+                /*if (!consentCB.isChecked()) {
                     CustomAlert.alertWithOk(context, context.getResources().getString(R.string.adhar_consent_msg));
                     return;
-                }
+                }*/
 
                 if (demoAuthActivity.isNetworkAvailable()) {
                     //qqqqqqqq

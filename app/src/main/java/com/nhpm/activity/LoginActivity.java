@@ -280,7 +280,7 @@ public class LoginActivity extends BaseActivity implements ComponentCallbacks2 {
         alertView.bringToFront();
         stateDialog.setView(alertView);
         stateDialog.show();
-        stateDialog.getWindow().setLayout(400, 200);
+        //stateDialog.getWindow().setLayout(400, 200);
         stateDialog.setCancelable(false);
      /*   Button disableKiosMode =(Button)alertView.findViewById(R.id.disableKiosMode);
         disableKiosMode.setOnClickListener(new View.OnClickListener() {

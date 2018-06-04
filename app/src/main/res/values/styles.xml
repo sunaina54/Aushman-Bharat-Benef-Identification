@@ -108,7 +108,7 @@
 
     <style name="textView">
         <item name="android:padding">5dip</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_size_20sp</item>
         <item name="android:textColor">@color/black_shine</item>
     </style>
 
@@ -121,7 +121,7 @@
 
     <style name="textViewFamilMember">
         <item name="android:padding">5dip</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/text_size_20sp</item>
         <item name="android:textColor">@color/white_shine</item>
     </style>
 

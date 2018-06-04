@@ -49,13 +49,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/debug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/assets" type="java-test-resource" />
@@ -63,6 +56,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testDebug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTestDebug/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/assets" type="java-resource" />
@@ -86,12 +86,19 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/shaders" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/build-info" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/builds" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check-manifest" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/data-binding-compiler" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/data-binding-info" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-runtime-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-verifier" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-resources" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaPrecompile" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint" />
@@ -99,96 +106,96 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/prebuild" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/proguard-rules" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/split-apk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/splits-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="com.android.support:multidex-1.0.2" level="project" />
-    <orderEntry type="library" name="biz.kasual:materialnumberpicker-1.2.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="com.android.support:multidex-1.0.1" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\dom4j-1.6.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2@jar" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-auth-8.4.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\androidSCardV1.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:appcompat-v7-23.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-base-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-gcm-8.4.0" level="project" />
-    <orderEntry type="library" name="com.android.support:design-23.4.0" level="project" />
-    <orderEntry type="library" name="com.android.databinding:library-1.3.1" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\scprov-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.squareup.okio:okio:1.11.0@jar" level="project" />
-    <orderEntry type="library" name="in.kdms.irislib:irislib:release@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\sc-light-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support.constraint:constraint-layout-solver:1.1.0@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\mint-5.2.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\zxing-core-3.2.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:recyclerview-v7-23.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-wallet-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-appindexing-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-identity-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-8.4.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\SamsungIndiaIdentity.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.squareup.retrofit2:converter-gson:2.2.0@jar" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-wearable-8.4.0" level="project" />
-    <orderEntry type="library" name="com.squareup.picasso:picasso:2.5.0@jar" level="project" />
-    <orderEntry type="library" name="com.github.smart-fun:XmlToJson-1.2.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-games-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-drive-8.4.0" level="project" />
-    <orderEntry type="library" name="com.github.pinball83:masked-edittext-1.0.3" level="project" />
-    <orderEntry type="library" name="joda-time:joda-time:2.9.2@jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="com.android.support:multidex-instrumentation-1.0.2" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-cast-8.4.0" level="project" />
-    <orderEntry type="library" name="com.squareup.retrofit2:retrofit:2.2.0@jar" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-safetynet-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-basement-8.4.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\scpkix-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:support-v4-23.4.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\zxp3lib1.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\zsdk_android_card_api-beta-MoH.0.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\cardreaderlib.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-appstate-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-plus-8.4.0" level="project" />
-    <orderEntry type="library" name="com.mcxiaoke.volley:library:1.0.19@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\acssmc-1.1.3.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:animated-vector-drawable-23.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-maps-8.4.0" level="project" />
-    <orderEntry type="library" name="net.zetetic:android-database-sqlcipher-3.5.7" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\android-zoom-view.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.google.code.gson:gson:2.7@jar" level="project" />
-    <orderEntry type="library" name="com.android.databinding:adapters-1.3.1" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-measurement-8.4.0" level="project" />
-    <orderEntry type="library" name="com.android.support.constraint:constraint-layout-1.1.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-analytics-8.4.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\JSR268Library.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-vision-8.4.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\commons-io-2.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:support-vector-drawable-23.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-fitness-8.4.0" level="project" />
-    <orderEntry type="library" name="com.squareup.okhttp3:okhttp:3.6.0@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\ZSDK_ANDROID_API-2.11.2800.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:cardview-v7-23.4.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\json-20140107.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:mediarouter-v7-23.0.0" level="project" />
-    <orderEntry type="library" name="com.android.support:support-annotations:25.0.1@jar" level="project" />
-    <orderEntry type="library" name="com.android.databinding:baseLibrary:3.0.1@jar" level="project" />
-    <orderEntry type="library" name="org.bouncycastle:bcprov-ext-jdk16:1.46@jar" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-appinvite-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-nearby-8.4.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\sun.misc.BASE64Decoder.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-ads-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-location-8.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-panorama-8.4.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-1-JUNE\app\libs\ksoap2-android-assembly-2.6.5-jar-with-dependencies.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.github.bumptech.glide:glide:3.7.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\dom4j-1.6.1.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\zsdk_android_card_api-beta-MoH.0.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: in.kdms.irislib:irislib:release@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-wallet-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.7@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.bouncycastle:bcprov-ext-jdk16:1.46@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout-solver:1.1.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-appindexing-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\zxp3lib1.0.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\acssmc-1.1.3.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-basement-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:design-23.4.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.android.support:multidex-1.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\android-zoom-view.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:multidex-1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-games-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:recyclerview-v7-23.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.picasso:picasso:2.5.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.11.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-analytics-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-location-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-nearby-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-vision-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout-1.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-panorama-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.databinding:baseLibrary:3.0.1@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:appcompat-v7-23.4.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.android.support:multidex-instrumentation-1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-gcm-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: joda-time:joda-time:2.9.2@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-ads-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\ksoap2-android-assembly-2.6.5-jar-with-dependencies.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:mediarouter-v7-23.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:animated-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-appinvite-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\sc-light-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\ZSDK_ANDROID_API-2.11.2800.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.bumptech.glide:glide:3.7.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\JSR268Library.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\mint-5.2.0.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\scprov-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-base-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.pinball83:masked-edittext-1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-fitness-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-appstate-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.databinding:library-1.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.databinding:adapters-1.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\zxing-core-3.2.1.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-plus-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:cardview-v7-23.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: net.zetetic:android-database-sqlcipher-3.5.7" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\androidSCardV1.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\scpkix-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.smart-fun:XmlToJson-1.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\cardreaderlib.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.mcxiaoke.volley:library:1.0.19@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\SamsungIndiaIdentity.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\commons-io-2.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-maps-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-measurement-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-drive-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.retrofit2:converter-gson:2.2.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-wearable-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.6.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-cast-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-annotations:25.0.1@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.android.support:support-v4-23.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\json-20140107.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-safetynet-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-auth-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2@jar" level="project" />
+    <orderEntry type="library" name="Gradle: biz.kasual:materialnumberpicker-1.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-identity-8.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\app\libs\sun.misc.BASE64Decoder.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.retrofit2:retrofit:2.2.0@jar" level="project" />
     <orderEntry type="module" module-name="customcomponent" />
-    <orderEntry type="library" name="android-android-23" level="project" />
   </component>
 </module>

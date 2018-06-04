@@ -60,7 +60,7 @@ public class FindBeneficiaryByNameActivity extends BaseActivity {
 
         aadhaarNo = getIntent().getStringExtra("aadhaarNo");
         headerTV = (TextView) findViewById(R.id.centertext);
-        headerTV.setText("Beneficiary Data(With Aadhaar)");
+        headerTV.setText("Beneficiary Data");
         manualRadioButton = (RadioButton) findViewById(R.id.manualRadioButton);
         QrCodeRadioButton = (RadioButton) findViewById(R.id.qrCodeRadioButton);
         backLayout = (RelativeLayout) findViewById(R.id.backLayout);

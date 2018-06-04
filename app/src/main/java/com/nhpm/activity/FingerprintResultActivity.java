@@ -76,7 +76,7 @@ public class FingerprintResultActivity extends BaseActivity {
         stateCheck=(CheckBox)findViewById(R.id.stateCheck) ;
         distCheck=(CheckBox)findViewById(R.id.distCheck) ;
 
-        headerTV.setText("Beneficiary Data(With Aadhaar)");
+        headerTV.setText("Beneficiary Data");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -369,7 +369,7 @@
     <string name="BankName">Bank Name</string>
     <string name="BranchBnk">Bank Branch</string>
     <string name="AccNo">Account Number</string>
-    <string name="validatee">Validate</string>
+    <string name="validatee">Next</string>
     <string name="demo_auth">Demographic Auth</string>
 
     <string name="validateMobile">Validate Mobile Number</string>

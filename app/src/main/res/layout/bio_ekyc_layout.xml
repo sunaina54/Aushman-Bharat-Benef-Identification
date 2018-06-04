@@ -150,7 +150,7 @@
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="0.6"
-                        android:enabled="true"
+                        android:enabled="false"
                         android:inputType="date"
                         android:maxLength="4"
                         android:paddingLeft="5dp"
