@@ -218,6 +218,13 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
             edtxt_Aadhaar.setEnabled(false);
 
         }
+
+        String aadharNo1 = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.AadharNumber, context);
+
+        if(aadharNo1!=null){
+            edtxt_Aadhaar.setText(aadharNo1);
+            edtxt_Aadhaar.setEnabled(false);
+        }
         aadharAuthRG = (RadioGroup) view.findViewById(R.id.aadharAuthRG);
         aadharAuthRG.setVisibility(View.VISIBLE);
         singleEye = (RadioButton) view.findViewById(R.id.singleRadioButton);
@@ -1474,9 +1481,12 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
 
                 if (aadhaarKycResponse != null) {
                     if (aadhaarKycResponse.getResult() != null && aadhaarKycResponse.getResult().equalsIgnoreCase(AppConstant.AADHAAR_AUTH_YES)) {
-                        Intent intent = new Intent(context, FingerprintResultActivity.class);
+                       /* Intent intent = new Intent(context, FingerprintResultActivity.class);
                         intent.putExtra("result", aadhaarKycResponse);
-                        startActivity(intent);
+                        startActivity(intent);*/
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",aadhaarKycResponse.serialize(),context);
+
+                        ekycActivity.finish();
                     } else {
                         CustomAlert.alertWithOk(context, aadhaarKycResponse.getErr());
                         return;

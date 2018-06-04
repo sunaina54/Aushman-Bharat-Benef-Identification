@@ -37,7 +37,7 @@ import java.util.ArrayList;
 public class EkycActivity extends BaseActivity {
     private Context context;
     private String zoomMode = "N";
-    private String benefidentificationMode="",ekycMode="",demoMode="",aadharAuthModeModel="";
+    private String benefidentificationMode = "", ekycMode = "", demoMode = "", aadharAuthModeModel = "";
     private FragmentManager fragmentManager;
     private Fragment fragment;
     private FragmentTransaction fragmentTransection;
@@ -46,7 +46,7 @@ public class EkycActivity extends BaseActivity {
     private RelativeLayout backLayout, menuLayout;
     private ImageView back;
     private TextView headerTV;
-    private String aadhaarNo;
+    private String aadhaarNo,screenName;
     public SerachOptionItem serachItem;
 
 
@@ -62,6 +62,10 @@ public class EkycActivity extends BaseActivity {
                 (AppConstant.PROJECT_NAME, AppConstant.SEARCH_OPTION, context));
         aadhaarNo = serachItem.getAadhaarNo();//getIntent().getStringExtra("aadhaarNo");
 
+        screenName = getIntent().getStringExtra("screen");
+        if (screenName != null && screenName.equalsIgnoreCase("PersonalDetailsFragment")) {
+            aadhaarNo = getIntent().getStringExtra("aadharNo");
+        }
 
         headerTV = (TextView) findViewById(R.id.centertext);
         headerTV.setText("Beneficiary Data(With Aadhaar)");
@@ -158,9 +162,9 @@ public class EkycActivity extends BaseActivity {
     }
 
     private String checkAppConfig() {
-        LinearLayout mainLayout=(LinearLayout)findViewById(R.id.parentLayout);
-        LinearLayout aadhaarLayout=(LinearLayout)findViewById(R.id.adhaarLayout);
-        RelativeLayout nonAadhaarLayout=(RelativeLayout)findViewById(R.id.nonAadhaarLayout);
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.parentLayout);
+        LinearLayout aadhaarLayout = (LinearLayout) findViewById(R.id.adhaarLayout);
+        RelativeLayout nonAadhaarLayout = (RelativeLayout) findViewById(R.id.nonAadhaarLayout);
         StateItem selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
         if (selectedStateItem != null && selectedStateItem.getStateCode() != null) {
             ArrayList<ConfigurationItem> configList = SeccDatabase.findConfiguration(selectedStateItem.getStateCode(), context);
@@ -170,20 +174,20 @@ public class EkycActivity extends BaseActivity {
                     if (item1.getConfigId().equalsIgnoreCase(AppConstant.APPLICATION_ZOOM)) {
                         zoomMode = item1.getStatus();
                     }
-                    if(item1.getConfigId().equalsIgnoreCase(AppConstant.VALIDATION_MODE_CONFIG)){
-                        benefidentificationMode=item1.getStatus();
+                    if (item1.getConfigId().equalsIgnoreCase(AppConstant.VALIDATION_MODE_CONFIG)) {
+                        benefidentificationMode = item1.getStatus();
                     }
 
-                    if(item1.getConfigId().equalsIgnoreCase(AppConstant.AADHAR_AUTH)){
-                        aadharAuthModeModel=item1.getStatus();
+                    if (item1.getConfigId().equalsIgnoreCase(AppConstant.AADHAR_AUTH)) {
+                        aadharAuthModeModel = item1.getStatus();
                     }
 
-                    if(item1.getConfigId().equalsIgnoreCase(AppConstant.EKYC_SOURCE_CONFIG)){
-                        ekycMode=item1.getStatus();
+                    if (item1.getConfigId().equalsIgnoreCase(AppConstant.EKYC_SOURCE_CONFIG)) {
+                        ekycMode = item1.getStatus();
                     }
 
-                    if(item1.getConfigId().equalsIgnoreCase(AppConstant.DEMOGRAPHIC_SOURCE_CONFIG)){
-                        demoMode=item1.getStatus();
+                    if (item1.getConfigId().equalsIgnoreCase(AppConstant.DEMOGRAPHIC_SOURCE_CONFIG)) {
+                        demoMode = item1.getStatus();
                     }
 
                 }
@@ -193,46 +197,46 @@ public class EkycActivity extends BaseActivity {
         irisRadioButton.setVisibility(View.GONE);
         biometricRadioButton.setVisibility(View.GONE);
 
-        if(ekycMode!=null && !ekycMode.equalsIgnoreCase("")){
-            String mode="";
-            if(ekycMode.contains("I")){
-                mode="Iris";
+        if (ekycMode != null && !ekycMode.equalsIgnoreCase("")) {
+            String mode = "";
+            if (ekycMode.contains("I")) {
+                mode = "Iris";
                 otpRadioButton.setVisibility(View.GONE);
                 irisRadioButton.setVisibility(View.VISIBLE);
                 biometricRadioButton.setVisibility(View.GONE);
             }
-            if(ekycMode.contains("F")){
-                mode="FingerPrint";
+            if (ekycMode.contains("F")) {
+                mode = "FingerPrint";
                 otpRadioButton.setVisibility(View.GONE);
                 irisRadioButton.setVisibility(View.GONE);
                 biometricRadioButton.setVisibility(View.VISIBLE);
             }
-            if(ekycMode.contains("O")){
-                mode="OTP";
+            if (ekycMode.contains("O")) {
+                mode = "OTP";
                 otpRadioButton.setVisibility(View.VISIBLE);
                 irisRadioButton.setVisibility(View.GONE);
                 biometricRadioButton.setVisibility(View.GONE);
             }
-            if(ekycMode.contains("IF")){
-                mode="Iris/FingerPrint";
+            if (ekycMode.contains("IF")) {
+                mode = "Iris/FingerPrint";
                 otpRadioButton.setVisibility(View.GONE);
                 irisRadioButton.setVisibility(View.VISIBLE);
                 biometricRadioButton.setVisibility(View.VISIBLE);
             }
-            if(ekycMode.contains("IO")){
-                mode="Iris/OTP";
+            if (ekycMode.contains("IO")) {
+                mode = "Iris/OTP";
                 otpRadioButton.setVisibility(View.VISIBLE);
                 irisRadioButton.setVisibility(View.VISIBLE);
                 biometricRadioButton.setVisibility(View.GONE);
             }
-            if(ekycMode.contains("FO")){
-                mode="FingerPrint/OTP";
+            if (ekycMode.contains("FO")) {
+                mode = "FingerPrint/OTP";
                 otpRadioButton.setVisibility(View.VISIBLE);
                 irisRadioButton.setVisibility(View.GONE);
                 biometricRadioButton.setVisibility(View.VISIBLE);
             }
-            if(ekycMode.contains("IFO")){
-                mode="Iris/FingerPrint/OTP";
+            if (ekycMode.contains("IFO")) {
+                mode = "Iris/FingerPrint/OTP";
                 otpRadioButton.setVisibility(View.VISIBLE);
                 irisRadioButton.setVisibility(View.VISIBLE);
                 biometricRadioButton.setVisibility(View.VISIBLE);

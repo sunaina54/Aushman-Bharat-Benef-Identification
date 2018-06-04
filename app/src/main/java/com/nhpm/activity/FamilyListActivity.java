@@ -1,6 +1,7 @@
 package com.nhpm.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -96,7 +97,13 @@ public class FamilyListActivity extends BaseActivity {
         //  familyListRequestModel.setFathername("");
 //familyListRequestModel.setGenderid("");
         //  familyListRequestModel.setMothername("");
-        familyListRequestModel.setHho_id("");
+        if (familyListRequestModel.getHho_id() == null) {
+            familyListRequestModel.setHho_id("");
+        }
+
+        if(familyListRequestModel.getAhlTinno()== null){
+            familyListRequestModel.setAhlTinno("");
+        }
 //familyListRequestModel.setPincode("");
         familyListRequestModel.setRural_urban("");
         // familyListRequestModel.setSpousenm("");
@@ -113,8 +120,6 @@ public class FamilyListActivity extends BaseActivity {
 
                     if (familyResponse != null) {
                         familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
-
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -128,12 +133,12 @@ public class FamilyListActivity extends BaseActivity {
                         ) {
                     int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
                     noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
-                    if ( familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
-                      //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
+                    if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
+                        //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
                         try {
                             refreshMembersList(familyListResponseModel.getResponse().getDocs());
-                        }catch (Exception e){
-                            Log.d("TAG","Exception : "+e.toString());
+                        } catch (Exception e) {
+                            Log.d("TAG", "Exception : " + e.toString());
                         }
                         /*}else {
                             //mProgressBar.setVisibility(View.GONE);
@@ -141,7 +146,7 @@ public class FamilyListActivity extends BaseActivity {
                             noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                         }*/
                     } else {
-                       // mProgressBar.setVisibility(View.GONE);
+                        // mProgressBar.setVisibility(View.GONE);
                         noMemberLL.setVisibility(View.VISIBLE);
                     }
 
@@ -173,6 +178,8 @@ public class FamilyListActivity extends BaseActivity {
                     motherNameTV, spouseNameTV, ahltinTV, hhidTV, stateTV, distTV, villageTV,
                     blockTV, pincodeTV;
             private Button collectDataBT, printCardBT;
+            private LinearLayout familyItemLL ;
+
 
             public ViewHolder(View v) {
                 super(v);
@@ -193,6 +200,7 @@ public class FamilyListActivity extends BaseActivity {
                 villageTV = (TextView) v.findViewById(R.id.villageTV);
                 collectDataBT = (Button) v.findViewById(R.id.collectDataBT);
                 printCardBT = (Button) v.findViewById(R.id.printCardBT);
+                familyItemLL = (LinearLayout) v.findViewById(R.id.familyItemLL);
 
             }
         }
@@ -232,20 +240,20 @@ public class FamilyListActivity extends BaseActivity {
             final DocsListItem item = mDataset.get(position);
             holder.nameTV.setText(item.getName().trim());
             holder.fatherNameTV.setText(item.getFathername().trim());
-            String gender="";
-            if(item.getGenderid().equalsIgnoreCase("1")){
-                gender="Male";
-            }else if(item.getGenderid().equalsIgnoreCase("2")){
-                gender="Female";
-            }else{
-                gender="Other";
+            String gender = "";
+            if (item.getGenderid().equalsIgnoreCase("1")) {
+                gender = "Male";
+            } else if (item.getGenderid().equalsIgnoreCase("2")) {
+                gender = "Female";
+            } else {
+                gender = "Other";
             }
             holder.genderTV.setText(gender);
-            String yob="";
-            if(item.getDob()!=null&& item.getDob().length()>4){
-               yob=item.getDob().substring(0,4) ;
-            }else{
-                yob=item.getDob();
+            String yob = "";
+            if (item.getDob() != null && item.getDob().length() > 4) {
+                yob = item.getDob().substring(0, 4);
+            } else {
+                yob = item.getDob();
             }
             holder.ageTV.setText(yob);
 
@@ -258,6 +266,15 @@ public class FamilyListActivity extends BaseActivity {
             holder.villageTV.setText(item.getVillage_name_english());
             holder.blockTV.setText(item.getBlock_name_english());
             holder.pincodeTV.setText(item.getPincode());
+            holder.familyItemLL.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, FamilyMembersListActivity.class);
+                    //intent.putExtra("result", beneficiaryModel);
+                    intent.putExtra("hhdNo",mDataset.get(position).getHhd_no());
+                    startActivity(intent);
+                }
+            });
 
             /*holder.collectDataBT.setOnClickListener(new View.OnClickListener() {
                 @Override

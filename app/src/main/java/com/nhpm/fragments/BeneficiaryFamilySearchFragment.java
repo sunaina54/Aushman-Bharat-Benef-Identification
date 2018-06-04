@@ -22,12 +22,14 @@ import com.customComponent.utility.ProjectPrefrence;
 import com.google.zxing.client.result.VINParsedResult;
 import com.nhpm.Models.SerachOptionItem;
 import com.nhpm.Models.request.BeneficiarySearchModel;
+import com.nhpm.Models.request.FamilyListRequestModel;
 import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
+import com.nhpm.activity.FamilyListActivity;
 import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.PhoneNumberActivity;
 import com.nhpm.activity.SearchDashboardActivity;
@@ -43,13 +45,14 @@ import java.util.ArrayList;
 public class BeneficiaryFamilySearchFragment extends Fragment {
     private Spinner cardTypeSpinner;
     private Context context;
-    private EditText rationCardET, rsbyET, ahlTinET, mobileET;
+    private EditText rationCardET, rsbyET, ahlTinET, mobileET,hhIdNoET;
     private ArrayList<BeneficiarySearchModel> searchModelArrayList;
     private TextView cardTypeTV, findByNameTV, noMemberTV;
     private Button searchBTN;
     private String cardNo = "", cardType = "";
     private ArrayList<BeneficiaryListItem> list;
     private StateItem selectedStateItem;
+    private   FamilyListRequestModel request;
 
 
     @Override
@@ -88,6 +91,29 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             }
         });
         cardTypeTV = (TextView) view.findViewById(R.id.cardTypeTV);
+        hhIdNoET = (EditText) view.findViewById(R.id.hhIdNoET);
+        hhIdNoET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().length() > 0) {
+
+                    hhIdNoET.setTextColor(AppUtility.getColor(context, R.color.black_shine));
+                    if (hhIdNoET.getText().toString().length() == 24) {
+                        hhIdNoET.setTextColor(AppUtility.getColor(context, R.color.green));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         rationCardET = (EditText) view.findViewById(R.id.rationCardET);
         rationCardET.addTextChangedListener(new TextWatcher() {
             @Override
@@ -203,6 +229,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         spinnerList.add("RSBY URN");
         spinnerList.add("AHLTIN");
         spinnerList.add("Mobile Number");
+        spinnerList.add("HHId Number");
 
 
         cardTypeSpinner = (Spinner) view.findViewById(R.id.cardTypeSpinner);
@@ -216,6 +243,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     rsbyET.setVisibility(View.GONE);
                     ahlTinET.setVisibility(View.GONE);
                     mobileET.setVisibility(View.GONE);
+                    hhIdNoET.setVisibility(View.GONE);
                     cardTypeTV.setText("Ration Card");
 
                     cardType = "Ration Card";
@@ -224,6 +252,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     rsbyET.setVisibility(View.VISIBLE);
                     ahlTinET.setVisibility(View.GONE);
                     mobileET.setVisibility(View.GONE);
+                    hhIdNoET.setVisibility(View.GONE);
                     cardTypeTV.setText("RSBY URN");
 
                     cardType = "RSBY URN";
@@ -232,6 +261,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     rsbyET.setVisibility(View.GONE);
                     ahlTinET.setVisibility(View.VISIBLE);
                     mobileET.setVisibility(View.GONE);
+                    hhIdNoET.setVisibility(View.GONE);
                     cardTypeTV.setText("AHLTIN");
 
                     cardType = "AHLTIN";
@@ -240,9 +270,19 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     rsbyET.setVisibility(View.GONE);
                     ahlTinET.setVisibility(View.GONE);
                     mobileET.setVisibility(View.VISIBLE);
+                    hhIdNoET.setVisibility(View.GONE);
                     cardTypeTV.setText("Mobile Number");
-
                     cardType = "Mobile Number";
+                }
+                else if (position == 4) {
+                    rationCardET.setVisibility(View.GONE);
+                    rsbyET.setVisibility(View.GONE);
+                    ahlTinET.setVisibility(View.GONE);
+                    mobileET.setVisibility(View.GONE);
+                    hhIdNoET.setVisibility(View.VISIBLE);
+                    cardTypeTV.setText("HHId Number");
+
+                    cardType = "HHId Number";
                 }
             }
 
@@ -257,6 +297,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         searchBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                request=new FamilyListRequestModel();
                 //
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("Ration Card")) {
                     cardNo = rationCardET.getText().toString();
@@ -284,7 +325,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("AHLTIN")) {
                     cardNo = ahlTinET.getText().toString();
-                    ;
+                    request.setAhlTinno(cardNo);
+
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter AHLTIN number");
                         return;
@@ -297,7 +339,6 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("Mobile Number")) {
                     cardNo = mobileET.getText().toString();
-                    ;
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter mobile number");
                         return;
@@ -308,8 +349,28 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                 }
 
+                if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("HHId Number")) {
+                    cardNo = hhIdNoET.getText().toString();
+                    request.setHho_id(cardNo);
+                    if (cardNo.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please enter HHId number");
+                        return;
+                    } /*else if (cardNo.length() < 24) {
+                        CustomAlert.alertWithOk(context, "Please enter valid HHId number");
+                        return;
+                    }*/
 
-                BeneficiaryModel beneficiaryModel = new BeneficiaryModel();
+                }
+                request.setName("");
+                request.setGenderid("");
+                request.setAge("");
+                request.setPincode("");
+                request.setFathername("");
+                Intent theIntent=new Intent(context,FamilyListActivity.class);
+                theIntent.putExtra("SearchParam",request);
+                startActivity(theIntent);
+
+                /*BeneficiaryModel beneficiaryModel = new BeneficiaryModel();
                 beneficiaryModel.setBeneficiaryList(getList(cardNo, cardType));
                 if (beneficiaryModel != null && beneficiaryModel.getBeneficiaryList() != null
                         && beneficiaryModel.getBeneficiaryList().size() > 0) {
@@ -317,7 +378,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     intent.putExtra("result", beneficiaryModel);
                     intent.putExtra("cardNo",cardNo);
                     startActivity(intent);
-                }
+                }*/
             }
         });
 

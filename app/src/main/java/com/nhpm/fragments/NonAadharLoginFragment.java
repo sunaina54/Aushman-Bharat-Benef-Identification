@@ -580,7 +580,7 @@ public class NonAadharLoginFragment extends Fragment {
             } else {
                requestForOTP(loginResponse.getMobileNumber());
                 loginResponse.setLoginSession(true);
-               // setPin();
+                //setPin();
             }
         } else {
             AppUtility.alertWithOk(context, context.getResources().getString(R.string.locationNotAllocate));

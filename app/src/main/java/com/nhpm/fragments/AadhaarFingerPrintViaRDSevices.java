@@ -20,6 +20,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -187,7 +189,6 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
             // toast("Please check your Internet Connection .");
         }
         String aadharNo = ekycActivity.serachItem.getAadhaarNo();//ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.AadharNumber, context);
-
         String validatorAadhar = null;
         VerifierLoginResponse storedLoginResponse = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         if (storedLoginResponse != null) {
@@ -208,6 +209,12 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
             edtxt_Aadhaar.setText(aadharNo);
             edtxt_Aadhaar.setEnabled(false);
 
+        }
+        String aadharNo1 = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.AadharNumber, context);
+
+        if(aadharNo1!=null){
+            edtxt_Aadhaar.setText(aadharNo1);
+            edtxt_Aadhaar.setEnabled(false);
         }
         kycErrorTextView = (TextView) view.findViewById(R.id.errorTextView);
         aadharConsetCB = (CheckBox) view.findViewById(R.id.aadharConsetCB);
@@ -1385,10 +1392,17 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                 aadhaarKycResponse = new AadhaarResponseItem().create(result);
                 if(aadhaarKycResponse!=null) {
                     if (aadhaarKycResponse.getResult() != null && aadhaarKycResponse.getResult().equalsIgnoreCase(AppConstant.AADHAAR_AUTH_YES)) {
-                        Intent intent = new Intent(context, FingerprintResultActivity.class);
-                        intent.putExtra("result", aadhaarKycResponse);
+                        /*Intent intent = new Intent(context, PersonalDetailsFragment.class);
+                        intent.se("result", aadhaarKycResponse);*/
+                        // startActivity(intent);
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",aadhaarKycResponse.serialize(),context);
 
-                        startActivity(intent);
+                        ekycActivity.finish();
+
+                        /*PersonalDetailsFragment fragment = new PersonalDetailsFragment();
+                        fragment.setAadhaarKycResponse(aadhaarKycResponse);
+                        callFragment(fragment);
+*/
                     } else {
                         CustomAlert.alertWithOk(context, aadhaarKycResponse.getErr());
                         return;
@@ -1408,7 +1422,14 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
         }
     }
 
-
+    public void callFragment(PersonalDetailsFragment fragment) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragContainer, fragment);
+            fragmentTransaction.commit();
+        }
+    }
     private void ShowKycDataNew(String JSON) {
         try {
             aadhaarKycResponse = new AadhaarResponseItem().create(JSON);

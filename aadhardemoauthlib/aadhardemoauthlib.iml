@@ -71,13 +71,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/assets" type="java-test-resource" />
@@ -85,7 +78,15 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/shaders" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/attr" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check-manifest" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
@@ -94,66 +95,70 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\android-mantra-common-api.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\cordova-1.5.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\biomatiquesepi1000.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-wallet-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\scpkix-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-appindexing-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\IrishieldMK2120UWrapper.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-basement-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:multidex-1.0.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-games-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\sc-light-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\PrecisionEIKONTouch500-v1.3.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-analytics-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\SamsungIndiaIdentity.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-location-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-nearby-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-vision-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-panorama-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:appcompat-v7-23.4.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: com.android.support:multidex-instrumentation-1.0.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-gcm-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\iengine-ansi-iso.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-ads-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:mediarouter-v7-23.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:animated-vector-drawable-23.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-appinvite-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\FDxSDKProAndroid.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\androidtfm.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-base-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-fitness-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-appstate-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\MorphoApi_2_3.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-plus-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\android-3m-cogent-common-api.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\com.secugen.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\dpuareu.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\iddk2000-android-v3.3.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-maps-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-measurement-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-vector-drawable-23.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\commons-logging-1.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-drive-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\bioenableandriodwrapper.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-wearable-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-cast-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\fpscan-1.1.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\acpl_startek.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\jna-4.0.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-v4-23.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.android.support:support-annotations:23.4.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-safetynet-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\scprov-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-auth-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-identity-8.4.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:F.\Wahid-Work\NIC-PROJECT\PM-RSSM-01-JUNE\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\PrecisionUareU4500v.1.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.http.legacy-android-23" level="project" />
+    <orderEntry type="library" name="com.android.support:multidex-1.0.2" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-auth-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\dpuareu.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\scpkix-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:appcompat-v7-23.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-base-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\commons-logging-1.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\jna-4.0.0.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-gcm-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\PrecisionUareU4500v.1.1.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-wallet-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-appindexing-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\sc-light-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-identity-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\biomatiquesepi1000.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-wearable-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-games-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-drive-8.4.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="com.android.support:multidex-instrumentation-1.0.2" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-cast-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\PrecisionEIKONTouch500-v1.3.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-safetynet-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-basement-8.4.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-v4-23.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-appstate-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-plus-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\acpl_startek.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\androidtfm.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\fpscan-1.1.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\android-3m-cogent-common-api.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:animated-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-maps-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\com.secugen.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\FDxSDKProAndroid.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\cordova-1.5.0.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-measurement-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-analytics-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-vision-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\android-mantra-common-api.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\scprov-jdk15on-1.47.0.2.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-fitness-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\bioenableandriodwrapper.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\IrishieldMK2120UWrapper.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-annotations:23.4.0@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:mediarouter-v7-23.0.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\SamsungIndiaIdentity.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\iengine-ansi-iso.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-appinvite-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-nearby-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\MorphoApi_2_3.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-ads-8.4.0" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-location-8.4.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\ps_quick_it\nhps-1june-updated\PM-RSSM-4-June\Aushman-Bharat-Benef-Identification\aadhardemoauthlib\libs\iddk2000-android-v3.3.0.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-panorama-8.4.0" level="project" />
+    <orderEntry type="library" name="android-android-23" level="project" />
+    <orderEntry type="library" name="org.apache.http.legacy-android-23" level="project" />
   </component>
 </module>

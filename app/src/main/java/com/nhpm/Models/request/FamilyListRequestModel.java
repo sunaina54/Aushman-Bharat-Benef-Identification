@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class FamilyListRequestModel implements Serializable {
 
     private String ahlblockno;
+    private String ahl_tin;
     private String rural_urban;
     private String spousenms;
     private String state_name;
@@ -28,6 +29,14 @@ public class FamilyListRequestModel implements Serializable {
     private String userName;
     private String userPass;
     private String resultCount;
+
+    public String getAhlTinno() {
+        return ahl_tin;
+    }
+
+    public void setAhlTinno(String ahlTinno) {
+        this.ahl_tin = ahlTinno;
+    }
 
     public String getResultCount() {
         return resultCount;

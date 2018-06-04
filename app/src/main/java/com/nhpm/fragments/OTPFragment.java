@@ -183,6 +183,13 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
             edtxt_Aadhaar.setEnabled(false);
 
         }
+
+        String aadharNo1 = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.AadharNumber, context);
+
+        if(aadharNo1!=null){
+            edtxt_Aadhaar.setText(aadharNo1);
+            edtxt_Aadhaar.setEnabled(false);
+        }
         kycErrorTextView = (TextView) view.findViewById(R.id.errorTextView);
         aadharConsetCB = (CheckBox) view.findViewById(R.id.aadharConsetCB);
         auth_demo_go = (Button) view.findViewById(R.id.auth_demo_go);
@@ -670,9 +677,12 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, loginResponse.serialize(), context);
                           //  setPin();*/
                             dialog.dismiss();
-                            Intent intent = new Intent(context, FingerprintResultActivity.class);
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",aadhaarKycResponse.serialize(),context);
+
+                            ekycActivity.finish();
+                            /*Intent intent = new Intent(context, FingerprintResultActivity.class);
                             intent.putExtra("result", aadhaarKycResponse);
-                            startActivity(intent);
+                            startActivity(intent);*/
                         } else if (aadhaarKycResponse.getResult() != null && aadhaarKycResponse.getResult().equalsIgnoreCase("N")) {
                             if (aadhaarKycResponse.getErr() != null && !aadhaarKycResponse.getErr().equalsIgnoreCase("")) {
                                 errorTV.setVisibility(View.VISIBLE);
@@ -696,9 +706,13 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                         if (aadhaarAuthRespItem.getAuthRes().getRet() != null && aadhaarAuthRespItem.getAuthRes().getRet().equalsIgnoreCase("Y")) {
                          /*   ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, loginResponse.serialize(), context);
                             //setPin();*/
-                            Intent intent = new Intent(context, FingerprintResultActivity.class);
+
+                            Intent intent = new Intent(context, PersonalDetailsFragment.class);
                             intent.putExtra("result", aadhaarKycResponse);
                             startActivity(intent);
+                          /*  Intent intent = new Intent(context, FingerprintResultActivity.class);
+                            intent.putExtra("result", aadhaarKycResponse);
+                            startActivity(intent);*/
                         } else if (aadhaarAuthRespItem.getAuthRes().getRet() != null && aadhaarAuthRespItem.getAuthRes().getRet().equalsIgnoreCase("N")) {
                             if (aadhaarAuthRespItem.getAuthRes().getErr() != null && !aadhaarAuthRespItem.getAuthRes().getErr().equalsIgnoreCase("")) {
                                 errorTV.setVisibility(View.VISIBLE);

@@ -1,9 +1,15 @@
 package com.nhpm.Models.response;
 
+import com.google.gson.Gson;
+import com.nhpm.Models.request.PersonalDetailItem;
+
+import java.io.Serializable;
+
 /**
  * Created by SUNAINA on 31-05-2018.
  */
-public class DocsListItem {
+public class DocsListItem implements Serializable {
+    private PersonalDetailItem personalDetail;
     private String LastModifiedDate;
     private String block_name_english;
     private String wardid;
@@ -74,6 +80,14 @@ public class DocsListItem {
     private String grampanchayatname;
     private String incomesource_urban;
     private String addressline2sl;
+
+    public PersonalDetailItem getPersonalDetail() {
+        return personalDetail;
+    }
+
+    public void setPersonalDetail(PersonalDetailItem personalDetail) {
+        this.personalDetail = personalDetail;
+    }
 
     public String getLastModifiedDate() {
         return LastModifiedDate;
@@ -633,5 +647,18 @@ public class DocsListItem {
 
     public void setAddressline2sl(String addressline2sl) {
         this.addressline2sl = addressline2sl;
+    }
+
+
+    static public DocsListItem create(String serializedData) {
+        // Use GSON to instantiate this class using the JSON representation of the state
+        Gson gson = new Gson();
+        return gson.fromJson(serializedData, DocsListItem.class);
+    }
+
+    public String serialize() {
+        // Serialize this class into a JSON string using GSON
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.response.BeneficiaryListItem;
+import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.fragments.BeneficiaryFamilySearchFragment;
@@ -37,7 +38,7 @@ public class CollectDataActivity extends BaseActivity {
     private ImageView back;
     private RelativeLayout backLayout;
     private String name;
-    public BeneficiaryListItem benefItem;
+    public DocsListItem benefItem;
     private Context context;
 
     @Override
@@ -52,8 +53,8 @@ public class CollectDataActivity extends BaseActivity {
         fragmentManager = getSupportFragmentManager();
         headerTV = (TextView) findViewById(R.id.centertext);
         headerTV.setText("Collect Data");
-        //name = getIntent().getStringExtra("Name");
-        benefItem=BeneficiaryListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
+        name = getIntent().getStringExtra("Name");
+        benefItem= DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
                 FamilyMembersListActivity.SELECTED_MEMBER,context));
 
         back = (ImageView) findViewById(R.id.back);
