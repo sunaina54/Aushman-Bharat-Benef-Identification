@@ -76,6 +76,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
     private EditText edtxt_Aadhaar;
     private AlertDialog dialog;
     private CheckBox aadharConsetCB;
+    private PersonalDetailItem personalDetailItem;
     private CustomAsyncTask asyncTask;
     private static String JSON = "";
     private AadhaarDemoAuthResponse aadhaarAuthRespItem;
@@ -678,11 +679,30 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, loginResponse.serialize(), context);
                           //  setPin();*/
                             dialog.dismiss();
-                            PersonalDetailItem personalDetailItem = new PersonalDetailItem();
+
+
+                            if (personalDetailItem != null) {
+                                personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
+                                personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
+                                personalDetailItem.setName(aadhaarKycResponse.getName());
+
+                                personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+
+                            }else {
+
+                                personalDetailItem = new PersonalDetailItem();
+                                personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
+                                personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
+                                personalDetailItem.setName(aadhaarKycResponse.getName());
+                                personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+                            }
+                         /*   PersonalDetailItem personalDetailItem = new PersonalDetailItem();
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);*/
 
                             ekycActivity.finish();
                            // ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",aadhaarKycResponse.serialize(),context);

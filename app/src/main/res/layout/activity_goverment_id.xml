@@ -30,6 +30,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_margin="5dp"
+                    android:layout_marginBottom="@dimen/margine_20"
                     android:layout_below="@+id/governmentIdLayout"
                     android:orientation="horizontal">
 
@@ -38,9 +39,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_centerHorizontal="true"
-                        android:layout_margin="5dp"
+                        android:layout_marginLeft="@dimen/margine_5"
+                        android:layout_marginRight="@dimen/margine_5"
+                        android:layout_marginTop="@dimen/margine_5"
                         android:background="@drawable/rounded_shape_yello_button"
                         android:text="@string/submit"
+                        android:layout_marginBottom="20dp"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_18sp" />
@@ -94,14 +98,13 @@
                             android:weightSum="2">
 
                             <TextView
+                                style="@style/label"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:padding="5dp"
-                                style="@style/label"
                                 android:text="Enter ID Card Number"
-                                android:textColor="@color/blue"
-                                />
+                                android:textColor="@color/blue" />
 
                             <EditText
                                 android:id="@+id/voterIdCardNumberET"
@@ -118,21 +121,20 @@
 
                         <LinearLayout
 
+                            android:id="@+id/nameBenefLL"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:weightSum="2"
-                            android:id="@+id/nameBenefLL">
+                            android:weightSum="2">
 
                             <TextView
+                                style="@style/label"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:padding="5dp"
-                                style="@style/label"
-                                android:text="Enter Name"
-                                android:textColor="@color/blue"
-                                />
+                                android:text="Enter Name As In ID Card"
+                                android:textColor="@color/blue" />
 
                             <EditText
                                 android:id="@+id/nameET"
@@ -172,6 +174,28 @@
                                 android:singleLine="true" />
                         </LinearLayout>
 
+
+                        <RelativeLayout
+                            android:id="@+id/voterIdCaptureLayout"
+                            android:layout_marginTop="@dimen/margine_10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <Button
+                                android:id="@+id/captureVoterIdBT"
+                                android:layout_width="250dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_margin="5dp"
+                                android:background="@drawable/rounded_shape_yello_button"
+                                android:text="Capture Id Photo"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size_18sp" />
+                        </RelativeLayout>
+
                         <LinearLayout
                             android:id="@+id/govtIdPhotoLayout"
                             android:layout_width="match_parent"
@@ -184,31 +208,39 @@
 
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1.6"
+                                android:layout_weight="1.5"
                                 android:gravity="center">
 
                                 <ImageView
                                     android:id="@+id/voterIdIV"
                                     android:layout_width="300dp"
                                     android:layout_height="300dp"
+                                    android:background="@drawable/no_image_preview"
                                     android:scaleType="fitXY" />
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:id="@+id/voterIdCaptureLayout"
-                                android:layout_width="0dp"
-                                android:layout_height="40dp"
-
-                                android:layout_weight=".4">
-
-                                <ImageView
-                                    android:id="@+id/captureVoterIdBT"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/camera_png"
-                                    android:textSize="@dimen/text_size_15sp" />
-                            </LinearLayout>
                         </LinearLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/photoCaptureLayout"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="@dimen/margine_10"
+                            android:layout_height="wrap_content">
+
+
+                            <Button
+                                android:id="@+id/capturePhotoBT"
+                                android:layout_width="250dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_margin="5dp"
+                                android:background="@drawable/rounded_shape_yello_button"
+                                android:text="Capture Beneficiary Photo"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size_18sp" />
+                        </RelativeLayout>
 
 
                         <LinearLayout
@@ -223,42 +255,19 @@
 
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1.6"
+                                android:layout_weight="1.5"
                                 android:gravity="center">
 
                                 <ImageView
                                     android:id="@+id/photoIV"
                                     android:layout_width="300dp"
                                     android:layout_height="300dp"
+                                    android:background="@drawable/no_image_preview"
+
                                     android:scaleType="fitXY" />
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:id="@+id/photoCaptureLayout"
-                                android:layout_width="0dp"
-                                android:layout_height="40dp"
-                                android:layout_weight=".4">
 
-                                <Button
-                                    android:id="@+id/capturePhotoBT"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="35dp"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_margin="5dp"
-                                    android:background="@drawable/rounded_shape_yello_button"
-                                    android:text="Capture"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/text_size_18sp" />
-
-                                <!--<Button
-                                    android:id="@+id/capturePhotoBT"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="Capture"
-                                    android:textAlignment="center"
-                                    android:textSize="@dimen/text_size_12sp" />-->
-                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout

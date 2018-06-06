@@ -172,6 +172,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
     private SelectedMemberItem selectedMemItem;
     private AlertDialog internetDiaolg;
     private VerifierLoginResponse loginResponse;
+    private PersonalDetailItem personalDetailItem;
 
 
 
@@ -1396,12 +1397,28 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                         /*Intent intent = new Intent(context, PersonalDetailsFragment.class);
                         intent.se("result", aadhaarKycResponse);*/
                         // startActivity(intent);
-                        PersonalDetailItem personalDetailItem = new PersonalDetailItem();
+                       /* PersonalDetailItem personalDetailItem = new PersonalDetailItem();
                         personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                         personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                         personalDetailItem.setName(aadhaarKycResponse.getName());
-                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);*/
 
+                        if (personalDetailItem != null) {
+                            personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
+                            personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
+                            personalDetailItem.setName(aadhaarKycResponse.getName());
+                            personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+
+                        }else {
+
+                            personalDetailItem = new PersonalDetailItem();
+                            personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
+                            personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
+                            personalDetailItem.setName(aadhaarKycResponse.getName());
+                            personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+                        }
                         ekycActivity.finish();
 
                         /*PersonalDetailsFragment fragment = new PersonalDetailsFragment();

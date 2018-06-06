@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#eaeaea"
+    >
 
     <include
         android:id="@+id/head"
@@ -24,13 +26,14 @@
                 android:id="@+id/kycDetailLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#eaeaea"
                 android:orientation="vertical"
                 android:padding="10dp"
                 android:visibility="visible">
 
                 <ImageView
+
                     android:id="@+id/kycImageView"
+                    android:visibility="gone"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:layout_gravity="center_horizontal" />
@@ -38,6 +41,7 @@
                 <TextView
                     android:id="@+id/kycGovtId"
                     style="@style/textView"
+                    android:visibility="gone"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -452,6 +456,7 @@
 
 
                     <EditText
+                        android:visibility="gone"
                         android:id="@+id/kycCareOf"
                         style="@style/textView"
                         android:layout_width="0dp"
@@ -858,9 +863,8 @@
                 android:id="@+id/saveDataLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_alignParentBottom="true"
                 android:layout_below="@+id/main_layout"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp"

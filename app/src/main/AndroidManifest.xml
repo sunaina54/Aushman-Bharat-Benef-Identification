@@ -390,10 +390,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
         <activity
+            android:name=".activity.FamilyListByHHIDActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
             android:name=".activity.CollectDataActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            ></activity>
+            android:windowSoftInputMode="stateVisible|adjustPan">
+
+        </activity>
 
         <activity
             android:name=".activity.FindBeneficiaryByNameActivity"

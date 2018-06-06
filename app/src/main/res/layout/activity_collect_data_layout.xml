@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:id="@+id/personalDetailsLL"
-            android:background="@drawable/arrow_white">
+            android:background="@drawable/arrow_yellow">
 
             <TextView
                 android:layout_width="match_parent"

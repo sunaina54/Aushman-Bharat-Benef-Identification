@@ -30,6 +30,7 @@ import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 import com.nhpm.activity.FamilyListActivity;
+import com.nhpm.activity.FamilyListByHHIDActivity;
 import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.PhoneNumberActivity;
 import com.nhpm.activity.SearchDashboardActivity;
@@ -225,28 +226,29 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             }
         });
         ArrayList<String> spinnerList = new ArrayList<>();
+        spinnerList.add("HHId Number");
         spinnerList.add("Ration Card");
         spinnerList.add("RSBY URN");
         spinnerList.add("AHLTIN");
         spinnerList.add("Mobile Number");
-        spinnerList.add("HHId Number");
+
 
 
         cardTypeSpinner = (Spinner) view.findViewById(R.id.cardTypeSpinner);
-        cardType = "Ration Card";
+        cardType = "HHId Number";
         cardTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 if (position == 0) {
-                    rationCardET.setVisibility(View.VISIBLE);
+                    rationCardET.setVisibility(View.GONE);
                     rsbyET.setVisibility(View.GONE);
                     ahlTinET.setVisibility(View.GONE);
                     mobileET.setVisibility(View.GONE);
-                    hhIdNoET.setVisibility(View.GONE);
-                    cardTypeTV.setText("Ration Card");
+                    hhIdNoET.setVisibility(View.VISIBLE);
+                    cardTypeTV.setText("HHId Number");
 
-                    cardType = "Ration Card";
+                    cardType = "HHId Number";
                 } else if (position == 1) {
                     rationCardET.setVisibility(View.GONE);
                     rsbyET.setVisibility(View.VISIBLE);
@@ -275,14 +277,18 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     cardType = "Mobile Number";
                 }
                 else if (position == 4) {
-                    rationCardET.setVisibility(View.GONE);
+
+                    rationCardET.setVisibility(View.VISIBLE);
                     rsbyET.setVisibility(View.GONE);
                     ahlTinET.setVisibility(View.GONE);
                     mobileET.setVisibility(View.GONE);
-                    hhIdNoET.setVisibility(View.VISIBLE);
-                    cardTypeTV.setText("HHId Number");
+                    hhIdNoET.setVisibility(View.GONE);
+                    cardTypeTV.setText("Ration Card");
 
-                    cardType = "HHId Number";
+                    cardType = "Ration Card";
+
+
+
                 }
             }
 
@@ -366,7 +372,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 request.setAge("");
                 request.setPincode("");
                 request.setFathername("");
-                Intent theIntent=new Intent(context,FamilyListActivity.class);
+                Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
                 theIntent.putExtra("SearchParam",request);
                 startActivity(theIntent);
 

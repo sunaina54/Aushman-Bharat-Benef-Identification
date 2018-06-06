@@ -13,7 +13,7 @@ public class FamilyListRequestModel implements Serializable {
     private String ahlblockno;
     private String ahl_tin;
     private String rural_urban;
-    private String spousenms;
+    private String spousenmsl;
     private String state_name;
     private String age;
     private String hhd_no;
@@ -63,11 +63,11 @@ public class FamilyListRequestModel implements Serializable {
     }
 
     public String getSpousenms() {
-        return spousenms;
+        return spousenmsl;
     }
 
     public void setSpousenms(String spousenms) {
-        this.spousenms = spousenms;
+        this.spousenmsl = spousenms;
     }
 
     public String getState_name() {

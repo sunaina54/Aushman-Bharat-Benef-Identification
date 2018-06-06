@@ -104,6 +104,7 @@ public class PersonalDetailsFragment extends Fragment {
     private DocsListItem beneficiaryListItem;
     private PersonalDetailItem personalDetailItem;
     private String status = "";
+    private LinearLayout aadharLL;
 
     public AadhaarResponseItem getAadhaarKycResponse() {
         return aadhaarKycResponse;
@@ -131,10 +132,16 @@ public class PersonalDetailsFragment extends Fragment {
 
     private void setupScreen(View view) {
 
-        personalDetailItem = beneficiaryListItem.getPersonalDetail();
 
+       // personalDetailItem = beneficiaryListItem.getPersonalDetail();
+
+        Bundle bundle = getArguments();
+        //bundle.getString("personalDetail");
+        if(bundle!=null) {
+            personalDetailItem = PersonalDetailItem.create(bundle.getString("personalDetail"));
+        }
         noAadhaarTV = (TextView) view.findViewById(R.id.noAadhaarTV);
-
+        aadharLL = (LinearLayout) view.findViewById(R.id.aadharLL);
         govtIdNumberTV = (TextView) view.findViewById(R.id.govtIdNumberTV);
         govtIdType = (TextView) view.findViewById(R.id.govtIdType);
         beneficiaryNamePerIdTV = (TextView) view.findViewById(R.id.beneficiaryNamePerIdTV);
@@ -154,6 +161,9 @@ public class PersonalDetailsFragment extends Fragment {
             public void onClick(View v) {
                 status = "govt";
                 Intent intent = new Intent(context, GovermentIDActivity.class);
+               // intent.putExtra("mobileNumber",mobileNumberET.getText().toString());
+                intent.putExtra("mobileNumber",personalDetailItem);
+
                 startActivityForResult(intent, GOVT_ID_REQUEST);
             }
         });
@@ -161,15 +171,67 @@ public class PersonalDetailsFragment extends Fragment {
             beneficiaryNameTV.setText(beneficiaryListItem.getName());
         }
         if (personalDetailItem != null) {
-            if (personalDetailItem.getBenefPhoto() != null) {
-                beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));
+            if(!personalDetailItem.getFlowStatus().equalsIgnoreCase("")
+                    && personalDetailItem.getFlowStatus().equalsIgnoreCase(AppConstant.AADHAR_STATUS) ) {
+                aadharLL.setVisibility(View.VISIBLE);
+                govtIdLL.setVisibility(View.GONE);
+                status = "aadhar";
+                if (personalDetailItem.getBenefPhoto() != null) {
+                    beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));
+                }
+                if (personalDetailItem.getAadhaarNo() != null) {
+                    aadharET.setText(personalDetailItem.getAadhaarNo());
+                }
+                if (personalDetailItem.getMobileNo() != null) {
+                    mobileNumberET.setTextColor(AppUtility.getColor(context, R.color.green));
+                    mobileNumberET.setText(personalDetailItem.getMobileNo());
+                }
+
+                if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
+                    beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
+                }
+
+
             }
-            if (personalDetailItem.getAadhaarNo() != null) {
-                aadharET.setText(personalDetailItem.getAadhaarNo());
+
+            if(!personalDetailItem.getFlowStatus().equalsIgnoreCase("")
+                    && personalDetailItem.getFlowStatus().equalsIgnoreCase(AppConstant.GOVT_STATUS) ) {
+                aadharLL.setVisibility(View.GONE);
+                govtIdLL.setVisibility(View.VISIBLE);
+                status="govt";
+                if (personalDetailItem.getBenefPhoto() != null) {
+                    beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));
+                }
+
+                if (personalDetailItem.getIdPhoto() != null && !personalDetailItem.getIdPhoto().equalsIgnoreCase("")) {
+                    govtIdPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getIdPhoto()));
+
+                }
+                if (personalDetailItem.getGovtIdNo() != null &&
+                        !personalDetailItem.getGovtIdNo().equalsIgnoreCase("")) {
+                    govtIdNumberTV.setText(personalDetailItem.getGovtIdNo());
+
+                }
+
+                if (personalDetailItem.getGovtIdType() != null &&
+                        !personalDetailItem.getGovtIdType().equalsIgnoreCase("")) {
+                    govtIdType.setText(personalDetailItem.getGovtIdType());
+
+                }
+
+
+                if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
+                    beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
+                }
+
+                if (personalDetailItem.getMobileNo() != null) {
+                    mobileNumberET.setTextColor(AppUtility.getColor(context, R.color.green));
+                    mobileNumberET.setText(personalDetailItem.getMobileNo());
+                }
             }
-            if (personalDetailItem.getMobileNo() != null) {
-                mobileNumberET.setText(personalDetailItem.getMobileNo());
-            }
+
+        } else {
+            personalDetailItem = new PersonalDetailItem();
         }
 
         mobileNumberET.addTextChangedListener(new TextWatcher() {
@@ -190,6 +252,7 @@ public class PersonalDetailsFragment extends Fragment {
                             // mobileValidateLayout.setVisibility(View.VISIBLE);
                             //prepareFamilyStatusSpinner(mobileNumberET.getText().toString().trim());
                             mobileNumberET.setTextColor(AppUtility.getColor(context, R.color.green));
+                            AppUtility.softKeyBoard(getActivity(), 0);
 
                         }
                     } else {
@@ -213,7 +276,7 @@ public class PersonalDetailsFragment extends Fragment {
                 status = "aadhar";
                 Intent intent = new Intent(context, EkycActivity.class);
                 intent.putExtra("screen", "PersonalDetailsFragment");
-
+                intent.putExtra("mobileNumber",personalDetailItem);
                 intent.putExtra("aadharNo", aadharET.getText().toString());
                 startActivityForResult(intent, EKYC);
             }
@@ -289,59 +352,70 @@ public class PersonalDetailsFragment extends Fragment {
             public void onClick(View v) {
                 if (status != null && !status.equalsIgnoreCase("")) {
                     if (status.equalsIgnoreCase("aadhar")) {
-                        if(aadharET.getText().toString().equalsIgnoreCase("")){
-                            CustomAlert.alertWithOk(context,"Please enter aadhaar number");
+                        if (aadharET.getText().toString().equalsIgnoreCase("")) {
+                            CustomAlert.alertWithOk(context, "Please enter aadhaar number");
                             return;
                         }
-                        if(mobileNumberET.getText().toString().equalsIgnoreCase("")){
-                            CustomAlert.alertWithOk(context,"Please enter mobile number");
+                        if (!isVeroff) {
+                            CustomAlert.alertWithOk(context, getResources().getString(R.string.invalid_login));
+                            return;
+                        }
+                        if (mobileNumberET.getText().toString().equalsIgnoreCase("")) {
+                            CustomAlert.alertWithOk(context, "Please enter mobile number");
                             return;
                         }
 
-                        if(personalDetailItem!=null && personalDetailItem.getBenefPhoto()==null
-                                || personalDetailItem.getBenefPhoto().equalsIgnoreCase("")){
-                            CustomAlert.alertWithOk(context,"Beneficiary photo cannot be blank");
+                        if (personalDetailItem != null && personalDetailItem.getBenefPhoto() == null
+                                || personalDetailItem.getBenefPhoto().equalsIgnoreCase("")) {
+                            CustomAlert.alertWithOk(context, "Beneficiary photo cannot be blank");
                             return;
                         }
 
-                       /* if(!personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")){
-                            CustomAlert.alertWithOk(context,"Please enter valid mobile number");
-                        }*/
+                        if (personalDetailItem != null && personalDetailItem.getIsMobileAuth()!=null && !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")) {
+                            CustomAlert.alertWithOk(context, "Please enter valid mobile number");
+                        }
 
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
-                        activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_white));
+                        activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
 
 
                         Fragment fragment = new FamilyDetailsFragment();
+                        Bundle args = new Bundle();
+                        args.putString("personalDetail",personalDetailItem.serialize());
+
+                        fragment.setArguments(args);
                         CallFragment(fragment);
                     }
 
                     if (status.equalsIgnoreCase("govt")) {
 
-                        if(mobileNumberET.getText().toString().equalsIgnoreCase("")){
-                            CustomAlert.alertWithOk(context,"Please enter mobile number");
+                        if (mobileNumberET.getText().toString().equalsIgnoreCase("")) {
+                            CustomAlert.alertWithOk(context, "Please enter mobile number");
                             return;
                         }
 
-                       /* if(!personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")){
-                            CustomAlert.alertWithOk(context,"Please enter valid mobile number");
-                        }*/
+                        if (personalDetailItem != null && personalDetailItem.getIsMobileAuth()!=null && !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")) {
+                            CustomAlert.alertWithOk(context, "Please enter valid mobile number");
+                        }
 
-                        if(personalDetailItem!=null && personalDetailItem.getBenefPhoto()==null
-                                || personalDetailItem.getBenefPhoto().equalsIgnoreCase("")){
-                            CustomAlert.alertWithOk(context,"Beneficiary photo cannot be blank");
+                        if (personalDetailItem != null && personalDetailItem.getBenefPhoto() == null
+                                || personalDetailItem.getBenefPhoto().equalsIgnoreCase("")) {
+                            CustomAlert.alertWithOk(context, "Beneficiary photo cannot be blank");
                             return;
                         }
 
-                        if(personalDetailItem!=null && personalDetailItem.getIdPhoto()==null
-                                || personalDetailItem.getIdPhoto().equalsIgnoreCase("")){
-                            CustomAlert.alertWithOk(context,"Govt id photo cannot be blank");
+                        if (personalDetailItem != null && personalDetailItem.getIdPhoto() == null
+                                || personalDetailItem.getIdPhoto().equalsIgnoreCase("")) {
+                            CustomAlert.alertWithOk(context, "Govt id photo cannot be blank");
                             return;
                         }
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
-                        activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_white));
+                        activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
 
                         Fragment fragment = new FamilyDetailsFragment();
+                        Bundle args = new Bundle();
+                        args.putString("personalDetail",personalDetailItem.serialize());
+                        fragment.setArguments(args);
                         CallFragment(fragment);
                     }
 
@@ -460,9 +534,12 @@ public class PersonalDetailsFragment extends Fragment {
                 rejected.setVisibility(View.GONE);
                 pending.setVisibility(View.GONE);*/
                 if (mobileOtpVerifyModel != null && mobileOtpVerifyModel.getMessage() != null && mobileOtpVerifyModel.getMessage().equalsIgnoreCase("Y")) {
-                   // personalDetailItem.setIsMobileAuth("Y");
-                    CustomAlert.alertWithOk(context, "OTP verified successfully");
-                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    personalDetailItem.setIsMobileAuth("Y");
+                    mobileNumberET.setEnabled(false);
+                    personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
+                    //beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
+                    Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
+                    // CustomAlert.alertWithOk(context, "OTP verified successfully");
 
                     // AppUtility.hideSoftInput(getActivity());
 
@@ -533,7 +610,7 @@ public class PersonalDetailsFragment extends Fragment {
 
         }.start();
 
-        new CountDownTimer(5 * 1000 + 1000, 1000) {
+        new CountDownTimer(2 * 1000 + 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -556,12 +633,14 @@ public class PersonalDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String otp = optET.getText().toString();
+                AppUtility.softKeyBoard(getActivity(), 0);
 
                 //  otpAuthMsg.setVisi bility(View.GONE);
                 if (!otp.equalsIgnoreCase("")) {
                     //  updatedVersionApp();
                     if (mobileOtpRequestModel.getOtp().equalsIgnoreCase(otp)) {
                         if (activity.isNetworkAvailable()) {
+
                             validateOTP(otp, mobileNumber, otpAuthMsg, sequence);
                         } else {
                             CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
@@ -570,7 +649,12 @@ public class PersonalDetailsFragment extends Fragment {
 
                     } else if (otp.equalsIgnoreCase("123")) {
                         dialog.dismiss();
-                        CustomAlert.alertWithOk(context, "OTP verified successfully");
+                        mobileNumberET.setEnabled(false);
+                        personalDetailItem.setIsMobileAuth("Y");
+                        personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
+                       // beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
+                        Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
+                        //CustomAlert.alertWithOk(context, "OTP verified successfully");
                     } else {
                         otpAuthMsg.setText(context.getResources().getString(R.string.enterValidOtp));
                         otpAuthMsg.setTextColor(AppUtility.getColor(context, R.color.red));
@@ -665,8 +749,12 @@ public class PersonalDetailsFragment extends Fragment {
 
             personalDetailItem = PersonalDetailItem.create(ProjectPrefrence.
                     getSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", context));//(AadhaarResponseItem) getActivity().getIntent().getSerializableExtra("result");
-            if (personalDetailItem != null) {
 
+            if (personalDetailItem != null) {
+                aadharET.setEnabled(false);
+                beneficiaryListItem.setPersonalDetail(personalDetailItem);
+                aadharLL.setVisibility(View.VISIBLE);
+                govtIdLL.setVisibility(View.GONE);
                 if (personalDetailItem.getBenefPhoto() != null && !personalDetailItem.getBenefPhoto().equalsIgnoreCase("")) {
                     Bitmap imageBitmap = AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto());
                     if (imageBitmap != null) {
@@ -675,6 +763,7 @@ public class PersonalDetailsFragment extends Fragment {
                 }
                 if (personalDetailItem.getMobileNo() != null && !personalDetailItem.getMobileNo().equalsIgnoreCase("")) {
                     mobileNumberET.setText(personalDetailItem.getMobileNo());
+                    personalDetailItem.setIsMobileAuth("N");
                 }
 
                 if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
@@ -708,8 +797,9 @@ public class PersonalDetailsFragment extends Fragment {
             personalDetailItem = PersonalDetailItem.create(ProjectPrefrence.
                     getSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", context));//(AadhaarResponseItem) getActivity().getIntent().getSerializableExtra("result");
             if (personalDetailItem != null) {
+                beneficiaryListItem.setPersonalDetail(personalDetailItem);
                 govtIdLL.setVisibility(View.VISIBLE);
-
+                aadharLL.setVisibility(View.GONE);
                 if (personalDetailItem.getBenefPhoto() != null &&
                         !personalDetailItem.getBenefPhoto().equalsIgnoreCase("")) {
                     beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));

@@ -29,7 +29,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.customComponent.CustomAlert;
@@ -54,6 +56,8 @@ import com.nhpm.Models.response.seccMembers.SeccMemberItem;
 import com.nhpm.Models.response.seccMembers.SelectedMemberItem;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
+import com.nhpm.activity.BlockDetailActivity;
+import com.nhpm.activity.LoginActivity;
 import com.nhpm.activity.MemberPreviewActivity;
 import com.nhpm.activity.SearchActivityWithHouseHold;
 
@@ -379,7 +383,7 @@ public class AppUtility {
        //  return "358520071002666"; //gera sir
        // return "358520071087378"; //gera sir current
         return device_id;
-   // return "352356078907011"; //wahid
+ //   return "352356078907011"; //wahid
         //  return "358187072515557";
         // return "867802027718791"; //saurabh
         // return "358520070004861";
@@ -1793,5 +1797,69 @@ public class AppUtility {
 
 
         return item;
+    }
+
+
+    public static void navigateToHome(final Context context, Activity activity){
+       final ImageView settings = (ImageView) activity.findViewById(R.id.settings);
+       settings.setVisibility(View.VISIBLE);
+       RelativeLayout menuLayout = (RelativeLayout) activity.findViewById(R.id.menuLayout);
+        menuLayout.setVisibility(View.VISIBLE);
+        menuLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(context, settings);
+                popup.getMenuInflater()
+                        .inflate(R.menu.menu_nav_dashboard, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.dashboard:
+                                Intent intent = new Intent(context, BlockDetailActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                                break;
+
+
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
+
+            }
+        });
+    }
+
+    public static void navigateToHomeWithZoom(final Context context, Activity activity,View view){
+        final ImageView settings = (ImageView) view.findViewById(R.id.settings);
+        RelativeLayout menuLayout = (RelativeLayout) view.findViewById(R.id.menuLayout);
+        menuLayout.setVisibility(View.VISIBLE);
+        menuLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(context, settings);
+                popup.getMenuInflater()
+                        .inflate(R.menu.menu_nav_dashboard, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.dashboard:
+                                Intent intent = new Intent(context, BlockDetailActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                                break;
+
+
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
+
+            }
+        });
     }
 }

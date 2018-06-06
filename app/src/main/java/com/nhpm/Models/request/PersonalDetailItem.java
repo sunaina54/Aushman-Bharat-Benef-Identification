@@ -17,6 +17,15 @@ public class PersonalDetailItem implements Serializable {
     private String yob;
     private String govtIdNo;
     private String govtIdType;
+    private String flowStatus;
+
+    public String getFlowStatus() {
+        return flowStatus;
+    }
+
+    public void setFlowStatus(String flowStatus) {
+        this.flowStatus = flowStatus;
+    }
 
     public String getGovtIdNo() {
         return govtIdNo;

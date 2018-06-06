@@ -55,6 +55,7 @@ public class FamilyMembersListActivity extends BaseActivity {
     private FamilyListRequestModel familyListRequestModel;
     private LinearLayout noMemberLL;
     private CustomAsyncTask customAsyncTask;
+    private FamilyMembersListActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class FamilyMembersListActivity extends BaseActivity {
 
     private void setupScreen() {
         context = this;
+        activity=this;
         centerText = (TextView) findViewById(R.id.centertext);
         centerText.setText("Family Members");
         backIV = (ImageView) findViewById(R.id.back);
@@ -74,6 +76,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                 finish();
             }
         });
+        AppUtility.navigateToHome(context,activity);
         collectDataBT = (Button) findViewById(R.id.collectDataBT);
         collectDataBT.setOnClickListener(new View.OnClickListener() {
             @Override

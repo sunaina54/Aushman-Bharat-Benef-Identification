@@ -325,6 +325,9 @@ public interface AppConstant {
 
     String AADHAAR_STAT = "1";
     String GOVT_ID_STAT = "2";
+    String GOVT_STATUS = "govt_id";
+    String AADHAR_STATUS = "aadhar";
+
     String SECC_SOURCE = "001";
     String SECC_SOURCE_NAME = "SECC";
     String RSBY_SOURCE = "002";

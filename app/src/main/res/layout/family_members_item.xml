@@ -15,7 +15,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="0.6"
+            android:layout_weight="0.75"
             android:padding="@dimen/margine_20"
             android:background="@color/darkGrey">
 
@@ -154,7 +154,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.25"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -181,10 +181,12 @@
             android:layout_weight="0.2"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/printCardBT"
+
                 android:layout_width="200dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"

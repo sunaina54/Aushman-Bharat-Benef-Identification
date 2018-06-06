@@ -21,6 +21,7 @@ import com.nhpm.Models.response.master.ConfigurationItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
+import com.nhpm.Utility.AppUtility;
 import com.nhpm.fragments.AadharAuthManualFragment;
 import com.nhpm.fragments.AadharAuthQrCode;
 import com.nhpm.fragments.FindBeneficiaryByManualFragment;
@@ -48,10 +49,12 @@ public class FindBeneficiaryByNameActivity extends BaseActivity {
     private String aadhaarNo;
     private int resultCode = 1;
     private String activityName = "";
+    private FindBeneficiaryByNameActivity activity;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+        activity = this;
         setContentView(R.layout.activity_demo_auth_layout);
         setupScreen();
     }
@@ -61,6 +64,7 @@ public class FindBeneficiaryByNameActivity extends BaseActivity {
         aadhaarNo = getIntent().getStringExtra("aadhaarNo");
         headerTV = (TextView) findViewById(R.id.centertext);
         headerTV.setText("Beneficiary Data");
+        AppUtility.navigateToHome(context,activity);
         manualRadioButton = (RadioButton) findViewById(R.id.manualRadioButton);
         QrCodeRadioButton = (RadioButton) findViewById(R.id.qrCodeRadioButton);
         backLayout = (RelativeLayout) findViewById(R.id.backLayout);

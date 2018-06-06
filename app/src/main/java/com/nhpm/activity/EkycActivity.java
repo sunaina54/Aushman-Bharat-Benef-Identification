@@ -22,6 +22,7 @@ import com.nhpm.Models.response.master.ConfigurationItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
+import com.nhpm.Utility.AppUtility;
 import com.nhpm.fragments.AadhaarFingerPrintViaRDSevices;
 import com.nhpm.fragments.AadhaarIrisViaRDServices;
 import com.nhpm.fragments.OTPFragment;
@@ -48,11 +49,13 @@ public class EkycActivity extends BaseActivity {
     private TextView headerTV;
     private String aadhaarNo,screenName;
     public SerachOptionItem serachItem;
+    private EkycActivity activity;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+        activity =this;
         setContentView(R.layout.activity_ekyc_layout);
         setupScreen();
     }
@@ -69,6 +72,7 @@ public class EkycActivity extends BaseActivity {
 
         headerTV = (TextView) findViewById(R.id.centertext);
         headerTV.setText("Beneficiary Data(With Aadhaar)");
+        AppUtility.navigateToHome(context,activity);
         irisRadioButton = (RadioButton) findViewById(R.id.irisRadioButton);
         biometricRadioButton = (RadioButton) findViewById(R.id.biometricRadioButton);
         otpRadioButton = (RadioButton) findViewById(R.id.otpRadioButton);

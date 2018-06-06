@@ -33,7 +33,7 @@ import java.util.HashMap;
  * Created by SUNAINA on 31-05-2018.
  */
 
-public class FamilyListActivity extends BaseActivity {
+public class FamilyListByHHIDActivity extends BaseActivity {
 
     private Context context;
     private CustomAsyncTask customAsyncTask;
@@ -45,7 +45,7 @@ public class FamilyListActivity extends BaseActivity {
     private FamilyListRequestModel familyListRequestModel;
     private ProgressBar mProgressBar;
     private LinearLayout noMemberLL;
-    private FamilyListActivity activity;
+    private FamilyListByHHIDActivity activity;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,11 +149,12 @@ public class FamilyListActivity extends BaseActivity {
                 if (familyListResponseModel != null && familyListResponseModel.getResponse() != null
                         ) {
                     int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
-                    if (matchCount <= 5) {
-                        noMemberTV.setText(matchCount + " matches found");
-                    } else {
-                        noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
+                    if (matchCount == 0) {
+                        noMemberTV.setText("No Family member found");
                     }
+                    /*else {
+                        noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
+                    }*/
                     if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
                         //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
                         try {

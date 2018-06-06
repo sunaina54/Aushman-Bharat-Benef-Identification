@@ -20,6 +20,7 @@ import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
+import com.nhpm.Utility.AppUtility;
 import com.nhpm.fragments.BeneficiaryFamilySearchFragment;
 import com.nhpm.fragments.FamilyDetailsFragment;
 import com.nhpm.fragments.PersonalDetailsFragment;
@@ -40,6 +41,7 @@ public class CollectDataActivity extends BaseActivity {
     private String name;
     public DocsListItem benefItem;
     private Context context;
+    private CollectDataActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +52,18 @@ public class CollectDataActivity extends BaseActivity {
 
     private void setupScreen(){
         context=this;
+        activity=this;
         fragmentManager = getSupportFragmentManager();
         headerTV = (TextView) findViewById(R.id.centertext);
         headerTV.setText("Collect Data");
+       // AppUtility.navigateToHome(context,activity);
         name = getIntent().getStringExtra("Name");
         benefItem= DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
                 FamilyMembersListActivity.SELECTED_MEMBER,context));
 
         back = (ImageView) findViewById(R.id.back);
         backLayout = (RelativeLayout) findViewById(R.id.backLayout);
+        AppUtility.navigateToHome(context,activity);
         backLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +81,7 @@ public class CollectDataActivity extends BaseActivity {
         personalDetailsLL = (LinearLayout) findViewById(R.id.personalDetailsLL);
         openPersonalDetailsFragment();
 
-        printEcardLL.setOnClickListener(new View.OnClickListener() {
+       /* printEcardLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openPrintEcardFragment();
@@ -95,7 +100,7 @@ public class CollectDataActivity extends BaseActivity {
             public void onClick(View v) {
                 openPersonalDetailsFragment();
             }
-        });
+        });*/
     }
 
     private void openPersonalDetailsFragment() {

@@ -214,66 +214,8 @@
 
                     android:visibility="visible" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="2dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight=".6"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="AHLTIN Number:"
-                    style="@style/textViewFamilMember"
-                    />
-                <TextView
-                    style="@style/textViewFamilMember"
-                    android:layout_width="0dp"
-                    android:layout_weight=".1"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text=":"></TextView>
-                <TextView
-                    android:id="@+id/ahltinTV"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.3"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                   android:text=""
-                    style="@style/textViewFamilMember"
 
-                    android:visibility="visible" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="2dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight=".6"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="HHD Number"
-                    style="@style/textViewFamilMember"
-                    />
-                <TextView
-                    style="@style/textViewFamilMember"
-                    android:layout_width="0dp"
-                    android:layout_weight=".1"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text=":"></TextView>
-                <TextView
-                    android:id="@+id/hhidTV"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.3"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                   android:text=""
-                    style="@style/textViewFamilMember"
 
-                    android:visibility="visible" />
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -334,36 +276,7 @@
 
                     android:visibility="visible" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="2dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight=".6"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="Village:"
-                    style="@style/textViewFamilMember"
-                    />
-                <TextView
-                    style="@style/textViewFamilMember"
-                    android:layout_width="0dp"
-                    android:layout_weight=".1"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text=":"></TextView>
-                <TextView
-                    android:id="@+id/villageTV"
-                    android:layout_width="0dp"
-                    android:layout_weight="1.3"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                   android:text=""
-                    style="@style/textViewFamilMember"
 
-                    android:visibility="visible" />
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -390,6 +303,37 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     style="@style/textViewFamilMember"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Village:"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/villageTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
+
                     android:visibility="visible" />
             </LinearLayout>
             <LinearLayout
@@ -423,7 +367,66 @@
                     style="@style/textViewFamilMember"
                     />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="HHD Number"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/hhidTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
 
+                    android:visibility="visible" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="AHLTIN Number:"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/ahltinTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
+
+                    android:visibility="visible" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

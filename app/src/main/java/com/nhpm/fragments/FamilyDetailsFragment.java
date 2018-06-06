@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +22,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.customComponent.CustomAlert;
 import com.nhpm.CameraUtils.CommonUtilsImageCompression;
 import com.nhpm.CameraUtils.squarecamera.CameraActivity;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
+import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.GovernmentIdItem;
 import com.nhpm.R;
@@ -39,6 +43,8 @@ import java.util.ArrayList;
  */
 public class FamilyDetailsFragment extends Fragment {
     private View view;
+    private FragmentTransaction fragmentTransection;
+    private FragmentManager fragmentManager;
     private Context context;
     private ArrayList<GovernmentIdItem> govtIdStatusList;
     private Spinner govtIdSP;
@@ -51,6 +57,9 @@ public class FamilyDetailsFragment extends Fragment {
     private String voterIdImg;
     private ImageView beneficiaryPhotoIV;
     private int CAMERA_PIC_REQUEST = 0;
+    private Button previousBT;
+    private ImageView addIV;
+    private PersonalDetailItem personalDetailItem;
 
     public FamilyDetailsFragment() {
         // Required empty public constructor
@@ -70,12 +79,38 @@ public class FamilyDetailsFragment extends Fragment {
     }
 
     private void setupScreen(View view) {
+        Bundle bundle = getArguments();
+        //bundle.getString("personalDetail");
+       personalDetailItem = PersonalDetailItem.create(bundle.getString("personalDetail"));
+        fragmentManager = getActivity().getSupportFragmentManager();
         govtIdSP = (Spinner) view.findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
         beneficiaryNameTV = (TextView) view.findViewById(R.id.beneficiaryNameTV);
         if (beneficiaryListItem != null) {
             beneficiaryNameTV.setText(beneficiaryListItem.getName());
         }
+        addIV = (ImageView) view.findViewById(R.id.addIV);
+        addIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomAlert.alertWithOk(context, "Under Development");
+            }
+        });
+        previousBT = (Button) view.findViewById(R.id.previousBT);
+        previousBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new PersonalDetailsFragment();
+                Bundle args = new Bundle();
+                if (personalDetailItem != null) {
+                    args.putString("personalDetail", personalDetailItem.serialize());
+                }
+                fragment.setArguments(args);
+                fragmentTransection = fragmentManager.beginTransaction();
+                fragmentTransection.add(R.id.fragContainer, fragment);
+                fragmentTransection.commitAllowingStateLoss();
+            }
+        });
         captureImageBT = (Button) view.findViewById(R.id.captureImageBT);
         beneficiaryPhotoIV = (ImageView) view.findViewById(R.id.beneficiaryPhotoIV);
         captureImageBT.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +124,7 @@ public class FamilyDetailsFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // AadhaarStatusItem item=aadhaarStatusList.get(position);
                 item = govtIdStatusList.get(position);
-               // AppUtility.showLog(AppConstant.LOG_STATUS, TAG, "Setup screen Selected id" + item.statusCode);
+                // AppUtility.showLog(AppConstant.LOG_STATUS, TAG, "Setup screen Selected id" + item.statusCode);
                 switch (item.statusCode) {
 
                     /*case NO_GOVID:
@@ -352,7 +387,7 @@ public class FamilyDetailsFragment extends Fragment {
                         }
                         updateScreen(voterIdImg);*/
 
-                       // break;
+                    // break;
                 }
 
             }
@@ -364,6 +399,7 @@ public class FamilyDetailsFragment extends Fragment {
         });
 
     }
+
     private void prepareGovernmentIdSpinner() {
         govtIdStatusList = AppUtility.prepareGovernmentIdSpinnerList();
         ArrayList<String> spinnerList = new ArrayList<>();
@@ -380,7 +416,7 @@ public class FamilyDetailsFragment extends Fragment {
         govtIdSP.setAdapter(adapter);
     }
 
-    private void openCamera(){
+    private void openCamera() {
         AppUtility.capturingType = AppConstant.capturingModeGovId;
 
         File mediaStorageDir = new File(
@@ -408,6 +444,7 @@ public class FamilyDetailsFragment extends Fragment {
             ekycActivity = (EkycActivity) context;
         }*/
     }
+
     private void deleteDir(File file) {
 
         if (file.isDirectory()) {

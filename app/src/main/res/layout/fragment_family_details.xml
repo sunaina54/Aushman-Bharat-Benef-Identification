@@ -1,9 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/family_bg"
-    android:id="@+id/fragContainer"
     tools:context="com.nhpm.fragments.PersonalDetailsFragment">
 
     <RelativeLayout
@@ -74,9 +74,9 @@
                         android:layout_height="60dp"
                         android:layout_marginLeft="@dimen/margine_20"
                         android:background="@drawable/edittext_background_white"
+                        android:hint="@string/enter_id_et"
                         android:imeOptions="actionNext"
                         android:inputType="number"
-                        android:hint="@string/enter_id_et"
                         android:paddingBottom="5dp"
                         android:paddingLeft="15dp"
                         android:paddingTop="5dp"
@@ -88,11 +88,13 @@
 
                 <LinearLayout
                     android:id="@+id/noAadhaarLL"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
 
                     <TextView
+
                         style="@style/textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -139,8 +141,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margine_10"
                     android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/margine_10">
+                    android:visibility="visible">
 
 
                     <TextView
@@ -149,8 +152,8 @@
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/edittext_background_white"
-                        android:imeOptions="actionNext"
                         android:hint="@string/familyMemberName"
+                        android:imeOptions="actionNext"
                         android:paddingBottom="5dp"
                         android:paddingLeft="15dp"
                         android:paddingTop="5dp"
@@ -161,62 +164,63 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/add_icon"
                         android:layout_marginLeft="@dimen/margine_20"
-                        />
+                        android:id="@+id/addIV"
+                        android:src="@drawable/add_icon" />
 
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
 
 
+            <Button
+                android:id="@+id/verifyFamilyBT"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/margine_20"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:padding="@dimen/margine_10"
+                android:text="@string/verify"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size" />
+
+            <Button
+                android:id="@+id/addfamilyCardBT"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/margine_20"
+                android:layout_marginRight="@dimen/margine_10"
+                android:layout_toLeftOf="@+id/saveBT"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:padding="@dimen/margine_10"
+                android:text="@string/add_card"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size" />
+
+            <Button
+                android:id="@+id/previousBT"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/margine_20"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:padding="@dimen/margine_10"
+                android:text="Previous"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size" />
 
 
-        <Button
-            android:id="@+id/verifyFamilyBT"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="@dimen/margine_20"
-            android:background="@drawable/rounded_shape_yello_button"
-            android:padding="@dimen/margine_10"
-            android:text="@string/verify"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_size" />
-
-        <Button
-            android:id="@+id/addfamilyCardBT"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-            android:layout_marginRight="@dimen/margine_10"
-            android:layout_toLeftOf="@+id/saveBT"
-            android:layout_marginBottom="@dimen/margine_20"
-            android:background="@drawable/rounded_shape_yello_button"
-            android:padding="@dimen/margine_10"
-            android:text="@string/add_card"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_size" />
-    <Button
-        android:id="@+id/saveBT"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-    android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/margine_20"
-        android:background="@drawable/rounded_shape_yello_button"
-        android:padding="@dimen/margine_10"
-        android:text="@string/save_preview"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_size" />
-
-
-</RelativeLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

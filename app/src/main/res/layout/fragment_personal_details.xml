@@ -59,6 +59,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/personal_detail_tv"
                     android:textStyle="bold" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/aadharLL">
+
 
                 <TextView
                     style="@style/textView"
@@ -110,6 +116,7 @@
                         android:layout_marginLeft="@dimen/margine_10"
                         android:paddingBottom="@dimen/margine_5"
                         android:paddingTop="@dimen/margine_5"
+                        android:visibility="gone"
                         android:text="@string/match_score_tv"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -121,9 +128,10 @@
                         android:paddingBottom="@dimen/margine_5"
                         android:paddingTop="@dimen/margine_5"
                         android:text="76%"
+                        android:visibility="gone"
                         android:textSize="12sp" />
                 </LinearLayout>
-
+</LinearLayout>
                 <LinearLayout
                     android:id="@+id/noAadhaarLL"
                     android:layout_width="match_parent"
@@ -187,16 +195,64 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/nameAsPerId" />
-                    <TextView
-                        android:padding="@dimen/margine_5"
-                        style="@style/textView"
-                        android:id="@+id/beneficiaryNamePerIdTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                       />
+
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
+
+                    <AutoCompleteTextView
+                        android:id="@+id/beneficiaryNamePerIdTV"
+                        android:layout_width="250dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_white"
+                        android:imeOptions="actionNext"
+                        android:enabled="false"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+
+
+                    <Button
+                        android:id="@+id/matchBT"
+                        android:layout_width="150dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margine_20"
+                        android:background="@drawable/rounded_shape_yello_button"
+                        android:padding="@dimen/margine_10"
+                        android:text="Match Name"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size" />
+
+
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margine_10"
+                        android:paddingBottom="@dimen/margine_5"
+                        android:paddingTop="@dimen/margine_5"
+                        android:text="@string/match_score_tv"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/margine_5"
+                        android:paddingTop="@dimen/margine_5"
+                        android:text="76%"
+                        android:textSize="12sp" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -338,7 +394,6 @@
         </RelativeLayout>
         <Button
             android:id="@+id/nextBT"
-
             android:layout_width="150dp"
             android:layout_height="45dp"
             android:layout_alignParentBottom="true"

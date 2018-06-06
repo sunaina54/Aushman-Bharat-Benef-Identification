@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -82,7 +83,8 @@ public class GovermentIDActivity extends BaseActivity {
     private int PIC_REQUEST = 1;
     private String benefImage;
 
-    private LinearLayout rashanCardCaptureLayout, voterIdCaptureLayout, enrollmentLayout;
+    private LinearLayout rashanCardCaptureLayout, enrollmentLayout;
+    private RelativeLayout voterIdCaptureLayout;
     private Bitmap captureImageBM;
     private LinearLayout nameLL;
     private ImageView backIV;
@@ -125,7 +127,9 @@ public class GovermentIDActivity extends BaseActivity {
     private ImageView photoIV;
     private FaceCropper mFaceCropper;
     private Picasso mPicasso;
-
+    private Button captureVoterIdBT;
+    private String mobileNumber = "";
+    private PersonalDetailItem personalDetailItem;
 
     private String blockCharacterSet = ":-/\\\\\\.";
 
@@ -200,10 +204,11 @@ public class GovermentIDActivity extends BaseActivity {
         govtIdSP = (Spinner) v.findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
         nameTV = (EditText) v.findViewById(R.id.nameET);
-       // nameLL= (LinearLayout) v.findViewById(R.id.nameBenefLL);
-      //  nameLL.setVisibility(View.GONE);
+        mobileNumber = getIntent().getStringExtra("mobileNumber");
+        // nameLL= (LinearLayout) v.findViewById(R.id.nameBenefLL);
+        //  nameLL.setVisibility(View.GONE);
         photoLayout = (LinearLayout) v.findViewById(R.id.photoLayout);
-      // photoLayout.setVisibility(View.GONE);
+        // photoLayout.setVisibility(View.GONE);
         capturePhotoBT = (Button) v.findViewById(R.id.capturePhotoBT);
         photoIV = (ImageView) v.findViewById(R.id.photoIV);
         voterIdIV = (ImageView) v.findViewById(R.id.voterIdIV);
@@ -211,7 +216,8 @@ public class GovermentIDActivity extends BaseActivity {
         backIV = (ImageView) v.findViewById(R.id.back);
         rationCardLayout = (LinearLayout) v.findViewById(R.id.rationCardLayout);
         voterIdLayout = (LinearLayout) v.findViewById(R.id.voterIdLayout);
-        voterIdCaptureLayout = (LinearLayout) v.findViewById(R.id.voterIdCaptureLayout);
+        voterIdCaptureLayout = (RelativeLayout) v.findViewById(R.id.voterIdCaptureLayout);
+        captureVoterIdBT = (Button) v.findViewById(R.id.captureVoterIdBT);
         rashanCardCaptureLayout = (LinearLayout) v.findViewById(R.id.rashanCardCaptureLayout);
         govtIdPhotoLayout = (LinearLayout) v.findViewById(R.id.govtIdPhotoLayout);
         enrollmentLayout = (LinearLayout) v.findViewById(R.id.enrollmentLayout);
@@ -286,7 +292,7 @@ public class GovermentIDActivity extends BaseActivity {
                     }
 
 
-                    if(name.equalsIgnoreCase("")){
+                    if (name.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter name");
                         return;
                     }
@@ -298,26 +304,37 @@ public class GovermentIDActivity extends BaseActivity {
                     }
 
 
-                    if(benefImage!=null && benefImage.equalsIgnoreCase("")){
+                    if (benefImage != null && benefImage.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please capture beneficiary image");
                         return;
                     }
 
-                    PersonalDetailItem personalDetailItem = new PersonalDetailItem();
-                    personalDetailItem.setBenefPhoto(benefImage);
-                    personalDetailItem.setName(name);
-                    personalDetailItem.setIdPhoto(voterIdImg);
-                    personalDetailItem.setGovtIdType(item.status);
-                    personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
+                    if (personalDetailItem != null) {
+                        personalDetailItem.setBenefPhoto(benefImage);
+                        personalDetailItem.setName(name);
+                        personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setGovtIdType(item.status);
+                        personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
+                        personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
+                    }else {
+
+                        personalDetailItem = new PersonalDetailItem();
+                        personalDetailItem.setBenefPhoto(benefImage);
+                        personalDetailItem.setName(name);
+                        personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setGovtIdType(item.status);
+                        personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
+                        personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
+                    }
 
 
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"GOVT_ID_DATA",personalDetailItem.serialize(),context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
 
                     activity.finish();
 //                    }
-                  //  alertForValidateLater(voterIdNumber, voterIdName);
+                    //  alertForValidateLater(voterIdNumber, voterIdName);
 
-           //openGovtIdDataFragment();
+                    //openGovtIdDataFragment();
                 }
 
 
@@ -368,7 +385,7 @@ public class GovermentIDActivity extends BaseActivity {
             }
         });*/
 
-        voterIdCaptureLayout.setOnClickListener(new View.OnClickListener() {
+        captureVoterIdBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppUtility.capturingType = AppConstant.capturingModeGovId;
@@ -451,16 +468,16 @@ public class GovermentIDActivity extends BaseActivity {
                         AppUtility.showSoftInput(activity);
                         voterIdLayout.setVisibility(View.VISIBLE);
                         voterIdCaptureLayout.setVisibility(View.VISIBLE);
-                     //   nameLL.setVisibility(View.VISIBLE);
+                        //   nameLL.setVisibility(View.VISIBLE);
                         govtIdPhotoLayout.setVisibility(View.VISIBLE);
                         /*voterIdCardNumberET.setText("");
                         voterIdCardNameET.setText("");*/
                         //updateScreen(voterIdImg);
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.enter24digitEid));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.enterNameInEid));
-                       // voterIdCardNameET.setText(seccItem.getName());
+                        // voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNameET.setFilters(new InputFilter[]{new InputFilter.LengthFilter(24)});
-                        if (seccItem!=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ENROLLMENT_ID + "")) {
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ENROLLMENT_ID + "")) {
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
                                 voterIdCardNumberET.setText(seccItem.getIdNo());
@@ -480,7 +497,7 @@ public class GovermentIDActivity extends BaseActivity {
 
                         voterIdLayout.setVisibility(View.VISIBLE);
                         voterIdCaptureLayout.setVisibility(View.VISIBLE);
-                      //  nameLL.setVisibility(View.VISIBLE);
+                        //  nameLL.setVisibility(View.VISIBLE);
                         govtIdPhotoLayout.setVisibility(View.VISIBLE);
                         voterIdCardNumberET.requestFocus();
                         voterIdCardNumberET.setText("");
@@ -490,11 +507,11 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsVoterId));
 
 
-                      //  voterIdCardNameET.setText(seccItem.getName());
+                        //  voterIdCardNameET.setText(seccItem.getName());
                        /* rationCardLayout.setVisibility(View.GONE);
                         enrollmentLayout.setVisibility(View.GONE);*/
                         // aadhaarStatus="2";
-                        if (seccItem!=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(VOTER_ID + "")) {
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(VOTER_ID + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -515,7 +532,7 @@ public class GovermentIDActivity extends BaseActivity {
 
                         voterIdLayout.setVisibility(View.VISIBLE);
                         voterIdCaptureLayout.setVisibility(View.VISIBLE);
-                      //  nameLL.setVisibility(View.VISIBLE);
+                        //  nameLL.setVisibility(View.VISIBLE);
                         govtIdPhotoLayout.setVisibility(View.VISIBLE);
 //                        updateScreen(voterIdImg);
                         voterIdCardNumberET.requestFocus();
@@ -528,7 +545,7 @@ public class GovermentIDActivity extends BaseActivity {
                        /* rationCardLayout.setVisibility(View.VISIBLE);
                         enrollmentLayout.setVisibility(View.GONE);*/
                         //aadhaarStatus="3";
-                        if (seccItem!=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(RASHAN_CARD + "")) {
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(RASHAN_CARD + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -547,16 +564,16 @@ public class GovermentIDActivity extends BaseActivity {
 //                        updateScreen(voterIdImg);
                         voterIdLayout.setVisibility(View.VISIBLE);
                         voterIdCaptureLayout.setVisibility(View.VISIBLE);
-                       // nameLL.setVisibility(View.VISIBLE);
+                        // nameLL.setVisibility(View.VISIBLE);
                         govtIdPhotoLayout.setVisibility(View.VISIBLE);
                         voterIdCardNumberET.setText("");
                         voterIdCardNameET.setText("");
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterNaregaNum));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsNarega));
-                       // voterIdCardNameET.setText(seccItem.getName());
+                        // voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNumberET.requestFocus();
                         AppUtility.showSoftInput(activity);
-                        if (seccItem!=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(NREGA + "")) {
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(NREGA + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -575,7 +592,7 @@ public class GovermentIDActivity extends BaseActivity {
 
                         voterIdLayout.setVisibility(View.VISIBLE);
                         voterIdCaptureLayout.setVisibility(View.VISIBLE);
-                       // nameLL.setVisibility(View.VISIBLE);
+                        // nameLL.setVisibility(View.VISIBLE);
                         govtIdPhotoLayout.setVisibility(View.VISIBLE);
                         voterIdCardNumberET.requestFocus();
                         AppUtility.showSoftInput(activity);
@@ -586,9 +603,9 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCardNameET.setText("");
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterDrivingNum));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsDriving));
-                      //  voterIdCardNameET.setText(seccItem.getName());
+                        //  voterIdCardNameET.setText(seccItem.getName());
 
-                        if (seccItem!=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(DRIVIG_LICENCE + "")) {
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(DRIVIG_LICENCE + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdType() != null && seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -608,7 +625,7 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdLayout.setVisibility(View.VISIBLE);
                         govtIdPhotoLayout.setVisibility(View.VISIBLE);
                         voterIdCaptureLayout.setVisibility(View.VISIBLE);
-                       // nameLL.setVisibility(View.VISIBLE);
+                        // nameLL.setVisibility(View.VISIBLE);
                         voterIdCardNumberET.setText("");
                         voterIdCardNameET.setText("");
                         voterIdCardNumberET.setText("");
@@ -618,7 +635,7 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterBirthCerfNum));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsBirthCerf));
                         //voterIdCardNameET.setText(seccItem.getName());
-                        if (seccItem!=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(BIRTH_CERT + "")) {
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(BIRTH_CERT + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -636,7 +653,7 @@ public class GovermentIDActivity extends BaseActivity {
 //                        updateScreen(voterIdImg);
                         voterIdLayout.setVisibility(View.VISIBLE);
                         voterIdCaptureLayout.setVisibility(View.VISIBLE);
-                       // nameLL.setVisibility(View.VISIBLE);
+                        // nameLL.setVisibility(View.VISIBLE);
                         govtIdPhotoLayout.setVisibility(View.VISIBLE);
                         voterIdCardNumberET.setText("");
                         voterIdCardNameET.setText("");
@@ -647,8 +664,8 @@ public class GovermentIDActivity extends BaseActivity {
                         AppUtility.showSoftInput(activity);
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterId));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsId));
-                      //  voterIdCardNameET.setText(seccItem.getName());
-                        if (seccItem!=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(OTHER_CARD + "")) {
+                        //  voterIdCardNameET.setText(seccItem.getName());
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(OTHER_CARD + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -671,7 +688,7 @@ public class GovermentIDActivity extends BaseActivity {
                         //  preparedItem.setAadhaarSurveyedStat(item.getAadhaarSurveyedStat());
 //                        voterIdCaptureLayout.setVisibility(View.GONE);
                         voterIdCaptureLayout.setVisibility(View.VISIBLE);
-                      //  nameLL.setVisibility(View.VISIBLE);
+                        //  nameLL.setVisibility(View.VISIBLE);
                         voterIdCardNumberET.setText("");
 
                         voterIdCardNameET.setText("");
@@ -683,8 +700,8 @@ public class GovermentIDActivity extends BaseActivity {
                         AppUtility.showSoftInput(activity);
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterId));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsId));
-                       // voterIdCardNameET.setText(seccItem.getName());
-                        if (seccItem !=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
+                        // voterIdCardNameET.setText(seccItem.getName());
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -705,7 +722,7 @@ public class GovermentIDActivity extends BaseActivity {
 
             }
         });
-        if (selectedMemItem!=null && selectedMemItem.getSeccMemberItem() != null) {
+        if (selectedMemItem != null && selectedMemItem.getSeccMemberItem() != null) {
             seccItem = selectedMemItem.getSeccMemberItem();
             if (seccItem != null && seccItem.getDataSource() != null &&
                     seccItem.getDataSource().trim().equalsIgnoreCase(AppConstant.RSBY_SOURCE)) {
@@ -728,6 +745,7 @@ public class GovermentIDActivity extends BaseActivity {
                 AppConstant.SELECTED_ITEM_FOR_VERIFICATION, context));
         govtIdSP = (Spinner) findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
+        mobileNumber = getIntent().getStringExtra("mobileNumber");
         voterIdIV = (ImageView) findViewById(R.id.voterIdIV);
         nameTV = (EditText) findViewById(R.id.nameET);
         //nameLL= (LinearLayout) findViewById(R.id.nameBenefLL);
@@ -740,7 +758,8 @@ public class GovermentIDActivity extends BaseActivity {
         backIV = (ImageView) findViewById(R.id.back);
         rationCardLayout = (LinearLayout) findViewById(R.id.rationCardLayout);
         voterIdLayout = (LinearLayout) findViewById(R.id.voterIdLayout);
-        voterIdCaptureLayout = (LinearLayout) findViewById(R.id.voterIdCaptureLayout);
+        voterIdCaptureLayout = (RelativeLayout) findViewById(R.id.voterIdCaptureLayout);
+        captureVoterIdBT = (Button) findViewById(R.id.captureVoterIdBT);
         rashanCardCaptureLayout = (LinearLayout) findViewById(R.id.rashanCardCaptureLayout);
         govtIdPhotoLayout = (LinearLayout) findViewById(R.id.govtIdPhotoLayout);
         enrollmentLayout = (LinearLayout) findViewById(R.id.enrollmentLayout);
@@ -815,7 +834,7 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }
 
-                    if(name.equalsIgnoreCase("")){
+                    if (name.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter name");
                         return;
                     }
@@ -827,9 +846,7 @@ public class GovermentIDActivity extends BaseActivity {
                     }
 
 
-
-
-                    if(benefImage!=null && benefImage.equalsIgnoreCase("")){
+                    if (benefImage != null && benefImage.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please capture beneficiary image");
                         return;
                     }
@@ -837,18 +854,18 @@ public class GovermentIDActivity extends BaseActivity {
                     PersonalDetailItem personalDetailItem = new PersonalDetailItem();
                     personalDetailItem.setBenefPhoto(benefImage);
                     personalDetailItem.setName(name);
+                    if (mobileNumber != null) {
+                        personalDetailItem.setMobileNo(mobileNumber);
+                    }
                     personalDetailItem.setIdPhoto(voterIdImg);
                     personalDetailItem.setGovtIdType(item.status);
                     personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
 
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"GOVT_ID_DATA",personalDetailItem.serialize(),context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
 
                     activity.finish();
                 }
-
-
-
 
 
             }
@@ -898,7 +915,7 @@ public class GovermentIDActivity extends BaseActivity {
             }
         });*/
 
-        voterIdCaptureLayout.setOnClickListener(new View.OnClickListener() {
+        captureVoterIdBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppUtility.capturingType = AppConstant.capturingModeGovId;
@@ -1835,7 +1852,7 @@ public class GovermentIDActivity extends BaseActivity {
     }
 
     private void openGovtIdDataFragment() {
-        GovtDetailsModel govtDetailsModel =new GovtDetailsModel();
+        GovtDetailsModel govtDetailsModel = new GovtDetailsModel();
         govtDetailsModel.setImage(voterIdImg);
         govtDetailsModel.setIdNumber(voterIdCardNumberET.getText().toString());
         govtDetailsModel.setGovtIdType(item.status);

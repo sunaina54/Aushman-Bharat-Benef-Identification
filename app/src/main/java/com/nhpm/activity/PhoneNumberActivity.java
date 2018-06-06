@@ -129,6 +129,7 @@ public class PhoneNumberActivity extends BaseActivity implements ComponentCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+        activity = this;
         checkAppConfig();
        if (zoomMode.equalsIgnoreCase("N")) {
             setContentView(R.layout.activity_phone_number);
@@ -147,8 +148,9 @@ public class PhoneNumberActivity extends BaseActivity implements ComponentCallba
         View v = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.activity_phone_number, null, false);
         v.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
         showNotification(v);
-        menuLayout = (RelativeLayout) v.findViewById(R.id.menuLayout);
-        menuLayout.setVisibility(View.GONE);
+        AppUtility.navigateToHomeWithZoom(context,activity,v);
+      /*  menuLayout = (RelativeLayout) v.findViewById(R.id.menuLayout);
+        menuLayout.setVisibility(View.GONE);*/
         loginResponse = (VerifierLoginResponse.create(ProjectPrefrence.
                 getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context)));
         headerTV = (TextView) v.findViewById(R.id.centertext);
@@ -537,6 +539,7 @@ public class PhoneNumberActivity extends BaseActivity implements ComponentCallba
 
     private void setupScreenWithoutZoom() {
         showNotification();
+        AppUtility.navigateToHome(context,activity);
         loginResponse = (VerifierLoginResponse.create(ProjectPrefrence.
                 getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context)));
         headerTV = (TextView) findViewById(R.id.centertext);
@@ -1115,7 +1118,7 @@ public class PhoneNumberActivity extends BaseActivity implements ComponentCallba
             }
 
         }.start();
-        new CountDownTimer(10 * 1000 + 1000, 1000) {
+        new CountDownTimer(2 * 1000 + 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -1852,7 +1855,7 @@ public class PhoneNumberActivity extends BaseActivity implements ComponentCallba
 
         }.start();
 
-        new CountDownTimer(5 * 1000 + 1000, 1000) {
+        new CountDownTimer(2 * 1000 + 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -1889,7 +1892,18 @@ public class PhoneNumberActivity extends BaseActivity implements ComponentCallba
 
                     } else if(otp.equalsIgnoreCase("123")){
                         dialog.dismiss();
-                        alertWithOk(context, "OTP verified successfully");
+                        Toast.makeText(context,"OTP verified successfully",Toast.LENGTH_SHORT).show();
+                        if (!buttonStatus.equalsIgnoreCase("") && buttonStatus.equalsIgnoreCase("NoAadhaar")) {
+                            Intent intent = new Intent(context, GovermentIDCaptureActivity.class);
+                            startActivity(intent);
+                        }
+                        if (!buttonStatus.equalsIgnoreCase("") && buttonStatus.equalsIgnoreCase("Demo")) {
+                            // Intent intent = new Intent(context, DemoAuthActivity.class);
+                            //intent.putExtra("PhoneNumber","PhoneNumberActivity");
+                            Intent intent = new Intent(context, FindBeneficiaryByNameActivity.class);
+                            startActivity(intent);
+                        }
+                        //alertWithOk(context, "OTP verified successfully");
                     } else {
                         otpAuthMsg.setText(context.getResources().getString(R.string.enterValidOtp));
                         otpAuthMsg.setTextColor(AppUtility.getColor(context, R.color.red));
