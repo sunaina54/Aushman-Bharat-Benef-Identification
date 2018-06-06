@@ -379,7 +379,7 @@ public class AppUtility {
        //  return "358520071002666"; //gera sir
        // return "358520071087378"; //gera sir current
         return device_id;
-    //return "352356078907011"; //wahid
+   // return "352356078907011"; //wahid
         //  return "358187072515557";
         // return "867802027718791"; //saurabh
         // return "358520070004861";
@@ -435,6 +435,21 @@ public class AppUtility {
         govtIdStatusList.add(new GovernmentIdItem(7, "Other Photo ID Card"));
         govtIdStatusList.add(new GovernmentIdItem(8, "Member with No ID card"));
         govtIdStatusList.add(new GovernmentIdItem(9, "Government ID with no Photograph"));
+
+        return govtIdStatusList;
+    }
+
+    public static ArrayList<GovernmentIdItem> prepareGovernmentIdSpinnerList() {
+        ArrayList<GovernmentIdItem> govtIdStatusList = new ArrayList<>();
+        govtIdStatusList.add(new GovernmentIdItem(0, "Choose Family ID Card"));
+       // govtIdStatusList.add(new GovernmentIdItem(2, "Voter ID Card"));
+        govtIdStatusList.add(new GovernmentIdItem(3, "Ration Card"));
+      /*  govtIdStatusList.add(new GovernmentIdItem(4, "NREGA job card"));
+        govtIdStatusList.add(new GovernmentIdItem(5, "Driving License"));
+        govtIdStatusList.add(new GovernmentIdItem(6, "Birth certificate"));
+        govtIdStatusList.add(new GovernmentIdItem(7, "Other Photo ID Card"));
+        govtIdStatusList.add(new GovernmentIdItem(8, "Member with No ID card"));
+        govtIdStatusList.add(new GovernmentIdItem(9, "Government ID with no Photograph"));*/
 
         return govtIdStatusList;
     }

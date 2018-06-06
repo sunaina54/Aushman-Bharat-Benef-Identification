@@ -101,7 +101,7 @@ public class FamilyListActivity extends BaseActivity {
             familyListRequestModel.setHho_id("");
         }
 
-        if(familyListRequestModel.getAhlTinno()== null){
+        if (familyListRequestModel.getAhlTinno() == null) {
             familyListRequestModel.setAhlTinno("");
         }
 //familyListRequestModel.setPincode("");
@@ -132,7 +132,11 @@ public class FamilyListActivity extends BaseActivity {
                 if (familyListResponseModel != null && familyListResponseModel.getResponse() != null
                         ) {
                     int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
-                    noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
+                    if (matchCount <= 5) {
+                        noMemberTV.setText(matchCount + " matches found");
+                    } else {
+                        noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
+                    }
                     if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
                         //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
                         try {
@@ -178,7 +182,7 @@ public class FamilyListActivity extends BaseActivity {
                     motherNameTV, spouseNameTV, ahltinTV, hhidTV, stateTV, distTV, villageTV,
                     blockTV, pincodeTV;
             private Button collectDataBT, printCardBT;
-            private LinearLayout familyItemLL ;
+            private LinearLayout familyItemLL;
 
 
             public ViewHolder(View v) {
@@ -271,7 +275,7 @@ public class FamilyListActivity extends BaseActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(context, FamilyMembersListActivity.class);
                     //intent.putExtra("result", beneficiaryModel);
-                    intent.putExtra("hhdNo",mDataset.get(position).getHhd_no());
+                    intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
                     startActivity(intent);
                 }
             });

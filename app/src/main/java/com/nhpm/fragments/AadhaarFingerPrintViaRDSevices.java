@@ -48,6 +48,7 @@ import com.nhpm.AadhaarUtils.CheckConnection;
 import com.nhpm.AadhaarUtils.Global;
 import com.nhpm.AadhaarUtils.VerhoeffAadhar;
 import com.nhpm.LocalDataBase.dto.SeccDatabase;
+import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.seccMembers.SeccMemberItem;
 import com.nhpm.Models.response.seccMembers.SelectedMemberItem;
 import com.nhpm.Models.response.verifier.AadhaarResponseItem;
@@ -1395,7 +1396,11 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                         /*Intent intent = new Intent(context, PersonalDetailsFragment.class);
                         intent.se("result", aadhaarKycResponse);*/
                         // startActivity(intent);
-                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",aadhaarKycResponse.serialize(),context);
+                        PersonalDetailItem personalDetailItem = new PersonalDetailItem();
+                        personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
+                        personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
+                        personalDetailItem.setName(aadhaarKycResponse.getName());
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
 
                         ekycActivity.finish();
 

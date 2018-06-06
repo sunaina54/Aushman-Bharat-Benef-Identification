@@ -197,8 +197,8 @@ public class FingerprintResultActivity extends BaseActivity {
         ArrayList<String> spinnerList = new ArrayList<>();
         spinnerList.add("C/O");
         spinnerList.add("S/O");
-        spinnerList.add("W/O");
         spinnerList.add("D/O");
+        spinnerList.add("W/O");
 
 
         cardTypeSpinner = (Spinner) findViewById(R.id.cardTypeSpinner);
@@ -367,6 +367,54 @@ public class FingerprintResultActivity extends BaseActivity {
                 StringBuilder addr = new StringBuilder();
                 if (aadhaarKycResponse.getCo() != null && !aadhaarKycResponse.getCo().equalsIgnoreCase("")) {
                     //addr.append(aadhaarKycResponse.getCo());
+                    String genderId=aadhaarKycResponse.getGender().substring(0,1);
+                    String[] co = aadhaarKycResponse.getCo().split(" ");
+                    String careOf="";
+                    if(co.length>1) {
+                        String coTag=co[0];
+                       coTag= coTag.replace(":"," ").trim();
+                        kycCareOf.setText(co[1]);
+                        for(int i=1;i<co.length-1;i++) {
+                            careOf =careOf+co[i]+" ";
+                        }
+
+                      /* spinnerList.add("C/O");
+                       spinnerList.add("S/O");
+                       spinnerList.add("D/O");
+                       spinnerList.add("W/O");*/
+                        if(coTag.equalsIgnoreCase("C/O")) {
+                            kycCareOf.setText(careOf.trim());
+                            cardTypeSpinner.setSelection(0);
+                            cardTypeSpinner.setEnabled(false);
+                        }
+                        if(coTag.equalsIgnoreCase("D/O")|| coTag.equalsIgnoreCase("S/O")) {
+                            kycFather.setText(careOf.trim());
+                            kycMother.setText(careOf.trim());
+                            if(genderId.equalsIgnoreCase("M")){
+                                cardTypeSpinner.setSelection(1);
+                                cardTypeSpinner.setEnabled(false);
+                            }else if(genderId.equalsIgnoreCase("F")){
+                                cardTypeSpinner.setSelection(2);
+                                cardTypeSpinner.setEnabled(false);
+                            }else{
+                                cardTypeSpinner.setSelection(0);
+                                cardTypeSpinner.setEnabled(false);
+                            }
+                        }
+                        if(coTag.equalsIgnoreCase("W/O")) {
+                            kycSpouse.setText(careOf.trim());
+                            //if(genderId.equalsIgnoreCase("M")){
+                            cardTypeSpinner.setSelection(3);
+                            cardTypeSpinner.setEnabled(false);
+                            //}
+                        }
+                    }
+
+                } else {
+                    //coLL.setVisibility(View.GONE);
+                }
+              /*  if (aadhaarKycResponse.getCo() != null && !aadhaarKycResponse.getCo().equalsIgnoreCase("")) {
+                    //addr.append(aadhaarKycResponse.getCo());
 
                     String[] co = aadhaarKycResponse.getCo().split(" ");
                     String careOf = "";
@@ -388,7 +436,7 @@ public class FingerprintResultActivity extends BaseActivity {
                             kycSpouse.setText(careOf.trim());
                         }
                     }
-                }
+                }*/
                 /*if (aadhaarKycResponse.getCo() != null && !aadhaarKycResponse.getCo().equalsIgnoreCase("")) {
                     //addr.append(aadhaarKycResponse.getCo());
 

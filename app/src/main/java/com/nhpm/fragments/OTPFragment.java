@@ -43,6 +43,7 @@ import com.nhpm.AadhaarUtils.Global;
 import com.nhpm.AadhaarUtils.UdaiAuthOTPHelper;
 import com.nhpm.AadhaarUtils.VerhoeffAadhar;
 import com.nhpm.Models.request.AadhaarAuthRequestItem;
+import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.seccMembers.SeccMemberItem;
 import com.nhpm.Models.response.seccMembers.SelectedMemberItem;
 import com.nhpm.Models.response.verifier.AadhaarDemoAuthResponse;
@@ -677,9 +678,16 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, loginResponse.serialize(), context);
                           //  setPin();*/
                             dialog.dismiss();
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",aadhaarKycResponse.serialize(),context);
+                            PersonalDetailItem personalDetailItem = new PersonalDetailItem();
+                            personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
+                            personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
+                            personalDetailItem.setName(aadhaarKycResponse.getName());
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
 
                             ekycActivity.finish();
+                           // ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",aadhaarKycResponse.serialize(),context);
+
+                           // ekycActivity.finish();
                             /*Intent intent = new Intent(context, FingerprintResultActivity.class);
                             intent.putExtra("result", aadhaarKycResponse);
                             startActivity(intent);*/

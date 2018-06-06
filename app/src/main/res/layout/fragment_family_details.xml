@@ -127,7 +127,7 @@
                         android:layout_marginLeft="@dimen/margine_20"
                         android:background="@drawable/rounded_shape_yello_button"
                         android:padding="@dimen/margine_10"
-                        android:text="@string/upload"
+                        android:text="@string/capture"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_size" />

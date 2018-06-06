@@ -1033,6 +1033,8 @@
     <string name="add_card">Add New Family Card</string>
     <string name="save_preview">SAVE &amp; PREVIEW</string>
 <string name="member_error">No matches found. Kindly refine your search.</string>
+    <string name="govt_id_photo">Govt Id Photo</string>
+    <string name="nameAsPerId">Beneficiary Name As Per Id: </string>
 
 
 </resources>

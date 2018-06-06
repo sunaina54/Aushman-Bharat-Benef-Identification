@@ -392,14 +392,18 @@
         <activity
             android:name=".activity.CollectDataActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden"
+            ></activity>
 
         <activity
             android:name=".activity.FindBeneficiaryByNameActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
 
-
+        <activity
+            android:name=".activity.GovermentIDActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
 
     </application>
 

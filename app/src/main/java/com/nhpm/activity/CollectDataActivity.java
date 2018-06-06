@@ -30,7 +30,7 @@ import com.nhpm.fragments.PrintEcardFragment;
  */
 
 public class CollectDataActivity extends BaseActivity {
-    private LinearLayout printEcardLL,familyDetailsLL,personalDetailsLL;
+    public LinearLayout printEcardLL,familyDetailsLL,personalDetailsLL;
     private Fragment fragment;
     private FragmentTransaction fragmentTransection;
     private FragmentManager fragmentManager;

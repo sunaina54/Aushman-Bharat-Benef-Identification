@@ -1,8 +1,13 @@
 package com.nhpm.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
@@ -11,13 +16,22 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.nhpm.CameraUtils.CommonUtilsImageCompression;
+import com.nhpm.CameraUtils.squarecamera.CameraActivity;
+import com.nhpm.LocalDataBase.DatabaseHelpers;
+import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.GovernmentIdItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
+import com.nhpm.activity.CollectDataActivity;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -28,7 +42,15 @@ public class FamilyDetailsFragment extends Fragment {
     private Context context;
     private ArrayList<GovernmentIdItem> govtIdStatusList;
     private Spinner govtIdSP;
+    private TextView beneficiaryNameTV;
     private GovernmentIdItem item;
+    private Button captureImageBT;
+    private Bitmap captureImageBM;
+    private CollectDataActivity activity;
+    private DocsListItem beneficiaryListItem;
+    private String voterIdImg;
+    private ImageView beneficiaryPhotoIV;
+    private int CAMERA_PIC_REQUEST = 0;
 
     public FamilyDetailsFragment() {
         // Required empty public constructor
@@ -50,6 +72,18 @@ public class FamilyDetailsFragment extends Fragment {
     private void setupScreen(View view) {
         govtIdSP = (Spinner) view.findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
+        beneficiaryNameTV = (TextView) view.findViewById(R.id.beneficiaryNameTV);
+        if (beneficiaryListItem != null) {
+            beneficiaryNameTV.setText(beneficiaryListItem.getName());
+        }
+        captureImageBT = (Button) view.findViewById(R.id.captureImageBT);
+        beneficiaryPhotoIV = (ImageView) view.findViewById(R.id.beneficiaryPhotoIV);
+        captureImageBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCamera();
+            }
+        });
         govtIdSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -331,7 +365,7 @@ public class FamilyDetailsFragment extends Fragment {
 
     }
     private void prepareGovernmentIdSpinner() {
-        govtIdStatusList = AppUtility.prepareGovernmentIdSpinner();
+        govtIdStatusList = AppUtility.prepareGovernmentIdSpinnerList();
         ArrayList<String> spinnerList = new ArrayList<>();
         /*govtIdStatusList.add(new GovernmentIdItem(0,"Select Govt.ID"));
         govtIdStatusList.add(new GovernmentIdItem(1,"Aadhaar Enrollment ID"));
@@ -346,4 +380,89 @@ public class FamilyDetailsFragment extends Fragment {
         govtIdSP.setAdapter(adapter);
     }
 
+    private void openCamera(){
+        AppUtility.capturingType = AppConstant.capturingModeGovId;
+
+        File mediaStorageDir = new File(
+                DatabaseHelpers.DELETE_FOLDER_PATH,
+                context.getString(R.string.squarecamera__app_name) + "/photoCapture"
+        );
+
+        if (mediaStorageDir.exists()) {
+            deleteDir(mediaStorageDir);
+        }
+        Intent startCustomCameraIntent = new Intent(context, CameraActivity.class);
+        startActivityForResult(startCustomCameraIntent, CAMERA_PIC_REQUEST);
+    }
+
+    @Override
+    public void onAttach(Activity context) {
+        super.onAttach(context);
+        //activity = (CaptureAadharDetailActivity) context;
+        // if (activity instanceof CollectDataActivity) {
+        activity = (CollectDataActivity) context;
+
+        beneficiaryListItem = activity.benefItem;
+        // }
+       /* if (ekycActivity instanceof EkycActivity) {
+            ekycActivity = (EkycActivity) context;
+        }*/
+    }
+    private void deleteDir(File file) {
+
+        if (file.isDirectory()) {
+            String[] children = file.list();
+            for (String child : children) {
+                if (child.endsWith(".jpg") || child.endsWith(".jpeg"))
+                    new File(file, child).delete();
+            }
+            file.delete();
+        }
+        Intent mediaScannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri fileContentUri = Uri.fromFile(file);
+        mediaScannerIntent.setData(fileContentUri);
+        context.sendBroadcast(mediaScannerIntent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_PIC_REQUEST) {
+               /* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
+                try {
+                    captureImageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri); //(Bitmap)imageUri;//data.getExtras().get("data");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+            Uri fileUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,
+                    context.getString(R.string.squarecamera__app_name) + "/photoCapture/IMG_12345.jpg"));
+            Uri compressedUri = Uri.fromFile(new File(CommonUtilsImageCompression.compressImage(fileUri.getPath(), context, "/photoCapture")));
+            //  captureImageBM=(Bitmap)data.getExtras().get("data");
+            try {
+                captureImageBM = MediaStore.Images.Media.getBitmap(context.getContentResolver(), compressedUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // Log.d(TAG," Bitmap Size : "+image.getAllocationByteCount());
+            voterIdImg = AppUtility.convertBitmapToString(captureImageBM);
+            updateScreen(voterIdImg);
+        }
+    }
+
+    private void updateScreen(String idImage) {
+        try {
+            if (idImage != null) {
+                beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(idImage));
+            } else {
+//                if (seccItem.getGovtIdPhoto() != null && !seccItem.getGovtIdPhoto().equalsIgnoreCase("")) {
+//
+//                } else {
+                beneficiaryPhotoIV.setImageBitmap(null);
+//                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
 }
