@@ -11,6 +11,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +21,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,6 +32,8 @@ import com.customComponent.CustomAlert;
 import com.nhpm.CameraUtils.CommonUtilsImageCompression;
 import com.nhpm.CameraUtils.squarecamera.CameraActivity;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
+import com.nhpm.Models.FamilyMemberModel;
+import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.GovernmentIdItem;
@@ -33,6 +41,7 @@ import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 import com.nhpm.activity.CollectDataActivity;
+import com.nhpm.activity.FamilyMemberEntryActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +54,7 @@ public class FamilyDetailsFragment extends Fragment {
     private View view;
     private FragmentTransaction fragmentTransection;
     private FragmentManager fragmentManager;
+    private FamilyAdapter adapter;
     private Context context;
     private ArrayList<GovernmentIdItem> govtIdStatusList;
     private Spinner govtIdSP;
@@ -60,6 +70,12 @@ public class FamilyDetailsFragment extends Fragment {
     private Button previousBT;
     private ImageView addIV;
     private PersonalDetailItem personalDetailItem;
+    private LinearLayout addFamilyMemberLL;
+    private RecyclerView memberRecycle;
+    private ArrayList<FamilyMemberModel> familyMembersList;
+    private FamilyDetailsItemModel familyDetailsItemModel;
+    private EditText govtIdET;
+
 
     public FamilyDetailsFragment() {
         // Required empty public constructor
@@ -81,13 +97,55 @@ public class FamilyDetailsFragment extends Fragment {
     private void setupScreen(View view) {
         Bundle bundle = getArguments();
         //bundle.getString("personalDetail");
-       personalDetailItem = PersonalDetailItem.create(bundle.getString("personalDetail"));
+        personalDetailItem = PersonalDetailItem.create(bundle.getString("personalDetail"));
         fragmentManager = getActivity().getSupportFragmentManager();
+        familyMembersList = new ArrayList<>();
         govtIdSP = (Spinner) view.findViewById(R.id.govtIdSP);
+        govtIdET = (EditText) view.findViewById(R.id.govtIdET);
         prepareGovernmentIdSpinner();
+        memberRecycle = (RecyclerView) view.findViewById(R.id.memberRecycle);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        memberRecycle.setLayoutManager(layoutManager);
+        memberRecycle.setItemAnimator(new DefaultItemAnimator());
+        addFamilyMemberLL = (LinearLayout) view.findViewById(R.id.addFamilyMemberLL);
         beneficiaryNameTV = (TextView) view.findViewById(R.id.beneficiaryNameTV);
-        if (beneficiaryListItem != null) {
-            beneficiaryNameTV.setText(beneficiaryListItem.getName());
+        captureImageBT = (Button) view.findViewById(R.id.captureImageBT);
+        beneficiaryPhotoIV = (ImageView) view.findViewById(R.id.beneficiaryPhotoIV);
+        captureImageBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCamera();
+            }
+        });
+
+        if (personalDetailItem != null) {
+
+            if (personalDetailItem.getBenefName() != null) {
+                beneficiaryNameTV.setText(personalDetailItem.getBenefName());
+            }
+            if(personalDetailItem.getFamilyDetailsItem()!=null){
+                if(personalDetailItem.getFamilyDetailsItem().getIdImage()!=null &&
+                        !personalDetailItem.getFamilyDetailsItem().getIdImage().equalsIgnoreCase("") ){
+                    //updateScreen(personalDetailItem.getFamilyDetailsItem().getIdImage());
+                    beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getFamilyDetailsItem().getIdImage()));
+
+                }
+
+                if(personalDetailItem.getFamilyDetailsItem().getIdType()!=null &&
+                        personalDetailItem.getFamilyDetailsItem().getIdType().equalsIgnoreCase("")){
+                    //govtIdSP.setSelection();
+                }
+
+                if(personalDetailItem.getFamilyDetailsItem().getIdNumber()!=null &&
+                        !personalDetailItem.getFamilyDetailsItem().getIdNumber().equalsIgnoreCase("")){
+                    govtIdET.setText(personalDetailItem.getFamilyDetailsItem().getIdNumber());
+                }
+
+                if(personalDetailItem.getFamilyDetailsItem().getFamilyMemberModels()!=null){
+                  refreshList(personalDetailItem.getFamilyDetailsItem().getFamilyMemberModels());
+                }
+
+            }
         }
         addIV = (ImageView) view.findViewById(R.id.addIV);
         addIV.setOnClickListener(new View.OnClickListener() {
@@ -100,8 +158,16 @@ public class FamilyDetailsFragment extends Fragment {
         previousBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Fragment fragment = new PersonalDetailsFragment();
                 Bundle args = new Bundle();
+                familyDetailsItemModel = new FamilyDetailsItemModel();
+
+                familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
+                familyDetailsItemModel.setIdType(item.status);
+                familyDetailsItemModel.setIdImage(voterIdImg);
+                familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
+                personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
                 if (personalDetailItem != null) {
                     args.putString("personalDetail", personalDetailItem.serialize());
                 }
@@ -111,14 +177,7 @@ public class FamilyDetailsFragment extends Fragment {
                 fragmentTransection.commitAllowingStateLoss();
             }
         });
-        captureImageBT = (Button) view.findViewById(R.id.captureImageBT);
-        beneficiaryPhotoIV = (ImageView) view.findViewById(R.id.beneficiaryPhotoIV);
-        captureImageBT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCamera();
-            }
-        });
+
         govtIdSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -398,22 +457,33 @@ public class FamilyDetailsFragment extends Fragment {
             }
         });
 
+        addFamilyMemberLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // FamilyMemberModel item = null;
+
+                Intent theIntent = new Intent(context, FamilyMemberEntryActivity.class);
+                theIntent.putExtra(AppConstant.FAMILY_MEMBER_RESULT_CODE_NAME, item);
+                startActivityForResult(theIntent, AppConstant.FAMILY_MEMBER_REQUEST_CODE_VALUE);
+            }
+        });
+
     }
 
     private void prepareGovernmentIdSpinner() {
         govtIdStatusList = AppUtility.prepareGovernmentIdSpinnerList();
         ArrayList<String> spinnerList = new ArrayList<>();
-        /*govtIdStatusList.add(new GovernmentIdItem(0,"Select Govt.ID"));
-        govtIdStatusList.add(new GovernmentIdItem(1,"Aadhaar Enrollment ID"));
-        govtIdStatusList.add(new GovernmentIdItem(2,"Voter ID Card"));
-        govtIdStatusList.add(new GovernmentIdItem(3,"Ration Card"));
-        govtIdStatusList.add(new GovernmentIdItem(4,"NREGA job card"));
-        govtIdStatusList.add(new GovernmentIdItem(5,"Driving License"));*/
         for (GovernmentIdItem item : govtIdStatusList) {
             spinnerList.add(item.status);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.custom_drop_down, R.id.textView, spinnerList);
         govtIdSP.setAdapter(adapter);
+
+
+        if(personalDetailItem!=null && personalDetailItem.getFamilyDetailsItem()!=null) {
+
+               govtIdSP.setSelection(1);
+        }
     }
 
     private void openCamera() {
@@ -485,7 +555,130 @@ public class FamilyDetailsFragment extends Fragment {
             voterIdImg = AppUtility.convertBitmapToString(captureImageBM);
             updateScreen(voterIdImg);
         }
+
+        if (requestCode == AppConstant.FAMILY_MEMBER_REQUEST_CODE_VALUE) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                // Utility.scrollToEnd(scrollView);
+                //  Toast.makeText(context, "Result Recieved", Toast.LENGTH_LONG).show();
+                FamilyMemberModel item = (FamilyMemberModel) data.getSerializableExtra(AppConstant.FAMILY_MEMBER_RESULT_CODE_NAME);
+                if (item != null) {
+                    // if(familyMembersList.size()>0){
+                  /*  for(int i=0;i<familyMembersList.size();i++){
+                        if(item.getMemberId()!=null && item.getMemberId().equalsIgnoreCase(familyMembersList.get(i).getMemberId())){
+                            familyMembersList.set(i,item);
+                            refreshList();
+                            return;
+                        }
+                    }*/
+                    familyMembersList.add(item);
+                    refreshList(familyMembersList);
+
+                    // }else{
+                    //item.setHouseholdId();
+                    //  }
+                }
+                refreshList(familyMembersList);
+            }
+        }
     }
+
+    private void refreshList(ArrayList<FamilyMemberModel> familyMembersList) {
+        if (familyMembersList != null) {
+            adapter = new FamilyAdapter(context, familyMembersList);
+            memberRecycle.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private class FamilyAdapter extends RecyclerView.Adapter<FamilyAdapter.MyViewHolder> {
+
+        View view;
+        private ArrayList<FamilyMemberModel> dataSet;
+
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            RelativeLayout itemlayout, editActionRL;
+            TextView nameTV;
+
+
+            public MyViewHolder(final View itemView) {
+                super(itemView);
+                nameTV = (TextView) itemView.findViewById(R.id.nameTV);
+            }
+        }
+
+
+        public FamilyAdapter(Context context, ArrayList<FamilyMemberModel> data) {
+            this.dataSet = data;
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                               int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.member_data_row, parent, false);
+            MyViewHolder myViewHolder = new MyViewHolder(view);
+            return myViewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
+
+
+            final FamilyMemberModel item = dataSet.get(listPosition);
+           /* String aadhaarNo = "";
+            holder.houseHoldIdTV.setText(item.getHouseholdId());
+            if(item.getAadhaarNo()!=null && !item.getAadhaarNo().equalsIgnoreCase("")) {
+                aadhaarNo = "XXXXXXXX" + item.getAadhaarNo().substring(8);
+            }
+            holder.houseHoldAadhaarNoTV.setText(aadhaarNo);*/
+            holder.nameTV.setText(item.getName());
+            /*if(item.getStatus().equalsIgnoreCase(AppConstant.SYNC_STATUS)){
+                holder.editActionTV.setBackgroundColor(context.getResources().getColor(R.color.sync_status_color));
+                holder.editActionTV.setText("Synced");
+                holder.editActionTV.setTextColor(context.getResources().getColor(R.color.white));
+                holder.editActionTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ProjectPrefrence.saveSharedPrefrenceData(
+                                AppConstant.PROJECT_PREF, AppConstant.ACTION_TO_PERFORM,AppConstant.VIEW_ACTION, context);
+                        ProjectPrefrence.saveSharedPrefrenceData(
+                                AppConstant.PROJECT_PREF,AppConstant.SELECTED_HOUSEHOLD_ITEM,item.serialize(),context);
+                        Intent theIntent = new Intent(context, PreviewActivity.class);
+                        context.startActivity(theIntent);
+                    }
+                });
+
+            }else if(item.getStatus().equalsIgnoreCase(AppConstant.LOCK_STATUS)){
+                holder.editActionTV.setBackgroundColor(context.getResources().getColor(R.color.lock_status_color));
+                holder.editActionTV.setText("Locked");
+                holder.editActionTV.setTextColor(context.getResources().getColor(R.color.white));
+                holder.editActionRL.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        openResetHousehold(item,holder.editActionRL,context,getActivity());
+
+                    }
+                });
+
+            }*/
+         /*   holder.editActionRL.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openResetHousehold(item,holder.editActionRL);
+                }
+            });*/
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return dataSet.size();
+        }
+
+    }
+
 
     private void updateScreen(String idImage) {
         try {
@@ -502,4 +695,6 @@ public class FamilyDetailsFragment extends Fragment {
 
         }
     }
+
+
 }

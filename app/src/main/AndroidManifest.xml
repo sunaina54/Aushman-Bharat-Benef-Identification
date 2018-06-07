@@ -410,6 +410,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
 
+        <activity
+            android:name=".activity.FamilyMemberEntryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+
     </application>
 
 </manifest>

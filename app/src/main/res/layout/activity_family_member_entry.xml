@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include android:id="@+id/headerLayout" layout="@layout/header_layout"></include>
+    <ScrollView
+        android:layout_below="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:id="@+id/surveyorDetailLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Enter Member Name"
+                        android:layout_marginLeft="@dimen/margine_10"
+                        android:layout_marginTop="@dimen/margine_10"
+                        style="@style/labelTextView"
+                        />
+                    <EditText
+                        style="@style/textTypeET"
+                        android:background="@drawable/onfocus_edittext_shape"
+                        android:id="@+id/familyMemberNameET"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_margin="@dimen/margine_10"/>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+                <Button
+                    android:text="@string/save"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:layout_margin="@dimen/margine_10"
+                    android:background="@drawable/rounded_shape_yello_button"
+                    android:id="@+id/saveBT"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.5"/>
+                <Button
+                    android:text="Cancel"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:layout_margin="@dimen/margine_10"
+                    android:background="@drawable/rounded_shape_yello_button"
+                    android:id="@+id/cancelBT"
+                    android:textSize="@dimen/text_size_18sp"
+
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.5"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
+

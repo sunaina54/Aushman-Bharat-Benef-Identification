@@ -1,7 +1,6 @@
 package com.nhpm.Models.request;
 
 import com.google.gson.Gson;
-import com.nhpm.Models.response.DocsListItem;
 
 import java.io.Serializable;
 
@@ -18,6 +17,25 @@ public class PersonalDetailItem implements Serializable {
     private String govtIdNo;
     private String govtIdType;
     private String flowStatus;
+    private String benefName;
+    private FamilyDetailsItemModel familyDetailsItem;
+
+
+    public FamilyDetailsItemModel getFamilyDetailsItem() {
+        return familyDetailsItem;
+    }
+
+    public void setFamilyDetailsItem(FamilyDetailsItemModel familyDetailsItem) {
+        this.familyDetailsItem = familyDetailsItem;
+    }
+
+    public String getBenefName() {
+        return benefName;
+    }
+
+    public void setBenefName(String benefName) {
+        this.benefName = benefName;
+    }
 
     public String getFlowStatus() {
         return flowStatus;

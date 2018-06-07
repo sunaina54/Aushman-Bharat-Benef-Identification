@@ -78,7 +78,7 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="1.0"
                     android:layout_height="wrap_content">
 
                 <EditText
@@ -166,6 +166,7 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/cardTypeTV"
                     style="@style/textView"
                     android:layout_width="0dp"

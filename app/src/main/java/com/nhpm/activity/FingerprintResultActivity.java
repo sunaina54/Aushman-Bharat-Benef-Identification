@@ -108,7 +108,7 @@ public class FingerprintResultActivity extends BaseActivity {
         updateKycButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = kycName.getText().toString();
+                String name = kycName.getText().toString().trim();
                 String gender = kycGender.getText().toString();
                 String yob = kycDob.getText().toString();
                 if (!gender.equalsIgnoreCase("")) {
@@ -123,9 +123,9 @@ public class FingerprintResultActivity extends BaseActivity {
                 }
                 String age = kycAge.getText().toString();
                 String pincode = kycPincode.getText().toString();
-                String fatherName = kycFather.getText().toString();
-                String motherName = kycMother.getText().toString();
-                String spouseName = kycSpouse.getText().toString();
+                String fatherName = kycFather.getText().toString().trim();
+                String motherName = kycMother.getText().toString().trim();
+                String spouseName = kycSpouse.getText().toString().trim();
                 String state = kycState.getText().toString();
                 String district = kycDist.getText().toString();
                 FamilyListRequestModel request = new FamilyListRequestModel();

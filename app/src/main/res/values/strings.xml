@@ -536,6 +536,7 @@
     <string name="plzEnterBirthCerfNum">Enter Birth Certificate Number</string>
     <string name="plzEnterNameAsBirthCerf">Enter Name as in Birth Certificate</string>
     <string name="plzEnterId">Enter ID Number</string>
+    <string name="please_enter_name">Please enter name</string>
     <string name="plzEnterNameAsId">Enter Name as in ID</string>
     <string name="plzEnterValidMobNo">Please enter valid mobile number.</string>
     <string name="plzEnterMobNo">Please enter your mobile number.</string>
@@ -1035,6 +1036,7 @@
 <string name="member_error">No matches found. Kindly refine your search.</string>
     <string name="govt_id_photo">Govt Id Photo</string>
     <string name="nameAsPerId">Beneficiary Name As Per Id</string>
+    <string name="api_error">Internal Server Error</string>
 
 
 </resources>

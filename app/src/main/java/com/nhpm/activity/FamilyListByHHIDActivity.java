@@ -36,6 +36,7 @@ import java.util.HashMap;
 public class FamilyListByHHIDActivity extends BaseActivity {
 
     private Context context;
+    private String familyResponse;
     private CustomAsyncTask customAsyncTask;
     private FamilyListResponseItem familyListResponseModel;
     private RecyclerView searchListRV;
@@ -88,6 +89,7 @@ public class FamilyListByHHIDActivity extends BaseActivity {
 
     private void familyListData() {
 
+
         // familyListRequestModel = new FamilyListRequestModel();
         // familyListRequestModel.setName("sumit");
         familyListRequestModel.setUserName("nhps_fvs^1&%mobile");
@@ -96,7 +98,7 @@ public class FamilyListByHHIDActivity extends BaseActivity {
         familyListRequestModel.setAhlblockno("");
         familyListRequestModel.setBlock_name_english("");
         familyListRequestModel.setDistrict_code("");
-        familyListRequestModel.setResultCount("5");
+        familyListRequestModel.setResultCount("100");
         if (familyListRequestModel.getFathername() == null) {
             familyListRequestModel.setFathername("");
         }
@@ -131,23 +133,32 @@ public class FamilyListByHHIDActivity extends BaseActivity {
             @Override
             public void execute() {
                 try {
+                    noMemberLL.setVisibility(View.GONE);
+                    searchListRV.setVisibility(View.VISIBLE);
                     String request = familyListRequestModel.serialize();
                     HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_FAMILY_LIST, request);
-                    String familyResponse = response.get("response");
+                    familyResponse = response.get("response");
+
+
 
                     if (familyResponse != null) {
                         familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
+
+                    }else {
+                        noMemberLL.setVisibility(View.VISIBLE);
+                        noMemberTV.setText("Internal Server Error");
+                        searchListRV.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+
                 }
 
             }
 
             @Override
             public void updateUI() {
-                if (familyListResponseModel != null && familyListResponseModel.getResponse() != null
-                        ) {
+                if (familyListResponseModel != null && familyListResponseModel.getResponse() != null) {
                     int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
                     if (matchCount == 0) {
                         noMemberTV.setText("No Family member found");
@@ -168,8 +179,9 @@ public class FamilyListByHHIDActivity extends BaseActivity {
                             noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                         }*/
                     } else {
-                        // mProgressBar.setVisibility(View.GONE);
                         noMemberLL.setVisibility(View.VISIBLE);
+                        noMemberTV.setText("No Family member found");
+
                     }
 
                 }

@@ -24,7 +24,7 @@
 
                 <TextView
                     style="@style/textView"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/beneficiaryName"
                     android:textSize="22sp"
@@ -137,7 +137,50 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_margin="@dimen/margine_10"
+                    android:layout_gravity="right"
+                    android:paddingLeft="@dimen/margine_5"
+                    android:paddingRight="@dimen/margine_5"
+                    android:id="@+id/addFamilyMemberLL"
+                    android:background="@drawable/rounded_shape_yello_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:padding="@dimen/margine_5">
+                        <TextView
+                            android:id="@+id/initReqBT"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Member"
 
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/font_size" />
+                        <ImageView
+
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/plus_icon"
+                            android:layout_width="@dimen/margine_25"
+                            android:layout_height="@dimen/margine_25"
+                            android:layout_marginLeft="@dimen/margine_5"
+                            android:scaleType="fitXY"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/memberRecycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="vertical" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -155,6 +198,7 @@
                         android:hint="@string/familyMemberName"
                         android:imeOptions="actionNext"
                         android:paddingBottom="5dp"
+                        android:visibility="gone"
                         android:paddingLeft="15dp"
                         android:paddingTop="5dp"
                         android:textAlignment="center"
@@ -163,6 +207,7 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:visibility="gone"
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/margine_20"
                         android:id="@+id/addIV"
@@ -177,16 +222,27 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
 
-
             <Button
-                android:id="@+id/verifyFamilyBT"
+                android:id="@+id/previousBT"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginBottom="@dimen/margine_20"
                 android:background="@drawable/rounded_shape_yello_button"
                 android:padding="@dimen/margine_10"
-                android:text="@string/verify"
+                android:text="Previous"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size" />
+            <Button
+                android:id="@+id/verifyFamilyBT"
+                android:layout_width="170dp"
+                android:layout_height="45dp"
+            android:layout_marginLeft="190dp"
+                android:layout_marginBottom="@dimen/margine_20"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:padding="@dimen/margine_10"
+                android:text="Get Family Score"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size" />
@@ -206,18 +262,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size" />
 
-            <Button
-                android:id="@+id/previousBT"
-                android:layout_width="150dp"
-                android:layout_height="45dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="@dimen/margine_20"
-                android:background="@drawable/rounded_shape_yello_button"
-                android:padding="@dimen/margine_10"
-                android:text="Previous"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_size" />
+
 
 
         </RelativeLayout>

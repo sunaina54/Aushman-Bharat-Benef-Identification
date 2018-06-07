@@ -135,8 +135,11 @@ public class FamilyListActivity extends BaseActivity {
                     HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_FAMILY_LIST, request);
                     String familyResponse = response.get("response");
 
-                    if (familyResponse != null) {
+                    if (familyResponse != null && !familyResponse.equalsIgnoreCase("")) {
                         familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
+                    }else {
+                        noMemberLL.setVisibility(View.VISIBLE);
+                        noMemberTV.setText("Internal Server Error");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -146,31 +149,37 @@ public class FamilyListActivity extends BaseActivity {
 
             @Override
             public void updateUI() {
-                if (familyListResponseModel != null && familyListResponseModel.getResponse() != null
-                        ) {
-                    int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
-                    if (matchCount <= 5) {
-                        noMemberTV.setText(matchCount + " matches found");
-                    } else {
-                        noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
-                    }
-                    if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
-                        //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
-                        try {
-                            refreshMembersList(familyListResponseModel.getResponse().getDocs());
-                        } catch (Exception e) {
-                            Log.d("TAG", "Exception : " + e.toString());
+                if(familyListResponseModel != null) {
+                    if (familyListResponseModel.getResponse() != null
+                            ) {
+                        int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
+                        if (matchCount <= 5) {
+                            noMemberTV.setText(matchCount + " matches found");
+                        } else {
+                            noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                         }
+                        if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
+                            //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
+                            try {
+                                refreshMembersList(familyListResponseModel.getResponse().getDocs());
+                            } catch (Exception e) {
+                                Log.d("TAG", "Exception : " + e.toString());
+                            }
                         /*}else {
                             //mProgressBar.setVisibility(View.GONE);
                             noMemberLL.setVisibility(View.VISIBLE);
                             noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                         }*/
-                    } else {
-                        // mProgressBar.setVisibility(View.GONE);
-                        noMemberLL.setVisibility(View.VISIBLE);
-                    }
+                        } else {
+                            // mProgressBar.setVisibility(View.GONE);
+                            noMemberLL.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No Family member found");
+                        }
 
+                    }
+                }else {
+                    noMemberLL.setVisibility(View.VISIBLE);
+                    noMemberTV.setText("No Family member found");
                 }
             }
         };

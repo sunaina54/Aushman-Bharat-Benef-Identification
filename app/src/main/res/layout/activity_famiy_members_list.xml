@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="@dimen/margine_10"
-           android:layout_weight="0.65"
+           android:layout_weight="1"
             >
 
 
@@ -80,6 +80,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.35"
+            android:visibility="gone"
             android:layout_gravity="center_vertical">
 
             <Button
@@ -99,6 +100,17 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/api_error"
+        style="@style/textView"
+        android:textAlignment="center"
+        android:id="@+id/errorTV"
+        android:background="@color/white"
+        android:visibility="gone"
+
+        />
 
     <android.support.v7.widget.RecyclerView
         android:layout_margin="@dimen/margine_10"
@@ -106,6 +118,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
+        android:visibility="visible"
         />
+
+
 
 </LinearLayout>

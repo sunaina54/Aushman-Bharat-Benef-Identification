@@ -56,6 +56,7 @@ public class FamilyMembersListActivity extends BaseActivity {
     private LinearLayout noMemberLL;
     private CustomAsyncTask customAsyncTask;
     private FamilyMembersListActivity activity;
+    private TextView errorTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class FamilyMembersListActivity extends BaseActivity {
         });
         AppUtility.navigateToHome(context,activity);
         collectDataBT = (Button) findViewById(R.id.collectDataBT);
+        errorTV= (TextView) findViewById(R.id.errorTV);
         collectDataBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +111,6 @@ public class FamilyMembersListActivity extends BaseActivity {
     private void familyListData() {
 
         familyListRequestModel = new FamilyListRequestModel();
-
         familyListRequestModel.setUserName("nhps_fvs^1&%mobile");
         familyListRequestModel.setUserPass("ZCbEJyPUlaQXo8fJT2P+5PAKJOs6emRZgdI/w5qkIrN2NqRUQQ3Sdqp+9WbS8P4j");
         familyListRequestModel.setHho_id(hhdNo);
@@ -125,7 +126,7 @@ public class FamilyMembersListActivity extends BaseActivity {
         familyListRequestModel.setGenderid("");
         familyListRequestModel.setMothername("");
         familyListRequestModel.setSpousenm("");
-        familyListRequestModel.setResultCount("5");
+        familyListRequestModel.setResultCount("100");
         familyListRequestModel.setFathername("");
         familyListRequestModel.setState_name_english("");
         familyListRequestModel.setBlock_name_english("");
@@ -142,6 +143,11 @@ public class FamilyMembersListActivity extends BaseActivity {
 
                     if (familyResponse != null) {
                         familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
+                        errorTV.setVisibility(View.GONE);
+                        memberListRV.setVisibility(View.VISIBLE);
+                    }else {
+                        errorTV.setVisibility(View.VISIBLE);
+                        memberListRV.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
