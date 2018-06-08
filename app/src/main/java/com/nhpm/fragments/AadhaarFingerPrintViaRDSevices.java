@@ -175,7 +175,6 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
     private PersonalDetailItem personalDetailItem;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -214,7 +213,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
         }
         String aadharNo1 = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.AadharNumber, context);
 
-        if(aadharNo1!=null){
+        if (aadharNo1 != null) {
             edtxt_Aadhaar.setText(aadharNo1);
             edtxt_Aadhaar.setEnabled(false);
         }
@@ -239,7 +238,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
         kycTs = (TextView) view.findViewById(R.id.kycTs);
         kycTxn = (TextView) view.findViewById(R.id.kycTxn);
         kycRespTs = (TextView) view.findViewById(R.id.kycRespTs);
-     //   kycErrorTextView = (TextView) view.findViewById(R.id.errorTextView);
+        //   kycErrorTextView = (TextView) view.findViewById(R.id.errorTextView);
         kycErrorLayout = (LinearLayout) view.findViewById(R.id.kycErrorLayout);
         updateKycButtonNew = (Button) view.findViewById(R.id.updateKycButton);
         cancelButtonNew = (Button) view.findViewById(R.id.cancelButton);
@@ -293,7 +292,11 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                 edtxt_Aadhaar.setText("");
                 break;
             case R.id.auth_demo_go:
+                if (ekycActivity.isNetworkAvailable()) {
                     performAction();
+                }else {
+                    CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+                }
                 break;
             case R.id.cancelEkyc:
                 activity.finish();
@@ -327,7 +330,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                 toast("EXCEPTION : " + activityNotFound.getMessage());
             }
 
-        }else{
+        } else {
             CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterValidAadhaar));
         }
 
@@ -383,7 +386,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                 intentCapture.putExtra("PID_OPTIONS", pidOptXml);
                 int resultCode = 2;
                 startActivityForResult(intentCapture, resultCode);
-            }else{
+            } else {
                 intentCapture = new Intent("in.gov.uidai.rdservice.Iris.CAPTURE");
                 // showMessageDialogue(pidOptXml);
                 intentCapture.putExtra("PID_OPTIONS", pidOptXml);
@@ -414,7 +417,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == 1) {
                     String rd_info = data.getStringExtra("RD_SERVICE_INFO");
-                    Log.d("TAG","RD INFO DATA :"+rd_info);
+                    Log.d("TAG", "RD INFO DATA :" + rd_info);
                     //  showMessageDialogue("1111-->" + rd_info);
                     // toast("11111");
                     if (rd_info != null && rd_info.contains("NOTREADY")) {
@@ -571,7 +574,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                             String errorCode = (String) experror.evaluate(doc2, XPathConstants.STRING);
                             Log.e("errorCode", "-->" + errorCode);
                             final_XML = createXmlForAuth(deviceType, edtxt_Aadhaar.getText().toString().trim());
-                         //   showMessageDialogue("Auth->" + final_XML);
+                            //   showMessageDialogue("Auth->" + final_XML);
                             if (e_KYC) {
                                 if (final_XML != null && !final_XML.equalsIgnoreCase("")) {
                                     hitToServerforFINALRequest();
@@ -1392,7 +1395,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
             } else {
                 //edtxt_Aadhaar.setText("");
                 aadhaarKycResponse = new AadhaarResponseItem().create(result);
-                if(aadhaarKycResponse!=null) {
+                if (aadhaarKycResponse != null) {
                     if (aadhaarKycResponse.getResult() != null && aadhaarKycResponse.getResult().equalsIgnoreCase(AppConstant.AADHAAR_AUTH_YES)) {
                         /*Intent intent = new Intent(context, PersonalDetailsFragment.class);
                         intent.se("result", aadhaarKycResponse);*/
@@ -1406,20 +1409,22 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                         if (personalDetailItem != null) {
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
-                            personalDetailItem.setAadhaarNo(edtxt_Aadhaar.getText().toString());
+                            personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
+                            personalDetailItem.setGovtIdType("aadhar");
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
 
-                        }else {
+                        } else {
 
                             personalDetailItem = new PersonalDetailItem();
-                            personalDetailItem.setAadhaarNo(edtxt_Aadhaar.getText().toString());
+                            personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
+                            personalDetailItem.setGovtIdType("aadhar");
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
                         }
                         ekycActivity.finish();
 
@@ -1431,11 +1436,11 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                         CustomAlert.alertWithOk(context, aadhaarKycResponse.getErr());
                         return;
                     }
-                }else {
-                    CustomAlert.alertWithOk(context,"Unable To Connect from UIDAI Server, Please try again.");
+                } else {
+                    CustomAlert.alertWithOk(context, "Unable To Connect from UIDAI Server, Please try again.");
                     return;
                 }
-               // ShowKycDataNew(result);
+                // ShowKycDataNew(result);
             }
         }
 
@@ -1454,6 +1459,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
             fragmentTransaction.commit();
         }
     }
+
     private void ShowKycDataNew(String JSON) {
         try {
             aadhaarKycResponse = new AadhaarResponseItem().create(JSON);
@@ -1639,7 +1645,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                 getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context)));
         selectedMemItem = SelectedMemberItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.SELECTED_ITEM_FOR_VERIFICATION, context));
-        if (selectedMemItem !=null && selectedMemItem.getSeccMemberItem() != null) {
+        if (selectedMemItem != null && selectedMemItem.getSeccMemberItem() != null) {
             seccItem = selectedMemItem.getSeccMemberItem();
         }
 
@@ -1764,8 +1770,6 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
         activity.rightTransition();
 
     }
-
-
 
 
 }

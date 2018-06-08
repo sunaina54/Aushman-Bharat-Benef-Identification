@@ -51,7 +51,7 @@ public class FamilyListByHHIDActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        activity=this;
+        activity = this;
         setContentView(R.layout.activity_search_result);
         setupScreen();
     }
@@ -65,7 +65,7 @@ public class FamilyListByHHIDActivity extends BaseActivity {
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
 
-        AppUtility.navigateToHome(context,activity);
+        AppUtility.navigateToHome(context, activity);
         familyListRequestModel = (FamilyListRequestModel) getIntent().getSerializableExtra("SearchParam");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
@@ -114,8 +114,16 @@ public class FamilyListByHHIDActivity extends BaseActivity {
             familyListRequestModel.setState_name("");
         }
 
+        if (familyListRequestModel.getDistrict_name() == null) {
+            familyListRequestModel.setDistrict_name("");
+        }
+        if (familyListRequestModel.getVt_name() == null) {
+            familyListRequestModel.setVt_name("");
+        }
+       // familyListRequestModel.setAhlTinno(null);
         if (familyListRequestModel.getAhlTinno() == null) {
-            familyListRequestModel.setAhlTinno("");
+             familyListRequestModel.setAhlTinno("");
+
         }
         if (familyListRequestModel.getPincode() == null) {
             familyListRequestModel.setPincode("");
@@ -140,14 +148,10 @@ public class FamilyListByHHIDActivity extends BaseActivity {
                     familyResponse = response.get("response");
 
 
-
                     if (familyResponse != null) {
+
                         familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
 
-                    }else {
-                        noMemberLL.setVisibility(View.VISIBLE);
-                        noMemberTV.setText("Internal Server Error");
-                        searchListRV.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -158,32 +162,38 @@ public class FamilyListByHHIDActivity extends BaseActivity {
 
             @Override
             public void updateUI() {
-                if (familyListResponseModel != null && familyListResponseModel.getResponse() != null) {
-                    int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
-                    if (matchCount == 0) {
-                        noMemberTV.setText("No Family member found");
-                    }
+                if (familyListResponseModel != null) {
+                    if (familyListResponseModel.getResponse() != null) {
+                        int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
+                        if (matchCount == 0) {
+                            noMemberTV.setText("No Family member found");
+                        }
                     /*else {
                         noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                     }*/
-                    if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
-                        //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
-                        try {
-                            refreshMembersList(familyListResponseModel.getResponse().getDocs());
-                        } catch (Exception e) {
-                            Log.d("TAG", "Exception : " + e.toString());
-                        }
+                        if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
+                            //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
+                            try {
+                                refreshMembersList(familyListResponseModel.getResponse().getDocs());
+                            } catch (Exception e) {
+                                Log.d("TAG", "Exception : " + e.toString());
+                            }
                         /*}else {
                             //mProgressBar.setVisibility(View.GONE);
                             noMemberLL.setVisibility(View.VISIBLE);
                             noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                         }*/
-                    } else {
-                        noMemberLL.setVisibility(View.VISIBLE);
-                        noMemberTV.setText("No Family member found");
+                        } else {
+                            noMemberLL.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No Family member found");
+
+                        }
 
                     }
-
+                } else {
+                    noMemberLL.setVisibility(View.VISIBLE);
+                    noMemberTV.setText("Internal Server Error");
+                    searchListRV.setVisibility(View.GONE);
                 }
             }
         };
@@ -303,10 +313,18 @@ public class FamilyListByHHIDActivity extends BaseActivity {
             holder.familyItemLL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, FamilyMembersListActivity.class);
-                    //intent.putExtra("result", beneficiaryModel);
-                    intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
-                    startActivity(intent);
+
+                    if (mDataset.get(position).getHhd_no() == null || mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "HHID is blank. You can't processed data");
+                        return;
+                    }
+
+                    if (mDataset.get(position).getHhd_no() != null && !mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
+                        Intent intent = new Intent(context, FamilyMembersListActivity.class);
+                        //intent.putExtra("result", beneficiaryModel);
+                        intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
+                        startActivity(intent);
+                    }
                 }
             });
 

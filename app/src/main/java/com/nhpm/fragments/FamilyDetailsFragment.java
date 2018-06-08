@@ -15,6 +15,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.GovernmentIdItem;
+import com.nhpm.Models.response.SearchResult;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -75,6 +77,7 @@ public class FamilyDetailsFragment extends Fragment {
     private ArrayList<FamilyMemberModel> familyMembersList;
     private FamilyDetailsItemModel familyDetailsItemModel;
     private EditText govtIdET;
+    private Button getFamilyScoreBT,nextBT;
 
 
     public FamilyDetailsFragment() {
@@ -142,7 +145,9 @@ public class FamilyDetailsFragment extends Fragment {
                 }
 
                 if(personalDetailItem.getFamilyDetailsItem().getFamilyMemberModels()!=null){
+                    familyMembersList = personalDetailItem.getFamilyDetailsItem().getFamilyMemberModels();
                   refreshList(personalDetailItem.getFamilyDetailsItem().getFamilyMemberModels());
+
                 }
 
             }
@@ -161,13 +166,21 @@ public class FamilyDetailsFragment extends Fragment {
 
                 Fragment fragment = new PersonalDetailsFragment();
                 Bundle args = new Bundle();
-                familyDetailsItemModel = new FamilyDetailsItemModel();
 
-                familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
-                familyDetailsItemModel.setIdType(item.status);
-                familyDetailsItemModel.setIdImage(voterIdImg);
-                familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
-                personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
+                if(personalDetailItem!=null && personalDetailItem.getFamilyDetailsItem()!=null){
+                    familyDetailsItemModel= personalDetailItem.getFamilyDetailsItem();
+                    personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
+
+                } else {
+                    familyDetailsItemModel = new FamilyDetailsItemModel();
+                    familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
+                    familyDetailsItemModel.setIdType(item.status);
+                    familyDetailsItemModel.setIdImage(voterIdImg);
+                    familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
+                    personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
+
+                }
+
                 if (personalDetailItem != null) {
                     args.putString("personalDetail", personalDetailItem.serialize());
                 }
@@ -178,6 +191,25 @@ public class FamilyDetailsFragment extends Fragment {
             }
         });
 
+        nextBT = (Button) view.findViewById(R.id.nextBT);
+        nextBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                familyDetailsItemModel = new FamilyDetailsItemModel();
+                familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
+                familyDetailsItemModel.setIdType(item.status);
+                familyDetailsItemModel.setIdImage(voterIdImg);
+                familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
+                personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
+                beneficiaryListItem.setPersonalDetail(personalDetailItem);
+
+                String list = beneficiaryListItem.serialize();
+                Log.d("list json",list);
+
+                CustomAlert.alertWithOk(context,"Under Development");
+
+            }
+        });
         govtIdSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -460,8 +492,12 @@ public class FamilyDetailsFragment extends Fragment {
         addFamilyMemberLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // FamilyMemberModel item = null;
-
+                FamilyMemberModel item=null;
+                if(familyMembersList!=null && familyMembersList.size()>0){
+                    for(FamilyMemberModel familyMemberModel :familyMembersList){
+                        item = familyMemberModel;
+                    }
+                }
                 Intent theIntent = new Intent(context, FamilyMemberEntryActivity.class);
                 theIntent.putExtra(AppConstant.FAMILY_MEMBER_RESULT_CODE_NAME, item);
                 startActivityForResult(theIntent, AppConstant.FAMILY_MEMBER_REQUEST_CODE_VALUE);
@@ -479,6 +515,7 @@ public class FamilyDetailsFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.custom_drop_down, R.id.textView, spinnerList);
         govtIdSP.setAdapter(adapter);
 
+        govtIdSP.setSelection(1);
 
         if(personalDetailItem!=null && personalDetailItem.getFamilyDetailsItem()!=null) {
 

@@ -10,25 +10,43 @@ import java.io.Serializable;
 
 public class FamilyListRequestModel implements Serializable {
 
-    private String ahlblockno;
-    private String ahl_tin;
-    private String rural_urban;
-    private String spousenmsl;
-    private String state_name;
-    private String age;
-    private String hhd_no;
-    private String district_code;
-    private String pincode;
-    private String genderid;
-    private String mothername;
-    private String name;
-    private String spousenm;
-    private String state_name_english;
-    private String fathername;
-    private String block_name_english;
-    private String userName;
-    private String userPass;
-    private String resultCount;
+    private String ahlblockno="";
+    private String ahl_tin="";
+    private String rural_urban="";
+    private String spousenmsl="";
+    private String state_name="";
+    private String age="";
+    private String hhd_no="";
+    private String district_code="";
+    private String pincode="";
+    private String genderid="";
+    private String mothername="";
+    private String name="";
+    private String spousenm="";
+    private String state_name_english="";
+    private String fathername="";
+    private String block_name_english="";
+    private String userName="";
+    private String userPass="";
+    private String resultCount="";
+    private String district_name="";
+    private String vt_name="";
+
+    public String getDistrict_name() {
+        return district_name;
+    }
+
+    public void setDistrict_name(String district_name) {
+        this.district_name = district_name;
+    }
+
+    public String getVt_name() {
+        return vt_name;
+    }
+
+    public void setVt_name(String vt_name) {
+        this.vt_name = vt_name;
+    }
 
     public String getAhlTinno() {
         return ahl_tin;

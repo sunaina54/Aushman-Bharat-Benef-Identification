@@ -370,52 +370,12 @@
                         android:layout_height="30dp"
                         android:layout_margin="2dp"
                         android:layout_weight="0.1"
-                        android:checked="true" />
+                        android:checked="false" />
 
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:id="@+id/vtcLL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
 
-                    <TextView
-                        style="@style/textViewYellow"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="VTC" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <EditText
-                            android:id="@+id/kycVtc"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="0.9"
-                            android:background="@drawable/edit_text_border"
-                            android:enabled="true"
-                            android:inputType="none"
-                            android:paddingLeft="5dp"
-                            android:textSize="@dimen/text_size_15sp" />
-
-                        <CheckBox
-                            android:id="@+id/vtcCheck"
-                            android:layout_width="0dp"
-                            android:layout_height="30dp"
-                            android:layout_margin="2dp"
-                            android:layout_weight="0.1"
-                            android:checked="false" />
-
-                    </LinearLayout>
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/coLL"
@@ -602,6 +562,81 @@
                 </LinearLayout>
 
 
+
+                <LinearLayout
+                    android:id="@+id/vtcLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        style="@style/textViewYellow"
+                        android:layout_width="0dp"
+                        android:layout_weight=".3"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Village/Town" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/kycVtc"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.6"
+                        android:enabled="true"
+                        android:inputType="none"
+                        android:paddingLeft="5dp"
+                        android:hint="Type few characters of village"
+                        android:textSize="@dimen/text_size_15sp" />
+
+                    <CheckBox
+                        android:id="@+id/vtcCheck"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="0.1"
+                        android:checked="false" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/distLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/textViewYellow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:padding="5dp"
+                        android:text="@string/district" />
+
+
+                    <EditText
+                        android:id="@+id/kycDist"
+                        style="@style/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.6"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz. "
+                        android:enabled="false"
+                        android:inputType="none"
+                        android:paddingLeft="5dp"
+                        android:textSize="@dimen/text_size_15sp" />
+
+                    <CheckBox
+                        android:enabled="false"
+                        android:id="@+id/distCheck"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="0.1"
+                        android:checked="false" />
+
+
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/stateLL"
                     android:layout_width="match_parent"
@@ -641,49 +676,6 @@
 
 
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/distLL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    android:weightSum="1">
-
-                    <TextView
-                        style="@style/textViewYellow"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:padding="5dp"
-                        android:text="@string/district" />
-
-
-                    <EditText
-                        android:id="@+id/kycDist"
-                        style="@style/textView"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="0.6"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz. "
-                        android:enabled="true"
-                        android:inputType="none"
-                        android:paddingLeft="5dp"
-                        android:textSize="@dimen/text_size_15sp" />
-
-                    <CheckBox
-                        android:id="@+id/distCheck"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="2dp"
-                        android:layout_weight="0.1"
-                        android:checked="false" />
-
-
-                </LinearLayout>
-
-
-
                 <LinearLayout
                     android:id="@+id/addressLL"
                     android:layout_width="match_parent"

@@ -50,6 +50,8 @@ public class EkycActivity extends BaseActivity {
     private String aadhaarNo,screenName;
     public SerachOptionItem serachItem;
     private EkycActivity activity;
+    private String selectedMode;
+    public static String MODE_LABLE="selectedAadharMode";
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,8 @@ public class EkycActivity extends BaseActivity {
     }
 
     private void setupScreen() {
+        selectedMode=ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,MODE_LABLE,context);
+
         serachItem = SerachOptionItem.create(ProjectPrefrence.getSharedPrefrenceData
                 (AppConstant.PROJECT_NAME, AppConstant.SEARCH_OPTION, context));
         aadhaarNo = serachItem.getAadhaarNo();//getIntent().getStringExtra("aadhaarNo");
@@ -91,10 +95,31 @@ public class EkycActivity extends BaseActivity {
             }
         });
         checkAppConfig();
-        if (isNetworkAvailable()) {
-            openOTPFragment();
-        } else {
-            CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+
+        if(selectedMode==null){
+            if (isNetworkAvailable()) {
+                openOTPFragment();
+            } else {
+                CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+            }
+        }else if(selectedMode.equalsIgnoreCase("1")){
+            if (isNetworkAvailable()) {
+                openOTPFragment();
+            } else {
+                CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+            }
+        }else if(selectedMode.equalsIgnoreCase("2")){
+            if (isNetworkAvailable()) {
+                openIrisFragment();
+            } else {
+                CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+            }
+        }else if(selectedMode.equalsIgnoreCase("3")){
+            if (isNetworkAvailable()) {
+                openFingerPrintFragment();
+            } else {
+                CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+            }
         }
         aadharAuthRG = (RadioGroup) findViewById(R.id.aadharAuthRG);
         aadharAuthRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -126,6 +151,8 @@ public class EkycActivity extends BaseActivity {
     }
 
     private void openIrisFragment() {
+        ProjectPrefrence.
+                saveSharedPrefrenceData(AppConstant.PROJECT_NAME,MODE_LABLE,"2",context);
         irisRadioButton.setChecked(true);
         fragmentManager = getSupportFragmentManager();
         fragment = new AadhaarIrisViaRDServices();
@@ -140,6 +167,8 @@ public class EkycActivity extends BaseActivity {
     }
 
     private void openFingerPrintFragment() {
+        ProjectPrefrence.
+                saveSharedPrefrenceData(AppConstant.PROJECT_NAME,MODE_LABLE,"3",context);
         biometricRadioButton.setChecked(true);
         fragmentManager = getSupportFragmentManager();
         fragment = new AadhaarFingerPrintViaRDSevices();
@@ -153,6 +182,8 @@ public class EkycActivity extends BaseActivity {
     }
 
     private void openOTPFragment() {
+        ProjectPrefrence.
+                saveSharedPrefrenceData(AppConstant.PROJECT_NAME,MODE_LABLE,"1",context);
         otpRadioButton.setChecked(true);
         fragmentManager = getSupportFragmentManager();
         fragment = new OTPFragment();

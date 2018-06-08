@@ -339,7 +339,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/rounded_shape_yello_button"
                 android:padding="@dimen/margine_10"
-                android:text="Collect EKYC"
+                android:text="Collect KYC"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size" />

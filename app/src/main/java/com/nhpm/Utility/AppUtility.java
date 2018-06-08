@@ -442,7 +442,21 @@ public class AppUtility {
 
         return govtIdStatusList;
     }
+    public static ArrayList<GovernmentIdItem> prepareGovernmentIdSpinnerForNoAadhar() {
+        ArrayList<GovernmentIdItem> govtIdStatusList = new ArrayList<>();
+        govtIdStatusList.add(new GovernmentIdItem(0, "Choose Your ID Card"));
+        govtIdStatusList.add(new GovernmentIdItem(2, "Voter ID Card"));
+        govtIdStatusList.add(new GovernmentIdItem(3, "Ration Card"));
+        govtIdStatusList.add(new GovernmentIdItem(4, "NREGA job card"));
+        govtIdStatusList.add(new GovernmentIdItem(5, "Driving License"));
+        govtIdStatusList.add(new GovernmentIdItem(6, "Birth certificate"));
+        govtIdStatusList.add(new GovernmentIdItem(7, "Other Photo ID Card"));
+        govtIdStatusList.add(new GovernmentIdItem(8, "Member with No ID card"));
+        govtIdStatusList.add(new GovernmentIdItem(9, "Government ID with no Photograph"));
+        govtIdStatusList.add(new GovernmentIdItem(10, "Aadhar ID Card"));
 
+        return govtIdStatusList;
+    }
     public static ArrayList<GovernmentIdItem> prepareGovernmentIdSpinnerList() {
         ArrayList<GovernmentIdItem> govtIdStatusList = new ArrayList<>();
         govtIdStatusList.add(new GovernmentIdItem(0, "Choose Family ID Card"));

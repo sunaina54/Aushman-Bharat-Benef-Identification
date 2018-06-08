@@ -125,6 +125,12 @@ public class FamilyListActivity extends BaseActivity {
         if (familyListRequestModel.getState_name() == null) {
             familyListRequestModel.setState_name("");
         }
+        if (familyListRequestModel.getDistrict_name() == null) {
+            familyListRequestModel.setDistrict_name("");
+        }
+        if (familyListRequestModel.getVt_name() == null) {
+            familyListRequestModel.setVt_name("");
+        }
         familyListRequestModel.setState_name_english("");
         familyListRequestModel.setSpousenms("");
         TaskListener taskListener = new TaskListener() {
@@ -179,7 +185,7 @@ public class FamilyListActivity extends BaseActivity {
                     }
                 }else {
                     noMemberLL.setVisibility(View.VISIBLE);
-                    noMemberTV.setText("No Family member found");
+                    noMemberTV.setText("Internal Server Error");
                 }
             }
         };
@@ -299,10 +305,17 @@ public class FamilyListActivity extends BaseActivity {
             holder.familyItemLL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, FamilyMembersListActivity.class);
-                    //intent.putExtra("result", beneficiaryModel);
-                    intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
-                    startActivity(intent);
+                    if (mDataset.get(position).getHhd_no() == null || mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context,"HHID is blank. You can't process data");
+                        return;
+                    }
+                    if (mDataset.get(position).getHhd_no() != null && !mDataset.get(position).getHhd_no().equalsIgnoreCase(""))
+                        {
+                            Intent intent = new Intent(context, FamilyMembersListActivity.class);
+                            //intent.putExtra("result", beneficiaryModel);
+                            intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
+                            startActivity(intent);
+                        }
                 }
             });
 

@@ -9,6 +9,7 @@ public interface AppConstant {
     String RSBY_DATE_FORMAT = "yyyy-MM-dd";
      int FAMILY_MEMBER_REQUEST_CODE_VALUE = 11;
     String dateTimeFormate = "yyyy-MM-dd";
+    String AUTO_SUGGEST="https://pmrssm.gov.in/SE/suggest";
     String FAMILY_MEMBER_RESULT_CODE_NAME="FamilyMember";
     String WORNG_PIN_ENTERED_TIMESTAMP = "wornPinEnteredTimeStamp";
     String TOKEN_VALUE_AADHAAR = "Bearer 1139a002-5856-39e5-b51e-a2ad3d59efd7";

@@ -223,7 +223,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
 
         String aadharNo1 = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.AadharNumber, context);
 
-        if(aadharNo1!=null){
+        if (aadharNo1 != null) {
             edtxt_Aadhaar.setText(aadharNo1);
             edtxt_Aadhaar.setEnabled(false);
         }
@@ -261,12 +261,11 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
         kycDetailLayoutNew = (LinearLayout) view.findViewById(R.id.kycDetailLayout);
         aadharNumResetEditText = (TextView) view.findViewById(R.id.aadharNumResetEditText);
         aadharNumResetEditText.setOnClickListener(this);
-        if(!hasPermission()){
+        if (!hasPermission()) {
             check = activateIrisLicense();
-        }else{
-            check=true;
+        } else {
+            check = true;
         }
-
 
 
         aadharAuthRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -282,6 +281,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
         setupData();
         return view;
     }
+
     private boolean hasPermission() {
         try {
             String BIOMETRIC_LICENSE_PERMISSION = "com.sec.enterprise.biometric.permission.IRIS_RECOGNITION";
@@ -289,12 +289,12 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                     .getPackageManager();
             if (packageManager.checkPermission(BIOMETRIC_LICENSE_PERMISSION,
                     this.getActivity().getApplicationContext().getPackageName()) == PackageManager.PERMISSION_GRANTED) {
-              //  Print.d(TAG + ">>> hasPermission : true");
+                //  Print.d(TAG + ">>> hasPermission : true");
                 return true;
             }
         } catch (Exception e) {
         }
-      //  Print.d(TAG + ">>> hasPermission : false");
+        //  Print.d(TAG + ">>> hasPermission : false");
         return false;
     }
 
@@ -339,13 +339,18 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                 edtxt_Aadhaar.setText("");
                 break;
             case R.id.auth_demo_go:
-                if(!hasPermission()){
+                if (!hasPermission()) {
                     check = activateIrisLicense();
-                }else{
+                } else {
 
-                    check=true;
+                    check = true;
                     startActivity();
-                    performAction();
+                    if (ekycActivity.isNetworkAvailable()) {
+                        performAction();
+                    }else {
+                        CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+
+                    }
                 }
                 /*if (check) {
 
@@ -401,8 +406,8 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
         } catch (ActivityNotFoundException activityNotFound) {
 
             showMessageDialogue("NO RD service found");
-        }catch (Exception ex){
-            Log.d("TAG" ,"Error : " +ex.toString());
+        } catch (Exception ex) {
+            Log.d("TAG", "Error : " + ex.toString());
             //showMessageDialogue(ex.getMessage());
         }
     }
@@ -1498,21 +1503,23 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                         if (personalDetailItem != null) {
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
-                            personalDetailItem.setAadhaarNo(edtxt_Aadhaar.getText().toString());
+                            personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
+                            personalDetailItem.setGovtIdType("aadhar");
 
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
 
-                        }else {
+                        } else {
 
                             personalDetailItem = new PersonalDetailItem();
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
-                            personalDetailItem.setAadhaarNo(edtxt_Aadhaar.getText().toString());
+                            personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
+                            personalDetailItem.setGovtIdType("aadhar");
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
                         }
                         ekycActivity.finish();
                     } else {
@@ -1862,7 +1869,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
             mLicenseMgr.activateLicense(key, packageName);
             return true;
         } catch (Exception e) {
-            Log.d("TAG","Iris Exception : "+e.getStackTrace());
+            Log.d("TAG", "Iris Exception : " + e.getStackTrace());
         }
 
         return false;

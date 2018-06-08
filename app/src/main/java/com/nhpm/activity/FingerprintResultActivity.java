@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -19,26 +20,35 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.customComponent.CustomAlert;
+import com.customComponent.CustomAsyncTask;
+import com.customComponent.TaskListener;
+import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
 import com.nhpm.Models.request.AadharResultRequestModel;
+import com.nhpm.Models.request.AutoSuggestRequestItem;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.response.FamilyListResponseItem;
+import com.nhpm.Models.response.VillageResponseItem;
 import com.nhpm.Models.response.verifier.AadhaarResponseItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Dell3 on 04-05-2018.
  */
 
 public class FingerprintResultActivity extends BaseActivity {
+    private CustomAsyncTask customAsyncTask;
     private Context context;
     private AadhaarResponseItem aadhaarKycResponse;
     private EditText kycSubDist, kycName, kycDob, kycPincode, kycGender,
             kycEmail, kycPhone, kycCareOf, kycAddr, kycTs, kycTxn, kycRespTs,
-            kycErrorEditText, kycDist, kycState, kycVtc,kycAge,kycSpouse,kycMother,kycFather;
+            kycErrorEditText, kycDist, kycState,kycAge,kycSpouse,kycMother,kycFather;
+    private AutoCompleteTextView kycVtc;
     private ImageView kycImageView;
     private long endTime;
     private long totalTime;
@@ -53,6 +63,9 @@ public class FingerprintResultActivity extends BaseActivity {
     private Spinner cardTypeSpinner;
     private CheckBox ageCheck,nameCheck,dobCheck,genderCheck,pincodeCheck,fatherCheck,motherCheck,
             spouseCheck,stateCheck,distCheck;
+    ArrayList<String> temp,distTemp;
+    private VillageResponseItem villageResponse;
+    private String screen;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +109,7 @@ public class FingerprintResultActivity extends BaseActivity {
         emailLL = (LinearLayout) findViewById(R.id.emailLL);
         phoneLL = (LinearLayout) findViewById(R.id.phoneLL);
         coLL = (LinearLayout) findViewById(R.id.coLL);
+        coLL.setVisibility(View.VISIBLE);
         addressLL = (LinearLayout) findViewById(R.id.addressLL);
         pincodeLL = (LinearLayout) findViewById(R.id.pincodeLL);
         stateLL = (LinearLayout) findViewById(R.id.stateLL);
@@ -105,10 +119,14 @@ public class FingerprintResultActivity extends BaseActivity {
         subDistLL = (LinearLayout) findViewById(R.id.subDistLL);
         respTimeLL = (LinearLayout) findViewById(R.id.respTimeLL);
         updateKycButton = (Button) findViewById(R.id.updateKycButton);
+        screen = getIntent().getStringExtra("FindBeneficiaryByManualFragment");
+        if(screen!=null && !screen.equalsIgnoreCase("")){
+            coLL.setVisibility(View.GONE);
+        }
         updateKycButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = kycName.getText().toString().trim();
+                String name = kycName.getText().toString();
                 String gender = kycGender.getText().toString();
                 String yob = kycDob.getText().toString();
                 if (!gender.equalsIgnoreCase("")) {
@@ -123,11 +141,15 @@ public class FingerprintResultActivity extends BaseActivity {
                 }
                 String age = kycAge.getText().toString();
                 String pincode = kycPincode.getText().toString();
-                String fatherName = kycFather.getText().toString().trim();
-                String motherName = kycMother.getText().toString().trim();
-                String spouseName = kycSpouse.getText().toString().trim();
+                String fatherName = kycFather.getText().toString();
+                String motherName = kycMother.getText().toString();
+                String spouseName = kycSpouse.getText().toString();
                 String state = kycState.getText().toString();
                 String district = kycDist.getText().toString();
+
+
+                //String[] str=villageCode.split("-");
+
                 FamilyListRequestModel request = new FamilyListRequestModel();
                 request.setName("");
                 request.setGenderid("");
@@ -137,25 +159,25 @@ public class FingerprintResultActivity extends BaseActivity {
 
 
                 if (nameCheck.isChecked()) {
-                    request.setName(name);
+                    request.setName(name.trim());
                 }
                 if (genderCheck.isChecked())
-                    request.setGenderid(gender);
+                    request.setGenderid(gender.trim());
                 if (ageCheck.isChecked())
-                    request.setAge(age);
+                    request.setAge(age.trim());
                 if (pincodeCheck.isChecked())
-                    request.setPincode(pincode);
+                    request.setPincode(pincode.trim());
                 if (fatherCheck.isChecked()) {
-                    request.setFathername(fatherName);
+                    request.setFathername(fatherName.trim());
                 }
                 if (motherCheck.isChecked()) {
-                    request.setMothername(motherName);
+                    request.setMothername(motherName.trim());
                 }
                 if (spouseCheck.isChecked()) {
-                    request.setSpousenm(spouseName);
+                    request.setSpousenm(spouseName.trim());
                 }
                 if (stateCheck.isChecked()) {
-                    request.setState_name(state);
+                    request.setState_name(state.trim());
                 }
                /* if(distCheck.isChecked()){
                     request.setdi(state);
@@ -187,7 +209,8 @@ public class FingerprintResultActivity extends BaseActivity {
         kycState = (EditText) findViewById(R.id.kycState);
         kycDist = (EditText) findViewById(R.id.kycDist);
         kycSubDist = (EditText) findViewById(R.id.kycSubDist);
-        kycVtc = (EditText) findViewById(R.id.kycVtc);
+        kycVtc = (AutoCompleteTextView) findViewById(R.id.kycVtc);
+        kycVtc.setThreshold(0);
         kycAge = (EditText) findViewById(R.id.kycAge);
 
         kycSpouse = (EditText) findViewById(R.id.kycSpouse);
@@ -200,7 +223,26 @@ public class FingerprintResultActivity extends BaseActivity {
         spinnerList.add("D/O");
         spinnerList.add("W/O");
 
+        kycVtc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(kycVtc.hasFocus())
+                    autoSuggestVillage(s.toString());
+                // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+
+            }
+        });
         cardTypeSpinner = (Spinner) findViewById(R.id.cardTypeSpinner);
         cardTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -372,7 +414,7 @@ public class FingerprintResultActivity extends BaseActivity {
                     String careOf="";
                     if(co.length>1) {
                         String coTag=co[0];
-                       coTag= coTag.replace(":"," ").trim();
+                        coTag= coTag.replace(":"," ").trim();
                         kycCareOf.setText(co[1]);
                         for(int i=1;i<co.length-1;i++) {
                             careOf =careOf+co[i]+" ";
@@ -458,77 +500,72 @@ public class FingerprintResultActivity extends BaseActivity {
                 }*/
 
 
-                    if (aadhaarKycResponse.getHouse() != null && !aadhaarKycResponse.getHouse().equalsIgnoreCase("")) {
-                        addr.append(aadhaarKycResponse.getHouse());
-                    }
-                    if (aadhaarKycResponse.getStreet() != null)
-                        addr.append(", " + aadhaarKycResponse.getStreet());
-                    if (aadhaarKycResponse.getLm() != null)
-                        addr.append(", " + aadhaarKycResponse.getLm());
-                    if (aadhaarKycResponse.getVtc() != null) {
-                        addr.append(", " + aadhaarKycResponse.getVtc());
-                        kycVtc.setText(aadhaarKycResponse.getVtc());
-                    }
+                if (aadhaarKycResponse.getHouse() != null && !aadhaarKycResponse.getHouse().equalsIgnoreCase("")) {
+                    addr.append(aadhaarKycResponse.getHouse());
+                }
+                if (aadhaarKycResponse.getStreet() != null)
+                    addr.append(", " + aadhaarKycResponse.getStreet());
+                if (aadhaarKycResponse.getLm() != null)
+                    addr.append(", " + aadhaarKycResponse.getLm());
+                if (aadhaarKycResponse.getVtc() != null) {
+                    addr.append(", " + aadhaarKycResponse.getVtc());
+                   // kycVtc.setText(aadhaarKycResponse.getVtc());
+                }
                    /* if (aadhaarKycResponse.getUidData().getPoa().getSubdist() != null)
                         addr.append("," + aadhaarKycResponse.getUidData().getPoa().getSubdist());*/
-                    if (aadhaarKycResponse.getDist() != null && !aadhaarKycResponse.getDist().equalsIgnoreCase("")) {
-                        addr.append(", " + aadhaarKycResponse.getDist());
-                    } else {
-                        // stateLL.setVisibility(View.GONE);
-                    }
-                    if (aadhaarKycResponse.getState() != null && !aadhaarKycResponse.getState().equalsIgnoreCase("")) {
-                        addr.append(", " + aadhaarKycResponse.getState());
-                    } else {
+                if (aadhaarKycResponse.getDist() != null && !aadhaarKycResponse.getDist().equalsIgnoreCase("")) {
+                    addr.append(", " + aadhaarKycResponse.getDist());
+                } else {
+                    // stateLL.setVisibility(View.GONE);
+                }
+                if (aadhaarKycResponse.getState() != null && !aadhaarKycResponse.getState().equalsIgnoreCase("")) {
+                    addr.append(", " + aadhaarKycResponse.getState());
+                } else {
 
-                        addressLL.setVisibility(View.GONE);
+                    addressLL.setVisibility(View.GONE);
 
-                        //distLL.setVisibility(View.GONE);
-                    }
+                    //distLL.setVisibility(View.GONE);
+                }
            /*     if (aadhaarKycResponse.getC != null)
                     addr.append(", " + aadhaarKycResponse.getUidData().getPoa().getCountry());*/
 
-                    kycAddr.setText(addr.toString());
-                    if (aadhaarKycResponse.getTs() != null && !aadhaarKycResponse.getTs().equalsIgnoreCase("")) {
-                        kycTs.setText(AppUtility.convetEkycDate(aadhaarKycResponse.getTs()));
-                        aadharResultRequestModel.setTs(kycTs.getText().toString());
-                    } else {
-                        timestampLL.setVisibility(View.GONE);
-                    }
-                    if (aadhaarKycResponse.getTxn() != null && !aadhaarKycResponse.getTxn().equalsIgnoreCase("")) {
-                        kycTxn.setText(aadhaarKycResponse.getTxn());
+                kycAddr.setText(addr.toString());
+                if (aadhaarKycResponse.getTs() != null && !aadhaarKycResponse.getTs().equalsIgnoreCase("")) {
+                    kycTs.setText(AppUtility.convetEkycDate(aadhaarKycResponse.getTs()));
+                    aadharResultRequestModel.setTs(kycTs.getText().toString());
+                } else {
+                    timestampLL.setVisibility(View.GONE);
+                }
+                if (aadhaarKycResponse.getTxn() != null && !aadhaarKycResponse.getTxn().equalsIgnoreCase("")) {
+                    kycTxn.setText(aadhaarKycResponse.getTxn());
 
-                    } else {
-                        txnLL.setVisibility(View.GONE);
-                    }
-                    if (aadhaarKycResponse.getPc() != null && !aadhaarKycResponse.getPc().equalsIgnoreCase("")) {
-                        kycPincode.setText(aadhaarKycResponse.getPc());
-                        aadharResultRequestModel.setPc(kycPincode.getText().toString());
-                    } else {
-                        pincodeLL.setVisibility(View.GONE);
-                    }
-                    endTime = System.currentTimeMillis();
-                    totalTime = endTime - startTime;
-                    kycRespTs.setText(totalTime + " miliseconds");
-                    if (aadhaarKycResponse.getDist() != null && !aadhaarKycResponse.getDist().equalsIgnoreCase("")) {
-                        kycDist.setText(aadhaarKycResponse.getDist());
-                    }/* else {
-                    kycDist.setVisibility(View.GONE);
-                }*/
-                    if (aadhaarKycResponse.getState() != null && !aadhaarKycResponse.getState().equalsIgnoreCase("")) {
-                        kycState.setText(aadhaarKycResponse.getState());
-                    } /*else {
-                    kycState.setVisibility(View.GONE);
-                }*/
-
+                } else {
+                    txnLL.setVisibility(View.GONE);
+                }
+                if (aadhaarKycResponse.getPc() != null && !aadhaarKycResponse.getPc().equalsIgnoreCase("")) {
+                    kycPincode.setText(aadhaarKycResponse.getPc());
+                    aadharResultRequestModel.setPc(kycPincode.getText().toString());
+                } else {
+                    pincodeLL.setVisibility(View.GONE);
+                }
+                endTime = System.currentTimeMillis();
+                totalTime = endTime - startTime;
+                kycRespTs.setText(totalTime + " miliseconds");
+                if (aadhaarKycResponse.getDist() != null && !aadhaarKycResponse.getDist().equalsIgnoreCase("")) {
+                    kycDist.setText(aadhaarKycResponse.getDist());
+                }
+                if (aadhaarKycResponse.getState() != null && !aadhaarKycResponse.getState().equalsIgnoreCase("")) {
+                    kycState.setText(aadhaarKycResponse.getState());
+                }
                /* if (aadhaarKycResponse.getSubdist() != null && !aadhaarKycResponse.getSubdist().equalsIgnoreCase("")) {
                     kycSubDist.setText(aadhaarKycResponse.getSubdist());
                 }*/ /*else {
                     subDistLL.setVisibility(View.GONE);
                 }*/
-                }
             }
-
         }
+
+    }
 
     private void setAge(String yob){
         kycAge.setText("");
@@ -538,4 +575,69 @@ public class FingerprintResultActivity extends BaseActivity {
 
         kycAge.setText(age+"");
     }
+
+    private void autoSuggestVillage(final String text){
+
+        TaskListener taskListener=new TaskListener() {
+            @Override
+            public void execute() {
+                AutoSuggestRequestItem request=new AutoSuggestRequestItem();
+                request.setVillageName(text);
+                try {
+                    //String request = familyListRequestModel.serialize();
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
+                    String familyResponse = response.get("response");
+
+                    if (familyResponse != null) {
+                        villageResponse = new VillageResponseItem().create(familyResponse);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                temp = new ArrayList<>();
+                distTemp = new ArrayList<>();
+                if (villageResponse != null) {
+                    for (String str : villageResponse) {
+                        // if(str.contains(text)){
+                        String tempArr[] = str.split(";");
+                        temp.add(tempArr[0]);
+                        distTemp.add(tempArr[1]);
+                        // }
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                            android.R.layout.simple_dropdown_item_1line, temp);
+                    kycVtc.setAdapter(adapter);
+
+                    kycVtc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            String selected = temp.get(position);
+                            kycVtc.setText(selected);
+                            kycDist.setText(distTemp.get(position));
+                        }
+                    });
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, context);
+        customAsyncTask.execute();
+        /*
+        String[] COUNTRIES = new String[] {
+                "Belgium", "Belance", "Betaly", "Bermany", "Beain"};
+        temp=new ArrayList<>();
+       */
+    }
+
 }

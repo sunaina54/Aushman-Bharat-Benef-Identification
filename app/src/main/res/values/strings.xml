@@ -1035,7 +1035,7 @@
     <string name="save_preview">Save &amp; Preview</string>
 <string name="member_error">No matches found. Kindly refine your search.</string>
     <string name="govt_id_photo">Govt Id Photo</string>
-    <string name="nameAsPerId">Beneficiary Name As Per Id</string>
+    <string name="nameAsPerId">Beneficiary Name As Per KYC</string>
     <string name="api_error">Internal Server Error</string>
 
 

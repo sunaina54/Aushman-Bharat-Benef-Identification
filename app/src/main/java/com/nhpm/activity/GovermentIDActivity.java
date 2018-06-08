@@ -102,7 +102,7 @@ public class GovermentIDActivity extends BaseActivity {
     private int VOTER_ID_REQUEST = 2;
     private String consent = "y";
     private final String TAG = "Government Activity";
-    private final int ENROLLMENT_ID = 1, VOTER_ID = 2, RASHAN_CARD = 3, NREGA = 4, DRIVIG_LICENCE = 5, BIRTH_CERT = 6, OTHER_CARD = 7, NO_GOVID = 8, ID_NO_PHOTO = 9;
+    private final int ENROLLMENT_ID = 1, VOTER_ID = 2, RASHAN_CARD = 3, NREGA = 4, DRIVIG_LICENCE = 5, BIRTH_CERT = 6, OTHER_CARD = 7, NO_GOVID = 8, ID_NO_PHOTO = 9,AADHAR_ID =10;
     private String nameAsIsinID, numberAsID;
     private CheckBox termCB;
     private LinearLayout mZoomLinearLayout;
@@ -711,7 +711,39 @@ public class GovermentIDActivity extends BaseActivity {
                             }
                         }
                         updateScreen(voterIdImg);
+                    case AADHAR_ID:
+                        voterIdImg = null;
+//                        updateScreen(voterIdImg);
+                        voterIdCardNameET.setEnabled(true);
+                        voterIdLayout.setVisibility(View.VISIBLE);
+                        govtIdPhotoLayout.setVisibility(View.VISIBLE);
+                        //  preparedItem.setAadhaarSurveyedStat(item.getAadhaarSurveyedStat());
+                        //  preparedItem.setAadhaarSurveyedStat(item.getAadhaarSurveyedStat());
+//                        voterIdCaptureLayout.setVisibility(View.GONE);
+                        voterIdCaptureLayout.setVisibility(View.VISIBLE);
+                        //  nameLL.setVisibility(View.VISIBLE);
+                        voterIdCardNumberET.setText("");
 
+                        voterIdCardNameET.setText("");
+//                        voterIdCardNumberET.setText("");
+//                        voterIdCardNameET.setText("");
+                        voterIdCardNameET.setEnabled(true);
+                        selectedIdType = AADHAR_ID;
+                        voterIdCardNumberET.requestFocus();
+                        AppUtility.showSoftInput(activity);
+                        voterIdCardNumberET.setHint("Enter Aadhar Number");
+                        voterIdCardNameET.setHint("Please Enter Name As in Aadhar");
+                        // voterIdCardNameET.setText(seccItem.getName());
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
+                            voterIdImg = seccItem.getGovtIdPhoto();
+                            if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
+                                voterIdCardNameET.setText(seccItem.getNameAsId());
+                                voterIdCardNumberET.setText(seccItem.getIdNo());
+                            } else {
+                                voterIdCardNameET.setText(seccItem.getName());
+                            }
+                        }
+                        updateScreen(voterIdImg);
                         break;
                 }
 
@@ -1241,6 +1273,40 @@ public class GovermentIDActivity extends BaseActivity {
                         updateScreen(voterIdImg);
 
                         break;
+                    case AADHAR_ID:
+                        voterIdImg = null;
+//                        updateScreen(voterIdImg);
+                        voterIdCardNameET.setEnabled(true);
+                        voterIdLayout.setVisibility(View.VISIBLE);
+                        govtIdPhotoLayout.setVisibility(View.VISIBLE);
+                        //  preparedItem.setAadhaarSurveyedStat(item.getAadhaarSurveyedStat());
+                        //  preparedItem.setAadhaarSurveyedStat(item.getAadhaarSurveyedStat());
+//                        voterIdCaptureLayout.setVisibility(View.GONE);
+                        voterIdCaptureLayout.setVisibility(View.VISIBLE);
+                        //  nameLL.setVisibility(View.VISIBLE);
+                        voterIdCardNumberET.setText("");
+
+                        voterIdCardNameET.setText("");
+//                        voterIdCardNumberET.setText("");
+//                        voterIdCardNameET.setText("");
+                        voterIdCardNameET.setEnabled(true);
+                        selectedIdType = AADHAR_ID;
+                        voterIdCardNumberET.requestFocus();
+                        AppUtility.showSoftInput(activity);
+                        voterIdCardNumberET.setHint("Enter Aadhar Number");
+                        voterIdCardNameET.setHint("Please Enter Name As in Aadhar");
+                        // voterIdCardNameET.setText(seccItem.getName());
+                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
+                            voterIdImg = seccItem.getGovtIdPhoto();
+                            if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
+                                voterIdCardNameET.setText(seccItem.getNameAsId());
+                                voterIdCardNumberET.setText(seccItem.getIdNo());
+                            } else {
+                                voterIdCardNameET.setText(seccItem.getName());
+                            }
+                        }
+                        updateScreen(voterIdImg);
+                        break;
                 }
 
             }
@@ -1461,7 +1527,7 @@ public class GovermentIDActivity extends BaseActivity {
     }
 
     private void prepareGovernmentIdSpinner() {
-        govtIdStatusList = AppUtility.prepareGovernmentIdSpinner();
+        govtIdStatusList = AppUtility.prepareGovernmentIdSpinnerForNoAadhar();
         ArrayList<String> spinnerList = new ArrayList<>();
         /*govtIdStatusList.add(new GovernmentIdItem(0,"Select Govt.ID"));
         govtIdStatusList.add(new GovernmentIdItem(1,"Aadhaar Enrollment ID"));

@@ -66,7 +66,8 @@
                         android:padding="5dp"
                         android:text="@string/typeOfIdCard"
                         android:textColor="@color/blue"
-                        style="@style/label"/>
+                        style="@style/label"
+                        android:textSize="@dimen/text_size_20sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -77,7 +78,7 @@
                         <Spinner
                             android:id="@+id/govtIdSP"
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
+                            android:layout_height="40dp"
                             android:layout_margin="2dp"
                             android:overScrollMode="never"
                             android:scrollbars="none"
@@ -98,6 +99,7 @@
                             android:weightSum="2">
 
                             <TextView
+                                android:textSize="@dimen/text_size_20sp"
                                 style="@style/label"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -110,11 +112,12 @@
                                 android:id="@+id/voterIdCardNumberET"
                                 style="@style/blueBorderEditText"
                                 android:layout_width="match_parent"
-                                android:layout_height="35dp"
+                                android:layout_height="40dp"
                                 android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ :-/\\\."
                                 android:imeOptions="actionNext"
                                 android:maxLength="24"
                                 android:maxLines="1"
+                                android:textSize="@dimen/text_size_20sp"
                                 android:paddingLeft="5dp"
                                 android:singleLine="true" />
                         </LinearLayout>
@@ -128,6 +131,7 @@
                             android:weightSum="2">
 
                             <TextView
+                                android:textSize="@dimen/text_size_20sp"
                                 style="@style/label"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -140,10 +144,11 @@
                                 android:id="@+id/nameET"
                                 style="@style/blueBorderEditText"
                                 android:layout_width="match_parent"
-                                android:layout_height="35dp"
+                                android:layout_height="40dp"
                                 android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ :-/\\\."
                                 android:imeOptions="actionNext"
                                 android:maxLength="24"
+                                android:textSize="@dimen/text_size_20sp"
                                 android:maxLines="1"
                                 android:paddingLeft="5dp"
                                 android:singleLine="true" />
@@ -186,7 +191,7 @@
                                 android:id="@+id/captureVoterIdBT"
                                 android:layout_width="250dp"
                                 android:layout_height="30dp"
-                                android:layout_alignParentRight="true"
+
                                 android:layout_centerHorizontal="true"
                                 android:layout_margin="5dp"
                                 android:background="@drawable/rounded_shape_yello_button"
@@ -208,13 +213,13 @@
 
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1.5"
+                                android:layout_weight="2"
                                 android:gravity="center">
 
                                 <ImageView
                                     android:id="@+id/voterIdIV"
-                                    android:layout_width="300dp"
-                                    android:layout_height="300dp"
+                                    android:layout_width="200dp"
+                                    android:layout_height="200dp"
                                     android:background="@drawable/no_image_preview"
                                     android:scaleType="fitXY" />
                             </LinearLayout>
@@ -232,7 +237,7 @@
                                 android:id="@+id/capturePhotoBT"
                                 android:layout_width="250dp"
                                 android:layout_height="30dp"
-                                android:layout_alignParentRight="true"
+
                                 android:layout_centerHorizontal="true"
                                 android:layout_margin="5dp"
                                 android:background="@drawable/rounded_shape_yello_button"
@@ -255,13 +260,13 @@
 
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1.5"
+                                android:layout_weight="2"
                                 android:gravity="center">
 
                                 <ImageView
                                     android:id="@+id/photoIV"
-                                    android:layout_width="300dp"
-                                    android:layout_height="300dp"
+                                    android:layout_width="200dp"
+                                    android:layout_height="200dp"
                                     android:background="@drawable/no_image_preview"
 
                                     android:scaleType="fitXY" />

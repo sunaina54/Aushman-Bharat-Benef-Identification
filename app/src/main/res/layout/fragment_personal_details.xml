@@ -215,6 +215,7 @@
                         android:enabled="false"
                         android:paddingBottom="5dp"
                         android:paddingLeft="15dp"
+                        android:inputType="number"
                         android:paddingTop="5dp"
                         android:textColor="@color/tiffiny_blue"
                         android:textAlignment="center"

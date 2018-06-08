@@ -125,6 +125,8 @@ public class FamilyMembersListActivity extends BaseActivity {
         familyListRequestModel.setName("");
         familyListRequestModel.setGenderid("");
         familyListRequestModel.setMothername("");
+        familyListRequestModel.setVt_name("");
+        familyListRequestModel.setDistrict_name("");
         familyListRequestModel.setSpousenm("");
         familyListRequestModel.setResultCount("100");
         familyListRequestModel.setFathername("");
@@ -143,11 +145,7 @@ public class FamilyMembersListActivity extends BaseActivity {
 
                     if (familyResponse != null) {
                         familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
-                        errorTV.setVisibility(View.GONE);
-                        memberListRV.setVisibility(View.VISIBLE);
-                    }else {
-                        errorTV.setVisibility(View.VISIBLE);
-                        memberListRV.setVisibility(View.GONE);
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -157,29 +155,34 @@ public class FamilyMembersListActivity extends BaseActivity {
 
             @Override
             public void updateUI() {
-                if (familyListResponseModel != null && familyListResponseModel.getResponse() != null
-                        ) {
-                    int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
-                    //noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
-                    if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
-                        //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
-                        try {
-                            familyMembersNoTV.setText(familyListResponseModel.getResponse().getDocs().size()+"");
+                if (familyListResponseModel != null) {
+                    if (familyListResponseModel.getResponse() != null) {
+                        int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
+                        //noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
+                        if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
+                            //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
+                            try {
+                                familyMembersNoTV.setText(familyListResponseModel.getResponse().getDocs().size() + "");
 
-                            refreshMembersList(familyListResponseModel.getResponse().getDocs());
-                        } catch (Exception e) {
-                            Log.d("TAG", "Exception : " + e.toString());
-                        }
+                                refreshMembersList(familyListResponseModel.getResponse().getDocs());
+                            } catch (Exception e) {
+                                Log.d("TAG", "Exception : " + e.toString());
+                            }
                         /*}else {
                             //mProgressBar.setVisibility(View.GONE);
                             noMemberLL.setVisibility(View.VISIBLE);
                             noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                         }*/
-                    } else {
-                        // mProgressBar.setVisibility(View.GONE);
-                        noMemberLL.setVisibility(View.VISIBLE);
-                    }
+                        } else {
+                            // mProgressBar.setVisibility(View.GONE);
+                            //noMemberLL.setVisibility(View.VISIBLE);
 
+                            errorTV.setVisibility(View.VISIBLE);
+                            errorTV.setText("No family member found");
+                        }
+                    }
+                }else {
+                    errorTV.setVisibility(View.GONE);
                 }
             }
         };

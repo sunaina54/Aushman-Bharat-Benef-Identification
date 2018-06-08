@@ -905,6 +905,7 @@ public class FindBeneficiaryByManualFragment extends Fragment {
         aadhaarResponseItem.setResult("Y");
         //aadhaarResponseItem.setUid(manualAadharNumberET.getText().toString());
         Intent intent = new Intent(context, FingerprintResultActivity.class);
+        intent.putExtra("FindBeneficiaryByManualFragment","FindBeneficiaryByManualFragment");
         intent.putExtra("result", aadhaarResponseItem);
         startActivity(intent);
     }

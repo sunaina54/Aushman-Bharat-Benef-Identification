@@ -157,7 +157,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:text="Date of birth"
+                        android:text="Year of birth"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/text_size_15sp" />
 
