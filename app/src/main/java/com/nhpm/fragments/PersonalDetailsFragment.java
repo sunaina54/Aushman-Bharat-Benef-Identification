@@ -144,9 +144,10 @@ public class PersonalDetailsFragment extends Fragment {
 
         Bundle bundle = getArguments();
         //bundle.getString("personalDetail");
-        if (bundle != null) {
+        /*if (bundle != null) {
             personalDetailItem = PersonalDetailItem.create(bundle.getString("personalDetail"));
-        }
+        }*/
+        personalDetailItem=activity.benefItem.getPersonalDetail();
         matchBT = (Button) view.findViewById(R.id.matchBT);
         matchBT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,7 +318,8 @@ public class PersonalDetailsFragment extends Fragment {
             public void onClick(View v) {
                 String mobile = mobileNumberET.getText().toString().trim();
                 //  seccItem.setMobileAuth(AppConstant.PENDING_STATUS);
-                //String mobileNumber=mobileNumberET.getText().toString();
+                //String mobileNumber=mobil
+                // eNumberET.getText().toString();
                 //AppUtility.showLog(AppConstant.LOG_STATUS,TAG,"Mobile Number Index : "+mobile.length());
 
 
@@ -408,11 +410,12 @@ public class PersonalDetailsFragment extends Fragment {
 
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                         activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+                        beneficiaryListItem.setPersonalDetail(personalDetailItem);
 
-
+                        activity.benefItem=beneficiaryListItem;
                         Fragment fragment = new FamilyDetailsFragment();
                         Bundle args = new Bundle();
-                        args.putString("personalDetail", personalDetailItem.serialize());
+                       // args.putString("personalDetail", personalDetailItem.serialize());
 
                         fragment.setArguments(args);
                         CallFragment(fragment);
@@ -441,12 +444,14 @@ public class PersonalDetailsFragment extends Fragment {
                             CustomAlert.alertWithOk(context, "Govt id photo cannot be blank");
                             return;
                         }
+                        beneficiaryListItem.setPersonalDetail(personalDetailItem);
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                         activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
 
                         Fragment fragment = new FamilyDetailsFragment();
                         Bundle args = new Bundle();
-                        args.putString("personalDetail", personalDetailItem.serialize());
+                        activity.benefItem=beneficiaryListItem;
+                        //args.putString("personalDetail", beneficiaryListItem.serialize());
                         fragment.setArguments(args);
                         CallFragment(fragment);
                     }

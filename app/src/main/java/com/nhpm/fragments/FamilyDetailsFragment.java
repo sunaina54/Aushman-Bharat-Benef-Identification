@@ -78,6 +78,7 @@ public class FamilyDetailsFragment extends Fragment {
     private FamilyDetailsItemModel familyDetailsItemModel;
     private EditText govtIdET;
     private Button getFamilyScoreBT,nextBT;
+    public static String FAMILY_DETAIL="familyDetail";
 
 
     public FamilyDetailsFragment() {
@@ -100,7 +101,8 @@ public class FamilyDetailsFragment extends Fragment {
     private void setupScreen(View view) {
         Bundle bundle = getArguments();
         //bundle.getString("personalDetail");
-        personalDetailItem = PersonalDetailItem.create(bundle.getString("personalDetail"));
+       /* personalDetailItem = PersonalDetailItem.create(bundle.getString("personalDetail"));
+        familyDetailsItemModel = FamilyDetailsItemModel.create(bundle.getString("personalDetail"));*/
         fragmentManager = getActivity().getSupportFragmentManager();
         familyMembersList = new ArrayList<>();
         govtIdSP = (Spinner) view.findViewById(R.id.govtIdSP);
@@ -121,32 +123,33 @@ public class FamilyDetailsFragment extends Fragment {
             }
         });
 
-        if (personalDetailItem != null) {
+        if (beneficiaryListItem != null) {
+            beneficiaryNameTV.setText(beneficiaryListItem.getName());
+            familyDetailsItemModel=beneficiaryListItem.getFamilyDetailsItemModel();
 
-            if (personalDetailItem.getBenefName() != null) {
-                beneficiaryNameTV.setText(personalDetailItem.getBenefName());
-            }
-            if(personalDetailItem.getFamilyDetailsItem()!=null){
-                if(personalDetailItem.getFamilyDetailsItem().getIdImage()!=null &&
-                        !personalDetailItem.getFamilyDetailsItem().getIdImage().equalsIgnoreCase("") ){
+
+            if(familyDetailsItemModel!=null){
+                if(familyDetailsItemModel.getIdImage()!=null &&
+                        !familyDetailsItemModel.getIdImage().equalsIgnoreCase("") ){
                     //updateScreen(personalDetailItem.getFamilyDetailsItem().getIdImage());
-                    beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getFamilyDetailsItem().getIdImage()));
+                    beneficiaryPhotoIV.setImageBitmap(AppUtility.
+                            convertStringToBitmap(familyDetailsItemModel.getIdImage()));
 
                 }
 
-                if(personalDetailItem.getFamilyDetailsItem().getIdType()!=null &&
+               /* if(personalDetailItem.getFamilyDetailsItem().getIdType()!=null &&
                         personalDetailItem.getFamilyDetailsItem().getIdType().equalsIgnoreCase("")){
                     //govtIdSP.setSelection();
+                }*/
+
+                if(familyDetailsItemModel.getIdNumber()!=null &&
+                        !familyDetailsItemModel.getIdNumber().equalsIgnoreCase("")){
+                    govtIdET.setText(familyDetailsItemModel.getIdNumber());
                 }
 
-                if(personalDetailItem.getFamilyDetailsItem().getIdNumber()!=null &&
-                        !personalDetailItem.getFamilyDetailsItem().getIdNumber().equalsIgnoreCase("")){
-                    govtIdET.setText(personalDetailItem.getFamilyDetailsItem().getIdNumber());
-                }
-
-                if(personalDetailItem.getFamilyDetailsItem().getFamilyMemberModels()!=null){
-                    familyMembersList = personalDetailItem.getFamilyDetailsItem().getFamilyMemberModels();
-                  refreshList(personalDetailItem.getFamilyDetailsItem().getFamilyMemberModels());
+                if(familyDetailsItemModel.getFamilyMemberModels()!=null){
+                    familyMembersList = familyDetailsItemModel.getFamilyMemberModels();
+                  refreshList(familyDetailsItemModel.getFamilyMemberModels());
 
                 }
 
@@ -165,26 +168,14 @@ public class FamilyDetailsFragment extends Fragment {
             public void onClick(View v) {
 
                 Fragment fragment = new PersonalDetailsFragment();
-                Bundle args = new Bundle();
+                //Bundle args = new Bundle();
 
-                if(personalDetailItem!=null && personalDetailItem.getFamilyDetailsItem()!=null){
+           /*     if(personalDetailItem!=null && personalDetailItem.getFamilyDetailsItem()!=null){
                     familyDetailsItemModel= personalDetailItem.getFamilyDetailsItem();
                     personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
 
-                } else {
-                    familyDetailsItemModel = new FamilyDetailsItemModel();
-                    familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
-                    familyDetailsItemModel.setIdType(item.status);
-                    familyDetailsItemModel.setIdImage(voterIdImg);
-                    familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
-                    personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
+                } else {*/
 
-                }
-
-                if (personalDetailItem != null) {
-                    args.putString("personalDetail", personalDetailItem.serialize());
-                }
-                fragment.setArguments(args);
                 fragmentTransection = fragmentManager.beginTransaction();
                 fragmentTransection.add(R.id.fragContainer, fragment);
                 fragmentTransection.commitAllowingStateLoss();
@@ -195,18 +186,53 @@ public class FamilyDetailsFragment extends Fragment {
         nextBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //familyDetailsItemModel = new FamilyDetailsItemModel();
+                String govtId=govtIdET.getText().toString();
+                // String idType=item.status;
+                if(item.statusCode==0){
+                    CustomAlert.alertWithOk(context,"Please select family id");
+                    return;
+                }
+                if(govtId.equalsIgnoreCase("")){
+                    CustomAlert.alertWithOk(context,"Please enter family id number");
+                    return;
+                }
+
+                if(voterIdImg==null || voterIdImg.equalsIgnoreCase("")){
+                    CustomAlert.alertWithOk(context,"Please capture family id photo");
+                    return;
+                }
                 familyDetailsItemModel = new FamilyDetailsItemModel();
                 familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
                 familyDetailsItemModel.setIdType(item.status);
                 familyDetailsItemModel.setIdImage(voterIdImg);
                 familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
-                personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
-                beneficiaryListItem.setPersonalDetail(personalDetailItem);
 
-                String list = beneficiaryListItem.serialize();
-                Log.d("list json",list);
 
-                CustomAlert.alertWithOk(context,"Under Development");
+                // personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
+
+                // }
+
+              /*  if (personalDetailItem != null) {
+                    args.putString("personalDetail", personalDetailItem.serialize());
+                }*/
+                // fragment.setArguments(args);
+                beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
+                activity.benefItem=beneficiaryListItem;
+
+                activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                activity.printEcardLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+
+
+                Fragment fragment = new PrintCardFragment();
+                //Bundle args = new Bundle();
+
+                //args.putString("familyDetail", fa.serialize());
+
+                //fragment.setArguments(args);
+                CallFragment(fragment);
+                //CustomAlert.alertWithOk(context,"Under Development");
 
             }
         });
@@ -506,6 +532,14 @@ public class FamilyDetailsFragment extends Fragment {
 
     }
 
+    public void CallFragment(Fragment fragment) {
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragContainer, fragment);
+            fragmentTransaction.commit();
+        }
+    }
     private void prepareGovernmentIdSpinner() {
         govtIdStatusList = AppUtility.prepareGovernmentIdSpinnerList();
         ArrayList<String> spinnerList = new ArrayList<>();

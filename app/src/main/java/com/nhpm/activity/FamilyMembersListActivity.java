@@ -314,6 +314,9 @@ public class FamilyMembersListActivity extends BaseActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(context, CollectDataActivity.class);
                      intent.putExtra("member",mDataset.get(position).getName());
+                     item.setPersonalDetail(null);
+                     item.setFamilyDetailsItemModel(null);
+                     
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, SELECTED_MEMBER, item.serialize(), context);
                     startActivity(intent);
                 }

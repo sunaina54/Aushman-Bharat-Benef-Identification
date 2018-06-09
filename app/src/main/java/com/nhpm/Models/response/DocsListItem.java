@@ -1,6 +1,7 @@
 package com.nhpm.Models.response;
 
 import com.google.gson.Gson;
+import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
  */
 public class DocsListItem implements Serializable {
     private PersonalDetailItem personalDetail;
+    private FamilyDetailsItemModel familyDetailsItemModel;
     private String LastModifiedDate;
     private String block_name_english;
     private String wardid;
@@ -83,6 +85,14 @@ public class DocsListItem implements Serializable {
 
     public PersonalDetailItem getPersonalDetail() {
         return personalDetail;
+    }
+
+    public FamilyDetailsItemModel getFamilyDetailsItemModel() {
+        return familyDetailsItemModel;
+    }
+
+    public void setFamilyDetailsItemModel(FamilyDetailsItemModel familyDetailsItemModel) {
+        this.familyDetailsItemModel = familyDetailsItemModel;
     }
 
     public void setPersonalDetail(PersonalDetailItem personalDetail) {

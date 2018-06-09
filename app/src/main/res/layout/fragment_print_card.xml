@@ -1,0 +1,139 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    tools:context="com.nhpm.fragments.PrintCardFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+           <LinearLayout
+               android:orientation="vertical"
+               android:padding="10dp"
+               android:background="@drawable/print_card_border"
+               android:layout_width="0dp"
+               android:layout_weight="1.5"
+               android:layout_height="300dp">
+               <include
+                   layout="@layout/print_card_header"></include>
+               <LinearLayout
+                   android:orientation="horizontal"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+                   <ImageView
+                       android:background="@drawable/edittext_background_white"
+                       android:layout_marginTop="10dp"
+                       android:layout_marginLeft="25dp"
+                       android:layout_width="150dp"
+                       android:layout_height="150dp" />
+                   <LinearLayout
+                       android:layout_marginLeft="10dp"
+                       android:layout_gravity="center_vertical"
+                       android:orientation="vertical"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content">
+                           <TextView
+                               android:padding="2dp"
+                               style="@style/textView"
+                               android:textColor="#000000"
+                               android:text="Neme:"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                           <TextView
+                               android:padding="2dp"
+                               style="@style/textView"
+                               android:textColor="#000000"
+                               android:id="@+id/nameTV"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                       </LinearLayout>
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content">
+                           <TextView
+                               android:padding="2dp"
+                               style="@style/textView"
+                               android:textColor="#000000"
+                               android:text="Father's Name:"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                           <TextView
+                               android:padding="2dp"
+                               style="@style/textView"
+                               android:textColor="#000000"
+                               android:id="@+id/fatherNameTV"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                       </LinearLayout>
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content">
+                           <TextView
+                               android:padding="2dp"
+                               style="@style/textView"
+                               android:textColor="#000000"
+                               android:text="Year Of Birth:"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                           <TextView
+                               android:padding="2dp"
+                               style="@style/textView"
+                               android:textColor="#000000"
+                               android:id="@+id/yobTV"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                       </LinearLayout>
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content">
+                           <TextView
+                               android:padding="2dp"
+                               style="@style/textView"
+                               android:textColor="#000000"
+                               android:text="Gender"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                           <TextView
+                               android:padding="2dp"
+                               style="@style/textView"
+                               android:textColor="#000000"
+                               android:id="@+id/genderTV"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                       </LinearLayout>
+                   </LinearLayout>
+               </LinearLayout>
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+                   <TextView
+                       android:layout_marginLeft="30dp"
+                       android:layout_centerVertical="true"
+                       android:textColor="#000000"
+                       android:textSize="20sp"
+                       android:text="8743 3434 3434 1213"
+                       android:textStyle="bold"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+                   <ImageView
+                       android:layout_margin="10dp"
+                       android:layout_alignParentRight="true"
+                       android:scaleType="fitXY"
+                       android:background="@drawable/qr_sample"
+                       android:layout_width="50dp"
+                       android:layout_height="150dp" />
+               </RelativeLayout>
+           </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

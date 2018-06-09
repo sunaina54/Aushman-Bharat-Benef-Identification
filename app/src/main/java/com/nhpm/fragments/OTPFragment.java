@@ -545,6 +545,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String otp = optET.getText().toString();
                 if (!otp.equalsIgnoreCase("")) {
 
@@ -555,6 +556,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                     }
                     if (ekycActivity.isNetworkAvailable()) {
                         validateOTP(edtxt_Aadhaar.getText().toString(), otp, inalidOTP, txn1, flagUserConsent);
+                        dialog.dismiss();
                     } else {
                         CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
                     }
@@ -678,7 +680,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                           /*  loginResponse.setAadhaarItem(aadhaarKycResponse);
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, loginResponse.serialize(), context);
                           //  setPin();*/
-                            dialog.dismiss();
+
 
 
                             if (personalDetailItem != null) {

@@ -44,11 +44,15 @@ public class CustomAsyncTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         // TODO Auto-generated method stub
-        if (mProgBar != null) {
-            mProgBar.setVisibility(View.VISIBLE);
-        }
-        if (mProgDialog != null) {
-            mProgDialog.show();
+        try {
+            if (mProgBar != null) {
+                mProgBar.setVisibility(View.VISIBLE);
+            }
+            if (mProgDialog != null) {
+                mProgDialog.show();
+            }
+        }catch (Exception e){
+
         }
         super.onPreExecute();
     }
