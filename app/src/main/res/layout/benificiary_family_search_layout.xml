@@ -120,7 +120,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/edittext_background_login"
                         android:hint="AHLTIN"
-                        android:text="49062000200560000020900067005"
+                        android:text="43060600300650000025400040007"
                         android:imeOptions="actionNext"
                         android:paddingBottom="5dp"
                         android:paddingLeft="15dp"

@@ -17,6 +17,7 @@ import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
+import com.nhpm.fragments.FamilyDetailsFragment;
 
 /**
  * Created by SUNAINA on 07-06-2018.
@@ -31,6 +32,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
     private EditText familyMemberNameET;
     private FamilyMemberModel familymemberItem;
     private Intent theIntent;
+    private String index;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +58,14 @@ public class FamilyMemberEntryActivity extends BaseActivity {
         AppUtility.navigateToHome(context, activity);
         theIntent = getIntent();
         familymemberItem = (FamilyMemberModel) theIntent.getSerializableExtra(AppConstant.FAMILY_MEMBER_RESULT_CODE_NAME);
+        index= theIntent.getStringExtra(FamilyDetailsFragment.INDEX);
         familyMemberNameET = (EditText) findViewById(R.id.familyMemberNameET);
         saveBT = (Button) findViewById(R.id.saveBT);
         cancelBT = (Button) findViewById(R.id.cancelBT);
+        if(index!=null){
+            saveBT.setText("Update");
+            familyMemberNameET.setText(familymemberItem.getName());
+        }
 
         saveBT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +86,9 @@ public class FamilyMemberEntryActivity extends BaseActivity {
 
                 Intent theIntent = new Intent();
                 theIntent.putExtra(AppConstant.FAMILY_MEMBER_RESULT_CODE_NAME,familymemberItem);
+                theIntent.putExtra(FamilyDetailsFragment.INDEX,index);
                 setResult(Activity.RESULT_OK,theIntent);
+
                 AppUtility.softKeyBoard(activity, 0);
                 finish();
 

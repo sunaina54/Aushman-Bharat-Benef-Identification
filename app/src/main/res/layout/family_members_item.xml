@@ -26,7 +26,7 @@
                 <TextView
                     style="@style/textViewFamilMember"
                     android:layout_width="0dp"
-                    android:layout_weight=".6"
+                    android:layout_weight=".9"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="Name"
@@ -59,7 +59,7 @@
                 <TextView
                     style="@style/textViewFamilMember"
                     android:layout_width="0dp"
-                    android:layout_weight=".6"
+                    android:layout_weight=".9"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="Father's Name"
@@ -91,7 +91,7 @@
                 <TextView
                     style="@style/textViewFamilMember"
                     android:layout_width="0dp"
-                    android:layout_weight=".6"
+                    android:layout_weight=".9"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="Gender"
@@ -123,7 +123,7 @@
                 <TextView
                     style="@style/textViewFamilMember"
                     android:layout_width="0dp"
-                    android:layout_weight=".6"
+                    android:layout_weight=".9"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="Age"
@@ -150,34 +150,36 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
                 <TextView
                     style="@style/textViewFamilMember"
-                    android:layout_width="0dp"
-                    android:layout_weight=".6"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="Address"
 
                     />
+
                 <TextView
                     style="@style/textViewFamilMember"
                     android:layout_width="0dp"
-                    android:layout_weight=".1"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_weight=".1"
                     android:text=":"
 
                     />
+
                 <TextView
-                    style="@style/textViewFamilMember"
                     android:id="@+id/addressTV"
+                    style="@style/textViewFamilMember"
                     android:layout_width="0dp"
-                    android:layout_weight="1.3"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_weight="1.3"
                     android:text=""
                     android:visibility="visible" />
             </LinearLayout>

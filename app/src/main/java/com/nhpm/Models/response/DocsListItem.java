@@ -3,6 +3,7 @@ package com.nhpm.Models.response;
 import com.google.gson.Gson;
 import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.PersonalDetailItem;
+import com.nhpm.Models.request.PrintCardItem;
 
 import java.io.Serializable;
 
@@ -12,6 +13,9 @@ import java.io.Serializable;
 public class DocsListItem implements Serializable {
     private PersonalDetailItem personalDetail;
     private FamilyDetailsItemModel familyDetailsItemModel;
+    private PrintCardItem printCardDetail;
+
+
     private String LastModifiedDate;
     private String block_name_english;
     private String wardid;
@@ -82,6 +86,14 @@ public class DocsListItem implements Serializable {
     private String grampanchayatname;
     private String incomesource_urban;
     private String addressline2sl;
+
+    public PrintCardItem getPrintCardDetail() {
+        return printCardDetail;
+    }
+
+    public void setPrintCardDetail(PrintCardItem printCardDetail) {
+        this.printCardDetail = printCardDetail;
+    }
 
     public PersonalDetailItem getPersonalDetail() {
         return personalDetail;

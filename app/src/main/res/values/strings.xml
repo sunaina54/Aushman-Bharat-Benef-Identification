@@ -165,7 +165,7 @@
     <string name="mobile_number_hint">Enter 10-digit mobile number</string>
 
     //CAPTURE PHOTO SCREEN
-    <string name="photo_text">Please capture the photograph clearly showing the face of beneficiary</string>
+    <string name="photo_text"></string>
     <string name="photo_error_text">Face could not be detected, please capture the photograph clearly showing the face of beneficiary</string>
 
     //MEMBER STATUS
@@ -580,7 +580,7 @@
     <string name="plzCaptureNomineeDetail">Please capture nominee details</string>
     //5april2017
     <string name="adharnum">Aadhaar No</string>
-    <string name="name">Name</string>
+    <string name="name">Name : </string>
     <string name="email">Email</string>
     <string name="address">Address</string>
     <string name="scanAdhar">Scan Aadhaar Card</string>

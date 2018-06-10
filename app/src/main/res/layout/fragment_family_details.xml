@@ -174,14 +174,62 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:weightSum="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1.3"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/memberRecycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="vertical" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/scoreLL"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_weight=".7"
+                        android:layout_height="wrap_content">
+                                   <Button
+                                       android:id="@+id/getFamilyScoreBT"
+                                       android:layout_width="180dp"
+                                       android:layout_height="45dp"
+                                       android:layout_marginBottom="@dimen/margine_20"
+                                       android:background="@drawable/rounded_shape_yello_button"
+                                       android:padding="@dimen/margine_10"
+                                       android:text="Find Family Score"
+                                       android:textAllCaps="false"
+                                       android:textColor="@color/white"
+                                       android:textSize="@dimen/font_size" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:textSize="@dimen/text_size_16sp"
+                                android:textStyle="italic"
+                                android:text="Family Match Score : "
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                />
+                            <TextView
+                                android:textSize="@dimen/text_size_16sp"
+                                android:textColor="@color/green"
+                                android:text="70% "
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                />
+                        </LinearLayout>
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/memberRecycle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbars="vertical" />
+
+                    </LinearLayout>
+
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -251,19 +299,6 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size" />
 
-       <!--
-            <Button
-                android:id="@+id/getFamilyScoreBT"
-                android:layout_width="170dp"
-                android:layout_height="45dp"
-            android:layout_marginLeft="190dp"
-                android:layout_marginBottom="@dimen/margine_20"
-                android:background="@drawable/rounded_shape_yello_button"
-                android:padding="@dimen/margine_10"
-                android:text="Get Family Score"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_size" />-->
 
             <Button
                 android:id="@+id/addfamilyCardBT"

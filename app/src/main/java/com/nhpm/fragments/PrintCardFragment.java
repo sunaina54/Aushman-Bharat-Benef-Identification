@@ -11,15 +11,24 @@ import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.customComponent.CustomAlert;
+import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.PrintCard.PrintCardMainActivity;
 import com.nhpm.PrintCard.UsbHelper;
 import com.nhpm.PrintCard.UsbPermissionRequestor;
 import com.nhpm.R;
+import com.nhpm.Utility.AppUtility;
+import com.nhpm.activity.CollectDataActivity;
 import com.pointman.mobiledesigner.PointManJNI;
 
 import java.text.SimpleDateFormat;
@@ -52,7 +61,13 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
     private PointManJNI jni;
     private String formattedDate;
     private String nameString = "HOF: ";
-
+    private Button previousBT,printCardBT,otherFamilyMemberBT;
+    private FragmentTransaction fragmentTransection;
+    private FragmentManager fragmentManager;
+    private TextView nameTV,fatherNameTV,yobTV,genderTV;
+    private CollectDataActivity activity;
+    private DocsListItem beneficiaryListItem;
+    private ImageView beneficiaryPhotoIV;
 
 
     public PrintCardFragment() {
@@ -88,10 +103,69 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
 
     private void setupScreen(View view){
         context=getActivity();
+        fragmentManager = getActivity().getSupportFragmentManager();
+        nameTV=(TextView)view.findViewById(R.id.nameTV) ;
+        fatherNameTV=(TextView)view.findViewById(R.id.fatherNameTV) ;
+        genderTV=(TextView)view.findViewById(R.id.genderTV) ;
+        yobTV=(TextView)view.findViewById(R.id.yobTV) ;
+
+        previousBT = (Button) view.findViewById(R.id.previousBT);
+        printCardBT = (Button) view.findViewById(R.id.printCardBT);
+        otherFamilyMemberBT = (Button) view.findViewById(R.id.otherMemberBT);
+        beneficiaryPhotoIV=(ImageView)view.findViewById(R.id.beneficiaryPhotoIV);
+        if(beneficiaryListItem!=null && beneficiaryListItem.getPrintCardDetail()!=null){
+            activity.printEcardLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+            nameTV.setText( beneficiaryListItem.getPrintCardDetail().getNameOnCard());
+            fatherNameTV.setText( beneficiaryListItem.getPrintCardDetail().getFatherNameOnCard());
+            yobTV.setText( beneficiaryListItem.getPrintCardDetail().getYobObCard());
+            beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(beneficiaryListItem.getPrintCardDetail().getBenefPhoto()));
+            if(beneficiaryListItem.getPrintCardDetail().getGenderOnCard()!=null &&
+                    beneficiaryListItem.getPrintCardDetail().getGenderOnCard().equalsIgnoreCase("1")) {
+                genderTV.setText("Male");
+            }else if(beneficiaryListItem.getPrintCardDetail().getGenderOnCard()!=null &&
+                    beneficiaryListItem.getPrintCardDetail().getGenderOnCard().equalsIgnoreCase("2")) {
+                genderTV.setText("Female");
+            }else if(beneficiaryListItem.getPrintCardDetail().getGenderOnCard()!=null &&
+                    beneficiaryListItem.getPrintCardDetail().getGenderOnCard().equalsIgnoreCase("3")){
+                genderTV.setText("Other");
+            }
+        }
+
+        otherFamilyMemberBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+        printCardBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomAlert.alertWithOk(context,"Under Developement");
+            }
+        });
+
+        previousBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Fragment fragment = new FamilyDetailsFragment();
+                //Bundle args = new Bundle();
+
+           /*     if(personalDetailItem!=null && personalDetailItem.getFamilyDetailsItem()!=null){
+                    familyDetailsItemModel= personalDetailItem.getFamilyDetailsItem();
+                    personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
+
+                } else {*/
+
+
+                fragmentTransection = fragmentManager.beginTransaction();
+                fragmentTransection.add(R.id.fragContainer, fragment);
+                fragmentTransection.commitAllowingStateLoss();
+            }
+        });
         mManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => " + c.getTime());
-
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd ");
         formattedDate = df.format(c.getTime());
         nameString = getActivity().getIntent().getStringExtra("NAMEONCARD");
@@ -162,5 +236,13 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         PendingIntent permissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
         UsbManager usbManager = UsbHelper.getUsbManager(context);
         usbManager.requestPermission(usbDevice, permissionIntent);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (CollectDataActivity) context;
+
+        beneficiaryListItem = activity.benefItem;
     }
 }

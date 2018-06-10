@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,12 +38,14 @@ import com.nhpm.LocalDataBase.DatabaseHelpers;
 import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.PersonalDetailItem;
+import com.nhpm.Models.request.PrintCardItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.GovernmentIdItem;
 import com.nhpm.Models.response.SearchResult;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
+import com.nhpm.activity.BlockDetailActivity;
 import com.nhpm.activity.CollectDataActivity;
 import com.nhpm.activity.FamilyMemberEntryActivity;
 
@@ -79,6 +83,8 @@ public class FamilyDetailsFragment extends Fragment {
     private EditText govtIdET;
     private Button getFamilyScoreBT,nextBT;
     public static String FAMILY_DETAIL="familyDetail";
+    public static String INDEX="Index";
+    private LinearLayout scoreLL;
 
 
     public FamilyDetailsFragment() {
@@ -107,6 +113,7 @@ public class FamilyDetailsFragment extends Fragment {
         familyMembersList = new ArrayList<>();
         govtIdSP = (Spinner) view.findViewById(R.id.govtIdSP);
         govtIdET = (EditText) view.findViewById(R.id.govtIdET);
+        getFamilyScoreBT=(Button)view.findViewById(R.id.getFamilyScoreBT) ;
         prepareGovernmentIdSpinner();
         memberRecycle = (RecyclerView) view.findViewById(R.id.memberRecycle);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -116,6 +123,15 @@ public class FamilyDetailsFragment extends Fragment {
         beneficiaryNameTV = (TextView) view.findViewById(R.id.beneficiaryNameTV);
         captureImageBT = (Button) view.findViewById(R.id.captureImageBT);
         beneficiaryPhotoIV = (ImageView) view.findViewById(R.id.beneficiaryPhotoIV);
+        scoreLL= (LinearLayout) view.findViewById(R.id.scoreLL);
+        scoreLL.setVisibility(View.GONE);
+        //getFamilyScoreBT.setVisibility(View.VISIBLE);
+        getFamilyScoreBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomAlert.alertWithOk(context,"Under Development");
+            }
+        });
         captureImageBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,11 +145,15 @@ public class FamilyDetailsFragment extends Fragment {
 
 
             if(familyDetailsItemModel!=null){
+                familyMembersList=familyDetailsItemModel.getFamilyMemberModels();
                 if(familyDetailsItemModel.getIdImage()!=null &&
                         !familyDetailsItemModel.getIdImage().equalsIgnoreCase("") ){
                     //updateScreen(personalDetailItem.getFamilyDetailsItem().getIdImage());
+                    voterIdImg=familyDetailsItemModel.getIdImage();
                     beneficiaryPhotoIV.setImageBitmap(AppUtility.
                             convertStringToBitmap(familyDetailsItemModel.getIdImage()));
+                    captureImageBT.setEnabled(false);
+                    govtIdSP.setEnabled(false);
 
                 }
 
@@ -145,11 +165,16 @@ public class FamilyDetailsFragment extends Fragment {
                 if(familyDetailsItemModel.getIdNumber()!=null &&
                         !familyDetailsItemModel.getIdNumber().equalsIgnoreCase("")){
                     govtIdET.setText(familyDetailsItemModel.getIdNumber());
+                    govtIdET.setEnabled(false);
+                    captureImageBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                 }
 
                 if(familyDetailsItemModel.getFamilyMemberModels()!=null){
                     familyMembersList = familyDetailsItemModel.getFamilyMemberModels();
-                  refreshList(familyDetailsItemModel.getFamilyMemberModels());
+                    scoreLL.setVisibility(View.VISIBLE);
+                    getFamilyScoreBT.setEnabled(false);
+                    getFamilyScoreBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+                     refreshList(familyDetailsItemModel.getFamilyMemberModels());
 
                 }
 
@@ -175,7 +200,6 @@ public class FamilyDetailsFragment extends Fragment {
                     personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
 
                 } else {*/
-
                 fragmentTransection = fragmentManager.beginTransaction();
                 fragmentTransection.add(R.id.fragContainer, fragment);
                 fragmentTransection.commitAllowingStateLoss();
@@ -202,6 +226,10 @@ public class FamilyDetailsFragment extends Fragment {
                     CustomAlert.alertWithOk(context,"Please capture family id photo");
                     return;
                 }
+                if(familyMembersList.size()<2){
+                    CustomAlert.alertWithOk(context,"Please add atleast two member as per family id");
+                    return;
+                }
                 familyDetailsItemModel = new FamilyDetailsItemModel();
                 familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
                 familyDetailsItemModel.setIdType(item.status);
@@ -217,6 +245,15 @@ public class FamilyDetailsFragment extends Fragment {
                     args.putString("personalDetail", personalDetailItem.serialize());
                 }*/
                 // fragment.setArguments(args);
+                PrintCardItem printCard=new PrintCardItem();
+                printCard.setBenefPhoto(activity.benefItem.getPersonalDetail().getBenefPhoto());
+                printCard.setNameOnCard(activity.benefItem.getName());
+                printCard.setFatherNameOnCard(activity.benefItem.getFathername());
+                printCard.setGenderOnCard(activity.benefItem.getGenderid());
+                if(activity.benefItem.getDob()!=null && activity.benefItem.getDob().length()>=4) {
+                    printCard.setYobObCard(activity.benefItem.getDob().substring(0,4));
+                }
+                beneficiaryListItem.setPrintCardDetail(printCard);
                 beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
                 activity.benefItem=beneficiaryListItem;
 
@@ -633,21 +670,19 @@ public class FamilyDetailsFragment extends Fragment {
                 // Utility.scrollToEnd(scrollView);
                 //  Toast.makeText(context, "Result Recieved", Toast.LENGTH_LONG).show();
                 FamilyMemberModel item = (FamilyMemberModel) data.getSerializableExtra(AppConstant.FAMILY_MEMBER_RESULT_CODE_NAME);
+                String index = data.getStringExtra(INDEX);
                 if (item != null) {
-                    // if(familyMembersList.size()>0){
-                  /*  for(int i=0;i<familyMembersList.size();i++){
-                        if(item.getMemberId()!=null && item.getMemberId().equalsIgnoreCase(familyMembersList.get(i).getMemberId())){
-                            familyMembersList.set(i,item);
-                            refreshList();
-                            return;
-                        }
-                    }*/
-                    familyMembersList.add(item);
-                    refreshList(familyMembersList);
-
-                    // }else{
-                    //item.setHouseholdId();
-                    //  }
+                    if(index!=null) {
+                        familyMembersList.set(Integer.parseInt(index),item);
+                        refreshList(familyMembersList);
+                    }else{
+                        familyMembersList.add(item);
+                        refreshList(familyMembersList);
+                    }
+                }
+                scoreLL.setVisibility(View.GONE);
+                if(familyMembersList.size()>0){
+                    scoreLL.setVisibility(View.VISIBLE);
                 }
                 refreshList(familyMembersList);
             }
@@ -669,13 +704,17 @@ public class FamilyDetailsFragment extends Fragment {
 
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            RelativeLayout itemlayout, editActionRL;
+            RelativeLayout menuLayout;
+            ImageView settings;
             TextView nameTV;
+
 
 
             public MyViewHolder(final View itemView) {
                 super(itemView);
                 nameTV = (TextView) itemView.findViewById(R.id.nameTV);
+                settings=(ImageView)itemView.findViewById(R.id.settings);
+                menuLayout=(RelativeLayout)itemView.findViewById(R.id.menuLayout);
             }
         }
 
@@ -705,6 +744,9 @@ public class FamilyDetailsFragment extends Fragment {
             }
             holder.houseHoldAadhaarNoTV.setText(aadhaarNo);*/
             holder.nameTV.setText(item.getName());
+            editDelete(holder.menuLayout,holder.settings,item,listPosition);   
+
+
             /*if(item.getStatus().equalsIgnoreCase(AppConstant.SYNC_STATUS)){
                 holder.editActionTV.setBackgroundColor(context.getResources().getColor(R.color.sync_status_color));
                 holder.editActionTV.setText("Synced");
@@ -748,6 +790,8 @@ public class FamilyDetailsFragment extends Fragment {
             return dataSet.size();
         }
 
+
+
     }
 
 
@@ -766,6 +810,43 @@ public class FamilyDetailsFragment extends Fragment {
 
         }
     }
+
+    void editDelete(RelativeLayout menuLayout, final ImageView settings, final FamilyMemberModel item1, final int index ){
+        settings.setVisibility(View.VISIBLE);
+
+        menuLayout.setVisibility(View.VISIBLE);
+        menuLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popup = new PopupMenu(context, settings);
+                popup.getMenuInflater()
+                        .inflate(R.menu.menu_edit, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.edit:
+                                Intent theIntent = new Intent(context, FamilyMemberEntryActivity.class);
+                                theIntent.putExtra(AppConstant.FAMILY_MEMBER_RESULT_CODE_NAME,item1);
+                                theIntent.putExtra(INDEX,index+"");
+                                startActivityForResult(theIntent, AppConstant.FAMILY_MEMBER_REQUEST_CODE_VALUE);
+                                break;
+                            case R.id.delete:
+
+                                familyMembersList.remove(index);
+                                refreshList(familyMembersList);
+                                break;
+
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
+
+            }
+        });
+    }
+
+
 
 
 }

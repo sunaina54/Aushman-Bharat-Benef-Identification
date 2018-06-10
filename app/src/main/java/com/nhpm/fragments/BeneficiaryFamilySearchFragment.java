@@ -227,11 +227,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         });
         ArrayList<String> spinnerList = new ArrayList<>();
         spinnerList.add("HHId Number");
-        spinnerList.add("Ration Card");
-        spinnerList.add("RSBY URN");
         spinnerList.add("AHLTIN");
-        spinnerList.add("Mobile Number");
-
 
 
         cardTypeSpinner = (Spinner) view.findViewById(R.id.cardTypeSpinner);
@@ -240,17 +236,21 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                rationCardET.setVisibility(View.GONE);
+                rsbyET.setVisibility(View.GONE);
+                ahlTinET.setVisibility(View.GONE);
+                mobileET.setVisibility(View.GONE);
+                hhIdNoET.setVisibility(View.GONE);
                 if (position == 0) {
-                    rationCardET.setVisibility(View.GONE);
-                    rsbyET.setVisibility(View.GONE);
-                    ahlTinET.setVisibility(View.GONE);
-                    mobileET.setVisibility(View.GONE);
                     hhIdNoET.setVisibility(View.VISIBLE);
                     cardTypeTV.setText("HHId Number");
-
                     cardType = "HHId Number";
                 } else if (position == 1) {
-                    rationCardET.setVisibility(View.GONE);
+                    ahlTinET.setVisibility(View.VISIBLE);
+                    cardTypeTV.setText("AHLTIN");
+                    cardType = "AHLTIN";
+                }
+                    /*rationCardET.setVisibility(View.GONE);
                     rsbyET.setVisibility(View.VISIBLE);
                     ahlTinET.setVisibility(View.GONE);
                     mobileET.setVisibility(View.GONE);
@@ -289,7 +289,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
 
 
-                }
+                }*/
             }
 
             @Override
@@ -298,6 +298,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         });
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.custom_drop_down, R.id.textView, spinnerList);
         cardTypeSpinner.setAdapter(adapter);
+        cardTypeSpinner.setSelection(0);
 
 
         searchBTN.setOnClickListener(new View.OnClickListener() {

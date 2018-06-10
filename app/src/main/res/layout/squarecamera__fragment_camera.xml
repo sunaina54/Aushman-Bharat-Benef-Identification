@@ -48,7 +48,7 @@
         android:padding="5dp"
         android:gravity="center"
         android:layout_above="@+id/camera_tools_view"
-        android:text="@string/photo_text"/>
+       />
     <LinearLayout
         android:id="@+id/camera_tools_view"
         android:layout_width="match_parent"

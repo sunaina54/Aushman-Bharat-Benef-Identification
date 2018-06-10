@@ -43,6 +43,7 @@ import com.nhpm.CameraUtils.FaceCropper;
 import com.nhpm.CameraUtils.squarecamera.CameraActivity;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
 import com.nhpm.LocalDataBase.dto.SeccDatabase;
+import com.nhpm.Models.SerachOptionItem;
 import com.nhpm.Models.request.MobileOtpRequest;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.BeneficiaryListItem;
@@ -177,6 +178,8 @@ public class PersonalDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 status = "govt";
+      ProjectPrefrence.
+                        removeSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", context);
                 Intent intent = new Intent(context, GovermentIDActivity.class);
                 // intent.putExtra("mobileNumber",mobileNumberET.getText().toString());
                 intent.putExtra("mobileNumber", personalDetailItem);
@@ -203,11 +206,17 @@ public class PersonalDetailsFragment extends Fragment {
                     aadharET.setEnabled(false);
                     aadharET.setText(personalDetailItem.getGovtIdNo());
                     aadharET.setTextColor(Color.GREEN);
+                    verifyAadharBT.setEnabled(false);
+                    verifyAadharBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+
                 }
                 if (personalDetailItem.getMobileNo() != null) {
                     mobileNumberET.setEnabled(false);
                     mobileNumberET.setTextColor(AppUtility.getColor(context, R.color.green));
                     mobileNumberET.setText(personalDetailItem.getMobileNo());
+                    mobileNumberET.setEnabled(false);
+                    verifyMobBT.setEnabled(false);
+                    verifyMobBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                 }
 
                 if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
@@ -246,11 +255,16 @@ public class PersonalDetailsFragment extends Fragment {
 
                 if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
                     beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
+
                 }
 
                 if (personalDetailItem.getMobileNo() != null) {
                     mobileNumberET.setTextColor(AppUtility.getColor(context, R.color.green));
                     mobileNumberET.setText(personalDetailItem.getMobileNo());
+                    mobileNumberET.setEnabled(false);
+                    verifyMobBT.setEnabled(false);
+                    verifyMobBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+
                 }
 
 
@@ -304,11 +318,18 @@ public class PersonalDetailsFragment extends Fragment {
                     CustomAlert.alertWithOk(context, "Please enter aadhar number");
                     return;
                 }
+                ProjectPrefrence.
+                        removeSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", context);
                 status = "aadhar";
                 Intent intent = new Intent(context, EkycActivity.class);
                 intent.putExtra("screen", "PersonalDetailsFragment");
                 intent.putExtra("mobileNumber", personalDetailItem);
                 intent.putExtra("aadharNo", aadharET.getText().toString());
+                SerachOptionItem item=new SerachOptionItem();
+                item.setAadhaarNo(aadharET.getText().toString());
+                item.setSearchType(AppConstant.AADHAAR_SEARCH);
+                item.setMode(AppConstant.EKYC);
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,AppConstant.SEARCH_OPTION,item.serialize(),context);
                 startActivityForResult(intent, EKYC);
             }
         });

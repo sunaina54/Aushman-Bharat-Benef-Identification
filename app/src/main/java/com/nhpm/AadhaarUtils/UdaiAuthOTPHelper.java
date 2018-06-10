@@ -378,14 +378,14 @@ public class UdaiAuthOTPHelper {
         metaElement.setAttributeNode(metaUdc);
 
         rootElement.appendChild(metaElement);
-        Log.e("pid", "7777--->" + encrypter.getCertificateIdentifier());
+        //Log.e("pid", "7777--->" + encrypter.getCertificateIdentifier());
 
 
         Element skeyElement = document.createElement("Skey");
 
         Attr skeyCi = document.createAttribute("ci");
         skeyCi.setValue(encrypter.getCertificateIdentifier());
-        Log.e("pid", "34634534545--->" + encrypter.getCertificateIdentifier());
+       // Log.e("pid", "34634534545--->" + encrypter.getCertificateIdentifier());
         skeyElement.setAttributeNode(skeyCi);
         skeyElement.appendChild(document.createTextNode(android.util.Base64.encodeToString(
                 sessionKeyDetails.getSkeyValue(), android.util.Base64.DEFAULT)));
