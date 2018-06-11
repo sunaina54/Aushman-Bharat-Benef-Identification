@@ -627,7 +627,7 @@
                         android:textSize="@dimen/text_size_15sp" />
 
                     <CheckBox
-                        android:enabled="false"
+                        android:enabled="true"
                         android:id="@+id/distCheck"
                         android:layout_width="0dp"
                         android:layout_height="30dp"

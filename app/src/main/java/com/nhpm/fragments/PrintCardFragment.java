@@ -64,7 +64,7 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
     private Button previousBT,printCardBT,otherFamilyMemberBT;
     private FragmentTransaction fragmentTransection;
     private FragmentManager fragmentManager;
-    private TextView nameTV,fatherNameTV,yobTV,genderTV;
+    private TextView nameTV,fatherNameTV,yobTV,genderTV,cardNumberTV;
     private CollectDataActivity activity;
     private DocsListItem beneficiaryListItem;
     private ImageView beneficiaryPhotoIV;
@@ -104,7 +104,9 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
     private void setupScreen(View view){
         context=getActivity();
         fragmentManager = getActivity().getSupportFragmentManager();
+
         nameTV=(TextView)view.findViewById(R.id.nameTV) ;
+        cardNumberTV=(TextView)view.findViewById(R.id.cardNumberTV) ;
         fatherNameTV=(TextView)view.findViewById(R.id.fatherNameTV) ;
         genderTV=(TextView)view.findViewById(R.id.genderTV) ;
         yobTV=(TextView)view.findViewById(R.id.yobTV) ;
@@ -115,6 +117,9 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         beneficiaryPhotoIV=(ImageView)view.findViewById(R.id.beneficiaryPhotoIV);
         if(beneficiaryListItem!=null && beneficiaryListItem.getPrintCardDetail()!=null){
             activity.printEcardLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+
+
+            cardNumberTV.setText(beneficiaryListItem.getPrintCardDetail().getCardNo());
             nameTV.setText( beneficiaryListItem.getPrintCardDetail().getNameOnCard());
             fatherNameTV.setText( beneficiaryListItem.getPrintCardDetail().getFatherNameOnCard());
             yobTV.setText( beneficiaryListItem.getPrintCardDetail().getYobObCard());

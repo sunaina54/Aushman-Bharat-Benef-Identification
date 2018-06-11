@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.DocsListItem;
+import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -42,6 +43,7 @@ public class CollectDataActivity extends BaseActivity {
     public DocsListItem benefItem;
     private Context context;
     private CollectDataActivity activity;
+    private StateItem selectedStateItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,11 @@ public class CollectDataActivity extends BaseActivity {
         activity=this;
         fragmentManager = getSupportFragmentManager();
         headerTV = (TextView) findViewById(R.id.centertext);
-        headerTV.setText("Collect Data");
-       // AppUtility.navigateToHome(context,activity);
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+
+        headerTV.setText("Collect Data" +"("+selectedStateItem.getStateName()+")");
+
+        // AppUtility.navigateToHome(context,activity);
         name = getIntent().getStringExtra("Name");
         benefItem= DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
                 FamilyMembersListActivity.SELECTED_MEMBER,context));

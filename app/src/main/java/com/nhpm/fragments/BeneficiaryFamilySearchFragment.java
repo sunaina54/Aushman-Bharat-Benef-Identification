@@ -33,6 +33,7 @@ import com.nhpm.activity.FamilyListActivity;
 import com.nhpm.activity.FamilyListByHHIDActivity;
 import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.PhoneNumberActivity;
+import com.nhpm.activity.PinLoginActivity;
 import com.nhpm.activity.SearchDashboardActivity;
 
 import java.io.IOException;
@@ -78,6 +79,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             public void onClick(View v) {
                /* Intent intent = new Intent(context, SearchDashboardActivity.class);
                 startActivity(intent);*/
+/*
 
                 Intent intent =new Intent(context,PhoneNumberActivity.class);
                 intent.putExtra("PhoneActivity","Demo");
@@ -87,7 +89,14 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 item.setSearchType(AppConstant.AADHAAR_SEARCH);
                 item.setMode(AppConstant.DEMO);
                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,AppConstant.SEARCH_OPTION,item.serialize(),context);
+*/
 
+                Intent intent =new Intent(context,PinLoginActivity.class);
+                intent.putExtra("Beneficiary","Beneficiary");
+                SerachOptionItem item=new SerachOptionItem();
+                item.setSearchType(AppConstant.AADHAAR_SEARCH);
+                item.setMode(AppConstant.DEMO);
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,AppConstant.SEARCH_OPTION,item.serialize(),context);
                 startActivity(intent);
             }
         });

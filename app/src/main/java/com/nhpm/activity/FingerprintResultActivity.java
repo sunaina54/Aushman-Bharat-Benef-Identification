@@ -24,11 +24,13 @@ import com.customComponent.CustomAsyncTask;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
+import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.AadharResultRequestModel;
 import com.nhpm.Models.request.AutoSuggestRequestItem;
 import com.nhpm.Models.request.FamilyListRequestModel;
 import com.nhpm.Models.response.FamilyListResponseItem;
 import com.nhpm.Models.response.VillageResponseItem;
+import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.AadhaarResponseItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
@@ -62,10 +64,11 @@ public class FingerprintResultActivity extends BaseActivity {
     private AadharResultRequestModel aadharResultRequestModel;
     private Spinner cardTypeSpinner;
     private CheckBox ageCheck,nameCheck,dobCheck,genderCheck,pincodeCheck,fatherCheck,motherCheck,
-            spouseCheck,stateCheck,distCheck;
+            spouseCheck,stateCheck,distCheck,vtcCheck;
     ArrayList<String> temp,distTemp;
     private VillageResponseItem villageResponse;
     private String screen;
+    private StateItem selectedStateItem;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +91,10 @@ public class FingerprintResultActivity extends BaseActivity {
         spouseCheck = (CheckBox) findViewById(R.id.spouseCheck);
         stateCheck = (CheckBox) findViewById(R.id.stateCheck);
         distCheck = (CheckBox) findViewById(R.id.distCheck);
+        vtcCheck = (CheckBox) findViewById(R.id.vtcCheck);
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
-        headerTV.setText("Beneficiary Data");
+        headerTV.setText("Beneficiary Data"+"("+selectedStateItem.getStateName()+")");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,17 +151,12 @@ public class FingerprintResultActivity extends BaseActivity {
                 String spouseName = kycSpouse.getText().toString();
                 String state = kycState.getText().toString();
                 String district = kycDist.getText().toString();
+                String village= kycVtc.getText().toString().trim();
 
 
                 //String[] str=villageCode.split("-");
 
                 FamilyListRequestModel request = new FamilyListRequestModel();
-                request.setName("");
-                request.setGenderid("");
-                request.setAge("");
-                request.setPincode("");
-                request.setFathername("");
-
 
                 if (nameCheck.isChecked()) {
                     request.setName(name.trim());
@@ -179,9 +179,13 @@ public class FingerprintResultActivity extends BaseActivity {
                 if (stateCheck.isChecked()) {
                     request.setState_name(state.trim());
                 }
-               /* if(distCheck.isChecked()){
-                    request.setdi(state);
-                }*/
+                if(vtcCheck.isChecked()){
+                    request.setVt_name(village);
+                }
+
+                if(distCheck.isChecked()){
+                    request.setDistrict_name(district);
+                }
                 //  if(dobCheck.isChecked())
                 // request.setD(pincode);
                 // CustomAlert.alertWithOk(context, "Under Development");
@@ -210,7 +214,7 @@ public class FingerprintResultActivity extends BaseActivity {
         kycDist = (EditText) findViewById(R.id.kycDist);
         kycSubDist = (EditText) findViewById(R.id.kycSubDist);
         kycVtc = (AutoCompleteTextView) findViewById(R.id.kycVtc);
-        kycVtc.setThreshold(0);
+        kycVtc.setThreshold(1);
         kycAge = (EditText) findViewById(R.id.kycAge);
 
         kycSpouse = (EditText) findViewById(R.id.kycSpouse);
@@ -582,7 +586,7 @@ public class FingerprintResultActivity extends BaseActivity {
             @Override
             public void execute() {
                 AutoSuggestRequestItem request=new AutoSuggestRequestItem();
-                request.setVillageName(text);
+                request.setVillageName(text.toLowerCase());
                 try {
                     //String request = familyListRequestModel.serialize();
                     HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
@@ -639,5 +643,70 @@ public class FingerprintResultActivity extends BaseActivity {
         temp=new ArrayList<>();
        */
     }
+
+   /* private void autoSuggestVillage(final String text){
+
+        TaskListener taskListener=new TaskListener() {
+            @Override
+            public void execute() {
+                AutoSuggestRequestItem request=new AutoSuggestRequestItem();
+                request.setVillageName(text);
+                try {
+                    //String request = familyListRequestModel.serialize();
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
+                    String familyResponse = response.get("response");
+
+                    if (familyResponse != null) {
+                        villageResponse = new VillageResponseItem().create(familyResponse);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                temp = new ArrayList<>();
+                distTemp = new ArrayList<>();
+                if (villageResponse != null) {
+                    for (String str : villageResponse) {
+                        // if(str.contains(text)){
+                        String tempArr[] = str.split(";");
+                        temp.add(tempArr[0]);
+                        distTemp.add(tempArr[1]);
+                        // }
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                            android.R.layout.simple_dropdown_item_1line, temp);
+                    kycVtc.setAdapter(adapter);
+
+                    kycVtc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            String selected = temp.get(position);
+                            kycVtc.setText(selected);
+                            kycDist.setText(distTemp.get(position));
+                        }
+                    });
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, context);
+        customAsyncTask.execute();
+        *//*
+        String[] COUNTRIES = new String[] {
+                "Belgium", "Belance", "Betaly", "Bermany", "Beain"};
+        temp=new ArrayList<>();
+       *//*
+    }
+*/
 
 }

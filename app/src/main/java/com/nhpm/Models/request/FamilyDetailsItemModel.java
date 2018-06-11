@@ -14,6 +14,15 @@ public class FamilyDetailsItemModel implements Serializable {
     private String idImage;
     private String idNumber;
     private String idType;
+    private String screen;
+
+    public String getScreen() {
+        return screen;
+    }
+
+    public void setScreen(String screen) {
+        this.screen = screen;
+    }
 
     private ArrayList<FamilyMemberModel> familyMemberModels;
 

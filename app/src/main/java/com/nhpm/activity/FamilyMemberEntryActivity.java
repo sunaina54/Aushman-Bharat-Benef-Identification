@@ -55,16 +55,22 @@ public class FamilyMemberEntryActivity extends BaseActivity {
             }
         });
 
+
+
         AppUtility.navigateToHome(context, activity);
         theIntent = getIntent();
         familymemberItem = (FamilyMemberModel) theIntent.getSerializableExtra(AppConstant.FAMILY_MEMBER_RESULT_CODE_NAME);
         index= theIntent.getStringExtra(FamilyDetailsFragment.INDEX);
         familyMemberNameET = (EditText) findViewById(R.id.familyMemberNameET);
+        familyMemberNameET.requestFocus();
+        AppUtility.softKeyBoard(activity, 1);
         saveBT = (Button) findViewById(R.id.saveBT);
         cancelBT = (Button) findViewById(R.id.cancelBT);
         if(index!=null){
             saveBT.setText("Update");
             familyMemberNameET.setText(familymemberItem.getName());
+
+
         }
 
         saveBT.setOnClickListener(new View.OnClickListener() {

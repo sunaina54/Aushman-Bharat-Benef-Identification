@@ -25,6 +25,7 @@ import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
+import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.VerifierLocationItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
@@ -57,7 +58,7 @@ public class FamilyMembersListActivity extends BaseActivity {
     private CustomAsyncTask customAsyncTask;
     private FamilyMembersListActivity activity;
     private TextView errorTV;
-
+private StateItem selectedStateItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,9 @@ public class FamilyMembersListActivity extends BaseActivity {
         context = this;
         activity=this;
         centerText = (TextView) findViewById(R.id.centertext);
-        centerText.setText("Family Members");
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+
+        centerText.setText("Family Members" +"("+selectedStateItem.getStateName()+")");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override

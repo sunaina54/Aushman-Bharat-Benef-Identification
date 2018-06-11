@@ -50,6 +50,7 @@ public class FindBeneficiaryByNameActivity extends BaseActivity {
     private int resultCode = 1;
     private String activityName = "";
     private FindBeneficiaryByNameActivity activity;
+    private StateItem selectedStateItem;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,9 @@ public class FindBeneficiaryByNameActivity extends BaseActivity {
 
         aadhaarNo = getIntent().getStringExtra("aadhaarNo");
         headerTV = (TextView) findViewById(R.id.centertext);
-        headerTV.setText("Beneficiary Data");
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+
+        headerTV.setText("Beneficiary Data"+"("+selectedStateItem.getStateName()+")");
         AppUtility.navigateToHome(context,activity);
         manualRadioButton = (RadioButton) findViewById(R.id.manualRadioButton);
         QrCodeRadioButton = (RadioButton) findViewById(R.id.qrCodeRadioButton);

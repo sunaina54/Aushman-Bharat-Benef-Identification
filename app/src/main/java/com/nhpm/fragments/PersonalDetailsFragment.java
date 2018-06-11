@@ -223,7 +223,6 @@ public class PersonalDetailsFragment extends Fragment {
                     beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
                 }
 
-
             }
 
             if (!personalDetailItem.getFlowStatus().equalsIgnoreCase("")
@@ -425,7 +424,7 @@ public class PersonalDetailsFragment extends Fragment {
                         }
 
                         if (personalDetailItem != null && personalDetailItem.getIsMobileAuth() == null || !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")) {
-                            CustomAlert.alertWithOk(context, "Please enter valid mobile number");
+                            CustomAlert.alertWithOk(context, "Please verified mobile number");
                             return;
                         }
 
@@ -450,7 +449,7 @@ public class PersonalDetailsFragment extends Fragment {
                         }
 
                         if (personalDetailItem != null && personalDetailItem.getIsMobileAuth() == null || !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")) {
-                            CustomAlert.alertWithOk(context, "Please enter valid mobile number");
+                            CustomAlert.alertWithOk(context, "Please verified mobile number");
                             return;
                         }
 

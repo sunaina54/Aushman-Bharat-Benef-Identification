@@ -53,6 +53,7 @@ public class PinLoginActivity extends BaseActivity {
     private long wrongPinSavedTime;
     private long currentTime;
     private TextView wrongAttempetCountValue;
+    private String screen;
 
 
     @Override
@@ -93,6 +94,8 @@ public class PinLoginActivity extends BaseActivity {
         AppUtility.hideSoftInput(activity);
         AppUtility.showSoftInput(activity);
         // openSoftinputKeyBoard();
+        screen = getIntent().getStringExtra("Beneficiary");
+
         response = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         goForVerificationBT = (Button) v.findViewById(R.id.goForVerificationBT);
         pinET = (EditText) v.findViewById(R.id.pinET);
@@ -107,6 +110,9 @@ public class PinLoginActivity extends BaseActivity {
         settigs.setVisibility(View.GONE);
         backIV = (ImageView) v.findViewById(R.id.back);
         forgotPinLayout = (LinearLayout) v.findViewById(R.id.forgetPinBT);
+        if(screen!=null && screen.equalsIgnoreCase("Beneficiary")){
+            forgotPinLayout.setVisibility(View.GONE);
+        }
 
         zoomView = new ZoomView(this);
         zoomView.addView(v);
@@ -188,12 +194,20 @@ public class PinLoginActivity extends BaseActivity {
                                 AppConstant.SELECTED_BLOCK, item.serialize(), context);*/
 
                      // open another screen
-                        Intent theIntent = new Intent(context, BlockDetailActivity.class);
+                        if(screen!=null && screen.equalsIgnoreCase("Beneficiary")){
+                            Intent theIntent = new Intent(context, FindBeneficiaryByNameActivity.class);
+                            // Intent theIntent = new Intent(context, DownloadedListActvity.class);
+                            startActivity(theIntent);
+                            leftTransition();
+                            finish();
+                        }else {
+                            Intent theIntent = new Intent(context, BlockDetailActivity.class);
 
-                       // Intent theIntent = new Intent(context, DownloadedListActvity.class);
-                        startActivity(theIntent);
-                        leftTransition();
-                        finish();
+                            // Intent theIntent = new Intent(context, DownloadedListActvity.class);
+                            startActivity(theIntent);
+                            leftTransition();
+                            finish();
+                        }
                    /* }else{
                         CustomAlert.alertWithOk(context,"No downloaded enumeration block found");
                     }*/
@@ -213,6 +227,8 @@ public class PinLoginActivity extends BaseActivity {
         showNotification();
         AppUtility.hideSoftInput(activity);
         AppUtility.showSoftInput(activity);
+        screen = getIntent().getStringExtra("Beneficiary");
+
         // openSoftinputKeyBoard();
         response = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         goForVerificationBT = (Button) findViewById(R.id.goForVerificationBT);
@@ -223,11 +239,15 @@ public class PinLoginActivity extends BaseActivity {
         showPassBT = (Button) findViewById(R.id.showPassBT);
         headerTV = (TextView) findViewById(R.id.centertext);
         headerTV.setText("");
+
         wornPinLinearLayout = (LinearLayout) findViewById(R.id.wornPinLinearLayout);
         settigs = (ImageView) findViewById(R.id.settings);
         settigs.setVisibility(View.GONE);
         backIV = (ImageView) findViewById(R.id.back);
         forgotPinLayout = (LinearLayout) findViewById(R.id.forgetPinBT);
+        if(screen!=null && screen.equalsIgnoreCase("Beneficiary")){
+            forgotPinLayout.setVisibility(View.GONE);
+        }
         forgotPinLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,12 +305,20 @@ public class PinLoginActivity extends BaseActivity {
                     } else if (SeccDatabase.houseHoldCount(context) < 0 && SeccDatabase.seccMemberCount(context) < 0) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.yourValidationDataNotDownloaded));
                     } else {
-                        Intent theIntent = new Intent(context, BlockDetailActivity.class);
+                        if(screen!=null && screen.equalsIgnoreCase("Beneficiary")){
+                            Intent theIntent = new Intent(context, FindBeneficiaryByNameActivity.class);
+                            // Intent theIntent = new Intent(context, DownloadedListActvity.class);
+                            startActivity(theIntent);
+                            leftTransition();
+                            finish();
+                        }else {
+                            Intent theIntent = new Intent(context, BlockDetailActivity.class);
 
-                        // Intent theIntent = new Intent(context, DownloadedListActvity.class);
-                        startActivity(theIntent);
-                        leftTransition();
-                        finish();
+                            // Intent theIntent = new Intent(context, DownloadedListActvity.class);
+                            startActivity(theIntent);
+                            leftTransition();
+                            finish();
+                        }
                     }
                 } else {
                     CustomAlert.alertWithOk(context, context.getResources().getString(R.string.pinLoginDisabled));
