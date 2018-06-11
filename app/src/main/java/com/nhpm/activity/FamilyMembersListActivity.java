@@ -309,7 +309,7 @@ private StateItem selectedStateItem;
 
                     address = address + item.getAddressline4();
                 }
-                holder.addressTV.setText(address);
+                holder.addressTV.setText(item.getDistrict_name_english());
 
             }
             holder.collectDataBT.setOnClickListener(new View.OnClickListener() {

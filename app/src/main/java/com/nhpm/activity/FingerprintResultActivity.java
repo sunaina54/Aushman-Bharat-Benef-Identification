@@ -78,7 +78,6 @@ public class FingerprintResultActivity extends BaseActivity {
     }
 
     private void setupScreen() {
-
         aadharResultRequestModel = new AadharResultRequestModel();
         headerTV = (TextView) findViewById(R.id.centertext);
         ageCheck = (CheckBox) findViewById(R.id.ageCheck);
@@ -177,7 +176,7 @@ public class FingerprintResultActivity extends BaseActivity {
                     request.setSpousenm(spouseName.trim());
                 }
                 if (stateCheck.isChecked()) {
-                    request.setState_name(state.trim());
+                    request.setState_name_english(state.trim());
                 }
                 if(vtcCheck.isChecked()){
                     request.setVt_name(village);
@@ -558,9 +557,12 @@ public class FingerprintResultActivity extends BaseActivity {
                 if (aadhaarKycResponse.getDist() != null && !aadhaarKycResponse.getDist().equalsIgnoreCase("")) {
                     kycDist.setText(aadhaarKycResponse.getDist());
                 }
-                if (aadhaarKycResponse.getState() != null && !aadhaarKycResponse.getState().equalsIgnoreCase("")) {
-                    kycState.setText(aadhaarKycResponse.getState());
+                if(selectedStateItem.getStateName()!=null){
+                    kycState.setText(selectedStateItem.getStateName());
                 }
+                /*if (aadhaarKycResponse.getState() != null && !aadhaarKycResponse.getState().equalsIgnoreCase("")) {
+                    kycState.setText(aadhaarKycResponse.getState());
+                }*/
                /* if (aadhaarKycResponse.getSubdist() != null && !aadhaarKycResponse.getSubdist().equalsIgnoreCase("")) {
                     kycSubDist.setText(aadhaarKycResponse.getSubdist());
                 }*/ /*else {

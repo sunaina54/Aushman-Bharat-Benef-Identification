@@ -14,7 +14,7 @@
     <string name="server_error">Could not connect to server</string>
     <string name="slow_internet_connection_msg">Sorry,it seems like slow internet connection or server is not responding.</string>
     <string name="loginWithAdhar">Login with Aadhaar OTP</string>
-    <string name="app_name">NHPM-FVS-NEW</string>
+    <string name="app_name">PM-RSSM</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>

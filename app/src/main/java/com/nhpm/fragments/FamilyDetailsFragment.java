@@ -157,6 +157,7 @@ public class FamilyDetailsFragment extends Fragment {
                     captureImageBT.setEnabled(false);
                     govtIdSP.setEnabled(false);
 
+
                 }
 
                /* if(personalDetailItem.getFamilyDetailsItem().getIdType()!=null &&
@@ -169,6 +170,8 @@ public class FamilyDetailsFragment extends Fragment {
                     govtIdET.setText(familyDetailsItemModel.getIdNumber());
                     govtIdET.setEnabled(false);
                     captureImageBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+                    getFamilyScoreBT.setEnabled(false);
+                    getFamilyScoreBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                 }
 
 
@@ -285,15 +288,24 @@ public class FamilyDetailsFragment extends Fragment {
                 if(ahltin!=null && !ahltin.equalsIgnoreCase("")){
                     Log.d("TAG","AhlTine : "+ahltin);
                     String firstTwoChar=ahltin.substring(0,2);
-                    String lastThreeChar=ahltin.substring(ahltin.length()-3);
-                    String middleChar=ahltin.substring(3,ahltin.length()-3);
+                    // 2 7 8 5 4 3
+                    String nextSevenChar=ahltin.substring(2,9);
+                    String nextEightChar=ahltin.substring(9,17);
+                    String nextFiveChar=ahltin.substring(17,22);
+                    String nextFourChar=ahltin.substring(22,26);
+                    String lastThreeChar=ahltin.substring(26,29);
                     Log.d("TAG","AhlTine : "+ahltin);
                     Log.d("TAG","First TTwo : "+firstTwoChar);
-                    Log.d("TAG","Last Three : "+lastThreeChar);
-                    Log.d("TAG","middle : "+middleChar);
-                    ahltin=firstTwoChar+" "+middleChar+" "+lastThreeChar;
+                    Log.d("TAG","next seven : "+nextSevenChar);
+                    Log.d("TAG","next eight : "+nextEightChar);
+                    Log.d("TAG","next five : "+nextFiveChar);
+                    Log.d("TAG","next four : "+nextFourChar);
+                    Log.d("TAG","next three : "+lastThreeChar);
+                    ahltin=firstTwoChar+" "+nextSevenChar+" "+nextEightChar+" "+nextFiveChar+" "+nextFourChar+" "+lastThreeChar;
+                    Log.d("TAG","Ayushman Id  : "+ahltin);
                     Log.d("TAG","Ayushman Id  : "+ahltin);
                     printCard.setCardNo(ahltin);
+                    printCard.setStateName(beneficiaryListItem.getState_name_english());
 
 
                 }
@@ -792,9 +804,11 @@ public class FamilyDetailsFragment extends Fragment {
             }
             holder.houseHoldAadhaarNoTV.setText(aadhaarNo);*/
             holder.nameTV.setText(item.getName());
-            if (printCardItem != null) {
-                holder.menuLayout.setEnabled(false);
+            if (beneficiaryListItem.getPrintCardDetail() != null) {
+                holder.menuLayout.setVisibility(View.GONE);
+                holder.settings.setVisibility(View.GONE);
             }
+
             editDelete(holder.menuLayout, holder.settings, item, listPosition);
 
             /*if(item.getStatus().equalsIgnoreCase(AppConstant.SYNC_STATUS)){

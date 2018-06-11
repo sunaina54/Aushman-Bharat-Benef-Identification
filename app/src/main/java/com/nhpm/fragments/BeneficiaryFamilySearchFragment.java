@@ -258,6 +258,24 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     ahlTinET.setVisibility(View.VISIBLE);
                     cardTypeTV.setText("AHLTIN");
                     cardType = "AHLTIN";
+                    String ahltin=ahlTinET.getText().toString();
+                    Log.d("TAG","AhlTine : "+ahltin);
+                    String firstTwoChar=ahltin.substring(0,2);
+                   // 2 7 8 5 4 3
+                    String nextSevenChar=ahltin.substring(2,9);
+                    String nextEightChar=ahltin.substring(9,17);
+                    String nextFiveChar=ahltin.substring(17,22);
+                    String nextFourChar=ahltin.substring(22,26);
+                    String lastThreeChar=ahltin.substring(26,29);
+                    Log.d("TAG","AhlTine : "+ahltin);
+                    Log.d("TAG","First TTwo : "+firstTwoChar);
+                    Log.d("TAG","next seven : "+nextSevenChar);
+                    Log.d("TAG","next eight : "+nextEightChar);
+                    Log.d("TAG","next five : "+nextFiveChar);
+                    Log.d("TAG","next four : "+nextFourChar);
+                    Log.d("TAG","next three : "+lastThreeChar);
+                    ahltin=firstTwoChar+" "+nextSevenChar+" "+nextEightChar+" "+nextFiveChar+" "+nextFourChar+" "+lastThreeChar;
+                    Log.d("TAG","Ayushman Id  : "+ahltin);
                 }
                     /*rationCardET.setVisibility(View.GONE);
                     rsbyET.setVisibility(View.VISIBLE);

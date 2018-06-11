@@ -64,7 +64,7 @@ public class FamilyListActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
-        headerTV.setText("Family Data"+"("+selectedStateItem.getStateName()+")");
+        headerTV.setText("Family Data"+" ("+selectedStateItem.getStateName()+")");
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
@@ -98,11 +98,11 @@ public class FamilyListActivity extends BaseActivity {
         familyListRequestModel.setUserName("nhps_fvs^1&%mobile");
         familyListRequestModel.setUserPass("ZCbEJyPUlaQXo8fJT2P+5PAKJOs6emRZgdI/w5qkIrN2NqRUQQ3Sdqp+9WbS8P4j");
 //familyListRequestModel.setAge("");
-        familyListRequestModel.setAhlblockno("");
-        familyListRequestModel.setBlock_name_english("");
-        familyListRequestModel.setDistrict_code("");
+        //familyListRequestModel.setAhlblockno("");
+        //familyListRequestModel.setBlock_name_english("");
+       // familyListRequestModel.setDistrict_code("");
         familyListRequestModel.setResultCount("5");
-        if (familyListRequestModel.getFathername() == null) {
+/*        if (familyListRequestModel.getFathername() == null) {
             familyListRequestModel.setFathername("");
         }
 //familyListRequestModel.setGenderid("");
@@ -136,8 +136,7 @@ public class FamilyListActivity extends BaseActivity {
         if (familyListRequestModel.getVt_name() == null) {
             familyListRequestModel.setVt_name("");
         }
-        familyListRequestModel.setState_name_english("");
-        familyListRequestModel.setSpousenms("");
+        familyListRequestModel.setSpousenms("");*/
         TaskListener taskListener = new TaskListener() {
             @Override
             public void execute() {
@@ -292,18 +291,19 @@ public class FamilyListActivity extends BaseActivity {
             holder.genderTV.setText(gender);
             String yob = "";
             if (item.getDob() != null && item.getDob().length() > 4) {
-                yob = item.getDob().substring(0, 4);
+                yob = item.getDob().substring(0,4);
             } else {
                 yob = item.getDob();
             }
             holder.ageTV.setText(yob);
 
             holder.motherNameTV.setText(item.getMothername());
+            holder.spouseNameTV.setText(item.getSpousenm());
             // holder.spouseNameTV.setText(item.gets);
             holder.ahltinTV.setText(item.getAhl_tin());
             holder.hhidTV.setText(item.getHhd_no());
-            holder.stateTV.setText(item.getState_name());
-            holder.distTV.setText(item.getDistrict_name());
+            holder.stateTV.setText(item.getState_name_english());
+            holder.distTV.setText(item.getDistrict_name_english());
             holder.villageTV.setText(item.getVillage_name_english());
             holder.blockTV.setText(item.getBlock_name_english());
             holder.pincodeTV.setText(item.getPincode());

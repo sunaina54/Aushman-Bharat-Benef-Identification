@@ -64,7 +64,7 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
     private Button previousBT,printCardBT,otherFamilyMemberBT;
     private FragmentTransaction fragmentTransection;
     private FragmentManager fragmentManager;
-    private TextView nameTV,fatherNameTV,yobTV,genderTV,cardNumberTV;
+    private TextView nameTV,fatherNameTV,yobTV,genderTV,cardNumberTV,stateTV;
     private CollectDataActivity activity;
     private DocsListItem beneficiaryListItem;
     private ImageView beneficiaryPhotoIV;
@@ -115,6 +115,7 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         printCardBT = (Button) view.findViewById(R.id.printCardBT);
         otherFamilyMemberBT = (Button) view.findViewById(R.id.otherMemberBT);
         beneficiaryPhotoIV=(ImageView)view.findViewById(R.id.beneficiaryPhotoIV);
+        stateTV=(TextView)view.findViewById(R.id.stateTV);
         if(beneficiaryListItem!=null && beneficiaryListItem.getPrintCardDetail()!=null){
             activity.printEcardLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
 
@@ -134,6 +135,7 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
                     beneficiaryListItem.getPrintCardDetail().getGenderOnCard().equalsIgnoreCase("3")){
                 genderTV.setText("Other");
             }
+
         }
 
         otherFamilyMemberBT.setOnClickListener(new View.OnClickListener() {

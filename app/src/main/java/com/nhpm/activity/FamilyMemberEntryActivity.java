@@ -69,7 +69,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
         if(index!=null){
             saveBT.setText("Update");
             familyMemberNameET.setText(familymemberItem.getName());
-
+            familyMemberNameET.setSelection(familymemberItem.getName().length());
 
         }
 

@@ -767,7 +767,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                 }
             }
         };
-        if (asyncTask != null) {
+        if (asyncTask != null && !asyncTask.isCancelled()) {
             asyncTask.cancel(true);
             asyncTask = null;
         }

@@ -65,7 +65,7 @@ public class FamilyListByHHIDActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
-        headerTV.setText("Family Data" +"("+selectedStateItem.getStateName()+")");
+        headerTV.setText("Family Data" +" ("+selectedStateItem.getStateName()+")");
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
@@ -307,11 +307,12 @@ public class FamilyListByHHIDActivity extends BaseActivity {
             holder.ageTV.setText(yob);
 
             holder.motherNameTV.setText(item.getMothername());
+            holder.spouseNameTV.setText(item.getSpousenm());
             // holder.spouseNameTV.setText(item.gets);
             holder.ahltinTV.setText(item.getAhl_tin());
             holder.hhidTV.setText(item.getHhd_no());
-            holder.stateTV.setText(item.getState_name());
-            holder.distTV.setText(item.getDistrict_name());
+            holder.stateTV.setText(item.getState_name_english());
+            holder.distTV.setText(item.getDistrict_name_english());
             holder.villageTV.setText(item.getVillage_name_english());
             holder.blockTV.setText(item.getBlock_name_english());
             holder.pincodeTV.setText(item.getPincode());

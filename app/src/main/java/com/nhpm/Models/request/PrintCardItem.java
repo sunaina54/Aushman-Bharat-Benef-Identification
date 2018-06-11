@@ -10,6 +10,7 @@ public class PrintCardItem implements Serializable {
     private String cardNo;
     private String qrCode;
     private String benefPhoto;
+    private String stateName;
 
     public String getBenefPhoto() {
         return benefPhoto;
@@ -21,6 +22,14 @@ public class PrintCardItem implements Serializable {
 
     public String getNameOnCard() {
         return nameOnCard;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 
     public void setNameOnCard(String nameOnCard) {

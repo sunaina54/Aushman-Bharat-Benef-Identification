@@ -889,7 +889,7 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
     }
 
     private void setData() {
-        headerTV.setText(context.getResources().getString(R.string.nhpsFieldValidation) +"("+selectedStateItem.getStateName()+")");
+        headerTV.setText(context.getResources().getString(R.string.nhpsFieldValidation) +" ("+selectedStateItem.getStateName()+")");
         //prepareBlockForNotDownloaded();
     }
 

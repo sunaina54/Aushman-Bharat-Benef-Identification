@@ -15,7 +15,7 @@ public class DocsListItem implements Serializable {
     private FamilyDetailsItemModel familyDetailsItemModel;
     private PrintCardItem printCardDetail;
 
-
+    private String spousenm;
     private String LastModifiedDate;
     private String block_name_english;
     private String wardid;
@@ -86,6 +86,14 @@ public class DocsListItem implements Serializable {
     private String grampanchayatname;
     private String incomesource_urban;
     private String addressline2sl;
+
+    public String getSpousenm() {
+        return spousenm;
+    }
+
+    public void setSpousenm(String spousenm) {
+        this.spousenm = spousenm;
+    }
 
     public PrintCardItem getPrintCardDetail() {
         return printCardDetail;
