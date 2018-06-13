@@ -313,6 +313,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
                         personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
@@ -322,6 +323,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
                         personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());

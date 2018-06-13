@@ -59,14 +59,14 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/menuLayout"
+                android:id="@+id/menuLayoutRL"
                 android:layout_width="100dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                android:visibility="visible">
+                android:visibility="gone">
                 <ImageView
-                    android:id="@+id/settings"
+                    android:id="@+id/settingsIV"
                     android:visibility="gone"
                     android:layout_width="20dp"
                     android:layout_centerVertical="true"

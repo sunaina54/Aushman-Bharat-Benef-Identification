@@ -689,6 +689,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setName(aadhaarKycResponse.getName());
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                                 personalDetailItem.setGovtIdType("aadhar");
+                                personalDetailItem.setIsAadhar("Y");
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
 
@@ -698,6 +699,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                                 personalDetailItem.setGovtIdType("aadhar");
+                                personalDetailItem.setIsAadhar("Y");
                                 personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                                 personalDetailItem.setName(aadhaarKycResponse.getName());
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);

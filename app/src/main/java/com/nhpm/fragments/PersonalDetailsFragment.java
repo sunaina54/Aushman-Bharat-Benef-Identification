@@ -52,6 +52,7 @@ import com.nhpm.Models.response.MobileOTPResponse;
 import com.nhpm.Models.response.master.ConfigurationItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.AadhaarResponseItem;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -102,6 +103,7 @@ public class PersonalDetailsFragment extends Fragment {
     private CustomAsyncTask mobileOtpAsyncTask;
     private MobileOTPResponse mobileOtpVerifyModel;
     private ImageView beneficiaryPhotoIV;
+    private String operationId;
     private Button verifyMobBT;
     private boolean isValidMobile;
     private Bitmap memberPhoto;
@@ -113,6 +115,7 @@ public class PersonalDetailsFragment extends Fragment {
     private String status = "";
     private LinearLayout aadharLL, noAadhaarLL;
     private Button matchBT;
+    private VerifierLoginResponse storedLoginResponse;
 
     public AadhaarResponseItem getAadhaarKycResponse() {
         return aadhaarKycResponse;
@@ -140,6 +143,9 @@ public class PersonalDetailsFragment extends Fragment {
 
     private void setupScreen(View view) {
         checkAppConfig(view);
+        storedLoginResponse = VerifierLoginResponse.create(
+                ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
+
 
         // personalDetailItem = beneficiaryListItem.getPersonalDetail();
 
@@ -210,6 +216,8 @@ public class PersonalDetailsFragment extends Fragment {
                     verifyAadharBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
 
                 }
+                matchBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+                matchBT.setEnabled(false);
                 if (personalDetailItem.getMobileNo() != null) {
                     mobileNumberET.setEnabled(false);
                     mobileNumberET.setTextColor(AppUtility.getColor(context, R.color.green));
@@ -234,7 +242,8 @@ public class PersonalDetailsFragment extends Fragment {
                 if (personalDetailItem.getBenefPhoto() != null) {
                     beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));
                 }
-
+                matchBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+                matchBT.setEnabled(false);
                 if (personalDetailItem.getIdPhoto() != null && !personalDetailItem.getIdPhoto().equalsIgnoreCase("")) {
                     govtIdPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getIdPhoto()));
 
@@ -596,6 +605,11 @@ public class PersonalDetailsFragment extends Fragment {
                     verifyMobBT.setEnabled(false);
                     verifyMobBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                     personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
+                    operationId = storedLoginResponse.getAadhaarNumber();
+                    String operatorId = operationId.substring(operationId.length()-4);
+                    Log.d("operator id :",operatorId);
+                    personalDetailItem.setOpertaorid(Integer.parseInt(operatorId));
+                    personalDetailItem.setNameMatchScore(75);
                     //beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
                     Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
                     // CustomAlert.alertWithOk(context, "OTP verified successfully");
@@ -712,6 +726,11 @@ public class PersonalDetailsFragment extends Fragment {
                         verifyMobBT.setEnabled(false);
                         verifyMobBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                         personalDetailItem.setIsMobileAuth("Y");
+                        operationId = storedLoginResponse.getAadhaarNumber();
+                        String operatorId = operationId.substring(operationId.length()-4);
+                        Log.d("operator id :",operatorId);
+                        personalDetailItem.setOpertaorid(Integer.parseInt(operatorId));
+                        personalDetailItem.setNameMatchScore(75);
                         personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
                         // beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
                         Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();

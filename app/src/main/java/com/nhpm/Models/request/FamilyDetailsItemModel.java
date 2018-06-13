@@ -15,6 +15,15 @@ public class FamilyDetailsItemModel implements Serializable {
     private String idNumber;
     private String idType;
     private String screen;
+    private int familyMatchScore;
+
+    public int getFamilyMatchScore() {
+        return familyMatchScore;
+    }
+
+    public void setFamilyMatchScore(int familyMatchScore) {
+        this.familyMatchScore = familyMatchScore;
+    }
 
     public String getScreen() {
         return screen;

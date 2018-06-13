@@ -1,14 +1,11 @@
 package com.nhpm.activity;
 
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,22 +13,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.customComponent.utility.ProjectPrefrence;
-import com.nhpm.Models.response.BeneficiaryListItem;
+import com.nhpm.Models.request.GetMemberDetail;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
-import com.nhpm.fragments.BeneficiaryFamilySearchFragment;
 import com.nhpm.fragments.FamilyDetailsFragment;
 import com.nhpm.fragments.PersonalDetailsFragment;
 import com.nhpm.fragments.PrintEcardFragment;
+import com.nhpm.fragments.ViewPersonalDetailsFragment;
 
 /**
  * Created by SUNAINA on 24-05-2018.
  */
 
-public class CollectDataActivity extends BaseActivity {
+public class ViewMemberDataActivity extends BaseActivity {
     public LinearLayout printEcardLL,familyDetailsLL,personalDetailsLL;
     private Fragment fragment;
     private FragmentTransaction fragmentTransection;
@@ -40,9 +37,9 @@ public class CollectDataActivity extends BaseActivity {
     private ImageView back;
     private RelativeLayout backLayout;
     private String name;
-    public DocsListItem benefItem;
+    public GetMemberDetail getMemberDetailItem;
     private Context context;
-    private CollectDataActivity activity;
+    private ViewMemberDataActivity activity;
     private StateItem selectedStateItem;
 
     @Override
@@ -63,8 +60,8 @@ public class CollectDataActivity extends BaseActivity {
 
         // AppUtility.navigateToHome(context,activity);
         name = getIntent().getStringExtra("Name");
-        benefItem= DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
-                FamilyMembersListActivity.SELECTED_MEMBER,context));
+        getMemberDetailItem= GetMemberDetail.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
+                AppConstant.VIEW_DATA,context));
 
         back = (ImageView) findViewById(R.id.back);
         backLayout = (RelativeLayout) findViewById(R.id.backLayout);
@@ -109,7 +106,7 @@ public class CollectDataActivity extends BaseActivity {
     }
 
     private void openPersonalDetailsFragment() {
-        fragment = new PersonalDetailsFragment();
+        fragment = new ViewPersonalDetailsFragment();
         Bundle args = new Bundle();
         args.putString("Name", name);
         fragment.setArguments(args);
@@ -118,17 +115,4 @@ public class CollectDataActivity extends BaseActivity {
         fragmentTransection.commitAllowingStateLoss();
     }
 
-    private void openFamilyDetailsFragment() {
-        fragment = new FamilyDetailsFragment();
-        fragmentTransection = fragmentManager.beginTransaction();
-        fragmentTransection.add(R.id.fragContainer, fragment);
-        fragmentTransection.commitAllowingStateLoss();
-    }
-
-    private void openPrintEcardFragment() {
-        fragment = new PrintEcardFragment();
-        fragmentTransection = fragmentManager.beginTransaction();
-        fragmentTransection.add(R.id.fragContainer, fragment);
-        fragmentTransection.commitAllowingStateLoss();
-    }
 }

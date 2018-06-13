@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#eaeaea"
-    >
+    android:background="#eaeaea">
 
     <include
         android:id="@+id/head"
@@ -654,7 +654,17 @@
                         android:text="@string/state" />
 
 
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/stateSP"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.6"
+                        android:spinnerMode="dropdown"
+                        app:hintText="Select State" />
+
+
                     <EditText
+                        android:visibility="gone"
                         android:id="@+id/kycState"
                         style="@style/textView"
                         android:layout_width="0dp"

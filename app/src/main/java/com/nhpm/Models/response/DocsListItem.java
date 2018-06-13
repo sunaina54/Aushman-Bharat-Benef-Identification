@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 public class DocsListItem implements Serializable {
     private PersonalDetailItem personalDetail;
-    private FamilyDetailsItemModel familyDetailsItemModel;
+    private FamilyDetailsItemModel familyDetailsItem;
     private PrintCardItem printCardDetail;
 
     private String spousenm;
@@ -108,11 +108,11 @@ public class DocsListItem implements Serializable {
     }
 
     public FamilyDetailsItemModel getFamilyDetailsItemModel() {
-        return familyDetailsItemModel;
+        return familyDetailsItem;
     }
 
     public void setFamilyDetailsItemModel(FamilyDetailsItemModel familyDetailsItemModel) {
-        this.familyDetailsItemModel = familyDetailsItemModel;
+        this.familyDetailsItem = familyDetailsItemModel;
     }
 
     public void setPersonalDetail(PersonalDetailItem personalDetail) {

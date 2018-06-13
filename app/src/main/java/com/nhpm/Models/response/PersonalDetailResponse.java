@@ -15,6 +15,24 @@ public class PersonalDetailResponse implements Serializable{
     private String name;
     private String isAadhar;
     private Integer opertaorid;
+    private String isMobileAuth;
+    private String flowStatus;
+
+    public String getFlowStatus() {
+        return flowStatus;
+    }
+
+    public void setFlowStatus(String flowStatus) {
+        this.flowStatus = flowStatus;
+    }
+
+    public String getIsMobileAuth() {
+        return isMobileAuth;
+    }
+
+    public void setIsMobileAuth(String isMobileAuth) {
+        this.isMobileAuth = isMobileAuth;
+    }
 
     public String getBenefName() {
         return benefName;

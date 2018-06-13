@@ -442,6 +442,7 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
                 AppConstant.VERIFIER_CONTENT, context));
         storedLoginResponse = VerifierLoginResponse.create(
                 ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
+
         openOptionFragment();
         locationCard = (CardView) findViewById(R.id.locationCard);
         headerTV = (TextView) findViewById(R.id.centertext);

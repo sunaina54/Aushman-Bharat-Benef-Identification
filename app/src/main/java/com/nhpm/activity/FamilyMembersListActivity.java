@@ -21,6 +21,8 @@ import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.GetMemberDetail;
+import com.nhpm.Models.request.GetMemberDetailRequestModel;
 import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
 import com.nhpm.Models.response.DocsListItem;
@@ -58,7 +60,9 @@ public class FamilyMembersListActivity extends BaseActivity {
     private CustomAsyncTask customAsyncTask;
     private FamilyMembersListActivity activity;
     private TextView errorTV;
-private StateItem selectedStateItem;
+    private StateItem selectedStateItem;
+    private GetMemberDetail getMemberDetailResponse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +72,11 @@ private StateItem selectedStateItem;
 
     private void setupScreen() {
         context = this;
-        activity=this;
+        activity = this;
         centerText = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
-        centerText.setText("Family Members" +"("+selectedStateItem.getStateName()+")");
+        centerText.setText("Family Members" + " (" + selectedStateItem.getStateName() + ")");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,9 +84,9 @@ private StateItem selectedStateItem;
                 finish();
             }
         });
-        AppUtility.navigateToHome(context,activity);
+        AppUtility.navigateToHome(context, activity);
         collectDataBT = (Button) findViewById(R.id.collectDataBT);
-        errorTV= (TextView) findViewById(R.id.errorTV);
+        errorTV = (TextView) findViewById(R.id.errorTV);
         collectDataBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +141,6 @@ private StateItem selectedStateItem;
         familyListRequestModel.setBlock_name_english("");
 
 
-
         TaskListener taskListener = new TaskListener() {
             @Override
             public void execute() {
@@ -184,7 +187,7 @@ private StateItem selectedStateItem;
                             errorTV.setText("No family member found");
                         }
                     }
-                }else {
+                } else {
                     errorTV.setVisibility(View.GONE);
                 }
             }
@@ -260,9 +263,10 @@ private StateItem selectedStateItem;
         @Override
         public void onBindViewHolder(CustomAdapter.ViewHolder holder, final int position) {
             final DocsListItem item = mDataset.get(position);
+
             holder.nameTV.setText(item.getName());
             holder.fatherNameTV.setText(item.getFathername());
-            String gender = "",address="";
+            String gender = "", address = "";
 
             if (item.getGenderid().equalsIgnoreCase("1")) {
                 gender = "Male";
@@ -280,13 +284,13 @@ private StateItem selectedStateItem;
                 yob = item.getDob();
             }
 
-            String currentYear= DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
-            currentYear=currentYear.substring(0,4);
-            int age=Integer.parseInt(currentYear)-Integer.parseInt(yob);
-            holder.ageTV.setText(age+"");
+            String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+            currentYear = currentYear.substring(0, 4);
+            int age = Integer.parseInt(currentYear) - Integer.parseInt(yob);
+            holder.ageTV.setText(age + "");
 
-           // holder.ageTV.setText(item.getAge());
-            if(item!=null) {
+            // holder.ageTV.setText(item.getAge());
+            if (item != null) {
                 if (item.getAddressline1() != null && !item.getAddressline1().trim().
                         equalsIgnoreCase("-") && !item.getAddressline1().equalsIgnoreCase("")) {
                     address = address + item.getAddressline1() + ", ";
@@ -315,13 +319,79 @@ private StateItem selectedStateItem;
             holder.collectDataBT.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, CollectDataActivity.class);
-                     intent.putExtra("member",mDataset.get(position).getName());
-                     item.setPersonalDetail(null);
-                     item.setFamilyDetailsItemModel(null);
-                     
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, SELECTED_MEMBER, item.serialize(), context);
-                    startActivity(intent);
+
+                    final GetMemberDetailRequestModel requestModel = new GetMemberDetailRequestModel();
+                    if (item.getAhl_tin() != null && !item.getAhl_tin().equalsIgnoreCase("")) {
+                        requestModel.setAhl_tin(item.getAhl_tin());
+                    }
+                    if (item.getHhd_no() != null && !item.getHhd_no().equalsIgnoreCase("")) {
+                        requestModel.setHhd_no(item.getHhd_no());
+                    }
+
+                    if (item.getState_code() != null && !item.getState_code().equalsIgnoreCase("")) {
+                        requestModel.setStatecode(Integer.parseInt(item.getState_code()));
+                    }
+
+                    TaskListener taskListener = new TaskListener() {
+                        @Override
+                        public void execute() {
+                            try {
+                                String request = requestModel.serialize();
+                                HashMap<String, String> response = CustomHttp.httpPost(AppConstant.GET_MEMBER_DETAIL, request);
+                                String familyResponse = response.get("response");
+
+                                if (familyResponse != null) {
+                                    getMemberDetailResponse = new GetMemberDetail().create(familyResponse);
+
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        @Override
+                        public void updateUI() {
+                            if (getMemberDetailResponse != null) {
+                                if (getMemberDetailResponse.isStatus()) {
+                                    if (getMemberDetailResponse.getPersonalDetail().getBenefName() != null &&
+                                            !getMemberDetailResponse.getPersonalDetail().getBenefName().equalsIgnoreCase("")) {
+
+                                        Intent intent = new Intent(context, ViewMemberDataActivity.class);
+                                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.VIEW_DATA, getMemberDetailResponse.serialize(), context);
+                                        startActivity(intent);
+
+                                    } else {
+                                        Intent intent = new Intent(context, CollectDataActivity.class);
+                                        intent.putExtra("member", mDataset.get(position).getName());
+                                        item.setPersonalDetail(null);
+                     /*if(item.getState_code()!=null && !item.getState_code().equalsIgnoreCase("")) {
+                         item.setStatecode(item.getState_code());
+                     }*/
+                                        Log.d("TAG", "Doc List : " + item.serialize());
+                                        item.setFamilyDetailsItemModel(null);
+                                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, SELECTED_MEMBER, item.serialize(), context);
+                                        Log.d("TAG", "Doc List from shared pref: " + DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
+                                                SELECTED_MEMBER, context)));
+                                        startActivity(intent);
+                                    }
+
+
+                                } else {
+                                    CustomAlert.alertWithOk(context, getMemberDetailResponse.getErrorMessage());
+                                }
+                            } else {
+                                CustomAlert.alertWithOk(context, "Server Error");
+                            }
+                        }
+                    };
+                    if (customAsyncTask != null) {
+                        customAsyncTask.cancel(true);
+                        customAsyncTask = null;
+                    }
+
+                    customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+                    customAsyncTask.execute();
                 }
             });
 
@@ -335,4 +405,57 @@ private StateItem selectedStateItem;
     }
 
 
+    private void getMemberDetail(String ahl_tin, String hhd_no, int statecode) {
+        GetMemberDetailRequestModel requestModel = new GetMemberDetailRequestModel();
+        requestModel.setAhl_tin(ahl_tin);
+        requestModel.setHhd_no(hhd_no);
+        requestModel.setStatecode(statecode);
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                try {
+                    String request = familyListRequestModel.serialize();
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_FAMILY_LIST, request);
+                    String familyResponse = response.get("response");
+
+                    if (familyResponse != null) {
+                        getMemberDetailResponse = new GetMemberDetail().create(familyResponse);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                if (getMemberDetailResponse != null) {
+                    if (getMemberDetailResponse.isStatus()) {
+                        if (getMemberDetailResponse.getPersonalDetail().getBenefName() != null &&
+                                !getMemberDetailResponse.getPersonalDetail().getBenefName().equalsIgnoreCase("")) {
+
+                        } else {
+
+                        }
+
+
+                    } else {
+                        CustomAlert.alertWithOk(context, getMemberDetailResponse.getErrorMessage());
+                    }
+                } else {
+                    CustomAlert.alertWithOk(context, "Server Error");
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+        customAsyncTask.execute();
+
+    }
 }

@@ -1,12 +1,24 @@
 package com.nhpm.Models.response;
 
+import com.nhpm.Models.FamilyMemberModel;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class FamilyDetailResponse implements Serializable{
     private String idImage;
     private String idNumber;
     private String idType;
-    private String familyMatchScore;
+    private Integer familyMatchScore;
+    private ArrayList<FamilyMemberModel> familyMemberModels;
+
+    public ArrayList<FamilyMemberModel> getFamilyMemberModels() {
+        return familyMemberModels;
+    }
+
+    public void setFamilyMemberModels(ArrayList<FamilyMemberModel> familyMemberModels) {
+        this.familyMemberModels = familyMemberModels;
+    }
 
     public String getIdImage() {
         return idImage;
@@ -32,11 +44,11 @@ public class FamilyDetailResponse implements Serializable{
         this.idType = idType;
     }
 
-    public String getFamilyMatchScore() {
+    public Integer getFamilyMatchScore() {
         return familyMatchScore;
     }
 
-    public void setFamilyMatchScore(String familyMatchScore) {
+    public void setFamilyMatchScore(Integer familyMatchScore) {
         this.familyMatchScore = familyMatchScore;
     }
 }

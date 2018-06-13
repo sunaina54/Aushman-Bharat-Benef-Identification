@@ -1411,6 +1411,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                             personalDetailItem.setGovtIdType("aadhar");
+                            personalDetailItem.setIsAadhar("Y");
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
@@ -1420,6 +1421,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                             personalDetailItem = new PersonalDetailItem();
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                             personalDetailItem.setGovtIdType("aadhar");
+                            personalDetailItem.setIsAadhar("Y");
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setName(aadhaarKycResponse.getName());

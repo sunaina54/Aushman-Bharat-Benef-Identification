@@ -124,6 +124,7 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
             nameTV.setText( beneficiaryListItem.getPrintCardDetail().getNameOnCard());
             fatherNameTV.setText( beneficiaryListItem.getPrintCardDetail().getFatherNameOnCard());
             yobTV.setText( beneficiaryListItem.getPrintCardDetail().getYobObCard());
+            stateTV.setText(beneficiaryListItem.getState_name());
             beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(beneficiaryListItem.getPrintCardDetail().getBenefPhoto()));
             if(beneficiaryListItem.getPrintCardDetail().getGenderOnCard()!=null &&
                     beneficiaryListItem.getPrintCardDetail().getGenderOnCard().equalsIgnoreCase("1")) {

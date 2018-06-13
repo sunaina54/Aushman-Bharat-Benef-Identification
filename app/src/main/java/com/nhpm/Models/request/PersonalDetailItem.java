@@ -18,8 +18,34 @@ public class PersonalDetailItem implements Serializable {
     private String govtIdType;
     private String flowStatus;
     private String benefName;
+    private int opertaorid;
+    private String isAadhar;
+    private int nameMatchScore;
     private FamilyDetailsItemModel familyDetailsItem;
 
+    public int getNameMatchScore() {
+        return nameMatchScore;
+    }
+
+    public void setNameMatchScore(int nameMatchScore) {
+        this.nameMatchScore = nameMatchScore;
+    }
+
+    public int getOpertaorid() {
+        return opertaorid;
+    }
+
+    public void setOpertaorid(int opertaorid) {
+        this.opertaorid = opertaorid;
+    }
+
+    public String getIsAadhar() {
+        return isAadhar;
+    }
+
+    public void setIsAadhar(String isAadhar) {
+        this.isAadhar = isAadhar;
+    }
 
     public FamilyDetailsItemModel getFamilyDetailsItem() {
         return familyDetailsItem;

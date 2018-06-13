@@ -1505,7 +1505,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                             personalDetailItem.setGovtIdType("aadhar");
-
+                            personalDetailItem.setIsAadhar("Y");
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
@@ -1516,6 +1516,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                             personalDetailItem.setGovtIdType("aadhar");
+                            personalDetailItem.setIsAadhar("Y");
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);

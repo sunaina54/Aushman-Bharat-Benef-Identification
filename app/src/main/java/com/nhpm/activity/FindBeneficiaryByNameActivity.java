@@ -66,7 +66,7 @@ public class FindBeneficiaryByNameActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
-        headerTV.setText("Beneficiary Data"+"("+selectedStateItem.getStateName()+")");
+        headerTV.setText("Beneficiary Data"+" ("+selectedStateItem.getStateName()+")");
         AppUtility.navigateToHome(context,activity);
         manualRadioButton = (RadioButton) findViewById(R.id.manualRadioButton);
         QrCodeRadioButton = (RadioButton) findViewById(R.id.qrCodeRadioButton);

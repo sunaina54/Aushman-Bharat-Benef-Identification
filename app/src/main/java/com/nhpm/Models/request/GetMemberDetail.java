@@ -1,5 +1,6 @@
 package com.nhpm.Models.request;
 
+import com.google.gson.Gson;
 import com.nhpm.Models.response.FamilyDetailResponse;
 import com.nhpm.Models.response.PersonalDetailResponse;
 
@@ -77,5 +78,17 @@ public class GetMemberDetail implements Serializable {
 
         public void setFamilyDetailsItem(FamilyDetailResponse familyDetailsItem) {
                 this.familyDetailsItem = familyDetailsItem;
+        }
+
+        static public GetMemberDetail create(String serializedData) {
+                // Use GSON to instantiate this class using the JSON representation of the state
+                Gson gson = new Gson();
+                return gson.fromJson(serializedData, GetMemberDetail.class);
+        }
+
+        public String serialize() {
+                // Serialize this class into a JSON string using GSON
+                Gson gson = new Gson();
+                return gson.toJson(this);
         }
 }
