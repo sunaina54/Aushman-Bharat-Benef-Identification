@@ -226,7 +226,7 @@ public class ViewPersonalDetailsFragment extends Fragment {
                 callFragment(fragment);
             }
         });
-    } 
+    }
 
     public void callFragment(Fragment fragment) {
         if (fragment != null) {

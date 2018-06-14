@@ -320,7 +320,20 @@ public class FamilyMembersListActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
 
-                    final GetMemberDetailRequestModel requestModel = new GetMemberDetailRequestModel();
+                    Intent intent = new Intent(context, CollectDataActivity.class);
+                    intent.putExtra("member", mDataset.get(position).getName());
+                    item.setPersonalDetail(null);
+                     /*if(item.getState_code()!=null && !item.getState_code().equalsIgnoreCase("")) {
+                         item.setStatecode(item.getState_code());
+                     }*/
+                    Log.d("TAG", "Doc List : " + item.serialize());
+                    item.setFamilyDetailsItemModel(null);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, SELECTED_MEMBER, item.serialize(), context);
+                    Log.d("TAG", "Doc List from shared pref: " + DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
+                            SELECTED_MEMBER, context)));
+                    startActivity(intent);
+
+                  /*  final GetMemberDetailRequestModel requestModel = new GetMemberDetailRequestModel();
                     if (item.getAhl_tin() != null && !item.getAhl_tin().equalsIgnoreCase("")) {
                         requestModel.setAhl_tin(item.getAhl_tin());
                     }
@@ -365,9 +378,9 @@ public class FamilyMembersListActivity extends BaseActivity {
                                         Intent intent = new Intent(context, CollectDataActivity.class);
                                         intent.putExtra("member", mDataset.get(position).getName());
                                         item.setPersonalDetail(null);
-                     /*if(item.getState_code()!=null && !item.getState_code().equalsIgnoreCase("")) {
+                     *//*if(item.getState_code()!=null && !item.getState_code().equalsIgnoreCase("")) {
                          item.setStatecode(item.getState_code());
-                     }*/
+                     }*//*
                                         Log.d("TAG", "Doc List : " + item.serialize());
                                         item.setFamilyDetailsItemModel(null);
                                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, SELECTED_MEMBER, item.serialize(), context);
@@ -391,7 +404,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                     }
 
                     customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
-                    customAsyncTask.execute();
+                    customAsyncTask.execute();*/
                 }
             });
 

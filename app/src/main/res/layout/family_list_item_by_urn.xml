@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/family_bg">
+    
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+        
+   
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margine_10">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/familyItemLL"
+            android:background="@color/darkGrey">
+
+            <LinearLayout
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Family Id"
+
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"
+
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:id="@+id/familyIdTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Name"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/nameTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                   android:text=""
+                    style="@style/textViewFamilMember"
+
+                    android:visibility="visible" />
+            </LinearLayout>
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Relation Name"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/relationTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="State:"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/stateTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                   android:text=""
+                    style="@style/textViewFamilMember"
+
+                    android:visibility="visible" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="District:"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/distTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                   android:text=""
+                    style="@style/textViewFamilMember"
+
+                    android:visibility="visible" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Village:"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/villageTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
+
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Member Id"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/memberIdTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="URN Number"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/urnNoTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
+

@@ -614,7 +614,17 @@
                         android:text="@string/district" />
 
 
-                    <EditText
+                    <AutoCompleteTextView
+                        android:id="@+id/kycDist"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.6"
+                        android:enabled="true"
+                        android:inputType="none"
+                        android:paddingLeft="5dp"
+                        android:hint="Type few characters of district"
+                        android:textSize="@dimen/text_size_15sp" />
+                   <!-- <EditText
                         android:id="@+id/kycDist"
                         style="@style/textView"
                         android:layout_width="0dp"
@@ -624,7 +634,7 @@
                         android:enabled="false"
                         android:inputType="none"
                         android:paddingLeft="5dp"
-                        android:textSize="@dimen/text_size_15sp" />
+                        android:textSize="@dimen/text_size_15sp" />-->
 
                     <CheckBox
                         android:enabled="true"

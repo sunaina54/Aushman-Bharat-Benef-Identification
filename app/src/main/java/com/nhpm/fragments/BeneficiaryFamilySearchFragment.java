@@ -23,6 +23,7 @@ import com.google.zxing.client.result.VINParsedResult;
 import com.nhpm.Models.SerachOptionItem;
 import com.nhpm.Models.request.BeneficiarySearchModel;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.ValidateUrnRequestModel;
 import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
 import com.nhpm.Models.response.master.StateItem;
@@ -31,6 +32,7 @@ import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 import com.nhpm.activity.FamilyListActivity;
 import com.nhpm.activity.FamilyListByHHIDActivity;
+import com.nhpm.activity.FamilyListByURNActivity;
 import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.PhoneNumberActivity;
 import com.nhpm.activity.PinLoginActivity;
@@ -136,7 +138,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 if (charSequence.toString().length() > 0) {
 
                     rationCardET.setTextColor(AppUtility.getColor(context, R.color.black_shine));
-                    if (rationCardET.getText().toString().length() == 15) {
+                    if (rationCardET.getText().toString().length() == 12) {
                         rationCardET.setTextColor(AppUtility.getColor(context, R.color.green));
                     }
                 }
@@ -237,6 +239,9 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         ArrayList<String> spinnerList = new ArrayList<>();
         spinnerList.add("HHId Number");
         spinnerList.add("AHLTIN");
+        spinnerList.add("RSBY URN");
+      /*  spinnerList.add("Mobile Number");
+        spinnerList.add("Ration Card");*/
 
 
         cardTypeSpinner = (Spinner) view.findViewById(R.id.cardTypeSpinner);
@@ -276,6 +281,15 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     Log.d("TAG","next three : "+lastThreeChar);
                     ahltin=firstTwoChar+" "+nextSevenChar+" "+nextEightChar+" "+nextFiveChar+" "+nextFourChar+" "+lastThreeChar;
                     Log.d("TAG","Ayushman Id  : "+ahltin);
+                }else if(position==2){
+                    cardType = "RSBY URN";
+                    rsbyET.setVisibility(View.VISIBLE);
+                }else if(position==3){
+                    cardType = "Mobile Number";
+                    mobileET.setVisibility(View.VISIBLE);
+                }else if(position==4){
+                    cardType = "Ration Card";
+                    rationCardET.setVisibility(View.VISIBLE);
                 }
                     /*rationCardET.setVisibility(View.GONE);
                     rsbyET.setVisibility(View.VISIBLE);
@@ -338,10 +352,10 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter ration card number");
                         return;
-                    } else if (cardNo.length() < 15) {
+                    }/* else if (cardNo.length() < 15) {
                         CustomAlert.alertWithOk(context, "Please enter valid ration card number");
                         return;
-                    }
+                    }*/
 
                 }
 
@@ -354,6 +368,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         CustomAlert.alertWithOk(context, "Please enter valid RSBY URN number");
                         return;
                     }
+
+                    ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
+                    requestModel.setUrn(cardNo);
+                    Intent theIntent=new Intent(context,FamilyListByURNActivity.class);
+                    theIntent.putExtra("SearchParam",requestModel);
+                    startActivity(theIntent);
 
                 }
 
@@ -368,6 +388,15 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         CustomAlert.alertWithOk(context, "Please enter valid AHLTIN number");
                         return;
                     }
+
+                    request.setName("");
+                    request.setGenderid("");
+                    request.setAge("");
+                    request.setPincode("");
+                    request.setFathername("");
+                    Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
+                    theIntent.putExtra("SearchParam",request);
+                    startActivity(theIntent);
 
                 }
 
@@ -394,15 +423,17 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         return;
                     }*/
 
+                    request.setName("");
+                    request.setGenderid("");
+                    request.setAge("");
+                    request.setPincode("");
+                    request.setFathername("");
+                    Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
+                    theIntent.putExtra("SearchParam",request);
+                    startActivity(theIntent);
+
                 }
-                request.setName("");
-                request.setGenderid("");
-                request.setAge("");
-                request.setPincode("");
-                request.setFathername("");
-                Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
-                theIntent.putExtra("SearchParam",request);
-                startActivity(theIntent);
+
 
                 /*BeneficiaryModel beneficiaryModel = new BeneficiaryModel();
                 beneficiaryModel.setBeneficiaryList(getList(cardNo, cardType));

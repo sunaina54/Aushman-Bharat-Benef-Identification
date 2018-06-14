@@ -50,8 +50,8 @@ public class FingerprintResultActivity extends BaseActivity {
     private AadhaarResponseItem aadhaarKycResponse;
     private EditText kycSubDist, kycName, kycDob, kycPincode, kycGender,
             kycEmail, kycPhone, kycCareOf, kycAddr, kycTs, kycTxn, kycRespTs,
-            kycErrorEditText, kycDist, kycState,kycAge,kycSpouse,kycMother,kycFather;
-    private AutoCompleteTextView kycVtc;
+            kycErrorEditText, kycState, kycAge, kycSpouse, kycMother, kycFather;
+    private AutoCompleteTextView kycVtc, kycDist;
     private ImageView kycImageView;
     private long endTime;
     private long totalTime;
@@ -64,10 +64,11 @@ public class FingerprintResultActivity extends BaseActivity {
             addressLL, pincodeLL, timestampLL, txnLL, respTimeLL, stateLL, distLL, subDistLL, vtcLL;
     private AadharResultRequestModel aadharResultRequestModel;
     private Spinner cardTypeSpinner;
-    private CheckBox ageCheck,nameCheck,dobCheck,genderCheck,pincodeCheck,fatherCheck,motherCheck,
-            spouseCheck,stateCheck,distCheck,vtcCheck;
-    ArrayList<String> temp,distTemp;
-    private VillageResponseItem villageResponse;
+    private CheckBox ageCheck, nameCheck, dobCheck, genderCheck, pincodeCheck, fatherCheck, motherCheck,
+            spouseCheck, stateCheck, distCheck, vtcCheck;
+    private ArrayList<String> temp, distTemp;
+    private ArrayList<String> tempDist;
+    private VillageResponseItem villageResponse,districtResponse;
     private String screen;
     private StateItem selectedStateItem;
     private SearchableSpinner stateSP;
@@ -84,7 +85,7 @@ public class FingerprintResultActivity extends BaseActivity {
         aadharResultRequestModel = new AadharResultRequestModel();
         headerTV = (TextView) findViewById(R.id.centertext);
         ageCheck = (CheckBox) findViewById(R.id.ageCheck);
-        stateSP= (SearchableSpinner) findViewById(R.id.stateSP);
+        stateSP = (SearchableSpinner) findViewById(R.id.stateSP);
         nameCheck = (CheckBox) findViewById(R.id.nameCheck);
         dobCheck = (CheckBox) findViewById(R.id.dobCheck);
         genderCheck = (CheckBox) findViewById(R.id.genderCheck);
@@ -97,7 +98,7 @@ public class FingerprintResultActivity extends BaseActivity {
         vtcCheck = (CheckBox) findViewById(R.id.vtcCheck);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
-        headerTV.setText("Beneficiary Data"+" ("+selectedStateItem.getStateName()+")");
+        headerTV.setText("Beneficiary Data" + " (" + selectedStateItem.getStateName() + ")");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +129,7 @@ public class FingerprintResultActivity extends BaseActivity {
         respTimeLL = (LinearLayout) findViewById(R.id.respTimeLL);
         updateKycButton = (Button) findViewById(R.id.updateKycButton);
         screen = getIntent().getStringExtra("FindBeneficiaryByManualFragment");
-        if(screen!=null && !screen.equalsIgnoreCase("")){
+        if (screen != null && !screen.equalsIgnoreCase("")) {
             coLL.setVisibility(View.GONE);
         }
 
@@ -143,7 +144,9 @@ public class FingerprintResultActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = adapterView.getItemAtPosition(i).toString();
                 stateName = stateList.get(i);
-                Log.d("state name :",stateName);
+                kycVtc.setText("");
+                kycDist.setText("");
+                Log.d("state name :", stateName);
 
             }
 
@@ -179,7 +182,7 @@ public class FingerprintResultActivity extends BaseActivity {
                 String spouseName = kycSpouse.getText().toString();
                 //String state = kycState.getText().toString();
                 String district = kycDist.getText().toString();
-                String village= kycVtc.getText().toString().trim();
+                String village = kycVtc.getText().toString().trim();
 
 
                 //String[] str=villageCode.split("-");
@@ -207,11 +210,11 @@ public class FingerprintResultActivity extends BaseActivity {
                 if (stateCheck.isChecked()) {
                     request.setState_name_english(stateName.trim());
                 }
-                if(vtcCheck.isChecked()){
+                if (vtcCheck.isChecked()) {
                     request.setVt_name(village);
                 }
 
-                if(distCheck.isChecked()){
+                if (distCheck.isChecked()) {
                     request.setDistrict_name(district);
                 }
                 //  if(dobCheck.isChecked())
@@ -239,7 +242,8 @@ public class FingerprintResultActivity extends BaseActivity {
         kycRespTs = (EditText) findViewById(R.id.kycRespTs);
         kycPincode = (EditText) findViewById(R.id.kycPincode);
         kycState = (EditText) findViewById(R.id.kycState);
-        kycDist = (EditText) findViewById(R.id.kycDist);
+        kycDist = (AutoCompleteTextView) findViewById(R.id.kycDist);
+        kycDist.setThreshold(1);
         kycSubDist = (EditText) findViewById(R.id.kycSubDist);
         kycVtc = (AutoCompleteTextView) findViewById(R.id.kycVtc);
         kycVtc.setThreshold(1);
@@ -263,7 +267,7 @@ public class FingerprintResultActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(kycVtc.hasFocus())
+                if (kycVtc.hasFocus())
                     autoSuggestVillage(s.toString());
                 // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
             }
@@ -272,9 +276,30 @@ public class FingerprintResultActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
 
 
+            }
+        });
+
+        kycDist.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (kycDist.hasFocus())
+                    autoSuggestDistrict(s.toString());
+                // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
 
             }
         });
+
+
         cardTypeSpinner = (Spinner) findViewById(R.id.cardTypeSpinner);
         cardTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -441,41 +466,41 @@ public class FingerprintResultActivity extends BaseActivity {
                 StringBuilder addr = new StringBuilder();
                 if (aadhaarKycResponse.getCo() != null && !aadhaarKycResponse.getCo().equalsIgnoreCase("")) {
                     //addr.append(aadhaarKycResponse.getCo());
-                    String genderId=aadhaarKycResponse.getGender().substring(0,1);
+                    String genderId = aadhaarKycResponse.getGender().substring(0, 1);
                     String[] co = aadhaarKycResponse.getCo().split(" ");
-                    String careOf="";
-                    if(co.length>1) {
-                        String coTag=co[0];
-                        coTag= coTag.replace(":"," ").trim();
+                    String careOf = "";
+                    if (co.length > 1) {
+                        String coTag = co[0];
+                        coTag = coTag.replace(":", " ").trim();
                         kycCareOf.setText(co[1]);
-                        for(int i=1;i<co.length-1;i++) {
-                            careOf =careOf+co[i]+" ";
+                        for (int i = 1; i < co.length - 1; i++) {
+                            careOf = careOf + co[i] + " ";
                         }
 
                       /* spinnerList.add("C/O");
                        spinnerList.add("S/O");
                        spinnerList.add("D/O");
                        spinnerList.add("W/O");*/
-                        if(coTag.equalsIgnoreCase("C/O")) {
+                        if (coTag.equalsIgnoreCase("C/O")) {
                             kycCareOf.setText(careOf.trim());
                             cardTypeSpinner.setSelection(0);
                             cardTypeSpinner.setEnabled(false);
                         }
-                        if(coTag.equalsIgnoreCase("D/O")|| coTag.equalsIgnoreCase("S/O")) {
+                        if (coTag.equalsIgnoreCase("D/O") || coTag.equalsIgnoreCase("S/O")) {
                             kycFather.setText(careOf.trim());
                             kycMother.setText(careOf.trim());
-                            if(genderId.equalsIgnoreCase("M")){
+                            if (genderId.equalsIgnoreCase("M")) {
                                 cardTypeSpinner.setSelection(1);
                                 cardTypeSpinner.setEnabled(false);
-                            }else if(genderId.equalsIgnoreCase("F")){
+                            } else if (genderId.equalsIgnoreCase("F")) {
                                 cardTypeSpinner.setSelection(2);
                                 cardTypeSpinner.setEnabled(false);
-                            }else{
+                            } else {
                                 cardTypeSpinner.setSelection(0);
                                 cardTypeSpinner.setEnabled(false);
                             }
                         }
-                        if(coTag.equalsIgnoreCase("W/O")) {
+                        if (coTag.equalsIgnoreCase("W/O")) {
                             kycSpouse.setText(careOf.trim());
                             //if(genderId.equalsIgnoreCase("M")){
                             cardTypeSpinner.setSelection(3);
@@ -541,7 +566,7 @@ public class FingerprintResultActivity extends BaseActivity {
                     addr.append(", " + aadhaarKycResponse.getLm());
                 if (aadhaarKycResponse.getVtc() != null) {
                     addr.append(", " + aadhaarKycResponse.getVtc());
-                   // kycVtc.setText(aadhaarKycResponse.getVtc());
+                    // kycVtc.setText(aadhaarKycResponse.getVtc());
                 }
                    /* if (aadhaarKycResponse.getUidData().getPoa().getSubdist() != null)
                         addr.append("," + aadhaarKycResponse.getUidData().getPoa().getSubdist());*/
@@ -586,7 +611,7 @@ public class FingerprintResultActivity extends BaseActivity {
                 if (aadhaarKycResponse.getDist() != null && !aadhaarKycResponse.getDist().equalsIgnoreCase("")) {
                     kycDist.setText(aadhaarKycResponse.getDist());
                 }
-                if(selectedStateItem.getStateName()!=null){
+                if (selectedStateItem.getStateName() != null) {
                     kycState.setText(selectedStateItem.getStateName());
                 }
                 /*if (aadhaarKycResponse.getState() != null && !aadhaarKycResponse.getState().equalsIgnoreCase("")) {
@@ -602,22 +627,110 @@ public class FingerprintResultActivity extends BaseActivity {
 
     }
 
-    private void setAge(String yob){
+    private void setAge(String yob) {
         kycAge.setText("");
-        String currentYear= DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
-        currentYear=currentYear.substring(0,4);
-        int age=Integer.parseInt(currentYear)-Integer.parseInt(yob);
+        String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+        currentYear = currentYear.substring(0, 4);
+        int age = Integer.parseInt(currentYear) - Integer.parseInt(yob);
 
-        kycAge.setText(age+"");
+        kycAge.setText(age + "");
     }
 
-    private void autoSuggestVillage(final String text){
+    private void autoSuggestDistrict(final String text) {
 
-        TaskListener taskListener=new TaskListener() {
+        TaskListener taskListener = new TaskListener() {
             @Override
             public void execute() {
-                AutoSuggestRequestItem request=new AutoSuggestRequestItem();
+                AutoSuggestRequestItem request = new AutoSuggestRequestItem();
+
+                request.setDistrictName(text.toLowerCase());
+                if (stateName != null && !stateName.equalsIgnoreCase("")) {
+                    request.setStateName(stateName);
+                }
+                try {
+                    //String request = familyListRequestModel.serialize();
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
+                    String familyResponse = response.get("response");
+
+                    if (familyResponse != null) {
+                        districtResponse = new VillageResponseItem().create(familyResponse);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                tempDist = new ArrayList<>();
+                //distTemp = new ArrayList<>();
+                if (districtResponse != null) {
+                    for (String str : districtResponse) {
+                        // if(str.contains(text)){
+                        if(str!=null && !str.equalsIgnoreCase("")) {
+                            String tempArr[] = str.split(";");
+                            try {
+                                if (tempArr[0] != null) {
+                                    tempDist.add(tempArr[0]);
+                                }
+                                /*if (tempArr[1] != null) {
+                                    distTemp.add(tempArr[1]);
+                                }*/
+                            }catch (Exception e){
+                                Log.d("TAG","exception :"+e.toString());
+                            }
+                        }
+                        // }
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                            android.R.layout.simple_dropdown_item_1line, tempDist);
+                    kycDist.setAdapter(adapter);
+
+                    kycDist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            String selected = tempDist.get(position);
+                            kycVtc.setText("");
+                            kycDist.setText(selected);
+                            //kycDist.setText(distTemp.get(position));
+
+                        }
+                    });
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, context);
+        customAsyncTask.execute();
+        /*
+        String[] COUNTRIES = new String[] {
+                "Belgium", "Belance", "Betaly", "Bermany", "Beain"};
+        temp=new ArrayList<>();
+       */
+    }
+
+
+    private void autoSuggestVillage(final String text) {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                AutoSuggestRequestItem request = new AutoSuggestRequestItem();
                 request.setVillageName(text.toLowerCase());
+                if (stateName != null && !stateName.equalsIgnoreCase("")) {
+                    request.setStateName(stateName);
+                }
+                String district = kycDist.getText().toString().trim();
+                if (district != null && !district.equalsIgnoreCase("")) {
+                    request.setDistrictName(district);
+                }
                 try {
                     //String request = familyListRequestModel.serialize();
                     HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
@@ -639,9 +752,19 @@ public class FingerprintResultActivity extends BaseActivity {
                 if (villageResponse != null) {
                     for (String str : villageResponse) {
                         // if(str.contains(text)){
-                        String tempArr[] = str.split(";");
-                        temp.add(tempArr[0]);
-                        distTemp.add(tempArr[1]);
+                        if(str!=null && !str.equalsIgnoreCase("")) {
+                            String tempArr[] = str.split(";");
+                            try {
+                                if (tempArr[0] != null) {
+                                    temp.add(tempArr[0]);
+                                }
+                                if (tempArr[1] != null) {
+                                    distTemp.add(tempArr[1]);
+                                }
+                            }catch (Exception e){
+                                Log.d("TAG","exception :"+e.toString());
+                            }
+                        }
                         // }
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,

@@ -380,10 +380,10 @@ public class AppUtility {
     public static String getIMEINumber(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String device_id = tm.getDeviceId();
-       //  return "358520071002666"; //gera sir
-       // return "358520071087378"; //gera sir current
-       return device_id;
-   // return "352356078907011"; //wahid
+        //  return "358520071002666"; //gera sir
+        // return "358520071087378"; //gera sir current
+        return device_id;
+       // return "352356078907011"; //wahid
         //  return "358187072515557";
         // return "867802027718791"; //saurabh
         // return "358520070004861";
@@ -442,6 +442,7 @@ public class AppUtility {
 
         return govtIdStatusList;
     }
+
     public static ArrayList<GovernmentIdItem> prepareGovernmentIdSpinnerForNoAadhar() {
         ArrayList<GovernmentIdItem> govtIdStatusList = new ArrayList<>();
         govtIdStatusList.add(new GovernmentIdItem(0, "Choose Your ID Card"));
@@ -457,10 +458,11 @@ public class AppUtility {
 
         return govtIdStatusList;
     }
+
     public static ArrayList<GovernmentIdItem> prepareGovernmentIdSpinnerList() {
         ArrayList<GovernmentIdItem> govtIdStatusList = new ArrayList<>();
         govtIdStatusList.add(new GovernmentIdItem(0, "Choose Family ID Card"));
-       // govtIdStatusList.add(new GovernmentIdItem(2, "Voter ID Card"));
+        // govtIdStatusList.add(new GovernmentIdItem(2, "Voter ID Card"));
         govtIdStatusList.add(new GovernmentIdItem(3, "Ration Card"));
       /*  govtIdStatusList.add(new GovernmentIdItem(4, "NREGA job card"));
         govtIdStatusList.add(new GovernmentIdItem(5, "Driving License"));
@@ -1571,7 +1573,7 @@ public class AppUtility {
         return result;
     }
 
-    public static String generatePIDblockXml(Context context, String productionKey, String name, String dob, String gender, String aadhar ) {
+    public static String generatePIDblockXml(Context context, String productionKey, String name, String dob, String gender, String aadhar) {
         String imeiNo = CommonMethods.GetIMEI(context);
         Global.DEVICE_IMEI_NO = imeiNo;
         Global.productionPublicKey = productionKey;
@@ -1579,7 +1581,7 @@ public class AppUtility {
         return xml;
     }
 
-    public static String getDemoAuthXmlNew(String aadhaarNo, boolean pi, boolean pa, boolean pfa, String name, String dob, String gender,String consent) {
+    public static String getDemoAuthXmlNew(String aadhaarNo, boolean pi, boolean pa, boolean pfa, String name, String dob, String gender, String consent) {
         String kycXml = "";
         byte[] publicKey = null;
         //  GetPubKeycertificateData();
@@ -1587,7 +1589,7 @@ public class AppUtility {
 
 
         UidaiAuthHelper helper = new UidaiAuthHelper(publicKey);
-        kycXml = helper.createXmlForDemoAuthNew(aadhaarNo, pi, pa, pfa, name, dob, gender,consent);
+        kycXml = helper.createXmlForDemoAuthNew(aadhaarNo, pi, pa, pfa, name, dob, gender, consent);
         Log.e("demo auth xml", "==" + kycXml);
         // kycXml = helper.createCustomXmlForAuth(kycXml, "demo_auth");
 
@@ -1645,7 +1647,7 @@ public class AppUtility {
     public static String formatQrCodeAadharDob(String timeStamp) {
         String format = timeStamp;
         /*timeStamp = format;*/
-        timeStamp = timeStamp.replace("-","");
+        timeStamp = timeStamp.replace("-", "");
         if (timeStamp.length() > 4) {
             String year = timeStamp.substring(4, 8);
             String month = timeStamp.substring(2, 4);
@@ -1814,10 +1816,10 @@ public class AppUtility {
     }
 
 
-    public static void navigateToHome(final Context context, Activity activity){
-       final ImageView settings = (ImageView) activity.findViewById(R.id.settings);
-       settings.setVisibility(View.VISIBLE);
-       RelativeLayout menuLayout = (RelativeLayout) activity.findViewById(R.id.menuLayout);
+    public static void navigateToHome(final Context context, Activity activity) {
+        final ImageView settings = (ImageView) activity.findViewById(R.id.settings);
+        settings.setVisibility(View.VISIBLE);
+        RelativeLayout menuLayout = (RelativeLayout) activity.findViewById(R.id.menuLayout);
         menuLayout.setVisibility(View.VISIBLE);
         menuLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1846,7 +1848,7 @@ public class AppUtility {
         });
     }
 
-    public static void navigateToHomeWithZoom(final Context context, Activity activity,View view){
+    public static void navigateToHomeWithZoom(final Context context, Activity activity, View view) {
         final ImageView settings = (ImageView) view.findViewById(R.id.settings);
         RelativeLayout menuLayout = (RelativeLayout) view.findViewById(R.id.menuLayout);
         menuLayout.setVisibility(View.VISIBLE);

@@ -53,7 +53,7 @@ public class FamilyListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        activity=this;
+        activity = this;
         setContentView(R.layout.activity_search_result);
         setupScreen();
     }
@@ -64,12 +64,12 @@ public class FamilyListActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
-        headerTV.setText("Family Data"+" ("+selectedStateItem.getStateName()+")");
+        headerTV.setText("Family Data" + " (" + selectedStateItem.getStateName() + ")");
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
 
-        AppUtility.navigateToHome(context,activity);
+        AppUtility.navigateToHome(context, activity);
         familyListRequestModel = (FamilyListRequestModel) getIntent().getSerializableExtra("SearchParam");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +100,7 @@ public class FamilyListActivity extends BaseActivity {
 //familyListRequestModel.setAge("");
         //familyListRequestModel.setAhlblockno("");
         //familyListRequestModel.setBlock_name_english("");
-       // familyListRequestModel.setDistrict_code("");
+        // familyListRequestModel.setDistrict_code("");
         familyListRequestModel.setResultCount("5");
 /*        if (familyListRequestModel.getFathername() == null) {
             familyListRequestModel.setFathername("");
@@ -147,7 +147,7 @@ public class FamilyListActivity extends BaseActivity {
 
                     if (familyResponse != null && !familyResponse.equalsIgnoreCase("")) {
                         familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
-                    }else {
+                    } else {
                         noMemberLL.setVisibility(View.VISIBLE);
                         noMemberTV.setText("Internal Server Error");
                     }
@@ -159,7 +159,7 @@ public class FamilyListActivity extends BaseActivity {
 
             @Override
             public void updateUI() {
-                if(familyListResponseModel != null) {
+                if (familyListResponseModel != null) {
                     if (familyListResponseModel.getResponse() != null
                             ) {
                         int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
@@ -187,7 +187,7 @@ public class FamilyListActivity extends BaseActivity {
                         }
 
                     }
-                }else {
+                } else {
                     noMemberLL.setVisibility(View.VISIBLE);
                     noMemberTV.setText("Internal Server Error");
                 }
@@ -279,7 +279,9 @@ public class FamilyListActivity extends BaseActivity {
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final DocsListItem item = mDataset.get(position);
             holder.nameTV.setText(item.getName().trim());
-            holder.fatherNameTV.setText(item.getFathername().trim());
+            if (item.getFathername() != null) {
+                holder.fatherNameTV.setText(item.getFathername().trim());
+            }
             String gender = "";
             if (item.getGenderid().equalsIgnoreCase("1")) {
                 gender = "Male";
@@ -291,7 +293,7 @@ public class FamilyListActivity extends BaseActivity {
             holder.genderTV.setText(gender);
             String yob = "";
             if (item.getDob() != null && item.getDob().length() > 4) {
-                yob = item.getDob().substring(0,4);
+                yob = item.getDob().substring(0, 4);
             } else {
                 yob = item.getDob();
             }
@@ -311,16 +313,15 @@ public class FamilyListActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     if (mDataset.get(position).getHhd_no() == null || mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
-                        CustomAlert.alertWithOk(context,"HHID is blank. You can't process data");
+                        CustomAlert.alertWithOk(context, "HHID is blank. You can't process data");
                         return;
                     }
-                    if (mDataset.get(position).getHhd_no() != null && !mDataset.get(position).getHhd_no().equalsIgnoreCase(""))
-                        {
-                            Intent intent = new Intent(context, FamilyMembersListActivity.class);
-                            //intent.putExtra("result", beneficiaryModel);
-                            intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
-                            startActivity(intent);
-                        }
+                    if (mDataset.get(position).getHhd_no() != null && !mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
+                        Intent intent = new Intent(context, FamilyMembersListActivity.class);
+                        //intent.putExtra("result", beneficiaryModel);
+                        intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
+                        startActivity(intent);
+                    }
                 }
             });
 
