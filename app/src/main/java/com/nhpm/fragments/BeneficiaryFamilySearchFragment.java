@@ -23,6 +23,7 @@ import com.google.zxing.client.result.VINParsedResult;
 import com.nhpm.Models.SerachOptionItem;
 import com.nhpm.Models.request.BeneficiarySearchModel;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.MobileRationRequestModel;
 import com.nhpm.Models.request.ValidateUrnRequestModel;
 import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
@@ -32,6 +33,7 @@ import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 import com.nhpm.activity.FamilyListActivity;
 import com.nhpm.activity.FamilyListByHHIDActivity;
+import com.nhpm.activity.FamilyListByMobileActivity;
 import com.nhpm.activity.FamilyListByURNActivity;
 import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.PhoneNumberActivity;
@@ -240,8 +242,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         spinnerList.add("HHId Number");
         spinnerList.add("AHLTIN");
         spinnerList.add("RSBY URN");
-      /*  spinnerList.add("Mobile Number");
-        spinnerList.add("Ration Card");*/
+        spinnerList.add("Mobile Number");
+        spinnerList.add("Ration Card");
 
 
         cardTypeSpinner = (Spinner) view.findViewById(R.id.cardTypeSpinner);
@@ -357,6 +359,15 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         return;
                     }*/
 
+                    MobileRationRequestModel requestModel = new MobileRationRequestModel();
+                    requestModel.setMobileRation(cardNo);
+                    requestModel.setParam(AppConstant.RATION_PARAM);
+                    //requestModel.setSelectedState(selectedStateItem.getStateCode());
+                    requestModel.setSelectedState("6");
+                    Intent theIntent=new Intent(context,FamilyListByMobileActivity.class);
+                    theIntent.putExtra("SearchParam",requestModel);
+                    startActivity(theIntent);
+
                 }
 
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("RSBY URN")) {
@@ -398,6 +409,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     theIntent.putExtra("SearchParam",request);
                     startActivity(theIntent);
 
+
                 }
 
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("Mobile Number")) {
@@ -409,6 +421,15 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         CustomAlert.alertWithOk(context, "Please enter valid mobile number");
                         return;
                     }
+
+                    MobileRationRequestModel requestModel = new MobileRationRequestModel();
+                    requestModel.setMobileRation(cardNo);
+                    requestModel.setParam(AppConstant.MOBILE_PARAM);
+                    requestModel.setSelectedState("6");
+                    Intent theIntent=new Intent(context,FamilyListByMobileActivity.class);
+                    theIntent.putExtra("SearchParam",requestModel);
+                    startActivity(theIntent);
+
 
                 }
 

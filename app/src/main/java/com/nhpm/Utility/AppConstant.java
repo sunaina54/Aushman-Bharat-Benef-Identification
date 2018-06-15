@@ -8,7 +8,8 @@ public interface AppConstant {
     Boolean isKyCEnabled = false;
     String RSBY_DATE_FORMAT = "yyyy-MM-dd";
     String SUBMIT_MEMBER_ADDITIONAL_DATA="https://pmrssm.gov.in/reportapi/submitMemberAdditionalData";
-
+    String MOBILE_PARAM="6";
+    String RATION_PARAM="2";
     int FAMILY_MEMBER_REQUEST_CODE_VALUE = 11;
     String dateTimeFormate = "yyyy-MM-dd";
     String VIEW_DATA = "VIEW_DATA";
@@ -210,6 +211,7 @@ public interface AppConstant {
     String SECC_HOUSEHOLD_DOWNLOAD_API = MAIN_DOMAIN + "nhps/secc/houseHolds";
     String SEARCH_FAMILY_LIST = "https://pmrssm.gov.in/SE/search";
     String VALIDATE_URN = "https://pmrssm.gov.in/VIEWSTAT/api/validateURN";
+    String SEARCH_BY_MOBILE_RATION = "https://pmrssm.gov.in/VIEWSTAT/api/searchByMobileRationParameter";
     String GET_MEMBER_DETAIL="https://pmrssm.gov.in/reportapi/getMemberDetail";
 
     String VILLAGE_WISE_HOUSEHOLD_DOWNLOADING = MAIN_DOMAIN + "nhps/secc/village/houseHold";

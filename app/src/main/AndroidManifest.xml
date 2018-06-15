@@ -423,6 +423,11 @@
             android:name=".activity.FamilyListByURNActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
+
+        <activity
+            android:name=".activity.FamilyListByMobileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>
