@@ -136,7 +136,7 @@ public class CustomHttp {
     }
 
     public static HashMap<String,String> getStringRequest(String url, String header, String tokenValue) throws Exception {
-        DefaultHttpClient mHttpClient = new DefaultHttpClient();
+        HttpClient mHttpClient = com.customComponent.Networking.MySSLSocketFactory.getNewHttpClient();
         String inputStream = null;
         HashMap<String,String> responseMap=new HashMap<>();
         String[] str = new String[2];
@@ -147,14 +147,15 @@ public class CustomHttp {
             HttpGet mHttpGet = new HttpGet(url);
             mHttpGet.addHeader(header, tokenValue);
 
-            DefaultHttpClient httpclient = new DefaultHttpClient();
+            //DefaultHttpClient httpclient = new DefaultHttpClient();
             HttpResponse response = null;
 
-            response = httpclient.execute(mHttpGet);
+            response = mHttpClient.execute(mHttpGet);
             inputStream = EntityUtils.toString(response.getEntity());
             responseMap.put("response",inputStream);
             //Log.d("Exception" + inputStream);
         } catch (Exception e) {
+            Log.d("Error",e.toString());
             // Log.i(TAG, "[ GET REQUEST METHOD ] [Exception] : " + e.toString());
             inputStream = null;
         }
@@ -397,11 +398,30 @@ public class CustomHttp {
     }
 
     public static HashMap<String, String> httpPostWithTokken(String url, String requestBody, String token, String tokenValue) throws Exception {
-        DefaultHttpClient mHttpClient = new DefaultHttpClient();
+        HttpClient mHttpClient = com.customComponent.Networking.MySSLSocketFactory.getNewHttpClient();
         String inputStream = null;
         HashMap<String, String> responseMap = new HashMap<>();
         HttpPost mHttpPost = new HttpPost(url);
         mHttpPost.addHeader(token, tokenValue);
+        if (requestBody != null) {
+            StringEntity se = new StringEntity(requestBody, HTTP.UTF_8);
+            se.setContentType("application/json");
+            mHttpPost.setEntity(se);
+        }
+        HttpResponse response = mHttpClient.execute(mHttpPost);
+        HttpEntity resEntity = response.getEntity();
+        inputStream = EntityUtils.toString(response.getEntity());
+        responseMap.put("response", inputStream);
+        return responseMap;
+    }
+
+
+    public static HashMap<String, String> httpPostUpdate(String url, String requestBody) throws Exception {
+        DefaultHttpClient mHttpClient = new DefaultHttpClient();
+        String inputStream = null;
+        HashMap<String, String> responseMap = new HashMap<>();
+        HttpPost mHttpPost = new HttpPost(url);
+        //mHttpPost.addHeader(token, tokenValue);
         if (requestBody != null) {
             StringEntity se = new StringEntity(requestBody, HTTP.UTF_8);
             se.setContentType("application/json");

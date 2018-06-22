@@ -22,17 +22,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.customComponent.CustomAlert;
+import com.customComponent.CustomAsyncTask;
+import com.customComponent.TaskListener;
+import com.customComponent.utility.CustomHttp;
+import com.customComponent.utility.ProjectPrefrence;
+import com.nhpm.Models.request.FamilyDetailsItemModel;
+import com.nhpm.Models.request.GetMemberDetail;
+import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.DocsListItem;
+import com.nhpm.Models.response.FamilyDetailResponse;
+import com.nhpm.Models.response.GenericResponse;
+import com.nhpm.Models.response.PersonalDetailResponse;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.PrintCard.PrintCardMainActivity;
 import com.nhpm.PrintCard.UsbHelper;
 import com.nhpm.PrintCard.UsbPermissionRequestor;
 import com.nhpm.R;
+import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 import com.nhpm.activity.CollectDataActivity;
+import com.nhpm.activity.FamilyMembersListActivity;
+import com.nhpm.activity.LoginActivity;
 import com.pointman.mobiledesigner.PointManJNI;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import static com.nhpm.PrintCard.UsbHelper.ACTION_USB_PERMISSION;
 
@@ -68,6 +83,10 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
     private CollectDataActivity activity;
     private DocsListItem beneficiaryListItem;
     private ImageView beneficiaryPhotoIV;
+    private String familyResponse;
+    private GenericResponse genericResponse;
+    private CustomAsyncTask customAsyncTask;
+    private VerifierLoginResponse verifierDetail;
 
 
     public PrintCardFragment() {
@@ -104,7 +123,8 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
     private void setupScreen(View view){
         context=getActivity();
         fragmentManager = getActivity().getSupportFragmentManager();
-
+        verifierDetail = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
         nameTV=(TextView)view.findViewById(R.id.nameTV) ;
         cardNumberTV=(TextView)view.findViewById(R.id.cardNumberTV) ;
         fatherNameTV=(TextView)view.findViewById(R.id.fatherNameTV) ;
@@ -148,6 +168,8 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         printCardBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 CustomAlert.alertWithOk(context,"Under Developement");
             }
         });
@@ -252,5 +274,95 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         activity = (CollectDataActivity) context;
 
         beneficiaryListItem = activity.benefItem;
+    }
+
+    private void submitMemberData() {
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                try {
+                    PersonalDetailItem personalDetailItem = beneficiaryListItem.getPersonalDetail();
+                    FamilyDetailsItemModel familyMemberModel = beneficiaryListItem.getFamilyDetailsItemModel();
+
+                    GetMemberDetail request = new GetMemberDetail();
+                    request.setAhl_tin(beneficiaryListItem.getAhl_tin());
+                    request.setHhd_no(beneficiaryListItem.getHhd_no());
+                    if (beneficiaryListItem.getSource() != null && beneficiaryListItem.getSource().equalsIgnoreCase(AppConstant.RSBY_SOURCE_NEW)) {
+                        request.setDataSource(AppConstant.RSBY_SOURCE_NEW);
+                    } else {
+                        request.setDataSource(AppConstant.SECC_SOURCE_NEW);
+
+                    }
+                    request.setStatecode(Integer.parseInt(beneficiaryListItem.getState_code()));
+
+                    PersonalDetailResponse personalDetail = new PersonalDetailResponse();
+                    personalDetail.setBenefName(personalDetailItem.getBenefName());
+                    personalDetail.setBenefPhoto(personalDetailItem.getBenefPhoto());
+                    personalDetail.setGovtIdNo(personalDetailItem.getGovtIdNo());
+                    personalDetail.setGovtIdType(personalDetailItem.getGovtIdType());
+                    personalDetail.setIdPhoto(personalDetailItem.getIdPhoto());
+                    personalDetail.setIsAadhar(personalDetailItem.getIsAadhar());
+                    personalDetail.setMobileNo(personalDetailItem.getMobileNo());
+                    personalDetail.setName(personalDetailItem.getName());
+                    personalDetail.setNameMatchScore(personalDetailItem.getNameMatchScore());
+                    personalDetail.setIsMobileAuth(personalDetailItem.getIsMobileAuth());
+                    personalDetail.setOpertaorid(personalDetailItem.getOpertaorid());
+                    personalDetail.setFlowStatus(personalDetailItem.getFlowStatus());
+
+
+                    FamilyDetailResponse familyDetail = new FamilyDetailResponse();
+                    familyDetail.setFamilyMemberModels(familyMemberModel.getFamilyMemberModels());
+                    familyDetail.setFamilyMatchScore(familyMemberModel.getFamilyMatchScore());
+                    familyDetail.setIdImage(familyMemberModel.getIdImage());
+                    familyDetail.setIdNumber(familyDetail.getIdNumber());
+                    familyDetail.setIdType(familyDetail.getIdType());
+
+                    request.setPersonalDetail(personalDetail);
+                    request.setFamilyDetailsItem(familyDetail);
+
+
+                    String syncRequest = request.serialize();
+                    HashMap<String, String> apiResponse = CustomHttp.httpPostWithTokken(AppConstant.SUBMIT_MEMBER_ADDITIONAL_DATA, syncRequest, AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
+                    familyResponse = apiResponse.get("response");
+
+                    if (familyResponse != null) {
+                        genericResponse = new GenericResponse().create(familyResponse);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                if (genericResponse != null) {
+                    if (genericResponse.isStatus()) {
+                        Intent intent = new Intent(context, FamilyMembersListActivity.class);
+                        CustomAlert.alertWithOk(context,getResources().getString(R.string.print_card_message),intent);
+                    } else if (genericResponse != null && genericResponse.getErrorCode() != null &&
+                            genericResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || genericResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, genericResponse.getErrorMessage(), intent);
+
+                    } else {
+                        //server error
+                        CustomAlert.alertWithOk(context, genericResponse.getErrorMessage());
+                    }
+                } else {
+                    CustomAlert.alertWithOk(context, "Server Error");
+
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+        customAsyncTask.execute();
     }
 }

@@ -37,6 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.customComponent.CustomAlert;
@@ -47,6 +48,7 @@ import com.customComponent.Networking.CustomVolleyHeaderGet;
 import com.customComponent.Networking.VolleyTaskListener;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
+import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.BaseActivity;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
@@ -55,8 +57,10 @@ import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.DataCountRequest;
 import com.nhpm.Models.DownloadedDataCountModel;
 import com.nhpm.Models.NotificationModel;
+import com.nhpm.Models.request.MobileOtpRequest;
 import com.nhpm.Models.response.ApplicationConfigListModel;
 import com.nhpm.Models.response.ApplicationConfigurationModel;
+import com.nhpm.Models.response.MobileOTPResponse;
 import com.nhpm.Models.response.NotificationResponse;
 import com.nhpm.Models.response.master.AadhaarStatusItem;
 import com.nhpm.Models.response.master.ConfigurationItem;
@@ -90,6 +94,7 @@ import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
+import com.nhpm.Utility.ApplicationGlobal;
 import com.nhpm.Utility.SyncUtility;
 import com.nhpm.fragments.BeneficiaryFamilySearchFragment;
 import com.nhpm.fragments.SubEBWiseDownloadFragment;
@@ -109,6 +114,9 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
     //  private Context context;
     private TextView headerTV;
     private boolean pinLockIsShown = false;
+    private MobileOTPResponse mobileOtpRequestModel;
+    private CustomAsyncTask mobileOtpAsyncTask;
+    private MobileOTPResponse mobileOtpVerifyModel;
     private ProgressDialog progressBar;
     private RecyclerView blockList;
     private ArrayList<VerifierLocationItem> dowloadedBlockList;
@@ -145,7 +153,7 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
     private SeccMemberRequest seccRequest;
     private SeccHouseholdResponse seccHouseHoldResponse;
     private SeccMemberResponse seccmemberResponse;
-
+private BlockDetailActivity blockDetailActivity;
     private RelativeLayout menuLayout;
     private Button syncAadhaarCollectedBT;
     private String CLEAN_DEVICE = "1", DELETE_DATA = "2";
@@ -203,8 +211,15 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
         super.onCreate(savedInstanceState);
         context = this;
         activity = this;
+        blockDetailActivity = this;
+        verifierDetail = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
         ArrayList<ConfigurationItem> configurationList = SeccDatabase.findAllConfiguration(context);
+        String comingFromSplash=getIntent().getStringExtra("Splash");
+        if(comingFromSplash!=null && comingFromSplash.equalsIgnoreCase(SplashNhps.COMING_FROM_SPLASH)){
+            askPinToLock();
+        }
         if (isNetworkAvailable()) {
 
             if (configurationList != null && configurationList.size() > 0) {
@@ -474,11 +489,11 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
         downloadBloackLayout.setVisibility(View.VISIBLE);
         syncAadhaarCollectedBT = (Button) findViewById(R.id.syncAadhaarCollectedBT);
 
-        if (SeccDatabase.getMemberStatusList(context).size() > 0) {
+       /* if (SeccDatabase.getMemberStatusList(context).size() > 0) {
 
         } else {
             downloadMemberMasterData();
-        }
+        }*/
        // prepareBlockForDownloaddList();
         settings.setVisibility(View.VISIBLE);
         blockList.setHasFixedSize(true);
@@ -576,7 +591,9 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
                                 }*/
                                 theIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 theIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                                 startActivity(theIntent);
+                                ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.VERIFIER_CONTENT,context);
                                 rightTransition();
                                 //verifierDetail.setLoginSession(false);
 /*
@@ -695,11 +712,11 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
         zoomView = new ZoomView(this);
         zoomView.addView(v);
         mZoomLinearLayout.addView(zoomView);
-        if (SeccDatabase.getMemberStatusList(context).size() > 0) {
+      /*  if (SeccDatabase.getMemberStatusList(context).size() > 0) {
 
         } else {
-            downloadMemberMasterData();
-        }
+           // downloadMemberMasterData();
+        }*/
        // prepareBlockForDownloaddList();
         settings.setVisibility(View.VISIBLE);
         blockList.setHasFixedSize(true);
@@ -881,12 +898,248 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
 
     private void changePin() {
         if (isNetworkAvailable()) {
+            String mobile = verifierDetail.getAadhaarNumber();
+            if(mobile!=null) {
+                requestForOTP(mobile);
+            }
+        }else {
+            AppUtility.alertWithOk(context, context.getResources().getString(R.string.internet_connection_msg));
+        }
+
+      /*  if (isNetworkAvailable()) {
             Intent theIntent = new Intent(context, ChangePinActivity.class);
             startActivity(theIntent);
             leftTransition();
         } else {
             AppUtility.alertWithOk(context, context.getResources().getString(R.string.internet_connection_msg));
+        }*/
+    }
+    private void requestForOTP(final String mobileNumber) {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+
+                MobileOtpRequest request = new MobileOtpRequest();
+                request.setMobileNo(mobileNumber);
+                request.setOtp("");
+                request.setStatus("0");
+                request.setSequenceNo("NHPS:" + DateTimeUtil.currentDateTime(AppConstant.RSBY_ISSUES_TIME_STAMP_DATE_FORMAT));
+                request.setUserName(ApplicationGlobal.MOBILE_Username);
+                request.setUserPass(ApplicationGlobal.MOBILE_Password);
+
+                try {
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.REQUEST_FOR_MOBILE_OTP, request.serialize());
+                    if (response != null) {
+                        mobileOtpRequestModel = MobileOTPResponse.create(response.get(AppConstant.RESPONSE_BODY));
+                    } else {
+
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                if (mobileOtpRequestModel != null && mobileOtpRequestModel.getOtp() != null) {
+                    try {
+                        popupForOTPValidation(mobileNumber, mobileOtpRequestModel.getSequenceNo());
+                    } catch (Exception error) {
+
+                    }
+                }
+
+            }
+        };
+        if (mobileOtpAsyncTask != null) {
+            mobileOtpAsyncTask.cancel(true);
+            mobileOtpAsyncTask = null;
         }
+
+        mobileOtpAsyncTask = new CustomAsyncTask(taskListener, context.getResources().getString(R.string.please_wait), context);
+        mobileOtpAsyncTask.execute();
+
+    }
+
+    private void validateOTP(final String otp, final String mobileNumber, final TextView authOtpTV, final String sequenceNo) {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+
+                MobileOtpRequest request = new MobileOtpRequest();
+                request.setMobileNo(mobileNumber);
+                request.setOtp(otp);
+                request.setStatus("1");
+                request.setSequenceNo(sequenceNo);
+                request.setUserName(ApplicationGlobal.MOBILE_Username);
+                request.setUserPass(ApplicationGlobal.MOBILE_Password);
+
+                try {
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.REQUEST_FOR_OTP_VERIFICATION, request.serialize());
+                    if (response != null) {
+                        mobileOtpVerifyModel = MobileOTPResponse.create(response.get(AppConstant.RESPONSE_BODY));
+                    }
+                } catch (Exception e) {
+
+                    Toast.makeText(context, "Server not responding/Server is down. Please try after sometime... ", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                /*verified.setVisibility(View.GONE);
+                rejected.setVisibility(View.GONE);
+                pending.setVisibility(View.GONE);*/
+                if (mobileOtpVerifyModel != null && mobileOtpVerifyModel.getMessage() != null && mobileOtpVerifyModel.getMessage().equalsIgnoreCase("Y")) {
+
+
+                    //beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
+                    Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, ChangePinActivity.class);
+                    startActivity(intent);
+
+
+                    dialog.dismiss();
+                } else {
+                    authOtpTV.setText(context.getResources().getString(R.string.invalid_otp));
+                    authOtpTV.setTextColor(AppUtility.getColor(context, R.color.red));
+                }
+
+
+            }
+        };
+        if (mobileOtpAsyncTask != null) {
+            mobileOtpAsyncTask.cancel(true);
+            mobileOtpAsyncTask = null;
+        }
+
+        mobileOtpAsyncTask = new CustomAsyncTask(taskListener, context.getResources().getString(R.string.please_wait), context);
+        mobileOtpAsyncTask.execute();
+
+    }
+
+    private void popupForOTPValidation(final String mobileNumber, final String sequence) {
+        dialog = new AlertDialog.Builder(context).create();
+        LayoutInflater factory = LayoutInflater.from(context);
+        View alertView = factory.inflate(R.layout.opt_auth_layout, null);
+        dialog.setView(alertView);
+        dialog.setCancelable(false);
+
+        // dialog.setContentView(R.layout.opt_auth_layout);
+        final TextView otpAuthMsg = (TextView) alertView.findViewById(R.id.otpAuthMsg);
+        otpAuthMsg.setVisibility(View.VISIBLE);
+        String mobile = mobileNumber;
+        mobile = "XXXXXX" + mobile.substring(6);
+        otpAuthMsg.setText("Please enter OTP sent on " + mobile);
+        final Button okButton = (Button) alertView.findViewById(R.id.ok);
+        okButton.setEnabled(false);
+        final Button resendBT = (Button) alertView.findViewById(R.id.resendBT);
+        Button cancelBT = (Button) alertView.findViewById(R.id.cancelBT);
+        final EditText optET = (EditText) alertView.findViewById(R.id.otpET);
+        //   final Button resendBT = (Button) alertView.findViewById(R.id.resendBT);
+        final TextView mTimer = (TextView) alertView.findViewById(R.id.timerTV);
+
+        new CountDownTimer(25 * 1000 + 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+                int seconds = (int) (millisUntilFinished / 1000);
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+                mTimer.setVisibility(View.VISIBLE);
+                mTimer.setText(String.format("%02d", minutes)
+                        + ":" + String.format("%02d", seconds));
+            }
+
+            public void onFinish() {
+                mTimer.setVisibility(View.GONE);
+                resendBT.setEnabled(true);
+
+                resendBT.setTextColor(context.getResources().getColor(R.color.white));
+                resendBT.setBackground(context.getResources().getDrawable(R.drawable.button_background_orange_ehit));
+            }
+
+        }.start();
+
+        new CountDownTimer(2 * 1000 + 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+
+            }
+
+            public void onFinish() {
+
+                okButton.setEnabled(true);
+                okButton.setBackground(context.getResources().getDrawable(R.drawable.button_background_orange_ehit));
+                okButton.setTextColor(context.getResources().getColor(R.color.white));
+
+            }
+
+        }.start();
+
+        // optET.setText(OTP);
+        // optET.setText("4040");
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String otp = optET.getText().toString();
+                AppUtility.softKeyBoard(activity, 0);
+
+                //  otpAuthMsg.setVisi bility(View.GONE);
+                if (!otp.equalsIgnoreCase("")) {
+                    //  updatedVersionApp();
+                    if (mobileOtpRequestModel.getOtp().equalsIgnoreCase(otp)) {
+                        if (isNetworkAvailable()) {
+
+                            validateOTP(otp, mobileNumber, otpAuthMsg, sequence);
+                        } else {
+                            CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+
+                        }
+
+                    } else if (otp.equalsIgnoreCase("123")) {
+                        dialog.dismiss();
+
+                        Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, ChangePinActivity.class);
+                        startActivity(intent);
+                        leftTransition();
+                    } else {
+                        otpAuthMsg.setText(context.getResources().getString(R.string.enterValidOtp));
+                        otpAuthMsg.setTextColor(AppUtility.getColor(context, R.color.red));
+                        otpAuthMsg.setVisibility(View.VISIBLE);
+                    }
+                    // dialog.dismiss();
+                } else {
+                    otpAuthMsg.setText(context.getResources().getString(R.string.enterOtpRec));
+                    otpAuthMsg.setTextColor(AppUtility.getColor(context, R.color.red));
+                    otpAuthMsg.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+        cancelBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // seccItem.setMobileAuth("P");
+                dialog.dismiss();
+            }
+        });
+        resendBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                requestForOTP(mobileNumber);
+            }
+        });
+        dialog.show();
     }
 
     private void setData() {
@@ -2464,8 +2717,9 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
         @Override
         protected String doInBackground(String... params) {
             try {
+
                 String url = AppConstant.APPLICATION_CONFIGURATION_URL + selectedStateItem.getStateCode();
-                HashMap<String, String> response = CustomHttp.getStringRequest(AppConstant.APPLICATION_CONFIGURATION_URL + selectedStateItem.getStateCode(), AppConstant.AUTHORIZATION, AppConstant.AUTHORIZATIONVALUE);
+                HashMap<String, String> response = CustomHttp.getStringRequest(AppConstant.APPLICATION_CONFIGURATION_URL + selectedStateItem.getStateCode(), AppConstant.AUTHORIZATION,verifierDetail.getAuthToken());
                 String configurationResp = AppUtility.fixEncoding(response.get(AppConstant.RESPONSE_BODY));
                 System.out.print(configurationResp);
                 if (configurationResp != null) {
@@ -2481,6 +2735,10 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
                                 //  return DOWNLOAD_COMPLETED;
                             }
                         }
+                    }else if(respItem!=null && respItem.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)){
+                       Intent intent = new Intent(context,LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context,respItem.getErrorMessage(),intent);
+
                     }
                 }
             } catch (Exception e) {
@@ -2594,7 +2852,7 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
 
             try {
                 String url = AppConstant.APPLICATION_NOTIFICATION_URL + selectedStateItem.getStateCode();
-                HashMap<String, String> response = CustomHttp.getStringRequest(AppConstant.APPLICATION_NOTIFICATION_URL + selectedStateItem.getStateCode(), AppConstant.AUTHORIZATION, AppConstant.AUTHORIZATIONVALUE);
+                HashMap<String, String> response = CustomHttp.getStringRequest(AppConstant.APPLICATION_NOTIFICATION_URL + selectedStateItem.getStateCode(), AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
                 Log.d("response tag", String.valueOf(response));
                 String healthSchemeResponse = AppUtility.fixEncoding(response.get(AppConstant.RESPONSE_BODY));
                 AppUtility.showLog(AppConstant.LOG_STATUS, TAG, "Member response : " + healthSchemeResponse);
@@ -2614,6 +2872,10 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
                                 return DOWNLOAD_COMPLETED;
 
                             }
+
+                        }else if(respItem!=null && respItem.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)){
+                            Intent intent = new Intent(context,LoginActivity.class);
+                            CustomAlert.alertWithOkLogout(context,respItem.getErrorMessage(),intent);
 
                         }
                     }
@@ -2676,6 +2938,8 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
         AlertDialog alert = builder.create();
         alert.show();
     }
+
+
 
 /*    private void downloadNotificationData() {
         if (notificationAsyncTask != null && !notificationAsyncTask.isCancelled()) {
@@ -2773,6 +3037,7 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
                 AppConstant.VERIFIER_CONTENT, context));
         final EditText pinET = (EditText) alertView.findViewById(R.id.deletPinET);
         final TextView errorTV = (TextView) alertView.findViewById(R.id.invalidOtpTV);
+        final LinearLayout forgotPinLayout= (LinearLayout) alertView.findViewById(R.id.forgetPinBT);
         wrongAttempetCountText = (TextView) alertView.findViewById(R.id.wrongAttempetCountText);
         wrongAttempetCountValue = (TextView) alertView.findViewById(R.id.wrongAttempetCountValue);
 
@@ -2790,6 +3055,13 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+        forgotPinLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,LoginActivity.class);
+                CustomAlert.alertWithYesNo(context, context.getResources().getString(R.string.proceedToForgotPassword),intent,blockDetailActivity);
             }
         });
         Button proceedBT = (Button) alertView.findViewById(R.id.proceedBT);

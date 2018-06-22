@@ -522,11 +522,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+
                     android:id="@+id/spouseLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:weightSum="1">
 
                     <TextView
@@ -663,14 +664,24 @@
                         android:padding="5dp"
                         android:text="@string/state" />
 
-
+<!--
                     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                         android:id="@+id/stateSP"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="0.6"
                         android:spinnerMode="dropdown"
-                        app:hintText="Select State" />
+                        app:hintText="Select State" />-->
+
+
+                    <Spinner
+                        android:id="@+id/stateSP"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.6"
+                        android:spinnerMode="dropdown"
+
+                     />
 
 
                     <EditText
@@ -688,6 +699,55 @@
 
                     <CheckBox
                         android:id="@+id/stateCheck"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="0.1"
+                        android:checked="false" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ruralUrbanLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="1">
+
+                    <TextView
+                        style="@style/textViewYellow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:padding="5dp"
+                        android:text="@string/rural_urban" />
+
+                    <!--
+                                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                            android:id="@+id/stateSP"
+                                            android:layout_width="0dp"
+                                            android:layout_height="40dp"
+                                            android:layout_weight="0.6"
+                                            android:spinnerMode="dropdown"
+                                            app:hintText="Select State" />-->
+
+
+                    <Spinner
+                        android:id="@+id/ruralUrbanSP"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.6"
+                        android:spinnerMode="dropdown"
+
+
+                        />
+
+
+
+                    <CheckBox
+                        android:id="@+id/ruralCheck"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_margin="2dp"

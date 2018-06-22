@@ -1,11 +1,13 @@
 package com.nhpm.Models.response;
 
 import com.google.gson.Gson;
+import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.request.PrintCardItem;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by SUNAINA on 31-05-2018.
@@ -14,7 +16,17 @@ public class DocsListItem implements Serializable {
     private PersonalDetailItem personalDetail;
     private FamilyDetailsItemModel familyDetailsItem;
     private PrintCardItem printCardDetail;
+    private ArrayList<FamilyMemberModel> oldMembers;
 
+    public ArrayList<FamilyMemberModel> getOldMembers() {
+        return oldMembers;
+    }
+
+    public void setOldMembers(ArrayList<FamilyMemberModel> oldMembers) {
+        this.oldMembers = oldMembers;
+    }
+
+    private String source;
     private String spousenm;
     private String LastModifiedDate;
     private String block_name_english;
@@ -86,6 +98,14 @@ public class DocsListItem implements Serializable {
     private String grampanchayatname;
     private String incomesource_urban;
     private String addressline2sl;
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     public String getSpousenm() {
         return spousenm;

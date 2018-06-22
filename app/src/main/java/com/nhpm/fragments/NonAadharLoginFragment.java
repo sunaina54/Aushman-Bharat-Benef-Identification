@@ -47,6 +47,8 @@ import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.ApplicationLanguageItem;
 import com.nhpm.Models.request.LoginRequest;
 import com.nhpm.Models.request.MobileOtpRequest;
+import com.nhpm.Models.request.MobileOtpRequestLoginModel;
+import com.nhpm.Models.response.LoginOTPResponseModel;
 import com.nhpm.Models.response.MobileOTPResponse;
 import com.nhpm.Models.response.master.ConfigurationItem;
 import com.nhpm.Models.response.master.StateItem;
@@ -89,6 +91,7 @@ public class NonAadharLoginFragment extends Fragment {
     private Button submit;
     private Button verifyWithOfflineBT;
     private StateItem selectedStateItem;
+    private LoginOTPResponseModel loginOTPResponseModel;
     private ArrayList<ApplicationLanguageItem> languageList;
     private View alertView;
     private MobileOTPResponse otpResponse;
@@ -212,7 +215,7 @@ public class NonAadharLoginFragment extends Fragment {
             verifyWithOfflineBT.setVisibility(View.GONE);
         }
         if (storedLoginResponse != null && !storedLoginResponse.getPin().equalsIgnoreCase("")) {
-            verifyWithOfflineBT.setVisibility(View.VISIBLE);
+            //verifyWithOfflineBT.setVisibility(View.VISIBLE);
         }
         /*if (SeccDatabase.houseHoldCount(context) == 0) {
             verifyWithOfflineBT.setVisibility(View.GONE);
@@ -299,6 +302,7 @@ public class NonAadharLoginFragment extends Fragment {
 
                     request = new LoginRequest();
                     request.setAadhaarNumber(userName);
+                    request.setApplicationid(AppConstant.APPLICATION_ID);
                     //  request.setPassword(password);
                     //     request.setLoginType(AppConstant.LOGIN_TYPE_EMAIL);
                     //request.setImeiNo1("358520070004861");
@@ -529,10 +533,49 @@ public class NonAadharLoginFragment extends Fragment {
     private void loginRequest() {
         // showHideProgressDialog(true);
         Log.d(TAG, "Login request : " + request.serialize() + " : URL : " + AppConstant.LOGIN_API);
-        VolleyTaskListener taskListener = new VolleyTaskListener() {
+        TaskListener taskListener = new TaskListener() {
             @Override
-            public void postExecute(String response) {
-                //  Log.d(TAG,"Login Response : "+response.toString());
+            public void execute() {
+
+                try {
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.LOGIN_API, request.serialize());
+                    loginOTPResponseModel = LoginOTPResponseModel.create(response.get(AppConstant.RESPONSE_BODY));
+                    if (loginOTPResponseModel != null) {
+                        if (loginOTPResponseModel.isStatus())
+                            validateStateAndData();
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                if (loginOTPResponseModel != null) {
+                    if (loginOTPResponseModel.isStatus()) {
+                        validateStateAndData();
+                    } else {
+                        CustomAlert.alertWithOk(context, loginOTPResponseModel.getErrorMessage());
+
+                    }
+                } else {
+                    CustomAlert.alertWithOk(context, "Internal server error");
+
+                }
+            }
+
+        };
+
+        if (mobileOtpAsyncTask != null) {
+            mobileOtpAsyncTask.cancel(true);
+            mobileOtpAsyncTask = null;
+        }
+
+        mobileOtpAsyncTask = new CustomAsyncTask(taskListener, context.getResources().getString(R.string.please_wait), context);
+        mobileOtpAsyncTask.execute();
+               /* //  Log.d(TAG,"Login Response : "+response.toString());
                 loginResponse = VerifierLoginResponse.create(response);
                 if (loginResponse != null) {
                     if (loginResponse.isStatus()) {
@@ -541,7 +584,7 @@ public class NonAadharLoginFragment extends Fragment {
                             if (loginResponse.getRole() != null && loginResponse.getRole().equalsIgnoreCase(AppConstant.user_status)) {
                                 //  setPin();
                                 if (loginResponse.getMobileNumber() != null && !loginResponse.getMobileNumber().equalsIgnoreCase("")) {
-                                    /*requestForOTP(loginResponse.getMobileNumber());*/
+                                    *//*requestForOTP(loginResponse.getMobileNumber());*//*
                                     validateStateAndData();
                                 }
                             } else {
@@ -558,33 +601,30 @@ public class NonAadharLoginFragment extends Fragment {
                             CustomAlert.alertWithOk(context, loginResponse.getErrorMessage());
                         }
                     }
-                }
-            }
+                }*/
 
-            @Override
-            public void onError(VolleyError error) {
-                CustomAlert.alertWithOk(context, getResources().getString(R.string.slow_internet_connection_msg));
-            }
-        };
 
-        CustomVolley volley = new CustomVolley(taskListener, context.getResources().getString(R.string.pleaseWait), AppConstant.LOGIN_API, request.serialize(), AppConstant.AUTHORIZATION, AppConstant.AUTHORIZATIONVALUE, context);
+      /*  CustomVolley volley = new CustomVolley(taskListener, context.getResources().getString(R.string.pleaseWait), AppConstant.LOGIN_API, request.serialize(), AppConstant.AUTHORIZATION, AppConstant.AUTHORIZATIONVALUE, context);
         String requestBody = request.serialize();
         System.out.print(requestBody);
-        volley.execute();
+        volley.execute();*/
     }
 
     private void validateStateAndData() {
-        if (selectedStateItem != null && selectedStateItem.getStateCode() != null && loginResponse.getLocationList() != null && loginResponse.getLocationList().size() > 0) {
+        popupForOTPValidation(request.getAadhaarNumber(), loginOTPResponseModel.getTransactionid());
+        //loginResponse.setLoginSession(true);
+   /*     if (selectedStateItem != null && selectedStateItem.getStateCode() != null && loginResponse.getLocationList() != null && loginResponse.getLocationList().size() > 0) {
             if (!selectedStateItem.getStateCode().equalsIgnoreCase(loginResponse.getLocationList().get(0).getStateCode())) {
                 alertWithOk(context, "You are not authorised user for " + selectedStateItem.getStateName());
             } else {
-               requestForOTP(loginResponse.getMobileNumber());
+              // requestForOTP(loginResponse.getMobileNumber());
+                popupForOTPValidation(request.getAadhaarNumber(), mobileOtpRequestModel.getSequenceNo());
                 loginResponse.setLoginSession(true);
                 //setPin();
             }
         } else {
             AppUtility.alertWithOk(context, context.getResources().getString(R.string.locationNotAllocate));
-        }
+        }*/
 
     }
 
@@ -1612,15 +1652,17 @@ public class NonAadharLoginFragment extends Fragment {
 
                 //  otpAuthMsg.setVisi bility(View.GONE);
                 if (!otp.equalsIgnoreCase("")) {
+                    validateOTP(otp, mobileNumber, otpAuthMsg, loginOTPResponseModel.getTransactionid());
+
                     //  updatedVersionApp();
-                    if (mobileOtpRequestModel.getOtp().equalsIgnoreCase(otp)) {
-                        validateOTP(otp, mobileNumber, otpAuthMsg, sequence);
+                   /* if (mobileOtpRequestModel.getOtp().equalsIgnoreCase(otp)) {
+                        validateOTP(otp, mobileNumber, otpAuthMsg, loginOTPResponseModel.getTransactionid());
 
                     } else {
                         otpAuthMsg.setText(context.getResources().getString(R.string.enterValidOtp));
                         otpAuthMsg.setTextColor(AppUtility.getColor(context, R.color.red));
                         otpAuthMsg.setVisibility(View.VISIBLE);
-                    }
+                    }*/
                     // dialog.dismiss();
                 } else {
                     otpAuthMsg.setText(context.getResources().getString(R.string.enterOtpRec));
@@ -1641,7 +1683,8 @@ public class NonAadharLoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                requestForOTP(mobileNumber);
+                loginRequest();
+                //requestForOTP(mobileNumber);
             }
         });
         dialog.show();
@@ -1843,19 +1886,22 @@ public class NonAadharLoginFragment extends Fragment {
             @Override
             public void execute() {
 
-                MobileOtpRequest request = new MobileOtpRequest();
+                MobileOtpRequestLoginModel request = new MobileOtpRequestLoginModel();
                 request.setMobileNo(mobileNumber);
                 request.setOtp(otp);
-                request.setStatus("1");
+               // request.setStatus("1");
                 request.setSequenceNo(sequenceNo);
-                request.setUserName(ApplicationGlobal.MOBILE_Username);
-                request.setUserPass(ApplicationGlobal.MOBILE_Password);
+                request.setApplicationId(AppConstant.APPLICATION_ID);
+                request.setAppVersion(AppUtility.getCurrentApplicationVersion(context));
+                //request.setUserName(ApplicationGlobal.MOBILE_Username);
+               // request.setUserPass(ApplicationGlobal.MOBILE_Password);
                 String payLoad = request.serialize();
                 System.out.print(payLoad);
                 try {
-                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.REQUEST_FOR_OTP_VERIFICATION, payLoad, AppConstant.AUTHORIZATION, AppConstant.AUTHORIZATIONVALUE);
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.REQUEST_FOR_OTP_VERIFICATION_GATEWAY, payLoad);
                     if (response != null) {
-                        mobileOtpVerifyModel = MobileOTPResponse.create(response.get(AppConstant.RESPONSE_BODY));
+                        loginResponse = VerifierLoginResponse.create(response.get(AppConstant.RESPONSE_BODY));
+                        //mobileOtpVerifyModel = MobileOTPResponse.create(response.get(AppConstant.RESPONSE_BODY));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1865,7 +1911,7 @@ public class NonAadharLoginFragment extends Fragment {
 
             @Override
             public void updateUI() {
-                if (mobileOtpVerifyModel != null && mobileOtpVerifyModel.getMessage() != null && mobileOtpVerifyModel.getMessage().equalsIgnoreCase("Y")) {
+                if (loginResponse != null && loginResponse.isStatus() && loginResponse.getErrorCode()==null) {
                     setPin();
                     dialog.dismiss();
                 } else {

@@ -248,7 +248,7 @@
                         android:paddingBottom="@dimen/margine_5"
                         android:paddingTop="@dimen/margine_5"
                         android:text="@string/match_score_tv"
-                        android:textSize="12sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -258,8 +258,9 @@
                         android:paddingBottom="@dimen/margine_5"
                         android:paddingTop="@dimen/margine_5"
                         android:text="76%"
+                        android:textColor="@color/green"
                         android:id="@+id/nameMatchScoreTV"
-                        android:textSize="12sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

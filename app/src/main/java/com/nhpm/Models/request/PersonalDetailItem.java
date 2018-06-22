@@ -18,9 +18,37 @@ public class PersonalDetailItem implements Serializable {
     private String govtIdType;
     private String flowStatus;
     private String benefName;
+    private String state;
+    private String district;
     private int opertaorid;
     private String isAadhar;
     private int nameMatchScore;
+    private String idName;
+
+    public String getIdName() {
+        return idName;
+    }
+
+    public void setIdName(String idName) {
+        this.idName = idName;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
     private FamilyDetailsItemModel familyDetailsItem;
 
     public int getNameMatchScore() {

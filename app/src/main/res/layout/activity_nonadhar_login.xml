@@ -221,6 +221,7 @@
 
                         <Button
                             android:padding="@dimen/margine_10"
+                            android:visibility="gone"
                             android:layout_gravity="center"
                             android:id="@+id/offlineLoginBT"
                             android:layout_width="200dp"

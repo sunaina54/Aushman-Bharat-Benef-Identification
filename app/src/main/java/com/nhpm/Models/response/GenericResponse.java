@@ -12,6 +12,15 @@ public class GenericResponse implements Serializable {
     private String statusMsg;
     private String errorCode;
     private String errorMessage;
+    private String operation;
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
 
     public boolean isStatus() {
         return status;

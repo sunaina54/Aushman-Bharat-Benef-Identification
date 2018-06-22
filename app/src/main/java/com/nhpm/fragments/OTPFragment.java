@@ -688,8 +688,12 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                                 personalDetailItem.setName(aadhaarKycResponse.getName());
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
-                                personalDetailItem.setGovtIdType("aadhar");
+                                personalDetailItem.setIdName("13");
                                 personalDetailItem.setIsAadhar("Y");
+                                personalDetailItem.setGender(aadhaarKycResponse.getGender());
+                                personalDetailItem.setYob(aadhaarKycResponse.getDob());
+                                personalDetailItem.setState(aadhaarKycResponse.getState());
+                                personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
 
@@ -698,8 +702,12 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem = new PersonalDetailItem();
                                 personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
-                                personalDetailItem.setGovtIdType("aadhar");
+                                personalDetailItem.setIdName("13");
                                 personalDetailItem.setIsAadhar("Y");
+                                personalDetailItem.setGender(aadhaarKycResponse.getGender());
+                                personalDetailItem.setYob(aadhaarKycResponse.getDob());
+                                personalDetailItem.setState(aadhaarKycResponse.getState());
+                                personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                                 personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                                 personalDetailItem.setName(aadhaarKycResponse.getName());
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);

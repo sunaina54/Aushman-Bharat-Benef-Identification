@@ -51,6 +51,7 @@ import com.nhpm.Models.response.master.ConfigurationItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.master.StateItemList;
 import com.nhpm.Models.response.seccMembers.DataCountModel;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -98,6 +99,7 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
     public static final String GOOGLE_API_VERIFY_URL = "https://www.googleapis.com/androidcheck/v1/attestations/";
 
     private ArrayList<StateItem> stateListArray;
+    public static String COMING_FROM_SPLASH="ComingFromSplash";
 
     private ApplicationDataModelList applicationDataModelList;
     private GoogleApiClient mGoogleApiClient;
@@ -216,10 +218,18 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
                 if (isNetworkAvailable()) {
 
                     if (SeccDatabase.findStateList(mContext) != null && SeccDatabase.findStateList(mContext).size() > 0) {
-                        Intent iLoging = new Intent(mContext, LoginActivity.class);
-                        startActivity(iLoging);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        finish();
+                        VerifierLoginResponse userDetail=VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                                AppConstant.VERIFIER_CONTENT, mContext));
+                        if(userDetail==null) {
+                            Intent iLoging = new Intent(mContext, LoginActivity.class);
+                            startActivity(iLoging);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        }else{
+                            Intent iLoging = new Intent(mContext, BlockDetailActivity.class);
+                            iLoging.putExtra("Splash",COMING_FROM_SPLASH);
+                            startActivity(iLoging);
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        }
                     } else {
                         downloadStateMaster();
                     }
@@ -466,10 +476,18 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
                         SeccDatabase.saveStateMaster(item,
                                 mContext);
                     }
-
-                    Intent iLoging = new Intent(mContext, LoginActivity.class);
-                    startActivity(iLoging);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    VerifierLoginResponse userDetail=VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                            AppConstant.VERIFIER_CONTENT, mContext));
+                    if(userDetail==null) {
+                        Intent iLoging = new Intent(mContext, LoginActivity.class);
+                        startActivity(iLoging);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }else{
+                        Intent iLoging = new Intent(mContext, BlockDetailActivity.class);
+                        iLoging.putExtra("Splash",COMING_FROM_SPLASH);
+                        startActivity(iLoging);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }
                     finish();
                 } else {
                     alertWithOk(mContext, "Data not downloaded");

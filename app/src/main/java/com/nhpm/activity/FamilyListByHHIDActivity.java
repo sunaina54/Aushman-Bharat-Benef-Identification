@@ -24,6 +24,7 @@ import com.nhpm.Models.request.FamilyListRequestModel;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
 import com.nhpm.Models.response.master.StateItem;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -50,6 +51,7 @@ public class FamilyListByHHIDActivity extends BaseActivity {
     private LinearLayout noMemberLL;
     private FamilyListByHHIDActivity activity;
     private StateItem selectedStateItem;
+    private VerifierLoginResponse verifierLoginResp;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +66,10 @@ public class FamilyListByHHIDActivity extends BaseActivity {
         //mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
-
-        headerTV.setText("Family Data" +" ("+selectedStateItem.getStateName()+")");
+        headerTV.setText("Family Data" +" by "+ AppUtility.searchTitleHeader+" (" + selectedStateItem.getStateName() + ")");
+        verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
+        //headerTV.setText("Family Data" +" ("+selectedStateItem.getStateName()+")");
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
@@ -149,7 +153,7 @@ public class FamilyListByHHIDActivity extends BaseActivity {
                     noMemberLL.setVisibility(View.GONE);
                     searchListRV.setVisibility(View.VISIBLE);
                     String request = familyListRequestModel.serialize();
-                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_FAMILY_LIST, request);
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_FAMILY_LIST, request,AppConstant.AUTHORIZATION,verifierLoginResp.getAuthToken());
                     familyResponse = response.get("response");
 
 
@@ -168,31 +172,39 @@ public class FamilyListByHHIDActivity extends BaseActivity {
             @Override
             public void updateUI() {
                 if (familyListResponseModel != null) {
-                    if (familyListResponseModel.getResponse() != null) {
-                        int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
-                        if (matchCount == 0) {
-                            noMemberTV.setText("No Family member found");
-                        }
+                    if (familyListResponseModel.isStatus()) {
+                        if (familyListResponseModel.getResult() != null && familyListResponseModel.getResult().getResponse() != null) {
+                            int matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
+                            if (matchCount == 0) {
+                                noMemberTV.setText("No Family member found");
+                            }
                     /*else {
                         noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                     }*/
-                        if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
-                            //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
-                            try {
-                                refreshMembersList(familyListResponseModel.getResponse().getDocs());
-                            } catch (Exception e) {
-                                Log.d("TAG", "Exception : " + e.toString());
-                            }
+                            if (familyListResponseModel.getResult().getResponse().getDocs() != null && familyListResponseModel.getResult().getResponse().getDocs().size() > 0) {
+                                //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
+                                try {
+                                    refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
+                                } catch (Exception e) {
+                                    Log.d("TAG", "Exception : " + e.toString());
+                                }
                         /*}else {
                             //mProgressBar.setVisibility(View.GONE);
                             noMemberLL.setVisibility(View.VISIBLE);
                             noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                         }*/
-                        } else {
-                            noMemberLL.setVisibility(View.VISIBLE);
-                            noMemberTV.setText("No Family member found");
+                            } else {
+                                noMemberLL.setVisibility(View.VISIBLE);
+                                noMemberTV.setText("No Family member found");
+
+                            }
 
                         }
+                    }else if(familyListResponseModel!=null &&
+                            familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            ||   familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN) ){
+                        Intent intent = new Intent(context,LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context,familyListResponseModel.getErrorMessage(),intent);
 
                     }
                 } else {

@@ -153,7 +153,7 @@
                        android:layout_marginLeft="30dp"
                        android:layout_centerVertical="true"
                        android:textColor="#000000"
-                       android:textSize="15sp"
+                       android:textSize="18sp"
                        android:id="@+id/cardNumberTV"
                        android:text="8743 3434 3434 1213 1111 11111 1111 1"
                        android:textStyle="bold"
@@ -186,6 +186,7 @@
                 android:background="@drawable/rounded_shape_yello_button"
                 android:padding="@dimen/margine_10"
                 android:text="Previous"
+                android:visibility="gone"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size" />
@@ -213,7 +214,7 @@
                 android:padding="@dimen/margine_10"
                 android:text="Other Family Member"
                 android:textAllCaps="false"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size" />
 

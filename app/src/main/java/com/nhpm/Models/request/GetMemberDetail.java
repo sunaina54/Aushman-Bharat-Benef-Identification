@@ -10,11 +10,29 @@ public class GetMemberDetail implements Serializable {
         private boolean status;
         private String operation;
         private  String errorMessage;
+        private  String errorcode;
         private String ahl_tin;
         private String hhd_no;
         private Integer statecode;
+        private String dataSource;
         private PersonalDetailResponse personalDetail;
         private FamilyDetailResponse familyDetailsItem;
+
+        public String getErrorcode() {
+                return errorcode;
+        }
+
+        public void setErrorcode(String errorcode) {
+                this.errorcode = errorcode;
+        }
+
+        public String getDataSource() {
+                return dataSource;
+        }
+
+        public void setDataSource(String dataSource) {
+                this.dataSource = dataSource;
+        }
 
         public boolean isStatus() {
                 return status;

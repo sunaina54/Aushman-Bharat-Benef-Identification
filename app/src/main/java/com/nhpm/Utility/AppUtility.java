@@ -93,6 +93,7 @@ import java.util.regex.Pattern;
  * Created by psqit on 8/5/2016.
  */
 public class AppUtility {
+    public  static String searchTitleHeader="";
     public static String DATABASE_NAME = "m_location_master.sqlite";
     public static String TABLE_MASTER_LOC = "location";
     public static String TABLE_MASTER_NHSDATA = "nhsdata";
@@ -382,8 +383,8 @@ public class AppUtility {
         String device_id = tm.getDeviceId();
         //  return "358520071002666"; //gera sir
         // return "358520071087378"; //gera sir current
-        return device_id;
-       // return "352356078907011"; //wahid
+       return device_id;
+      // return "352356078907011"; //wahid
         //  return "358187072515557";
         // return "867802027718791"; //saurabh
         // return "358520070004861";
@@ -446,16 +447,16 @@ public class AppUtility {
     public static ArrayList<GovernmentIdItem> prepareGovernmentIdSpinnerForNoAadhar() {
         ArrayList<GovernmentIdItem> govtIdStatusList = new ArrayList<>();
         govtIdStatusList.add(new GovernmentIdItem(0, "Choose Your ID Card"));
-        govtIdStatusList.add(new GovernmentIdItem(2, "Voter ID Card"));
-        govtIdStatusList.add(new GovernmentIdItem(3, "Ration Card"));
-        govtIdStatusList.add(new GovernmentIdItem(4, "NREGA job card"));
-        govtIdStatusList.add(new GovernmentIdItem(5, "Driving License"));
-        govtIdStatusList.add(new GovernmentIdItem(6, "Birth certificate"));
-        govtIdStatusList.add(new GovernmentIdItem(7, "Other Photo ID Card"));
-        govtIdStatusList.add(new GovernmentIdItem(8, "Member with No ID card"));
-        govtIdStatusList.add(new GovernmentIdItem(9, "Government ID with no Photograph"));
-        govtIdStatusList.add(new GovernmentIdItem(10, "Aadhar ID Card"));
+        govtIdStatusList.add(new GovernmentIdItem(13, "Aadhaar"));
+        govtIdStatusList.add(new GovernmentIdItem(1, "Voter ID Card"));
+        govtIdStatusList.add(new GovernmentIdItem(2, "Ration Card"));
+        govtIdStatusList.add(new GovernmentIdItem(10, "MNREGA Job Card"));
+        govtIdStatusList.add(new GovernmentIdItem(4, "Driving License"));
+        govtIdStatusList.add(new GovernmentIdItem(14, "Government ID with no Photograph"));
+      //  govtIdStatusList.add(new GovernmentIdItem(8, "Member with No ID card"));
+       // govtIdStatusList.add(new GovernmentIdItem(9, "Government ID with no Photograph"));
 
+       // 1|Voter ID Card2|Ration Card3|PAN Card4|Driving License5|Pensioner Photo Card6|Kissan Photo Passbook7|Freedom Fighter Photo Card8|Certificate of Identify having photo issued by Gaz9|Disability ID Card/handicapped medical certificate issuedby the respective State/UT Governments/Administrations10|MNREGA Job Card11|Birth Certificate issued by Registrar of Birth  MunicipalCorporation and other notified local government bodieslike Taluk  Tehsil etc.12|Marriage Certificate Issued by the Government
         return govtIdStatusList;
     }
 
@@ -463,7 +464,7 @@ public class AppUtility {
         ArrayList<GovernmentIdItem> govtIdStatusList = new ArrayList<>();
         govtIdStatusList.add(new GovernmentIdItem(0, "Choose Family ID Card"));
         // govtIdStatusList.add(new GovernmentIdItem(2, "Voter ID Card"));
-        govtIdStatusList.add(new GovernmentIdItem(3, "Ration Card"));
+        govtIdStatusList.add(new GovernmentIdItem(2, "Ration Card"));
       /*  govtIdStatusList.add(new GovernmentIdItem(4, "NREGA job card"));
         govtIdStatusList.add(new GovernmentIdItem(5, "Driving License"));
         govtIdStatusList.add(new GovernmentIdItem(6, "Birth certificate"));

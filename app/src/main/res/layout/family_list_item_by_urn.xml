@@ -90,11 +90,112 @@
 
                     android:visibility="visible" />
             </LinearLayout>
+
             <LinearLayout
                 android:weightSum="2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="2dp">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Father/Husband Name"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/fatherNameTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
+
+                    android:visibility="visible" />
+            </LinearLayout>
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="YOB"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/ageTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
+
+                    android:visibility="visible" />
+            </LinearLayout>
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Gender"
+                    style="@style/textViewFamilMember"
+                    />
+                <TextView
+                    style="@style/textViewFamilMember"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text=":"></TextView>
+                <TextView
+                    android:id="@+id/genderTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.3"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    style="@style/textViewFamilMember"
+
+                    android:visibility="visible" />
+            </LinearLayout>
+            <LinearLayout
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:visibility="gone">
 
                 <TextView
 

@@ -10,15 +10,15 @@ import java.util.ArrayList;
  */
 
 public class FamilyListResponseItem extends GenericResponse implements Serializable {
-   private SearchResult response;
 
+    private FamilyListResult result;
 
-    public SearchResult getResponse() {
-        return response;
+    public FamilyListResult getResult() {
+        return result;
     }
 
-    public void setResponse(SearchResult response) {
-        this.response = response;
+    public void setResult(FamilyListResult result) {
+        this.result = result;
     }
 
     static public FamilyListResponseItem create(String serializedData) {

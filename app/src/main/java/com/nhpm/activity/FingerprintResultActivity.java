@@ -25,6 +25,7 @@ import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
+import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.request.AadharResultRequestModel;
 import com.nhpm.Models.request.AutoSuggestRequestItem;
 import com.nhpm.Models.request.FamilyListRequestModel;
@@ -38,6 +39,8 @@ import com.nhpm.Utility.AppUtility;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -65,14 +68,15 @@ public class FingerprintResultActivity extends BaseActivity {
     private AadharResultRequestModel aadharResultRequestModel;
     private Spinner cardTypeSpinner;
     private CheckBox ageCheck, nameCheck, dobCheck, genderCheck, pincodeCheck, fatherCheck, motherCheck,
-            spouseCheck, stateCheck, distCheck, vtcCheck;
+            spouseCheck, stateCheck, distCheck, vtcCheck,ruralCheck;
     private ArrayList<String> temp, distTemp;
     private ArrayList<String> tempDist;
     private VillageResponseItem villageResponse,districtResponse;
     private String screen;
     private StateItem selectedStateItem;
-    private SearchableSpinner stateSP;
-    private String stateName;
+  //  private SearchableSpinner stateSP;
+    private Spinner stateSP,ruralUrbanSP;
+    private String stateName,ruralUrbanStatus="",ruralUrbanTag;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +89,9 @@ public class FingerprintResultActivity extends BaseActivity {
         aadharResultRequestModel = new AadharResultRequestModel();
         headerTV = (TextView) findViewById(R.id.centertext);
         ageCheck = (CheckBox) findViewById(R.id.ageCheck);
-        stateSP = (SearchableSpinner) findViewById(R.id.stateSP);
+        //stateSP = (SearchableSpinner) findViewById(R.id.stateSP);
+        stateSP = (Spinner) findViewById(R.id.stateSP);
+        ruralUrbanSP = (Spinner) findViewById(R.id.ruralUrbanSP);
         nameCheck = (CheckBox) findViewById(R.id.nameCheck);
         dobCheck = (CheckBox) findViewById(R.id.dobCheck);
         genderCheck = (CheckBox) findViewById(R.id.genderCheck);
@@ -96,6 +102,7 @@ public class FingerprintResultActivity extends BaseActivity {
         stateCheck = (CheckBox) findViewById(R.id.stateCheck);
         distCheck = (CheckBox) findViewById(R.id.distCheck);
         vtcCheck = (CheckBox) findViewById(R.id.vtcCheck);
+        ruralCheck = (CheckBox) findViewById(R.id.ruralCheck);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
         headerTV.setText("Beneficiary Data" + " (" + selectedStateItem.getStateName() + ")");
@@ -119,6 +126,7 @@ public class FingerprintResultActivity extends BaseActivity {
         phoneLL = (LinearLayout) findViewById(R.id.phoneLL);
         coLL = (LinearLayout) findViewById(R.id.coLL);
         coLL.setVisibility(View.VISIBLE);
+
         addressLL = (LinearLayout) findViewById(R.id.addressLL);
         pincodeLL = (LinearLayout) findViewById(R.id.pincodeLL);
         stateLL = (LinearLayout) findViewById(R.id.stateLL);
@@ -134,19 +142,49 @@ public class FingerprintResultActivity extends BaseActivity {
         }
 
         final ArrayList<String> stateList = new ArrayList<>();
-        stateList.add("Haryana");
-        stateList.add("Chattisgarh");
-        stateList.add("Delhi");
+        final ArrayList<StateItem> stateList1 = SeccDatabase.findStateList(context);
 
+        Collections.sort(stateList1, new Comparator<StateItem>() {
+            @Override
+            public int compare(StateItem s1, StateItem s2) {
+                return s1.getStateName().compareToIgnoreCase(s2.getStateName());
+            }
+        });
+        Log.d("Splash", "ListSize:" + " " + stateList.size());
+        //stateList.add(0, new StateItem("00", "Select State"));
+        final ArrayList<StateItem> stateList2=new ArrayList<>();
+        if (stateList != null) {
+            for (StateItem item1 : stateList1) {
+                if(item1.getStateCode().equalsIgnoreCase("16")){
+                    stateList.add("Haryana");
+                    stateList2.add(item1);
+                }else if(item1.getStateCode().equalsIgnoreCase("22")){
+                    stateList.add("Chattisgarh");
+                    stateList2.add(item1);
+                }else if(item1.getStateCode().equalsIgnoreCase("07")){
+                    stateList.add("Delhi");
+                    stateList2.add(item1);
+                }
+            }
+
+        }
+
+
+
+  /*      stateList.add("Haryana");
+        stateList.add("Chattisgarh");
+        stateList.add("Delhi");*/
 
         stateSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = adapterView.getItemAtPosition(i).toString();
+                stateCheck.setChecked(true);
                 stateName = stateList.get(i);
                 kycVtc.setText("");
                 kycDist.setText("");
                 Log.d("state name :", stateName);
+
 
             }
 
@@ -156,8 +194,66 @@ public class FingerprintResultActivity extends BaseActivity {
             }
         });
 
+
+
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, stateList);
         stateSP.setAdapter(adapter1);
+
+        for (int i =0 ; i<stateList2.size();i++){
+
+            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList2.get(i).getStateCode())){
+
+                stateSP.setSelection(i);
+                // stateSP.setTitle(item.getStateName());
+
+                stateName=stateList.get(i);
+                Log.d("state name11 :", stateName);
+                stateCheck.setChecked(true);
+                break;
+            }
+        }
+
+
+        final ArrayList<String> ruralList = new ArrayList<>();
+        ruralList.add("Select Rural/Urban");
+        ruralList.add("Rural");
+        ruralList.add("Urban");
+
+        ruralUrbanSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String item = adapterView.getItemAtPosition(i).toString();
+                if(i==0){
+                    ruralCheck.setChecked(false);
+                    ruralUrbanStatus ="";
+                    ruralUrbanTag="";
+                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":"+ ruralUrbanTag);
+                }else if(i==1){
+                    ruralCheck.setChecked(true);
+                    ruralUrbanStatus = ruralList.get(i);
+                    ruralUrbanTag="R";
+                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":"+ ruralUrbanTag);
+                }else if(i==2){
+                    ruralCheck.setChecked(true);
+                    ruralUrbanStatus = ruralList.get(i);
+                    ruralUrbanTag="U";
+                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":"+ ruralUrbanTag);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
+        ArrayAdapter<String> ruralAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, ruralList);
+        ruralUrbanSP.setAdapter(ruralAdapter);
+
 
         updateKycButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,8 +304,13 @@ public class FingerprintResultActivity extends BaseActivity {
                     request.setSpousenm(spouseName.trim());
                 }
                 if (stateCheck.isChecked()) {
-                    request.setState_name_english(stateName.trim());
+
+                    request.setState_name(stateName.trim());
                 }
+                if (ruralCheck.isChecked()) {
+                    request.setRural_urban(ruralUrbanTag.trim());
+                }
+
                 if (vtcCheck.isChecked()) {
                     request.setVt_name(village);
                 }
@@ -694,6 +795,7 @@ public class FingerprintResultActivity extends BaseActivity {
                                                 int position, long id) {
                             String selected = tempDist.get(position);
                             kycVtc.setText("");
+                            distCheck.setChecked(true);
                             kycDist.setText(selected);
                             //kycDist.setText(distTemp.get(position));
 
@@ -777,8 +879,10 @@ public class FingerprintResultActivity extends BaseActivity {
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
                             String selected = temp.get(position);
+                            vtcCheck.setChecked(true);
                             kycVtc.setText(selected);
                             kycDist.setText(distTemp.get(position));
+                            distCheck.setChecked(true);
                         }
                     });
                 }

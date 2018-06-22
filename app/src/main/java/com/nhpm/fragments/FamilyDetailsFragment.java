@@ -37,9 +37,11 @@ import com.customComponent.CustomAlert;
 import com.customComponent.CustomAsyncTask;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
+import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.CameraUtils.CommonUtilsImageCompression;
 import com.nhpm.CameraUtils.squarecamera.CameraActivity;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
+import com.nhpm.Models.FamilyCardList;
 import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.GetMemberDetail;
@@ -51,12 +53,16 @@ import com.nhpm.Models.response.GenericResponse;
 import com.nhpm.Models.response.GovernmentIdItem;
 import com.nhpm.Models.response.PersonalDetailResponse;
 import com.nhpm.Models.response.SearchResult;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 import com.nhpm.activity.BlockDetailActivity;
 import com.nhpm.activity.CollectDataActivity;
 import com.nhpm.activity.FamilyMemberEntryActivity;
+import com.nhpm.activity.FamilyMemberMatchActivity;
+import com.nhpm.activity.FamilyMembersListActivity;
+import com.nhpm.activity.LoginActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,17 +73,22 @@ import java.util.HashMap;
  * A simple {@link Fragment} subclass.
  */
 public class FamilyDetailsFragment extends Fragment {
+    private int familyScore, nameScore;
+    private AlertDialog alert;
     private View view;
     private FragmentTransaction fragmentTransection;
-    String familyResponse;
+
     private CustomAsyncTask customAsyncTask;
     private FragmentManager fragmentManager;
+    private String familyResponse;
     private GenericResponse genericResponse;
     private FamilyAdapter adapter;
+    private OldFamilyAdapter oldMemberAdapter;
     private Context context;
     private ArrayList<GovernmentIdItem> govtIdStatusList;
     private Spinner govtIdSP;
-    private TextView beneficiaryNameTV;
+    private TextView beneficiaryNameTV, familyMatchScoreTV;
+    private LinearLayout familyScoreLL;
     private GovernmentIdItem item;
     private Button captureImageBT;
     private Bitmap captureImageBM;
@@ -90,16 +101,19 @@ public class FamilyDetailsFragment extends Fragment {
     private ImageView addIV;
     private PersonalDetailItem personalDetailItem;
     private LinearLayout addFamilyMemberLL;
-    private RecyclerView memberRecycle;
+    private RecyclerView memberRecycle, oldMemberRecycle;
     private ArrayList<FamilyMemberModel> familyMembersList;
     private FamilyDetailsItemModel familyDetailsItemModel;
     private EditText govtIdET;
-    private Button getFamilyScoreBT, nextBT;
+    private Button getFamilyScoreBT, nextBT, submitBT;
+    private String familyMatchScore = "";
     public static String FAMILY_DETAIL = "familyDetail";
     public static String INDEX = "Index";
     private LinearLayout scoreLL;
     private PrintCardItem printCardItem;
-
+    private VerifierLoginResponse verifierDetail;
+    private FamilyCardList familyCardList;
+    private String FAMILY_CARD_LIST = "FAMILY_CARD_LIST";
 
     public FamilyDetailsFragment() {
         // Required empty public constructor
@@ -119,33 +133,60 @@ public class FamilyDetailsFragment extends Fragment {
     }
 
     private void setupScreen(View view) {
-        Bundle bundle = getArguments();
-        //bundle.getString("personalDetail");
+        /*Bundle bundle = getArguments();
+
+        familyMatchScore=bundle.getString("familyMatchScore");*/
        /* personalDetailItem = PersonalDetailItem.create(bundle.getString("personalDetail"));
         familyDetailsItemModel = FamilyDetailsItemModel.create(bundle.getString("personalDetail"));*/
         fragmentManager = getActivity().getSupportFragmentManager();
-
+        verifierDetail = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
+        // familyCardList=FamilyCardList.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,))
         govtIdSP = (Spinner) view.findViewById(R.id.govtIdSP);
         govtIdET = (EditText) view.findViewById(R.id.govtIdET);
         getFamilyScoreBT = (Button) view.findViewById(R.id.getFamilyScoreBT);
+        submitBT = (Button) view.findViewById(R.id.submitBT);
         prepareGovernmentIdSpinner();
         memberRecycle = (RecyclerView) view.findViewById(R.id.memberRecycle);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         memberRecycle.setLayoutManager(layoutManager);
         memberRecycle.setItemAnimator(new DefaultItemAnimator());
+
+        oldMemberRecycle = (RecyclerView) view.findViewById(R.id.oldMemberRecycle);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
+        oldMemberRecycle.setLayoutManager(layoutManager1);
+        oldMemberRecycle.setItemAnimator(new DefaultItemAnimator());
+
+
         addFamilyMemberLL = (LinearLayout) view.findViewById(R.id.addFamilyMemberLL);
         beneficiaryNameTV = (TextView) view.findViewById(R.id.beneficiaryNameTV);
         captureImageBT = (Button) view.findViewById(R.id.captureImageBT);
         beneficiaryPhotoIV = (ImageView) view.findViewById(R.id.beneficiaryPhotoIV);
         scoreLL = (LinearLayout) view.findViewById(R.id.scoreLL);
-        scoreLL.setVisibility(View.GONE);
+        //scoreLL.setVisibility(View.GONE);
+        familyScoreLL = (LinearLayout) view.findViewById(R.id.familyScoreLL);
+        familyMatchScoreTV = (TextView) view.findViewById(R.id.familyMatchScoreTV);
         //getFamilyScoreBT.setVisibility(View.VISIBLE);
         getFamilyScoreBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomAlert.alertWithOk(context, "Under Development");
+
+                Intent intent = new Intent(context, FamilyMemberMatchActivity.class);
+                if (beneficiaryListItem != null && beneficiaryListItem.getOldMembers() != null && beneficiaryListItem.getOldMembers().size() > 0) {
+                    intent.putExtra("Old_Members", beneficiaryListItem.getOldMembers());
+                }
+                if (familyMembersList != null && familyMembersList.size() > 0) {
+                    intent.putExtra("Family_Card_Members", familyMembersList);
+                }
+                startActivityForResult(intent,3);
+
+                // getFamilyMatchScore();
+                //familyDetailsItemModel.setFamilyMatchScore(Integer.parseInt(familyMatchScore));
+                // CustomAlert.alertWithOk(context, "Under Development");
             }
         });
+
+
         captureImageBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,11 +196,17 @@ public class FamilyDetailsFragment extends Fragment {
 
         if (beneficiaryListItem != null) {
             beneficiaryNameTV.setText(beneficiaryListItem.getName());
+            if (beneficiaryListItem.getOldMembers() != null && beneficiaryListItem.getOldMembers().size() > 0) {
+                // oldMemberRefreshList(beneficiaryListItem.getOldMembers());
+            }
             familyDetailsItemModel = beneficiaryListItem.getFamilyDetailsItemModel();
             printCardItem = beneficiaryListItem.getPrintCardDetail();
-
-
             if (familyDetailsItemModel != null) {
+                familyMatchScore = familyDetailsItemModel.getFamilyMatchScore() + "";
+                if (!familyMatchScore.equalsIgnoreCase("")) {
+                    familyScoreLL.setVisibility(View.VISIBLE);
+                    familyMatchScoreTV.setText(familyMatchScore + "%");
+                }
                 familyMembersList = familyDetailsItemModel.getFamilyMemberModels();
                 if (familyDetailsItemModel.getIdImage() != null &&
                         !familyDetailsItemModel.getIdImage().equalsIgnoreCase("")) {
@@ -167,12 +214,14 @@ public class FamilyDetailsFragment extends Fragment {
                     voterIdImg = familyDetailsItemModel.getIdImage();
                     beneficiaryPhotoIV.setImageBitmap(AppUtility.
                             convertStringToBitmap(familyDetailsItemModel.getIdImage()));
-                    captureImageBT.setEnabled(false);
+
+
                     govtIdSP.setEnabled(false);
 
 
                 }
 
+                //  if(familyDetailsItemModel!=null && familyDetailsItemModel.getFamilyMatchScore())
                /* if(personalDetailItem.getFamilyDetailsItem().getIdType()!=null &&
                         personalDetailItem.getFamilyDetailsItem().getIdType().equalsIgnoreCase("")){
                     //govtIdSP.setSelection();
@@ -182,23 +231,22 @@ public class FamilyDetailsFragment extends Fragment {
                         !familyDetailsItemModel.getIdNumber().equalsIgnoreCase("")) {
                     govtIdET.setText(familyDetailsItemModel.getIdNumber());
                     govtIdET.setEnabled(false);
-                    captureImageBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
-                    getFamilyScoreBT.setEnabled(false);
-                    getFamilyScoreBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                 }
 
 
                 if (printCardItem != null) {
                     addFamilyMemberLL.setEnabled(false);
                     addFamilyMemberLL.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+                    getFamilyScoreBT.setEnabled(false);
+
+                    getFamilyScoreBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+                    captureImageBT.setEnabled(false);
+                    captureImageBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                 }
 
                 if (familyDetailsItemModel.getFamilyMemberModels() != null) {
                     familyMembersList = familyDetailsItemModel.getFamilyMemberModels();
-                    scoreLL.setVisibility(View.VISIBLE);
-                    getFamilyScoreBT.setEnabled(false);
-
-                    getFamilyScoreBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+                    //scoreLL.setVisibility(View.VISIBLE);
 
                     refreshList(familyDetailsItemModel.getFamilyMemberModels());
 
@@ -244,8 +292,10 @@ public class FamilyDetailsFragment extends Fragment {
                 if (voterIdImg != null && !voterIdImg.equalsIgnoreCase("")) {
                     familyDetailsItemModel.setIdImage(voterIdImg);
                 }
-                familyDetailsItemModel.setFamilyMatchScore(78);
+
                 familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
+                if (!familyMatchScore.equalsIgnoreCase(""))
+                    familyDetailsItemModel.setFamilyMatchScore(Integer.parseInt(familyMatchScore));
 
                 beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
                 fragmentTransection = fragmentManager.beginTransaction();
@@ -255,6 +305,7 @@ public class FamilyDetailsFragment extends Fragment {
         });
 
         nextBT = (Button) view.findViewById(R.id.nextBT);
+        nextBT.setVisibility(View.GONE);
         nextBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -274,6 +325,10 @@ public class FamilyDetailsFragment extends Fragment {
                     CustomAlert.alertWithOk(context, "Please capture family id photo");
                     return;
                 }
+                if (familyMatchScore == null || familyMatchScore.equalsIgnoreCase("")) {
+                    CustomAlert.alertWithOk(context, "Please match family score");
+                    return;
+                }
                 if (familyMembersList.size() < 2) {
                     CustomAlert.alertWithOk(context, "Please add atleast two member as per family id");
                     return;
@@ -282,15 +337,28 @@ public class FamilyDetailsFragment extends Fragment {
                 familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
                 familyDetailsItemModel.setIdType(item.status);
                 familyDetailsItemModel.setIdImage(voterIdImg);
-                familyDetailsItemModel.setFamilyMatchScore(78);
+                // familyDetailsItemModel.setFamilyMatchScore(78);
+                familyDetailsItemModel.setFamilyMatchScore(Integer.parseInt(familyMatchScore));
                 familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
                 beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
 
-                if (activity.isNetworkAvailable()) {
+                if (familyMatchScore != null && !familyMatchScore.equalsIgnoreCase("")) {
+                    familyScore = Integer.parseInt(familyMatchScore);
+                    nameScore = beneficiaryListItem.getPersonalDetail().getNameMatchScore();
+                    if (familyScore >= 80 && nameScore >= 80) {
+                        printCard();
+                    } else {
+                        CustomAlert.alertWithOk(context, getResources().getString(R.string.score_error_message));
+                        return;
+                    }
+                }
+
+               /* if (activity.isNetworkAvailable()) {
+
                     submitMemberData();
                 } else {
                     CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
-                }
+                }*/
                 // personalDetailItem.setFamilyDetailsItem(familyDetailsItemModel);
 
                 // }
@@ -321,7 +389,7 @@ public class FamilyDetailsFragment extends Fragment {
                     Log.d("TAG", "next five : " + nextFiveChar);
                     Log.d("TAG", "next four : " + nextFourChar);
                     Log.d("TAG", "next three : " + lastThreeChar);
-                    ahltin = firstTwoChar + " " + nextSevenChar + " " + nextEightChar + " " + nextFiveChar + " " + nextFourChar + " " + lastThreeChar;
+                    ahltin = firstTwoChar + " " + nextSevenChar + "  " + nextEightChar + "  " + nextFiveChar + " " + nextFourChar + " " + lastThreeChar;
                     Log.d("TAG", "Ayushman Id  : " + ahltin);
                     Log.d("TAG", "Ayushman Id  : " + ahltin);
                     printCard.setCardNo(ahltin);
@@ -348,7 +416,103 @@ public class FamilyDetailsFragment extends Fragment {
 
                 //fragment.setArguments(args);
                 CallFragment(fragment);*/
-                //CustomAlert.alertWithOk(context,"Under Development");
+
+            }
+        });
+
+
+        submitBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //familyDetailsItemModel = new FamilyDetailsItemModel();
+                String govtId = govtIdET.getText().toString();
+                // String idType=item.status;
+                if (item.statusCode == 0) {
+                    CustomAlert.alertWithOk(context, "Please select family id");
+                    return;
+                }
+                if (govtId.equalsIgnoreCase("")) {
+                    CustomAlert.alertWithOk(context, "Please enter family id number");
+                    return;
+                }
+
+                if (voterIdImg == null || voterIdImg.equalsIgnoreCase("")) {
+                    CustomAlert.alertWithOk(context, "Please capture family id photo");
+                    return;
+                }
+                if (familyMatchScore == null || familyMatchScore.equalsIgnoreCase("")) {
+                    CustomAlert.alertWithOk(context, "Please match family score");
+                    return;
+                }
+                if (familyMembersList.size() < 2) {
+                    CustomAlert.alertWithOk(context, "Please add atleast two member as per family id");
+                    return;
+                }
+                familyDetailsItemModel = new FamilyDetailsItemModel();
+                familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
+                familyDetailsItemModel.setIdType(item.status);
+                familyDetailsItemModel.setIdName(item.statusCode+"");
+                familyDetailsItemModel.setIdImage(voterIdImg);
+                familyDetailsItemModel.setFamilyMatchScore(Integer.parseInt(familyMatchScore));
+
+                // familyDetailsItemModel.setFamilyMatchScore(78);
+                familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
+                beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
+
+                if (familyMatchScore != null && !familyMatchScore.equalsIgnoreCase("")) {
+                    familyScore = Integer.parseInt(familyMatchScore);
+                    nameScore = beneficiaryListItem.getPersonalDetail().getNameMatchScore();
+
+                        String msg = getResources().getString(R.string.score_message_verification);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle(context.getResources().getString(com.customComponent.R.string.Alert));
+                        builder.setMessage(msg)
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //do things
+                                       // printCard();
+                                        submitMemberData();
+                                        alert.dismiss();
+                                    }
+                                }).setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //do things
+                                // printCard();
+                               // submitMemberData();
+                                alert.dismiss();
+                            }
+                        });
+                        alert = builder.create();
+                        alert.show();
+                    //} else {
+                       /* if (activity.isNetworkAvailable()) {
+                            submitMemberData();
+                        } else {
+                            CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+                        }*/
+                       /* String msg = getResources().getString(R.string.score_error_message);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle(context.getResources().getString(com.customComponent.R.string.Alert));
+                        builder.setMessage(msg)
+                                .setCancelable(false)
+                                .setPositiveButton(context.getResources().getString(com.customComponent.R.string.OK), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //do things
+                                       // printCard();
+                                        alert.dismiss();
+                                    }
+                                });
+                        alert = builder.create();
+                        alert.show();
+                    }*/
+                }
+                /*if (activity.isNetworkAvailable()) {
+                    submitMemberData();
+                } else {
+                    CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+                }*/
+
 
             }
         });
@@ -649,6 +813,53 @@ public class FamilyDetailsFragment extends Fragment {
 
     }
 
+    private void printCard() {
+        PrintCardItem printCard = new PrintCardItem();
+        printCard.setBenefPhoto(activity.benefItem.getPersonalDetail().getBenefPhoto());
+        printCard.setNameOnCard(activity.benefItem.getName());
+        printCard.setFatherNameOnCard(activity.benefItem.getFathername());
+        printCard.setGenderOnCard(activity.benefItem.getGenderid());
+        String ahltin = activity.benefItem.getAhl_tin();
+        if (ahltin != null && !ahltin.equalsIgnoreCase("")) {
+            Log.d("TAG", "AhlTine : " + ahltin);
+            String firstTwoChar = ahltin.substring(0, 2);
+            // 2 7 8 5 4 3
+            String nextSevenChar = ahltin.substring(2, 9);
+            String nextEightChar = ahltin.substring(9, 17);
+            String nextFiveChar = ahltin.substring(17, 22);
+            String nextFourChar = ahltin.substring(22, 26);
+            String lastThreeChar = ahltin.substring(26, 29);
+            Log.d("TAG", "AhlTine : " + ahltin);
+            Log.d("TAG", "First TTwo : " + firstTwoChar);
+            Log.d("TAG", "next seven : " + nextSevenChar);
+            Log.d("TAG", "next eight : " + nextEightChar);
+            Log.d("TAG", "next five : " + nextFiveChar);
+            Log.d("TAG", "next four : " + nextFourChar);
+            Log.d("TAG", "next three : " + lastThreeChar);
+            ahltin = firstTwoChar + " " + nextSevenChar + "  " + nextEightChar + "  " + nextFiveChar + " " + nextFourChar + " " + lastThreeChar;
+            Log.d("TAG", "Ayushman Id  : " + ahltin);
+            Log.d("TAG", "Ayushman Id  : " + ahltin);
+            printCard.setCardNo(ahltin);
+            printCard.setStateName(beneficiaryListItem.getState_name_english());
+
+
+        }
+        if (activity.benefItem.getDob() != null && activity.benefItem.getDob().length() >= 4) {
+            printCard.setYobObCard(activity.benefItem.getDob().substring(0, 4));
+        }
+        beneficiaryListItem.setPrintCardDetail(printCard);
+        beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
+        activity.benefItem = beneficiaryListItem;
+
+        activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+        activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+        activity.printEcardLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+
+
+        Fragment fragment = new PrintCardFragment();
+        CallFragment(fragment);
+    }
+
     private void submitMemberData() {
         TaskListener taskListener = new TaskListener() {
             @Override
@@ -662,13 +873,19 @@ public class FamilyDetailsFragment extends Fragment {
                     GetMemberDetail request = new GetMemberDetail();
                     request.setAhl_tin(beneficiaryListItem.getAhl_tin());
                     request.setHhd_no(beneficiaryListItem.getHhd_no());
+                    if (beneficiaryListItem.getSource() != null && beneficiaryListItem.getSource().equalsIgnoreCase(AppConstant.RSBY_SOURCE_NEW)) {
+                        request.setDataSource(AppConstant.RSBY_SOURCE_NEW);
+                    } else {
+                        request.setDataSource(AppConstant.SECC_SOURCE_NEW);
+
+                    }
                     request.setStatecode(Integer.parseInt(beneficiaryListItem.getState_code()));
 
                     PersonalDetailResponse personalDetail = new PersonalDetailResponse();
                     personalDetail.setBenefName(personalDetailItem.getBenefName());
                     personalDetail.setBenefPhoto(personalDetailItem.getBenefPhoto());
                     personalDetail.setGovtIdNo(personalDetailItem.getGovtIdNo());
-                    personalDetail.setGovtIdType(personalDetailItem.getGovtIdType());
+                    personalDetail.setGovtIdType(personalDetailItem.getIdName());
                     personalDetail.setIdPhoto(personalDetailItem.getIdPhoto());
                     personalDetail.setIsAadhar(personalDetailItem.getIsAadhar());
                     personalDetail.setMobileNo(personalDetailItem.getMobileNo());
@@ -683,16 +900,15 @@ public class FamilyDetailsFragment extends Fragment {
                     familyDetail.setFamilyMemberModels(familyMemberModel.getFamilyMemberModels());
                     familyDetail.setFamilyMatchScore(familyMemberModel.getFamilyMatchScore());
                     familyDetail.setIdImage(familyMemberModel.getIdImage());
-                    familyDetail.setIdNumber(familyDetail.getIdNumber());
-                    familyDetail.setIdType(familyDetail.getIdType());
+                    familyDetail.setIdNumber(familyMemberModel.getIdNumber());
+                    familyDetail.setIdType(familyMemberModel.getIdName());
 
                     request.setPersonalDetail(personalDetail);
                     request.setFamilyDetailsItem(familyDetail);
 
 
-
                     String syncRequest = request.serialize();
-                    HashMap<String, String> apiResponse = CustomHttp.httpPost(AppConstant.SUBMIT_MEMBER_ADDITIONAL_DATA, syncRequest);
+                    HashMap<String, String> apiResponse = CustomHttp.httpPostWithTokken(AppConstant.SUBMIT_MEMBER_ADDITIONAL_DATA, syncRequest, AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
                     familyResponse = apiResponse.get("response");
 
                     if (familyResponse != null) {
@@ -707,9 +923,30 @@ public class FamilyDetailsFragment extends Fragment {
 
             @Override
             public void updateUI() {
-                if (familyResponse != null) {
-                    if (genericResponse != null && genericResponse.isStatus()) {
-                        PrintCardItem printCard = new PrintCardItem();
+                if (genericResponse != null) {
+                    if (genericResponse.isStatus()) {
+                        if (familyScore >= 80 && nameScore >= 80) {
+                            printCard();
+                        }else{
+                            String msg = getResources().getString(R.string.submit_data_message);
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle(context.getResources().getString(com.customComponent.R.string.Alert));
+                            builder.setMessage(msg)
+                                    .setCancelable(false)
+                                    .setPositiveButton(context.getResources().getString(com.customComponent.R.string.OK), new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+
+                                            activity.finish();
+                                            alert.dismiss();
+                                        }
+                                    });
+                            alert = builder.create();
+                            alert.show();
+                        }
+
+                       // Intent intent = new Intent(context, FamilyMembersListActivity.class);
+                       // CustomAlert.alertWithOk(context, getResources().getString(R.string.submit_data_message), intent);
+                      /*  PrintCardItem printCard = new PrintCardItem();
                         printCard.setBenefPhoto(activity.benefItem.getPersonalDetail().getBenefPhoto());
                         printCard.setNameOnCard(activity.benefItem.getName());
                         printCard.setFatherNameOnCard(activity.benefItem.getFathername());
@@ -725,7 +962,8 @@ public class FamilyDetailsFragment extends Fragment {
                             Log.d("TAG", "Last Three : " + lastThreeChar);
                             Log.d("TAG", "middle : " + middleChar);
                             ahltin = firstTwoChar + " " + middleChar + " " + lastThreeChar;
-                            Log.d("TAG", "Ayushman Id  : " + ahltin);
+                            Log.d("TAG", "Ayushman
+                             Id  : " + ahltin);
                             printCard.setCardNo(ahltin);
 
 
@@ -743,15 +981,16 @@ public class FamilyDetailsFragment extends Fragment {
 
 
                         Fragment fragment = new PrintCardFragment();
-                        //Bundle args = new Bundle();
+                        CallFragment(fragment);*/
+                    } else if (genericResponse != null && genericResponse.getErrorCode() != null &&
+                            genericResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || genericResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, genericResponse.getErrorMessage(), intent);
 
-                        //args.putString("familyDetail", fa.serialize());
-
-                        //fragment.setArguments(args);
-                        CallFragment(fragment);
                     } else {
                         //server error
-                        CustomAlert.alertWithOk(context, genericResponse.getErrorCode());
+                        CustomAlert.alertWithOk(context, genericResponse.getErrorMessage());
                     }
                 } else {
                     CustomAlert.alertWithOk(context, "Server Error");
@@ -792,6 +1031,7 @@ public class FamilyDetailsFragment extends Fragment {
 
             govtIdSP.setSelection(1);
         }
+
     }
 
     private void openCamera() {
@@ -880,11 +1120,26 @@ public class FamilyDetailsFragment extends Fragment {
                         refreshList(familyMembersList);
                     }
                 }
-                scoreLL.setVisibility(View.GONE);
+                // scoreLL.setVisibility(View.GONE);
                 if (familyMembersList.size() > 0) {
-                    scoreLL.setVisibility(View.VISIBLE);
+                    // scoreLL.setVisibility(View.VISIBLE);
                 }
                 refreshList(familyMembersList);
+            }
+        }
+
+        if(resultCode==4) {
+            if (requestCode == 3) {
+                if (data != null) {
+                    familyMatchScore = data.getStringExtra("matchScore");
+                    if(familyMatchScore!=null){
+                        familyScoreLL.setVisibility(View.GONE);
+                        if(!familyMatchScore.equalsIgnoreCase("")){
+                            familyScoreLL.setVisibility(View.VISIBLE);
+                            familyMatchScoreTV.setText(familyMatchScore + "%");
+                        }
+                    }
+                }
             }
         }
     }
@@ -894,6 +1149,14 @@ public class FamilyDetailsFragment extends Fragment {
             adapter = new FamilyAdapter(context, familyMembersList);
             memberRecycle.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void oldMemberRefreshList(ArrayList<FamilyMemberModel> familyMembersList) {
+        if (familyMembersList != null) {
+            oldMemberAdapter = new OldFamilyAdapter(context, familyMembersList);
+            oldMemberRecycle.setAdapter(oldMemberAdapter);
+            oldMemberAdapter.notifyDataSetChanged();
         }
     }
 
@@ -958,7 +1221,7 @@ public class FamilyDetailsFragment extends Fragment {
                 holder.menuLayout.setVisibility(View.GONE);
                 holder.settings.setVisibility(View.GONE);
             } else {
-                if (listPosition!=0) {
+                if (listPosition != 0) {
                     editDelete(holder.menuLayout, holder.settings, item, listPosition);
                 }
 
@@ -1011,6 +1274,119 @@ public class FamilyDetailsFragment extends Fragment {
 
     }
 
+    private class OldFamilyAdapter extends RecyclerView.Adapter<OldFamilyAdapter.MyViewHolder> {
+
+        View view;
+        private ArrayList<FamilyMemberModel> dataSet;
+
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            RelativeLayout menuLayout;
+            ImageView settings;
+            TextView nameTV;
+
+
+            public MyViewHolder(final View itemView) {
+                super(itemView);
+                nameTV = (TextView) itemView.findViewById(R.id.nameTV);
+                settings = (ImageView) itemView.findViewById(R.id.settingsIV);
+                settings.setVisibility(View.GONE);
+                menuLayout = (RelativeLayout) itemView.findViewById(R.id.menuLayoutRL);
+                menuLayout.setVisibility(View.GONE);
+            }
+        }
+
+
+        public OldFamilyAdapter(Context context, ArrayList<FamilyMemberModel> data) {
+            this.dataSet = data;
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                               int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.member_data_row, parent, false);
+            MyViewHolder myViewHolder = new MyViewHolder(view);
+            return myViewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
+
+
+            final FamilyMemberModel item = dataSet.get(listPosition);
+            holder.menuLayout.setVisibility(View.GONE);
+            holder.settings.setVisibility(View.GONE);
+          /*  if (listPosition == 0) {
+                holder.menuLayout.setVisibility(View.GONE);
+                holder.settings.setVisibility(View.GONE);
+            } else {
+                editDelete(holder.menuLayout, holder.settings, item, listPosition);
+
+            }*/
+           /* String aadhaarNo = "";
+            holder.houseHoldIdTV.setText(item.getHouseholdId());
+            if(item.getAadhaarNo()!=null && !item.getAadhaarNo().equalsIgnoreCase("")) {
+                aadhaarNo = "XXXXXXXX" + item.getAadhaarNo().substring(8);
+            }
+            holder.houseHoldAadhaarNoTV.setText(aadhaarNo);*/
+            holder.nameTV.setText(item.getName());
+         /*   if (beneficiaryListItem.getPrintCardDetail() != null) {
+                holder.menuLayout.setVisibility(View.GONE);
+                holder.settings.setVisibility(View.GONE);
+            } else {
+                if (listPosition!=0) {
+                    editDelete(holder.menuLayout, holder.settings, item, listPosition);
+                }
+
+            }*/
+
+
+            /*if(item.getStatus().equalsIgnoreCase(AppConstant.SYNC_STATUS)){
+                holder.editActionTV.setBackgroundColor(context.getResources().getColor(R.color.sync_status_color));
+                holder.editActionTV.setText("Synced");
+                holder.editActionTV.setTextColor(context.getResources().getColor(R.color.white));
+                holder.editActionTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ProjectPrefrence.saveSharedPrefrenceData(
+                                AppConstant.PROJECT_PREF, AppConstant.ACTION_TO_PERFORM,AppConstant.VIEW_ACTION, context);
+                        ProjectPrefrence.saveSharedPrefrenceData(
+                                AppConstant.PROJECT_PREF,AppConstant.SELECTED_HOUSEHOLD_ITEM,item.serialize(),context);
+                        Intent theIntent = new Intent(context, PreviewActivity.class);
+                        context.startActivity(theIntent);
+                    }
+                });
+
+            }else if(item.getStatus().equalsIgnoreCase(AppConstant.LOCK_STATUS)){
+                holder.editActionTV.setBackgroundColor(context.getResources().getColor(R.color.lock_status_color));
+                holder.editActionTV.setText("Locked");
+                holder.editActionTV.setTextColor(context.getResources().getColor(R.color.white));
+                holder.editActionRL.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        openResetHousehold(item,holder.editActionRL,context,getActivity());
+
+                    }
+                });
+
+            }*/
+         /*   holder.editActionRL.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openResetHousehold(item,holder.editActionRL);
+                }
+            });*/
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return dataSet.size();
+        }
+
+
+    }
 
     private void updateScreen(String idImage) {
         try {
@@ -1080,5 +1456,57 @@ public class FamilyDetailsFragment extends Fragment {
         alert.show();
     }
 
+    private void getFamilyMatchScore() {
+        final AlertDialog internetDiaolg = new AlertDialog.Builder(context).create();
+        final LayoutInflater factory = LayoutInflater.from(context);
+        View alertView = factory.inflate(R.layout.match_name_layout, null);
+        internetDiaolg.setView(alertView);
+        internetDiaolg.show();
+
+        TextView nameAsInKycTV = (TextView) alertView.findViewById(R.id.nameAsInKycTV);
+        LinearLayout nameAsSeccLayout = (LinearLayout) alertView.findViewById(R.id.nameAsSeccLayout);
+        nameAsSeccLayout.setVisibility(View.GONE);
+        LinearLayout nameAsIDLayout = (LinearLayout) alertView.findViewById(R.id.nameAsIDLayout);
+        nameAsIDLayout.setVisibility(View.GONE);
+        TextView msgTV = (TextView) alertView.findViewById(R.id.msgTV);
+        msgTV.setText(getResources().getString(R.string.family_confirmation_msg));
+        TextView nameAsInSeccTV = (TextView) alertView.findViewById(R.id.nameAsInSeccTV);
+
+
+        Button confirmBTN = (Button) alertView.findViewById(R.id.tryAgainBT);
+        final Button cancelBT = (Button) alertView.findViewById(R.id.cancelBT);
+        confirmBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                familyMatchScore = "80";
+                familyScoreLL.setVisibility(View.VISIBLE);
+                familyMatchScoreTV.setText(familyMatchScore + "%");
+
+                internetDiaolg.dismiss();
+
+            }
+        });
+
+        final Button declineBT = (Button) alertView.findViewById(R.id.declineBT);
+        declineBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                familyMatchScore = "0";
+                familyScoreLL.setVisibility(View.VISIBLE);
+                familyMatchScoreTV.setText(familyMatchScore + "%");
+
+                internetDiaolg.dismiss();
+
+            }
+        });
+        cancelBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                familyScoreLL.setVisibility(View.GONE);
+                internetDiaolg.dismiss();
+            }
+        });
+    }
 
 }

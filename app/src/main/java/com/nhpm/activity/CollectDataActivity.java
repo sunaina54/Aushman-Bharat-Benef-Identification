@@ -59,7 +59,8 @@ public class CollectDataActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
-        headerTV.setText("Collect Data" +" ("+selectedStateItem.getStateName()+")");
+        //headerTV.setText("Collect Data" +" ("+selectedStateItem.getStateName()+")");
+        headerTV.setText("Collect Data" +" by "+ AppUtility.searchTitleHeader+" (" + selectedStateItem.getStateName() + ")");
 
         // AppUtility.navigateToHome(context,activity);
         name = getIntent().getStringExtra("Name");

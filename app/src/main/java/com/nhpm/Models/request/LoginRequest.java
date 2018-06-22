@@ -29,7 +29,7 @@ import java.io.Serializable;
         }*/
 public class LoginRequest implements Serializable {
 
-    private String aadhaarNumber;
+    private String ssoid;
     private String imeiNo1;
     private String imeiNo2;
     private String appVersion;
@@ -38,9 +38,17 @@ public class LoginRequest implements Serializable {
     private String email;
     private String mobile;
     private String loginType;
+    private String applicationid;
     // private int lastLogin;
 
 
+    public String getApplicationid() {
+        return applicationid;
+    }
+
+    public void setApplicationid(String applicationid) {
+        this.applicationid = applicationid;
+    }
 
     public String getAppVersion() {
         return appVersion;
@@ -51,11 +59,11 @@ public class LoginRequest implements Serializable {
     }
 
     public String getAadhaarNumber() {
-        return aadhaarNumber;
+        return ssoid;
     }
 
-    public void setAadhaarNumber(String aadhaarNumber) {
-        this.aadhaarNumber = aadhaarNumber;
+    public void setAadhaarNumber(String ssoid) {
+        this.ssoid = ssoid;
     }
 
     public String getImeiNo1() {

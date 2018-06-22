@@ -10,6 +10,10 @@ public interface AppConstant {
     String SUBMIT_MEMBER_ADDITIONAL_DATA="https://pmrssm.gov.in/reportapi/submitMemberAdditionalData";
     String MOBILE_PARAM="6";
     String RATION_PARAM="2";
+    String SESSION_EXPIRED="N-404";
+    String INVALID_TOKEN="N-401";
+    String APPLICATION_ID="3";
+    String TEST_DOMAIN="https://pmrssm.gov.in/reportapi/";
     int FAMILY_MEMBER_REQUEST_CODE_VALUE = 11;
     String dateTimeFormate = "yyyy-MM-dd";
     String VIEW_DATA = "VIEW_DATA";
@@ -132,16 +136,17 @@ public interface AppConstant {
     String NEW_PROD_DOMAIN_NEW_DEPLOYMENT = "http://164.100.58.98/";
 
     String PROD_DOMAIN = "http://164.100.161.62/nhps_service/";
-    String TEST_DOMAIN = "http://103.241.181.83:8080/" +
-            "nhps_service/";
+  //  String TEST_DOMAIN = "http://103.241.181.83:8080/" +"nhps_service/";
     String LOCAL_DOMAIN = "http://192.168.2.81:8080/" +
             "service/";
     //String MAIN_DOMAIN=PROD_DOMAIN_NEW_DEPLOYMENT;
     String MAIN_DOMAIN = PROD_DOMAIN_NEW_DEPLOYMENT;
     String NEW_MAIN_DOMAIN = NEW_PROD_DOMAIN_NEW_DEPLOYMENT;
+    String NEW_MAIN_DOMAIN_UPDATED = TEST_DOMAIN;
 
     // String LOGIN_API = MAIN_DOMAIN + "nhps/test/verifier/login";
-    String LOGIN_API = NEW_MAIN_DOMAIN + "authenticateVerifier/1.0.0/authenticateVerifier";
+    //String LOGIN_API = NEW_MAIN_DOMAIN + "authenticateVerifier/1.0.0/authenticateVerifier";
+    String LOGIN_API = NEW_MAIN_DOMAIN_UPDATED + "login";
 
     String USER_NAME_LOGIN = MAIN_DOMAIN + "nhps/verifier/login";
     //AADHAAR AUTH API OLDER VERSION
@@ -174,7 +179,8 @@ public interface AppConstant {
 
 
     //String UPDATE_PIN = MAIN_DOMAIN + "nhps/verifier/updatePin";
-    String UPDATE_PIN = NEW_MAIN_DOMAIN + "updatePin/1.0.0/updatePin";
+   // String UPDATE_PIN = NEW_MAIN_DOMAIN + "updatePin/1.0.0/updatePin";
+    String UPDATE_PIN = NEW_MAIN_DOMAIN_UPDATED + "updatePin";
 
     //String HEALTH_SCHEME_API = MAIN_DOMAIN + "nhps/master/stateHealthScheme";
     String HEALTH_SCHEME_API = NEW_MAIN_DOMAIN + "stateSchemes/1.0.0/stateSchemes";
@@ -204,14 +210,15 @@ public interface AppConstant {
     String HOUSE_HOLD_API = NEW_MAIN_DOMAIN + "houseHoldSeccWrite/1.0.0/houseHoldSeccWrite";
 
     //String APPLICATION_NOTIFICATION_URL = "http://164.100.161.62/nhps_service/nhps/master/notifications";
-    String APPLICATION_NOTIFICATION_URL = "http://164.100.58.98:80/notificationList/1.0.0/notificationList?stateCode=";
+    //String APPLICATION_NOTIFICATION_URL = "http://164.100.58.98:80/notificationList/1.0.0/notificationList?stateCode=";
+    String APPLICATION_NOTIFICATION_URL = NEW_MAIN_DOMAIN_UPDATED + "notification/notificationList?stateCode=";
 
     String AADHAAR_STATUS_API = MAIN_DOMAIN + "nhps/master/aadhaarStatus";
     String SECC_MEMBER_DOWNLOAD_API = MAIN_DOMAIN + "nhps/secc/members";
     String SECC_HOUSEHOLD_DOWNLOAD_API = MAIN_DOMAIN + "nhps/secc/houseHolds";
-    String SEARCH_FAMILY_LIST = "https://pmrssm.gov.in/SE/search";
+    String SEARCH_FAMILY_LIST = NEW_MAIN_DOMAIN_UPDATED+"search";
     String VALIDATE_URN = "https://pmrssm.gov.in/VIEWSTAT/api/validateURN";
-    String SEARCH_BY_MOBILE_RATION = "https://pmrssm.gov.in/VIEWSTAT/api/searchByMobileRationParameter";
+    String SEARCH_BY_MOBILE_RATION =  NEW_MAIN_DOMAIN_UPDATED+"searchByMobileRationParameter";
     String GET_MEMBER_DETAIL="https://pmrssm.gov.in/reportapi/getMemberDetail";
 
     String VILLAGE_WISE_HOUSEHOLD_DOWNLOADING = MAIN_DOMAIN + "nhps/secc/village/houseHold";
@@ -232,7 +239,8 @@ public interface AppConstant {
     String MOBILE_OTP_REQUEST = "http://164.100.161.62/health/sendRequestForOtp/0/";
     String AUTH_MOBILE_OTP = "http://164.100.161.62/health/getOtpFromServer/1/";
     String GET_DATA_DOWNLOAD_COUNT = "http://164.100.58.98:80/dataCount/1.0.0/dataCount";
-    String APPLICATION_CONFIGURATION_URL = "http://164.100.58.98:80/appStateConfig/1.0.0/appStateConfig?stateCode=";
+  //  String APPLICATION_CONFIGURATION_URL = "http://164.100.58.98:80/appStateConfig/1.0.0/appStateConfig?stateCode=";
+    String APPLICATION_CONFIGURATION_URL = NEW_MAIN_DOMAIN_UPDATED + "appStateConfig?stateCode=";
     String GET_STATE_MASTER_DATA = "http://164.100.58.98/state/1.0.0/state";
     String VERIFY_VALIDATOR = "http://164.100.58.98/authVerifierWithPin/1.0.0/authVerifierWithPin";
 
@@ -242,6 +250,7 @@ public interface AppConstant {
     String GET_RSBY_RELATION_MASTER = "http://164.100.58.98/rsbyRelation/1.0.0/rsbyRelation";
     String REQUEST_FOR_MOBILE_OTP = "http://164.100.58.98:80/sendMessage/1.0.0/sendMessage";
     String REQUEST_FOR_OTP_VERIFICATION = "http://164.100.58.98:80/verifyOtp/1.0.0/verifyOtp";
+    String REQUEST_FOR_OTP_VERIFICATION_GATEWAY = NEW_MAIN_DOMAIN_UPDATED + "verifyLogin";
     String REQUEST_FOR_OTP_EKYC = "http://164.100.58.98:80/getOtpKyc/1.0.0/getOtpKyc";
     String REQUEST_FOR_OTP_EKYC1 = "http://164.100.58.98:80/getOtpKycRD/1.0.0/getOtpKycRD";
     String REQUEST_FOR_OTP_AUTH_OLD = "http://164.100.58.98:80/getAuth/1.0.0/getAuth";
@@ -338,9 +347,13 @@ public interface AppConstant {
     String GOVT_STATUS = "govt_id";
     String AADHAR_STATUS = "aadhar";
 
+
+
     String SECC_SOURCE = "001";
+    String SECC_SOURCE_NEW = "01";
     String SECC_SOURCE_NAME = "SECC";
     String RSBY_SOURCE = "002";
+    String RSBY_SOURCE_NEW = "02";
     String RSBY_SOURCE_NAME = "RSBY";
     String SCHEME_CODE = "001"; //-NHPS
     // String HOUSEHOLD_FOUND="1";
@@ -349,7 +362,7 @@ public interface AppConstant {
     String VOTER_ID = "2";
     String RASHAN_CARD = "3";
     String AUTH_TOKEN = "authToken";
-    String RELEASE_DATE = "June 12, 2018";
+    String RELEASE_DATE = "June 22, 2018";
     String NEW_HEAD_RELATION_CODE = "01";
     String NO_INFO_AVAIL = "7";
     String invalid_user = "INVALID_USER";

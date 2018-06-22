@@ -10,8 +10,11 @@ import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.customComponent.utility.ProjectPrefrence;
+
 
 public class CustomAlert {
+
 
 
     public static void alertWithOk1(final Context mContext, String msg, final Intent intent) {
@@ -59,6 +62,7 @@ public class CustomAlert {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
 
     public static void alertWithValidateField(final Context mContext, String msg, final Object ediText) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -128,7 +132,7 @@ public class CustomAlert {
         alert.show();
     }
 
-    public static void alertWithYesNo(final Context mContext, String msg, final Intent nextScreen) {
+    public static void alertWithYesNo(final Context mContext, String msg,final Intent nextScreen,final Activity activity) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 mContext);
 
@@ -139,15 +143,20 @@ public class CustomAlert {
         alertDialogBuilder
                 .setMessage(msg)
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, close
                         // current activity
                         mContext.startActivity(nextScreen);
-                        ((Activity) mContext).finish();
+                        nextScreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        nextScreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.VERIFIER_CONTENT,mContext);
+
+                        //((Activity) mContext).finish();
+                        activity.finish();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // if this button is clicked, just close
                         // the dialog box and do nothing
@@ -193,5 +202,22 @@ public class CustomAlert {
         }).start();
     }
 
-
+    public static void alertWithOkLogout(final Context mContext, String msg ,final Intent theIntent) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("Alert");
+        builder.setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                       // Intent theIntent;
+                        //theIntent = new Intent(mContext, LoginActivity.class);
+                        theIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        theIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(theIntent);
+                      //  rightTransition();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }

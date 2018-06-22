@@ -1,6 +1,8 @@
 package com.nhpm.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +29,7 @@ import com.nhpm.Models.response.FamilyListResponseItem;
 import com.nhpm.Models.response.URNResponseItem;
 import com.nhpm.Models.response.URNResponseModel;
 import com.nhpm.Models.response.master.StateItem;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -53,6 +56,7 @@ public class FamilyListByURNActivity extends BaseActivity {
     private LinearLayout noMemberLL;
     private FamilyListByURNActivity activity;
     private StateItem selectedStateItem;
+    private VerifierLoginResponse verifierLoginResp;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +72,9 @@ public class FamilyListByURNActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
-        headerTV.setText("Family Data" + " (" + selectedStateItem.getStateName() + ")");
+        verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
+        headerTV.setText("Family Data" + " by " + AppUtility.searchTitleHeader + " (" + selectedStateItem.getStateName() + ")");
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
@@ -104,11 +110,10 @@ public class FamilyListByURNActivity extends BaseActivity {
                     noMemberLL.setVisibility(View.GONE);
                     searchListRV.setVisibility(View.VISIBLE);
                     String request = validateUrnRequestModel.serialize();
-                    String url = AppConstant.VALIDATE_URN;
-                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.VALIDATE_URN, request);
+                    String url = AppConstant.SEARCH_BY_MOBILE_RATION;
+                    // HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_BY_MOBILE_RATION, request);
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_BY_MOBILE_RATION, request, AppConstant.AUTHORIZATION, verifierLoginResp.getAuthToken());
                     familyResponse = response.get("response");
-
-
                     if (familyResponse != null) {
 
                         familyListResponseModel = new URNResponseModel().create(familyResponse);
@@ -134,6 +139,12 @@ public class FamilyListByURNActivity extends BaseActivity {
                                 searchListRV.setVisibility(View.GONE);
                             }
                         }
+                    } else if (familyListResponseModel != null &&
+                            familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
+
                     } else {
                         noMemberLL.setVisibility(View.VISIBLE);
                         noMemberTV.setText(familyListResponseModel.getErrorMessage());
@@ -169,7 +180,7 @@ public class FamilyListByURNActivity extends BaseActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             private TextView nameTV, relationTV, genderTV, ageTV,
                     motherNameTV, spouseNameTV, memberIdTV, urnNoTV, stateTV, distTV, villageTV,
-                    blockTV, pincodeTV, familyIdTV;
+                    blockTV, pincodeTV, familyIdTV, fatherNameTV;
             private LinearLayout familyItemLL;
 
 
@@ -183,6 +194,10 @@ public class FamilyListByURNActivity extends BaseActivity {
                 relationTV = (TextView) v.findViewById(R.id.relationTV);
                 memberIdTV = (TextView) v.findViewById(R.id.memberIdTV);
                 urnNoTV = (TextView) v.findViewById(R.id.urnNoTV);
+                fatherNameTV = (TextView) v.findViewById(R.id.fatherNameTV);
+                genderTV = (TextView) v.findViewById(R.id.genderTV);
+                ageTV = (TextView) v.findViewById(R.id.ageTV);
+                familyItemLL = (LinearLayout) v.findViewById(R.id.familyItemLL);
 
 
             }
@@ -229,23 +244,41 @@ public class FamilyListByURNActivity extends BaseActivity {
             holder.villageTV.setText(item.getVillageName());
             holder.memberIdTV.setText(item.getMemberId());
             holder.urnNoTV.setText(item.getUrnNo());
-          /*  holder.familyItemLL.setOnClickListener(new View.OnClickListener() {
+            holder.fatherNameTV.setText(item.getFatherhusbandname());
+            String gender = "";
+            if (item.getGender().equalsIgnoreCase("M")) {
+                gender = "Male";
+            } else if (item.getGender().equalsIgnoreCase("F")) {
+                gender = "Female";
+            } else {
+                gender = "Other";
+            }
+            holder.genderTV.setText(gender);
+            String yob = "";
+            if (item.getDob() != null && item.getDob().length() > 4) {
+                yob = item.getDob().substring(0, 4);
+            } else {
+                yob = item.getDob();
+            }
+            holder.ageTV.setText(yob);
+
+            holder.familyItemLL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    if (mDataset.get(position).getHhd_no() == null || mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
-                        CustomAlert.alertWithOk(context, "HHID is blank. You can't processed data");
+                    if (mDataset.get(position).getUrnNo() == null || mDataset.get(position).getUrnNo().equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Urn number is blank. You can't processed data");
                         return;
                     }
 
-                    if (mDataset.get(position).getHhd_no() != null && !mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
+                    if (mDataset.get(position).getUrnNo() != null && !mDataset.get(position).getUrnNo().equalsIgnoreCase("")) {
                         Intent intent = new Intent(context, FamilyMembersListActivity.class);
                         //intent.putExtra("result", beneficiaryModel);
-                        intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
+                        intent.putExtra("urnNo", mDataset.get(position).getUrnNo());
                         startActivity(intent);
                     }
                 }
-            });*/
+            });
 
             /*holder.collectDataBT.setOnClickListener(new View.OnClickListener() {
                 @Override

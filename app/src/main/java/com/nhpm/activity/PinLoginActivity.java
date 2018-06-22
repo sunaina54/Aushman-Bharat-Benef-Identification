@@ -44,7 +44,7 @@ public class PinLoginActivity extends BaseActivity {
     private ImageView settigs, backIV;
     private LinearLayout forgotPinLayout, wornPinLinearLayout;
     private boolean passwordEyeFlag;
-    private Button showPassBT;
+    private Button showPassBT,cancelBT;
     private Activity activity;
     private LinearLayout mZoomLinearLayout;
     private ZoomView zoomView;
@@ -54,6 +54,8 @@ public class PinLoginActivity extends BaseActivity {
     private long currentTime;
     private TextView wrongAttempetCountValue;
     private String screen;
+    private PinLoginActivity pinLoginActivity;
+    private StateItem selectedStateItem;
 
 
     @Override
@@ -61,6 +63,7 @@ public class PinLoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         context = this;
         activity = this;
+        pinLoginActivity = this;
         checkAppConfig();
 
         if (zoomMode.equalsIgnoreCase("N")) {
@@ -95,6 +98,7 @@ public class PinLoginActivity extends BaseActivity {
         AppUtility.showSoftInput(activity);
         // openSoftinputKeyBoard();
         screen = getIntent().getStringExtra("Beneficiary");
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
 
         response = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         goForVerificationBT = (Button) v.findViewById(R.id.goForVerificationBT);
@@ -105,13 +109,13 @@ public class PinLoginActivity extends BaseActivity {
         wrongAttempetCountValue = (TextView) v.findViewById(R.id.wrongAttempetCountValue);
         showPassBT = (Button) v.findViewById(R.id.showPassBT);
         headerTV = (TextView) v.findViewById(R.id.centertext);
-        headerTV.setText("");
+        headerTV.setText("Pin" + " (" + selectedStateItem.getStateName() + ")");
         settigs = (ImageView) v.findViewById(R.id.settings);
         settigs.setVisibility(View.GONE);
         backIV = (ImageView) v.findViewById(R.id.back);
         forgotPinLayout = (LinearLayout) v.findViewById(R.id.forgetPinBT);
         if(screen!=null && screen.equalsIgnoreCase("Beneficiary")){
-            forgotPinLayout.setVisibility(View.GONE);
+           // forgotPinLayout.setVisibility(View.GONE);
         }
 
         zoomView = new ZoomView(this);
@@ -120,7 +124,17 @@ public class PinLoginActivity extends BaseActivity {
         forgotPinLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomAlert.alertWithOk(context, context.getResources().getString(R.string.proceedToForgotPassword));
+                Intent intent = new Intent(context,LoginActivity.class);
+                CustomAlert.alertWithYesNo(context, context.getResources().getString(R.string.proceedToForgotPassword),intent,pinLoginActivity);
+            }
+        });
+        cancelBT = (Button) v.findViewById(R.id.cancelBT);
+        cancelBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_login = new Intent(context, BlockDetailActivity.class);
+                startActivity(intent_login);
+                finish();
             }
         });
         showPassBT.setOnClickListener(new View.OnClickListener() {
@@ -138,17 +152,19 @@ public class PinLoginActivity extends BaseActivity {
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent theIntent;
-                /*if (response != null && response.getAadhaarNumber() != null) {*/
-                theIntent = new Intent(context, LoginActivity.class);
-              /*  } else {
-                    theIntent = new Intent(context, NonAdharLoginActivity.class);
-                }*/
-
-                theIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                theIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(theIntent);
-                rightTransition();
+                if(screen!=null && screen.equalsIgnoreCase("Beneficiary")){
+                    Intent theIntent;
+                    theIntent = new Intent(context, BlockDetailActivity.class);
+                    startActivity(theIntent);
+                    rightTransition();
+                }else {
+                    Intent theIntent;
+                    theIntent = new Intent(context, LoginActivity.class);
+                    theIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    theIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(theIntent);
+                    rightTransition();
+                }
             }
         });
         goForVerificationBT.setOnClickListener(new View.OnClickListener() {
@@ -230,15 +246,18 @@ public class PinLoginActivity extends BaseActivity {
         screen = getIntent().getStringExtra("Beneficiary");
 
         // openSoftinputKeyBoard();
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+
         response = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         goForVerificationBT = (Button) findViewById(R.id.goForVerificationBT);
         pinET = (EditText) findViewById(R.id.pinET);
         pinET.requestFocus();
+
         wrongAttempetCountText = (TextView) findViewById(R.id.wrongAttempetCountText);
         wrongAttempetCountValue = (TextView) findViewById(R.id.wrongAttempetCountValue);
         showPassBT = (Button) findViewById(R.id.showPassBT);
         headerTV = (TextView) findViewById(R.id.centertext);
-        headerTV.setText("");
+        headerTV.setText("Pin" + " (" + selectedStateItem.getStateName() + ")");
 
         wornPinLinearLayout = (LinearLayout) findViewById(R.id.wornPinLinearLayout);
         settigs = (ImageView) findViewById(R.id.settings);
@@ -246,12 +265,22 @@ public class PinLoginActivity extends BaseActivity {
         backIV = (ImageView) findViewById(R.id.back);
         forgotPinLayout = (LinearLayout) findViewById(R.id.forgetPinBT);
         if(screen!=null && screen.equalsIgnoreCase("Beneficiary")){
-            forgotPinLayout.setVisibility(View.GONE);
+           // forgotPinLayout.setVisibility(View.GONE);
         }
         forgotPinLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CustomAlert.alertWithOk(context, context.getResources().getString(R.string.proceedToForgotPassword));
+            }
+        });
+        cancelBT = (Button) findViewById(R.id.cancelBT);
+        cancelBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_login = new Intent(context, BlockDetailActivity.class);
+
+                startActivity(intent_login);
+                finish();
             }
         });
         showPassBT.setOnClickListener(new View.OnClickListener() {
@@ -263,12 +292,19 @@ public class PinLoginActivity extends BaseActivity {
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent theIntent;
-                theIntent = new Intent(context, LoginActivity.class);
-                theIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                theIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(theIntent);
-                rightTransition();
+                if(screen!=null && screen.equalsIgnoreCase("Beneficiary")){
+                    Intent theIntent;
+                    theIntent = new Intent(context, BlockDetailActivity.class);
+                    startActivity(theIntent);
+                    rightTransition();
+                }else {
+                    Intent theIntent;
+                    theIntent = new Intent(context, LoginActivity.class);
+                    theIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    theIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(theIntent);
+                    rightTransition();
+                }
             }
         });
         goForVerificationBT.setOnClickListener(new View.OnClickListener() {

@@ -10,6 +10,33 @@ import java.io.Serializable;
 
 public class FamilyMemberModel implements Serializable {
     private String name;
+    private String genderid;
+    private String pincode;
+    private String dob;
+
+    public String getGenderid() {
+        return genderid;
+    }
+
+    public void setGenderid(String genderid) {
+        this.genderid = genderid;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
 
     public String getName() {
         return name;

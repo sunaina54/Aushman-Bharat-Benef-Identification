@@ -705,9 +705,9 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                 } else {
                     String str = data.getStringExtra("Setting");
                 }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
+            } /*else if (resultCode == Activity.RESULT_CANCELED) {
                 showMessageDialogue("Scan Failed/Aborted!");
-            }
+            }*/
         } catch (Exception ex) {
             //showMessageDialogue("Error:-" + ex.getMessage());
             ex.printStackTrace();
@@ -1504,8 +1504,12 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
-                            personalDetailItem.setGovtIdType("aadhar");
+                            personalDetailItem.setIdName("13");
                             personalDetailItem.setIsAadhar("Y");
+                            personalDetailItem.setGender(aadhaarKycResponse.getGender());
+                            personalDetailItem.setYob(aadhaarKycResponse.getDob());
+                            personalDetailItem.setState(aadhaarKycResponse.getState());
+                            personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
@@ -1515,8 +1519,13 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem = new PersonalDetailItem();
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
-                            personalDetailItem.setGovtIdType("aadhar");
+                            personalDetailItem.setIdName("13");
+
                             personalDetailItem.setIsAadhar("Y");
+                            personalDetailItem.setGender(aadhaarKycResponse.getGender());
+                            personalDetailItem.setYob(aadhaarKycResponse.getDob());
+                            personalDetailItem.setState(aadhaarKycResponse.getState());
+                            personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);

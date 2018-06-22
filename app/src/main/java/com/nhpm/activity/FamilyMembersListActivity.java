@@ -20,15 +20,20 @@ import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
+import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.request.FamilyListRequestModel;
 import com.nhpm.Models.request.GetMemberDetail;
 import com.nhpm.Models.request.GetMemberDetailRequestModel;
+import com.nhpm.Models.request.ValidateUrnRequestModel;
 import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
+import com.nhpm.Models.response.URNResponseItem;
+import com.nhpm.Models.response.URNResponseModel;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.VerifierLocationItem;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -53,7 +58,9 @@ public class FamilyMembersListActivity extends BaseActivity {
     private ImageView backIV;
     private Button collectDataBT;
     private FamilyListResponseItem familyListResponseModel;
-    private String hhdNo = "";
+    private URNResponseModel urnResponseModel;
+    private String hhdNo = "", urnNo = "";
+
     public static String SELECTED_MEMBER = "SELECTED-MEMBER";
     private FamilyListRequestModel familyListRequestModel;
     private LinearLayout noMemberLL;
@@ -62,6 +69,10 @@ public class FamilyMembersListActivity extends BaseActivity {
     private TextView errorTV;
     private StateItem selectedStateItem;
     private GetMemberDetail getMemberDetailResponse;
+    private ValidateUrnRequestModel urRequest;
+    private FamilyListRequestModel seccRequest;
+    private CustomAdapterRSBY adapterRSBY;
+    private VerifierLoginResponse verifierLoginResp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +86,9 @@ public class FamilyMembersListActivity extends BaseActivity {
         activity = this;
         centerText = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
-
-        centerText.setText("Family Members" + " (" + selectedStateItem.getStateName() + ")");
+        verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
+        centerText.setText("Family Members" + " by " + AppUtility.searchTitleHeader + " (" + selectedStateItem.getStateName() + ")");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,9 +112,16 @@ public class FamilyMembersListActivity extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         memberListRV.setLayoutManager(mLayoutManager);
         hhdNo = getIntent().getStringExtra("hhdNo");
-        if (!hhdNo.equalsIgnoreCase("")) {
+
+        if (hhdNo != null && !hhdNo.equalsIgnoreCase("")) {
             familyIdNoTV.setText(hhdNo);
             familyListData();
+        }
+
+        urnNo = getIntent().getStringExtra("urnNo");
+        if (urnNo != null && !urnNo.equalsIgnoreCase("")) {
+            familyIdNoTV.setText(urnNo);
+            familyListDataForRSBY();
         }
         //beneficiaryModel = (BeneficiaryModel) getIntent().getSerializableExtra("result");
      /*   if(beneficiaryModel!=null && beneficiaryModel.getBeneficiaryList()!=null && beneficiaryModel.getBeneficiaryList().size()>0) {
@@ -146,7 +165,9 @@ public class FamilyMembersListActivity extends BaseActivity {
             public void execute() {
                 try {
                     String request = familyListRequestModel.serialize();
-                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_FAMILY_LIST, request);
+                    // HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_FAMILY_LIST, request);
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_FAMILY_LIST, request, AppConstant.AUTHORIZATION, verifierLoginResp.getAuthToken());
+
                     String familyResponse = response.get("response");
 
                     if (familyResponse != null) {
@@ -162,30 +183,104 @@ public class FamilyMembersListActivity extends BaseActivity {
             @Override
             public void updateUI() {
                 if (familyListResponseModel != null) {
-                    if (familyListResponseModel.getResponse() != null) {
-                        int matchCount = Integer.parseInt(familyListResponseModel.getResponse().getNumFound());
-                        //noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
-                        if (familyListResponseModel.getResponse().getDocs() != null && familyListResponseModel.getResponse().getDocs().size() > 0) {
-                            //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
-                            try {
-                                familyMembersNoTV.setText(familyListResponseModel.getResponse().getDocs().size() + "");
+                    if (familyListResponseModel.isStatus()) {
+                        if (familyListResponseModel.getResult() != null && familyListResponseModel.getResult().getResponse() != null) {
+                            int matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
+                            //noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
+                            if (familyListResponseModel.getResult().getResponse().getDocs() != null && familyListResponseModel.getResult().getResponse().getDocs().size() > 0) {
+                                //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
+                                try {
+                                    familyMembersNoTV.setText(familyListResponseModel.getResult().getResponse().getDocs().size() + "");
 
-                                refreshMembersList(familyListResponseModel.getResponse().getDocs());
-                            } catch (Exception e) {
-                                Log.d("TAG", "Exception : " + e.toString());
-                            }
+                                    refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
+                                } catch (Exception e) {
+                                    Log.d("TAG", "Exception : " + e.toString());
+                                }
                         /*}else {
                             //mProgressBar.setVisibility(View.GONE);
                             noMemberLL.setVisibility(View.VISIBLE);
                             noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                         }*/
-                        } else {
-                            // mProgressBar.setVisibility(View.GONE);
-                            //noMemberLL.setVisibility(View.VISIBLE);
+                            } else {
+                                // mProgressBar.setVisibility(View.GONE);
+                                //noMemberLL.setVisibility(View.VISIBLE);
 
-                            errorTV.setVisibility(View.VISIBLE);
-                            errorTV.setText("No family member found");
+                                errorTV.setVisibility(View.VISIBLE);
+                                errorTV.setText("No family member found");
+                            }
                         }
+                    } else if (familyListResponseModel != null &&
+                            familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
+
+                    }
+                } else {
+                    errorTV.setVisibility(View.GONE);
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+        customAsyncTask.execute();
+
+    }
+
+    private void familyListDataForRSBY() {
+
+        final ValidateUrnRequestModel validateUrnRequestModel = new ValidateUrnRequestModel();
+        validateUrnRequestModel.setUrn(urnNo);
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                try {
+
+                    String request = validateUrnRequestModel.serialize();
+                    String url = AppConstant.SEARCH_BY_MOBILE_RATION;
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_BY_MOBILE_RATION, request,AppConstant.AUTHORIZATION,verifierLoginResp.getAuthToken());
+                    // HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.VALIDATE_URN, request,AppConstant.AUTHORIZATION,verifierLoginResp.getAuthToken());
+                    String familyResponse = response.get("response");
+                    if (familyResponse != null) {
+
+                        urnResponseModel = new URNResponseModel().create(familyResponse);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                if (urnResponseModel != null) {
+                    if (urnResponseModel.isStatus()) {
+                        if (urnResponseModel.getUrnResponse() != null) {
+                            if (urnResponseModel.getUrnResponse().size() > 0) {
+                                familyMembersNoTV.setText(urnResponseModel.getUrnResponse().size() + "");
+
+                                refreshMembersListByURN(urnResponseModel.getUrnResponse());
+                            } else {
+                                errorTV.setVisibility(View.VISIBLE);
+                                errorTV.setText("No family member found");
+                            }
+                        }
+                    }else if (urnResponseModel != null &&
+                            urnResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || urnResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
+
+                    } else {
+                        errorTV.setVisibility(View.VISIBLE);
+                        errorTV.setText("No family member found");
                     }
                 } else {
                     errorTV.setVisibility(View.GONE);
@@ -208,6 +303,13 @@ public class FamilyMembersListActivity extends BaseActivity {
         adapter = new CustomAdapter(beneficiaryList);
         memberListRV.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    private void refreshMembersListByURN(ArrayList<URNResponseItem> beneficiaryList) {
+
+        adapterRSBY = new CustomAdapterRSBY(beneficiaryList);
+        memberListRV.setAdapter(adapterRSBY);
+        adapterRSBY.notifyDataSetChanged();
     }
 
     private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
@@ -320,20 +422,32 @@ public class FamilyMembersListActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
 
+                /*    ArrayList<FamilyMemberModel> oldMemList = new ArrayList<>();
+                    for (DocsListItem item2 : mDataset) {
+                        FamilyMemberModel model = new FamilyMemberModel();
+                        model.setName(item2.getName());
+                        oldMemList.add(model);
+                    }
+
+                    item.setOldMembers(oldMemList);
+
                     Intent intent = new Intent(context, CollectDataActivity.class);
                     intent.putExtra("member", mDataset.get(position).getName());
                     item.setPersonalDetail(null);
-                     /*if(item.getState_code()!=null && !item.getState_code().equalsIgnoreCase("")) {
+                     *//*if(item.getState_code()!=null && !item.getState_code().equalsIgnoreCase("")) {
                          item.setStatecode(item.getState_code());
-                     }*/
+                     }*//*
                     Log.d("TAG", "Doc List : " + item.serialize());
                     item.setFamilyDetailsItemModel(null);
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, SELECTED_MEMBER, item.serialize(), context);
                     Log.d("TAG", "Doc List from shared pref: " + DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
                             SELECTED_MEMBER, context)));
-                    startActivity(intent);
+                    startActivity(intent);*/
 
-                  /*  final GetMemberDetailRequestModel requestModel = new GetMemberDetailRequestModel();
+
+                    ///// ********** FLOW BY API ************/////
+
+                    final GetMemberDetailRequestModel requestModel = new GetMemberDetailRequestModel();
                     if (item.getAhl_tin() != null && !item.getAhl_tin().equalsIgnoreCase("")) {
                         requestModel.setAhl_tin(item.getAhl_tin());
                     }
@@ -350,7 +464,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                         public void execute() {
                             try {
                                 String request = requestModel.serialize();
-                                HashMap<String, String> response = CustomHttp.httpPost(AppConstant.GET_MEMBER_DETAIL, request);
+                                HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.GET_MEMBER_DETAIL, request, AppConstant.AUTHORIZATION, verifierLoginResp.getAuthToken());
                                 String familyResponse = response.get("response");
 
                                 if (familyResponse != null) {
@@ -375,12 +489,24 @@ public class FamilyMembersListActivity extends BaseActivity {
                                         startActivity(intent);
 
                                     } else {
+                                        ArrayList<FamilyMemberModel> oldMemList = new ArrayList<>();
+                                        for (DocsListItem item2 : mDataset) {
+                                            FamilyMemberModel model = new FamilyMemberModel();
+                                            model.setName(item2.getName());
+                                            model.setDob(item2.getDob());
+                                            model.setGenderid(item2.getGenderid());
+                                            model.setPincode(item2.getPincode());
+                                            oldMemList.add(model);
+                                        }
+
+                                        item.setOldMembers(oldMemList);
+                                        item.setSource(AppConstant.SECC_SOURCE_NEW);
                                         Intent intent = new Intent(context, CollectDataActivity.class);
                                         intent.putExtra("member", mDataset.get(position).getName());
                                         item.setPersonalDetail(null);
-                     *//*if(item.getState_code()!=null && !item.getState_code().equalsIgnoreCase("")) {
-                         item.setStatecode(item.getState_code());
-                     }*//*
+                                        if (item.getState_code() != null && !item.getState_code().equalsIgnoreCase("")) {
+                                            item.setStatecode(item.getState_code());
+                                        }
                                         Log.d("TAG", "Doc List : " + item.serialize());
                                         item.setFamilyDetailsItemModel(null);
                                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, SELECTED_MEMBER, item.serialize(), context);
@@ -390,6 +516,11 @@ public class FamilyMembersListActivity extends BaseActivity {
                                     }
 
 
+                                } else if (getMemberDetailResponse != null &&
+                                        getMemberDetailResponse.getErrorcode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                                        || getMemberDetailResponse.getErrorcode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                                    Intent intent = new Intent(context, LoginActivity.class);
+                                    CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
                                 } else {
                                     CustomAlert.alertWithOk(context, getMemberDetailResponse.getErrorMessage());
                                 }
@@ -404,7 +535,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                     }
 
                     customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
-                    customAsyncTask.execute();*/
+                    customAsyncTask.execute();
                 }
             });
 
@@ -417,6 +548,247 @@ public class FamilyMembersListActivity extends BaseActivity {
         }
     }
 
+    private class CustomAdapterRSBY extends RecyclerView.Adapter<CustomAdapterRSBY.ViewHolder> {
+        private ArrayList<URNResponseItem> mDataset;
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            private TextView nameTV, fatherNameTV, genderTV, ageTV, addressTV;
+            private Button collectDataBT, printCardBT;
+
+            public ViewHolder(View v) {
+                super(v);
+                nameTV = (TextView) v.findViewById(R.id.nameTV);
+                fatherNameTV = (TextView) v.findViewById(R.id.fatherNameTV);
+                genderTV = (TextView) v.findViewById(R.id.genderTV);
+                ageTV = (TextView) v.findViewById(R.id.ageTV);
+                addressTV = (TextView) v.findViewById(R.id.addressTV);
+                collectDataBT = (Button) v.findViewById(R.id.collectDataBT);
+                printCardBT = (Button) v.findViewById(R.id.printCardBT);
+
+            }
+        }
+
+
+        public void add(int position, URNResponseItem item) {
+            mDataset.add(position, item);
+            notifyItemInserted(position);
+        }
+
+        public void remove(String item) {
+            int position = mDataset.indexOf(item);
+            mDataset.remove(position);
+            notifyItemRemoved(position);
+        }
+
+        public void updateData(ArrayList<URNResponseItem> itemList) {
+            mDataset.clear();
+            mDataset.addAll(itemList);
+            notifyDataSetChanged();
+        }
+
+        public CustomAdapterRSBY(ArrayList<URNResponseItem> myDataset) {
+            mDataset = myDataset;
+        }
+
+        @Override
+        public CustomAdapterRSBY.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                               int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.family_members_item, parent, false);
+            CustomAdapterRSBY.ViewHolder vh = new CustomAdapterRSBY.ViewHolder(v);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(CustomAdapterRSBY.ViewHolder holder, final int position) {
+            final URNResponseItem item = mDataset.get(position);
+
+            holder.nameTV.setText(item.getMemberName());
+            holder.fatherNameTV.setText(item.getFatherhusbandname());
+            String gender = "", address = "";
+
+            if (item.getGender().equalsIgnoreCase("M")) {
+                gender = "Male";
+            } else if (item.getGender().equalsIgnoreCase("F")) {
+                gender = "Female";
+            } else {
+                gender = "Other";
+            }
+            holder.genderTV.setText(gender);
+            String yob = "";
+            if (item.getDob() != null && item.getDob().length() > 4) {
+                yob = item.getDob().substring(0, 4);
+            } else {
+                yob = item.getDob();
+            }
+
+            String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+            currentYear = currentYear.substring(0, 4);
+            int age = Integer.parseInt(currentYear) - Integer.parseInt(yob);
+            holder.ageTV.setText(age + "");
+
+            // holder.ageTV.setText(item.getAge());
+            if (item != null) {
+                if (item.getVillageName() != null && !item.getVillageName().equalsIgnoreCase("")) {
+                    address = address + item.getVillageName() + ", ";
+
+                }
+                if (item.getDistrictName() != null && !item.getDistrictName().equalsIgnoreCase("")) {
+
+                    address = address + item.getDistrictName() + ", ";
+                }
+                if (item.getStateName() != null && !item.getStateName().equalsIgnoreCase("")) {
+
+
+                    address = address + item.getStateName();
+                }
+
+                //  holder.addressTV.setText(address);
+
+            }
+            if (item.getDistrictName() != null) {
+                holder.addressTV.setText(item.getDistrictName());
+            }
+            holder.collectDataBT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final DocsListItem item1 = new DocsListItem();
+                 /*   DocsListItem item1 = new DocsListItem();
+                    item1.setName(item.getMemberName());
+                    item1.setHhd_no(item.getUrnNo());
+                    item1.setSource(AppConstant.RSBY_SOURCE_NEW);
+                    ArrayList<FamilyMemberModel> oldMemList = new ArrayList<>();
+                    for (URNResponseItem item2 : mDataset) {
+                        FamilyMemberModel model = new FamilyMemberModel();
+                        model.setName(item2.getMemberName());
+                        oldMemList.add(model);
+                    }
+
+                    item1.setOldMembers(oldMemList);
+
+                    Intent intent = new Intent(context, CollectDataActivity.class);
+                    intent.putExtra("member", mDataset.get(position).getMemberName());
+                    item1.setPersonalDetail(null);
+                     *//*if(item.getState_code()!=null && !item.getState_code().equalsIgnoreCase("")) {
+                         item.setStatecode(item.getState_code());
+                     }*//*
+                    Log.d("TAG", "Doc List : " + item.serialize());
+                    item1.setFamilyDetailsItemModel(null);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, SELECTED_MEMBER, item1.serialize(), context);
+                    Log.d("TAG", "Doc List from shared pref: " + DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
+                            SELECTED_MEMBER, context)));
+                    startActivity(intent);*/
+
+                    final GetMemberDetailRequestModel requestModel = new GetMemberDetailRequestModel();
+                    if (item.getUrnNo() != null && !item.getUrnNo().equalsIgnoreCase("")
+                            && item.getMemberId()!=null && !item.getMemberId().equalsIgnoreCase("")) {
+                        requestModel.setAhl_tin(item.getUrnNo()+""+item.getMemberId());
+                        requestModel.setHhd_no(item.getUrnNo());
+                    }
+                   /* if (item1.getHhd_no() != null && !item1.getHhd_no().equalsIgnoreCase("")) {
+                        requestModel.setHhd_no(item.getUrnNo());
+                    }*/
+
+                   // if (item1.getState_code() != null && !item1.getState_code().equalsIgnoreCase("")) {
+                        requestModel.setStatecode(6);
+                   // }
+
+                    TaskListener taskListener = new TaskListener() {
+                        @Override
+                        public void execute() {
+                            try {
+                                String request = requestModel.serialize();
+                                HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.GET_MEMBER_DETAIL, request, AppConstant.AUTHORIZATION, verifierLoginResp.getAuthToken());
+                                String familyResponse = response.get("response");
+
+                                if (familyResponse != null) {
+                                    getMemberDetailResponse = new GetMemberDetail().create(familyResponse);
+
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        @Override
+                        public void updateUI() {
+                            if (getMemberDetailResponse != null) {
+                                if (getMemberDetailResponse.isStatus()) {
+                                    if (getMemberDetailResponse.getPersonalDetail().getBenefName() != null &&
+                                            !getMemberDetailResponse.getPersonalDetail().getBenefName().equalsIgnoreCase("")) {
+
+                                        Intent intent = new Intent(context, ViewMemberDataActivity.class);
+                                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.VIEW_DATA, getMemberDetailResponse.serialize(), context);
+                                        startActivity(intent);
+
+                                    } else {
+                                        item1.setName(item.getMemberName());
+                                        item1.setState_code("6");
+                                        item1.setHhd_no(item.getUrnNo());
+                                        item1.setAhl_tin(item.getUrnNo()+""+item.getMemberId());
+                                        item1.setSource(AppConstant.RSBY_SOURCE_NEW);
+                                        ArrayList<FamilyMemberModel> oldMemList = new ArrayList<>();
+                                        for (URNResponseItem item2 : mDataset) {
+                                            FamilyMemberModel model = new FamilyMemberModel();
+                                            model.setName(item2.getMemberName());
+                                            if(item2.getGender()!=null && item2.getGender().equalsIgnoreCase("M")){
+                                                model.setGenderid("1");
+                                            }else if(item2.getGender()!=null && item2.getGender().equalsIgnoreCase("F")){
+                                                model.setGenderid("2");
+                                            }else{
+                                                model.setGenderid("3");
+                                            }
+                                            oldMemList.add(model);
+                                        }
+
+                                        item1.setOldMembers(oldMemList);
+
+                                        Intent intent = new Intent(context, CollectDataActivity.class);
+                                        intent.putExtra("member", mDataset.get(position).getMemberName());
+                                        item1.setPersonalDetail(null);
+                                        if (item1.getState_code() != null && !item1.getState_code().equalsIgnoreCase("")) {
+                                            item1.setStatecode(item1.getState_code());
+                                        }
+                                        Log.d("TAG", "Doc List : " + item.serialize());
+                                        item1.setFamilyDetailsItemModel(null);
+                                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, SELECTED_MEMBER, item1.serialize(), context);
+                                        Log.d("TAG", "Doc List from shared pref: " + DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
+                                                SELECTED_MEMBER, context)));
+                                        startActivity(intent);
+                                    }
+
+
+                                } else if (getMemberDetailResponse != null &&
+                                        getMemberDetailResponse.getErrorcode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                                        || getMemberDetailResponse.getErrorcode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                                    Intent intent = new Intent(context, LoginActivity.class);
+                                    CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
+                                } else {
+                                    CustomAlert.alertWithOk(context, getMemberDetailResponse.getErrorMessage());
+                                }
+                            } else {
+                                CustomAlert.alertWithOk(context, "Server Error");
+                            }
+                        }
+                    };
+                    if (customAsyncTask != null) {
+                        customAsyncTask.cancel(true);
+                        customAsyncTask = null;
+                    }
+
+                    customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+                    customAsyncTask.execute();
+                }
+            });
+
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mDataset.size();
+        }
+    }
 
     private void getMemberDetail(String ahl_tin, String hhd_no, int statecode) {
         GetMemberDetailRequestModel requestModel = new GetMemberDetailRequestModel();

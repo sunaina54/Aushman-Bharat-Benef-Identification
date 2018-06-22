@@ -285,7 +285,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     Log.d("TAG","Ayushman Id  : "+ahltin);
                 }else if(position==2){
                     cardType = "RSBY URN";
-                    rsbyET.setVisibility(View.VISIBLE);
+                    rsbyET.setVisibility(View.VISIBLE );
                 }else if(position==3){
                     cardType = "Mobile Number";
                     mobileET.setVisibility(View.VISIBLE);
@@ -359,11 +359,15 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         return;
                     }*/
 
+
+
                     MobileRationRequestModel requestModel = new MobileRationRequestModel();
                     requestModel.setMobileRation(cardNo);
                     requestModel.setParam(AppConstant.RATION_PARAM);
+
                     //requestModel.setSelectedState(selectedStateItem.getStateCode());
                     requestModel.setSelectedState("6");
+                    AppUtility.searchTitleHeader="Ration Card";
                     Intent theIntent=new Intent(context,FamilyListByMobileActivity.class);
                     theIntent.putExtra("SearchParam",requestModel);
                     startActivity(theIntent);
@@ -372,6 +376,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("RSBY URN")) {
                     cardNo = rsbyET.getText().toString();
+
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter RSBY URN number");
                         return;
@@ -379,6 +384,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         CustomAlert.alertWithOk(context, "Please enter valid RSBY URN number");
                         return;
                     }
+
+                    AppUtility.searchTitleHeader="URN";
 
                     ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
                     requestModel.setUrn(cardNo);
@@ -405,6 +412,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     request.setAge("");
                     request.setPincode("");
                     request.setFathername("");
+                    AppUtility.searchTitleHeader="AHLTIN";
                     Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
                     theIntent.putExtra("SearchParam",request);
                     startActivity(theIntent);
@@ -421,7 +429,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         CustomAlert.alertWithOk(context, "Please enter valid mobile number");
                         return;
                     }
-
+                    AppUtility.searchTitleHeader="Mobile";
                     MobileRationRequestModel requestModel = new MobileRationRequestModel();
                     requestModel.setMobileRation(cardNo);
                     requestModel.setParam(AppConstant.MOBILE_PARAM);
@@ -449,6 +457,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     request.setAge("");
                     request.setPincode("");
                     request.setFathername("");
+                    AppUtility.searchTitleHeader="HHId";
                     Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
                     theIntent.putExtra("SearchParam",request);
                     startActivity(theIntent);

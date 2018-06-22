@@ -25,6 +25,7 @@ import com.nhpm.Models.response.MobileSearchResponseModel;
 import com.nhpm.Models.response.URNResponseItem;
 import com.nhpm.Models.response.URNResponseModel;
 import com.nhpm.Models.response.master.StateItem;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -52,6 +53,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
     private LinearLayout noMemberLL;
     private FamilyListByMobileActivity activity;
     private StateItem selectedStateItem;
+    private VerifierLoginResponse verifierLoginResp;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +68,9 @@ public class FamilyListByMobileActivity extends BaseActivity {
         //mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
-
-        headerTV.setText("Family Data" + " (" + selectedStateItem.getStateName() + ")");
+        verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
+        headerTV.setText("Family Data" + " by " + AppUtility.searchTitleHeader + " (" + selectedStateItem.getStateName() + ")");
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
@@ -104,7 +107,9 @@ public class FamilyListByMobileActivity extends BaseActivity {
                     searchListRV.setVisibility(View.VISIBLE);
                     String request = mobileRationRequestModel.serialize();
                     String url = AppConstant.SEARCH_BY_MOBILE_RATION;
-                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_BY_MOBILE_RATION, request);
+                    // HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_BY_MOBILE_RATION, request);
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_BY_MOBILE_RATION, request, AppConstant.AUTHORIZATION, verifierLoginResp.getAuthToken());
+
                     familyResponse = response.get("response");
 
 
@@ -133,6 +138,13 @@ public class FamilyListByMobileActivity extends BaseActivity {
                                 searchListRV.setVisibility(View.GONE);
                             }
                         }
+                    } else if (familyListResponseModel != null &&
+                            familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            ||  familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN) ) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
+
+
                     } else {
                         noMemberLL.setVisibility(View.VISIBLE);
                         noMemberTV.setText(familyListResponseModel.getErrorMessage());

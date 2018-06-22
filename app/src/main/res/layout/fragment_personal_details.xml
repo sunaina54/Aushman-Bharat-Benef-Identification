@@ -243,17 +243,21 @@
                         android:layout_marginLeft="@dimen/margine_10"
                         android:paddingBottom="@dimen/margine_5"
                         android:paddingTop="@dimen/margine_5"
+                        android:id="@+id/nameScoreLabelTV"
                         android:text="@string/match_score_tv"
                         android:textSize="12sp"
+                        android:visibility="gone"
                         android:textStyle="bold" />
 
                     <TextView
                         style="@style/textView"
+                        android:visibility="gone"
+                        android:id="@+id/nameScorePercentTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/margine_5"
                         android:paddingTop="@dimen/margine_5"
-                        android:text="76%"
+                        android:text="80%"
                         android:textSize="12sp" />
                 </LinearLayout>
                 <LinearLayout

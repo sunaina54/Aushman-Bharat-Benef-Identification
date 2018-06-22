@@ -65,7 +65,7 @@
                 android:id="@+id/proceedBT"
                 android:layout_marginTop="20dp"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:layout_height="35dp"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
@@ -76,14 +76,30 @@
                 android:id="@+id/cancelBT"
                 android:layout_marginTop="20dp"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:layout_height="35dp"
                 android:textAllCaps="false"
                 android:textColor="@color/yellow_dark"
                 android:text="@string/cancel"
                 android:background="@drawable/button_background_orange"/>
 
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:id="@+id/forgetPinBT"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="0.6"
 
+                android:text="Login">
+
+                <TextView
+                    style="@style/textViewBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/forgotPin" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

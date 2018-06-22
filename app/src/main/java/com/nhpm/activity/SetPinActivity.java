@@ -234,7 +234,7 @@ public class SetPinActivity extends BaseActivity {
             }
         };
 
-        CustomVolley volley = new CustomVolley(taskListener, context.getResources().getString(R.string.please_wait), AppConstant.UPDATE_PIN, pinRequestItem.serialize(), AppConstant.AUTHORIZATION,AppConstant.AUTHORIZATIONVALUE, context);
+        CustomVolley volley = new CustomVolley(taskListener, context.getResources().getString(R.string.please_wait), AppConstant.UPDATE_PIN, pinRequestItem.serialize(), AppConstant.AUTHORIZATION,loginResponse.getAuthToken(), context);
         volley.execute();
 
     }

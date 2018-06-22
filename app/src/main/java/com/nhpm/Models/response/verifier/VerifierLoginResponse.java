@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class VerifierLoginResponse extends GenericResponse implements Serializable {
     private ArrayList<VerifierLocationItem> locationList;
     private AadhaarResponseItem aadhaarItem;
-    private String aadhaarNumber;
+    private String ssoid;
     private String name;
     private String designation;
     private String mobileNumber;
@@ -34,6 +34,78 @@ public class VerifierLoginResponse extends GenericResponse implements Serializab
     private String hnoAadhaarNo;
     private boolean loginSession;
     private String lastLogin;
+    private String authToken;
+    private String statecode;
+    private String stateName;
+    private String districtCode;
+    private String districtName;
+    private String blockCode;
+    private String blockName;
+    private String ruralUrban;
+
+    public String getStatecode() {
+        return statecode;
+    }
+
+    public void setStatecode(String statecode) {
+        this.statecode = statecode;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getDistrictCode() {
+        return districtCode;
+    }
+
+    public void setDistrictCode(String districtCode) {
+        this.districtCode = districtCode;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    public String getBlockCode() {
+        return blockCode;
+    }
+
+    public void setBlockCode(String blockCode) {
+        this.blockCode = blockCode;
+    }
+
+    public String getBlockName() {
+        return blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
+    }
+
+    public String getRuralUrban() {
+        return ruralUrban;
+    }
+
+    public void setRuralUrban(String ruralUrban) {
+        this.ruralUrban = ruralUrban;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
 
     public String getAppVersion() {
         return appVersion;
@@ -76,11 +148,11 @@ public class VerifierLoginResponse extends GenericResponse implements Serializab
     }
 
     public String getAadhaarNumber() {
-        return aadhaarNumber;
+        return ssoid;
     }
 
     public void setAadhaarNumber(String aadhaarNumber) {
-        this.aadhaarNumber = aadhaarNumber;
+        this.ssoid = aadhaarNumber;
     }
 
     public String getName() {

@@ -167,6 +167,9 @@ public class ViewPersonalDetailsFragment extends Fragment {
                 beneficiaryNameTV.setText(personalDetailItem.getBenefName());
             }
 
+            if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
+                beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
+            }
             if(personalDetailItem.getBenefPhoto()!=null && !personalDetailItem.getBenefPhoto().equalsIgnoreCase("")){
                 beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));
             }
@@ -177,7 +180,7 @@ public class ViewPersonalDetailsFragment extends Fragment {
             }
 
             if(personalDetailItem.getNameMatchScore()!=null){
-                nameMatchScoreTV.setText(personalDetailItem.getNameMatchScore()+"");
+                nameMatchScoreTV.setText(personalDetailItem.getNameMatchScore()+"%");
             }
 
             if (personalDetailItem.getIsAadhar() != null) {

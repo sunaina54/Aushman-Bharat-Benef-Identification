@@ -102,7 +102,18 @@ public class GovermentIDActivity extends BaseActivity {
     private int VOTER_ID_REQUEST = 2;
     private String consent = "y";
     private final String TAG = "Government Activity";
-    private final int ENROLLMENT_ID = 1, VOTER_ID = 2, RASHAN_CARD = 3, NREGA = 4, DRIVIG_LICENCE = 5, BIRTH_CERT = 6, OTHER_CARD = 7, NO_GOVID = 8, ID_NO_PHOTO = 9,AADHAR_ID =10;
+   /* govtIdStatusList.add(new GovernmentIdItem(0, "Choose Your ID Card"));
+        govtIdStatusList.add(new GovernmentIdItem(13, "Aadhaar"));
+        govtIdStatusList.add(new GovernmentIdItem(1, "Voter ID Card"));
+        govtIdStatusList.add(new GovernmentIdItem(2, "Ration Card"));
+        govtIdStatusList.add(new GovernmentIdItem(10, "MNREGA Job Card"));
+        govtIdStatusList.add(new GovernmentIdItem(4, "Driving License"));
+        govtIdStatusList.add(new GovernmentIdItem(14, "Government ID with no Photograph"));*/
+
+    private final int ENROLLMENT_ID = 15,
+            VOTER_ID = 1, RASHAN_CARD = 3, NREGA = 10,
+            DRIVIG_LICENCE = 4, BIRTH_CERT = 11, OTHER_CARD = 7,
+            NO_GOVID = 8, ID_NO_PHOTO = 9,AADHAR_ID =13;
     private String nameAsIsinID, numberAsID;
     private CheckBox termCB;
     private LinearLayout mZoomLinearLayout;
@@ -315,6 +326,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setIdPhoto(voterIdImg);
                         personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
+                        personalDetailItem.setIdName(item.statusCode+"");
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
                     }else {
@@ -325,6 +337,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setIdPhoto(voterIdImg);
                         personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
+                        personalDetailItem.setIdName(item.statusCode+"");
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
                     }

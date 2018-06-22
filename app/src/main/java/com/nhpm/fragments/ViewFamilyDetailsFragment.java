@@ -158,7 +158,7 @@ public class ViewFamilyDetailsFragment extends Fragment {
             }
 
             if(familyDetailResponse.getFamilyMatchScore()!=null){
-                familyMatchScoreTV.setText(familyDetailResponse.getFamilyMatchScore()+"");
+                familyMatchScoreTV.setText(familyDetailResponse.getFamilyMatchScore()+"%");
             }
 
             if(familyDetailResponse.getFamilyMemberModels()!=null

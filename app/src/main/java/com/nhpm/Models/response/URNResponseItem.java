@@ -18,8 +18,34 @@ public class URNResponseItem implements Serializable {
     private String memberName;
     private String villageName;
     private String memberId;
+    private String fatherhusbandname;
+    private String gender;
+    private String dob;
 
 
+    public String getFatherhusbandname() {
+        return fatherhusbandname;
+    }
+
+    public void setFatherhusbandname(String fatherhusbandname) {
+        this.fatherhusbandname = fatherhusbandname;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
 
     public String getFamilyId() {
         return familyId;
