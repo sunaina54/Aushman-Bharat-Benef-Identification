@@ -288,10 +288,14 @@ public class Encrypter
 
 	public String getCertificateIdentifier()
 	{
-		SimpleDateFormat ciDateFormat = new SimpleDateFormat("yyyyMMdd");
-		ciDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-		String certificateIdentifier = ciDateFormat.format(this.certExpiryDate);
+		String certificateIdentifier=null;
+		//try {
+			SimpleDateFormat ciDateFormat = new SimpleDateFormat("yyyyMMdd");
+			ciDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+			certificateIdentifier = ciDateFormat.format(this.certExpiryDate);
+		/*}catch (Exception e){
 
+		}*/
 		return certificateIdentifier;
 	}
 

@@ -41,7 +41,7 @@ public class NameMatchScoreActivity extends BaseActivity {
     private DocsListItem docsListItem;
     public static String PERSONAL_DETAIL_TAG = "PERSONAL_DETAIL";
     public static String SECC_DETAIL_TAG = "SECC_DETAIL";
-    private TextView nameTV, genderTV, ageTV, distTV, stateTV, kycNameTV, kycgenderTV, kycageTV, kycdistTV, kycstateTV;
+    private TextView nameTV, genderTV, ageTV, distTV, stateTV, kycNameTV, kycgenderTV, kycageTV, kycdistTV, kycstateTV,pincodeTV,kycPincodeTV;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +61,7 @@ public class NameMatchScoreActivity extends BaseActivity {
         ageTV = (TextView) findViewById(R.id.ageTV);
         distTV = (TextView) findViewById(R.id.distTV);
         stateTV = (TextView) findViewById(R.id.stateTV);
+        pincodeTV=(TextView) findViewById(R.id.pincodeTV);
 
         confirmBTN = (Button) findViewById(R.id.tryAgainBT);
         cancelBT = (Button) findViewById(R.id.cancelBT);
@@ -71,6 +72,7 @@ public class NameMatchScoreActivity extends BaseActivity {
         kycgenderTV = (TextView) findViewById(R.id.kycgenderTV);
         kycdistTV = (TextView) findViewById(R.id.kycdistTV);
         kycstateTV = (TextView) findViewById(R.id.kycstateTV);
+        kycPincodeTV=(TextView) findViewById(R.id.kycPinTV);
 
 
         if (personalDetailItem != null) {
@@ -81,7 +83,10 @@ public class NameMatchScoreActivity extends BaseActivity {
                 kycdistTV.setText(personalDetailItem.getDistrict());
             }
             if (personalDetailItem.getState() != null) {
-                kycdistTV.setText(personalDetailItem.getState());
+                kycstateTV.setText(personalDetailItem.getState());
+            }
+            if (personalDetailItem.getPinCode() != null) {
+                kycPincodeTV.setText(personalDetailItem.getPinCode());
             }
             kycageTV.setText("");
             /*if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() >= 4) {
@@ -135,11 +140,11 @@ public class NameMatchScoreActivity extends BaseActivity {
             if (personalDetailItem.getGender() != null && !personalDetailItem.getGender().equalsIgnoreCase("")) {
                 String gender = personalDetailItem.getGender();
                 if (gender.substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
-                    genderTV.setText("Male");
+                    kycgenderTV.setText("Male");
                 } else if (gender.substring(0, 1).toUpperCase().equalsIgnoreCase("F")) {
-                    genderTV.setText("Female");
+                    kycgenderTV.setText("Female");
                 } else {
-                    genderTV.setText("Other");
+                    kycgenderTV.setText("Other");
                 }
             }
 
@@ -153,6 +158,10 @@ public class NameMatchScoreActivity extends BaseActivity {
             }
             if (docsListItem.getState_name() != null) {
                 stateTV.setText(docsListItem.getState_name());
+            }
+
+            if (docsListItem.getPincode() != null) {
+                pincodeTV.setText(docsListItem.getPincode());
             }
             if (docsListItem.getGenderid().equalsIgnoreCase("1")) {
                 genderTV.setText("Male");

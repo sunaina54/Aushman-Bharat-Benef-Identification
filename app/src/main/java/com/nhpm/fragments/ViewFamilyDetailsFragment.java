@@ -100,6 +100,7 @@ public class ViewFamilyDetailsFragment extends Fragment {
     private LinearLayout scoreLL;
     private PrintCardItem printCardItem;
     private TextView familyMatchScoreTV;
+    private TextView benefcisryNameTV;
 
 
     public ViewFamilyDetailsFragment() {
@@ -137,10 +138,12 @@ public class ViewFamilyDetailsFragment extends Fragment {
         captureImageBT = (Button) view.findViewById(R.id.captureImageBT);
         familyMatchScoreTV = (TextView) view.findViewById(R.id.familyMatchScoreTV);
         beneficiaryPhotoIV = (ImageView) view.findViewById(R.id.beneficiaryPhotoIV);
+        benefcisryNameTV= (TextView) view.findViewById(R.id.beneficiaryNameTV);
         scoreLL = (LinearLayout) view.findViewById(R.id.scoreLL);
 
 
         if(familyDetailResponse!=null){
+            benefcisryNameTV.setText(activity.getMemberDetailItem.getPersonalDetail().getBenefName());
             if(familyDetailResponse.getIdType()!=null &&
                     !familyDetailResponse.getIdType().equalsIgnoreCase("")){
                 prepareGovernmentIdSpinner();

@@ -20,10 +20,19 @@ public class PersonalDetailItem implements Serializable {
     private String benefName;
     private String state;
     private String district;
+    private String pinCode;
     private int opertaorid;
     private String isAadhar;
     private int nameMatchScore;
     private String idName;
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public void setPinCode(String pinCode) {
+        this.pinCode = pinCode;
+    }
 
     public String getIdName() {
         return idName;

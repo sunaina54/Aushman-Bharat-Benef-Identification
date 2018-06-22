@@ -37,9 +37,9 @@
                     <TextView
 
                         style="@style/textView"
-                        android:layout_width="wrap_content"
+                        android:background="@color/yellow"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Benificiary name from SECC"
                         android:textAlignment="center" />
                     <LinearLayout
@@ -117,6 +117,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            style="@style/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pincode : "/>
+                        <TextView
+                            style="@style/textView"
+                            android:id="@+id/pincodeTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
 
                     <!--<android.support.v7.widget.RecyclerView
                         android:id="@+id/oldMemberRecycle"
@@ -134,10 +149,10 @@
                     android:layout_weight="1">
                     <TextView
                         style="@style/textView"
-                        android:layout_width="wrap_content"
+                        android:background="@color/yellow"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Benificiary name from kyc"
+                        android:text="Benificiary name from KYC"
                         android:textAlignment="center" />
                     <LinearLayout
                         android:orientation="horizontal"
@@ -211,6 +226,21 @@
                         <TextView
                             style="@style/textView"
                             android:id="@+id/kycstateTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            style="@style/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pincode : "/>
+                        <TextView
+                            style="@style/textView"
+                            android:id="@+id/kycPinTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>

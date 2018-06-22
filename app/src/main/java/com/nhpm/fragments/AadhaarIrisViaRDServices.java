@@ -1511,6 +1511,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setState(aadhaarKycResponse.getState());
                             personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
+                            personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
 
@@ -1528,6 +1529,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
+                            personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
                         }
