@@ -362,7 +362,7 @@ public interface AppConstant {
     String VOTER_ID = "2";
     String RASHAN_CARD = "3";
     String AUTH_TOKEN = "authToken";
-    String RELEASE_DATE = "June 22, 2018";
+    String RELEASE_DATE = "June 24, 2018";
     String NEW_HEAD_RELATION_CODE = "01";
     String NO_INFO_AVAIL = "7";
     String invalid_user = "INVALID_USER";

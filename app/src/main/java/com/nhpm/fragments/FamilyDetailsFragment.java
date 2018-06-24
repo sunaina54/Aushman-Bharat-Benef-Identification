@@ -73,7 +73,7 @@ import java.util.HashMap;
  * A simple {@link Fragment} subclass.
  */
 public class FamilyDetailsFragment extends Fragment {
-    private int familyScore, nameScore;
+    private Integer familyScore, nameScore;
     private AlertDialog alert;
     private View view;
     private FragmentTransaction fragmentTransection;
@@ -202,7 +202,9 @@ public class FamilyDetailsFragment extends Fragment {
             familyDetailsItemModel = beneficiaryListItem.getFamilyDetailsItemModel();
             printCardItem = beneficiaryListItem.getPrintCardDetail();
             if (familyDetailsItemModel != null) {
-                familyMatchScore = familyDetailsItemModel.getFamilyMatchScore() + "";
+                if(familyDetailsItemModel.getFamilyMatchScore()!=null) {
+                    familyMatchScore = familyDetailsItemModel.getFamilyMatchScore() + "";
+                }
                 if (!familyMatchScore.equalsIgnoreCase("")) {
                     familyScoreLL.setVisibility(View.VISIBLE);
                     familyMatchScoreTV.setText(familyMatchScore + "%");
@@ -444,10 +446,15 @@ public class FamilyDetailsFragment extends Fragment {
                     CustomAlert.alertWithOk(context, "Please match family score");
                     return;
                 }
-                if (familyMembersList.size() < 2) {
-                    CustomAlert.alertWithOk(context, "Please add atleast two member as per family id");
+                if (familyMatchScore.equalsIgnoreCase("0")) {
+                   // printCard();
+                    CustomAlert.alertWithOk(context, "SECC Family members and Family card members does not matching.");
                     return;
                 }
+               /* if (familyMembersList.size() < 2) {
+                    CustomAlert.alertWithOk(context, "Please add atleast two member as per family id");
+                    return;
+                }*/
                 familyDetailsItemModel = new FamilyDetailsItemModel();
                 familyDetailsItemModel.setIdNumber(govtIdET.getText().toString());
                 familyDetailsItemModel.setIdType(item.status);
@@ -879,7 +886,7 @@ public class FamilyDetailsFragment extends Fragment {
                         request.setDataSource(AppConstant.SECC_SOURCE_NEW);
 
                     }
-                    request.setStatecode(Integer.parseInt(beneficiaryListItem.getState_code()));
+                    request.setStatecode(Integer.parseInt(verifierDetail.getStatecode()));
 
                     PersonalDetailResponse personalDetail = new PersonalDetailResponse();
                     personalDetail.setBenefName(personalDetailItem.getBenefName());
@@ -935,7 +942,6 @@ public class FamilyDetailsFragment extends Fragment {
                                     .setCancelable(false)
                                     .setPositiveButton(context.getResources().getString(com.customComponent.R.string.OK), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-
                                             activity.finish();
                                             alert.dismiss();
                                         }

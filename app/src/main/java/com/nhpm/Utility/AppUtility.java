@@ -440,6 +440,8 @@ public class AppUtility {
         govtIdStatusList.add(new GovernmentIdItem(7, "Other Photo ID Card"));
         govtIdStatusList.add(new GovernmentIdItem(8, "Member with No ID card"));
         govtIdStatusList.add(new GovernmentIdItem(9, "Government ID with no Photograph"));
+        govtIdStatusList.add(new GovernmentIdItem(14, "Other Government ID with photograph"));
+
 
         return govtIdStatusList;
     }
@@ -449,10 +451,9 @@ public class AppUtility {
         govtIdStatusList.add(new GovernmentIdItem(0, "Choose Your ID Card"));
         govtIdStatusList.add(new GovernmentIdItem(13, "Aadhaar"));
         govtIdStatusList.add(new GovernmentIdItem(1, "Voter ID Card"));
-        govtIdStatusList.add(new GovernmentIdItem(2, "Ration Card"));
         govtIdStatusList.add(new GovernmentIdItem(10, "MNREGA Job Card"));
         govtIdStatusList.add(new GovernmentIdItem(4, "Driving License"));
-        govtIdStatusList.add(new GovernmentIdItem(14, "Government ID with no Photograph"));
+        govtIdStatusList.add(new GovernmentIdItem(14, "Other Government ID with photograph"));
       //  govtIdStatusList.add(new GovernmentIdItem(8, "Member with No ID card"));
        // govtIdStatusList.add(new GovernmentIdItem(9, "Government ID with no Photograph"));
 

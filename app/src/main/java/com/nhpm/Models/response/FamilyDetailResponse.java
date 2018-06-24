@@ -9,7 +9,7 @@ public class FamilyDetailResponse implements Serializable{
     private String idImage;
     private String idNumber;
     private String idType;
-    private Integer familyMatchScore;
+    private Integer familyMatchScore=null;
     private ArrayList<FamilyMemberModel> familyMemberModels;
 
     public ArrayList<FamilyMemberModel> getFamilyMemberModels() {

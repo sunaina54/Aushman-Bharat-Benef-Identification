@@ -297,7 +297,6 @@ public class FamilyMembersListActivity extends BaseActivity {
 
     }
 
-
     private void refreshMembersList(ArrayList<DocsListItem> beneficiaryList) {
 
         adapter = new CustomAdapter(beneficiaryList);
@@ -456,7 +455,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                     }
 
                     if (item.getState_code() != null && !item.getState_code().equalsIgnoreCase("")) {
-                        requestModel.setStatecode(Integer.parseInt(item.getState_code()));
+                        requestModel.setStatecode(Integer.parseInt(verifierLoginResp.getStatecode()));
                     }
 
                     TaskListener taskListener = new TaskListener() {

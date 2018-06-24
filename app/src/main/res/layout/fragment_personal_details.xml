@@ -222,18 +222,7 @@
                         android:textSize="20sp" />
 
 
-                    <Button
-                        android:id="@+id/matchBT"
-                        android:layout_width="150dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/margine_20"
-                        android:background="@drawable/rounded_shape_yello_button"
-                        android:padding="@dimen/margine_10"
-                        android:text="Match Name"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/font_size" />
+
 
 
                     <TextView
@@ -408,6 +397,20 @@
             android:background="@drawable/rounded_shape_yello_button"
             android:padding="@dimen/margine_10"
             android:text="@string/next"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size" />
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/nextBT"
+            android:id="@+id/matchBT"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margine_20"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:padding="@dimen/margine_10"
+            android:text="Match Name"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/font_size" />

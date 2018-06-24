@@ -462,12 +462,17 @@ public class PersonalDetailsFragment extends Fragment {
                         }
 
                         if (personalDetailItem != null && personalDetailItem.getIsMobileAuth() == null || !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")) {
-                            CustomAlert.alertWithOk(context, "Please verified mobile number");
+                            CustomAlert.alertWithOk(context, "Please verify the mobile number");
                             return;
                         }
 
                         if(nameMatchScore==null || nameMatchScore.equalsIgnoreCase("")){
                             CustomAlert.alertWithOk(context, "Please match beneficiary name");
+                            return;
+                        }
+
+                        if(nameMatchScore!=null && nameMatchScore.equalsIgnoreCase("0")){
+                            CustomAlert.alertWithOk(context, "Name as an SECC and Name as an KYC is not matching");
                             return;
                         }
 
@@ -493,7 +498,7 @@ public class PersonalDetailsFragment extends Fragment {
                         }
 
                         if (personalDetailItem != null && personalDetailItem.getIsMobileAuth() == null || !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")) {
-                            CustomAlert.alertWithOk(context, "Please verified mobile number");
+                            CustomAlert.alertWithOk(context, "Please verify the mobile number");
                             return;
                         }
 
@@ -510,6 +515,11 @@ public class PersonalDetailsFragment extends Fragment {
                         }
                         if(nameMatchScore==null || nameMatchScore.equalsIgnoreCase("")){
                             CustomAlert.alertWithOk(context, "Please match beneficiary name");
+                            return;
+                        }
+
+                        if(nameMatchScore!=null && nameMatchScore.equalsIgnoreCase("0")){
+                            CustomAlert.alertWithOk(context, "Name as SECC and Name as KYC is not matching");
                             return;
                         }
                         personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));

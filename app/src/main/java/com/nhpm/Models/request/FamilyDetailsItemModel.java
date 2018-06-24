@@ -16,7 +16,7 @@ public class FamilyDetailsItemModel implements Serializable {
     private String idType;
     private String screen;
     private String idName;
-    private int familyMatchScore;
+    private Integer familyMatchScore=null;
 
     public String getIdName() {
         return idName;
@@ -26,11 +26,11 @@ public class FamilyDetailsItemModel implements Serializable {
         this.idName = idName;
     }
 
-    public int getFamilyMatchScore() {
+    public Integer getFamilyMatchScore() {
         return familyMatchScore;
     }
 
-    public void setFamilyMatchScore(int familyMatchScore) {
+    public void setFamilyMatchScore(Integer familyMatchScore) {
         this.familyMatchScore = familyMatchScore;
     }
 

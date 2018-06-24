@@ -114,6 +114,13 @@
                         </RelativeLayout>
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/qrCodeLayout"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -150,9 +157,6 @@
                             android:visibility="gone"/>
 
                     </LinearLayout>
-
-
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -186,10 +190,6 @@
                             android:checked="false"
                             android:visibility="gone"/>
                     </LinearLayout>
-
-
-
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -223,7 +223,6 @@
                             android:visibility="gone"/>
 
                     </LinearLayout>
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -274,7 +273,7 @@
                             android:text="Name in SECC and name as in aadhaar are of same person."
                             android:textSize="@dimen/text_size_13sp" />
                     </LinearLayout>
-
+                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/validatedLayout"
                         android:orientation="vertical"

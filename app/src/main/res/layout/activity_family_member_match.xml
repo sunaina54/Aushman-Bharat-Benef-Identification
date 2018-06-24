@@ -25,22 +25,10 @@
                 android:layout_height="wrap_content"
                 android:weightSum="2">
 
-                <TextView
-                    style="@style/textView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Family members of SECC"
-                    android:textAlignment="center" />
 
 
-                <TextView
-                    style="@style/textView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Family members of family card"
-                    android:textAlignment="center" />
+
+
             </LinearLayout>
 
 
@@ -50,10 +38,21 @@
                 android:weightSum="2">
 
                 <LinearLayout
+                    android:orientation="vertical"
+                    android:background="@color/gray_transparent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
+                    <TextView
+                        android:gravity="center_horizontal"
+                        android:background="@color/yellow"
+                        style="@style/textView"
+                        android:text="Family members of SECC"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
 
+                        android:textAlignment="center" />
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/oldMemberRecycle"
                         android:layout_width="match_parent"
@@ -62,11 +61,21 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:orientation="vertical"
+                    android:background="@color/gray"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margine_10"
                     android:layout_weight="1">
+                    <TextView
+                        android:background="@color/yellow"
+                        style="@style/textView"
+                        android:gravity="center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
+                        android:text="Family members of family card"
+                        android:textAlignment="center" />
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/memberRecycle"
                         android:layout_width="match_parent"

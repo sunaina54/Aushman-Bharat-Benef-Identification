@@ -16,8 +16,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,7 +114,7 @@ public class GovermentIDActivity extends BaseActivity {
 
     private final int ENROLLMENT_ID = 15,
             VOTER_ID = 1, RASHAN_CARD = 3, NREGA = 10,
-            DRIVIG_LICENCE = 4, BIRTH_CERT = 11, OTHER_CARD = 7,
+            DRIVIG_LICENCE = 4, BIRTH_CERT = 11, OTHER_CARD = 14,
             NO_GOVID = 8, ID_NO_PHOTO = 9,AADHAR_ID =13;
     private String nameAsIsinID, numberAsID;
     private CheckBox termCB;
@@ -314,8 +316,25 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }
 
+                    if (item.statusCode==13) {
+                        Log.d("TAG","Aaadhaar Length : "+voterIdCardNameET.getText().toString().length());
+                        if(voterIdCardNumberET.getText().toString().length()!=12) {
+                            CustomAlert.alertWithOk(context, "Please enter valid Aadhaar Number");
+                            return;
+                        }
+
+                    }
+                    /*if (benefImage != null && benefImage.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please capture beneficiary image");
+                        return;
+                    }*/
 
                     if (benefImage != null && benefImage.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please capture beneficiary image");
+                        return;
+                    }
+
+                    if (benefImage == null || benefImage.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please capture beneficiary image");
                         return;
                     }
@@ -341,8 +360,6 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
                     }
-
-
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
 
                     activity.finish();
@@ -456,6 +473,7 @@ public class GovermentIDActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // AadhaarStatusItem item=aadhaarStatusList.get(position);
                 item = govtIdStatusList.get(position);
+                voterIdCardNumberET.setInputType(InputType.TYPE_CLASS_TEXT );
                 AppUtility.showLog(AppConstant.LOG_STATUS, TAG, "Setup screen Selected id" + item.statusCode);
                 switch (item.statusCode) {
 
@@ -662,6 +680,7 @@ public class GovermentIDActivity extends BaseActivity {
                         updateScreen(voterIdImg);
 
                         break;
+
                     case OTHER_CARD:
 
                         voterIdImg = null;
@@ -738,7 +757,6 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCaptureLayout.setVisibility(View.VISIBLE);
                         //  nameLL.setVisibility(View.VISIBLE);
                         voterIdCardNumberET.setText("");
-
                         voterIdCardNameET.setText("");
 //                        voterIdCardNumberET.setText("");
 //                        voterIdCardNameET.setText("");
@@ -748,6 +766,10 @@ public class GovermentIDActivity extends BaseActivity {
                         AppUtility.showSoftInput(activity);
                         voterIdCardNumberET.setHint("Enter Aadhar Number");
                         voterIdCardNameET.setHint("Please Enter Name As in Aadhar");
+                        voterIdCardNumberET.setInputType(InputType.TYPE_CLASS_NUMBER );
+                       // voterIdCardNumberET.setMaxEms(12);
+
+                      //  voterIdCardNumberET.setInputType();
                         // voterIdCardNameET.setText(seccItem.getName());
                         if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
@@ -893,7 +915,7 @@ public class GovermentIDActivity extends BaseActivity {
                     }
 
 
-                    if (benefImage != null && benefImage.equalsIgnoreCase("")) {
+                    if (benefImage == null || benefImage.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please capture beneficiary image");
                         return;
                     }

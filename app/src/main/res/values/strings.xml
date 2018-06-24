@@ -1042,7 +1042,7 @@
     <string name="rural_urban">Rural/Urban</string>
     <string name="name_as_kyc">Name as KYC :</string>
     <string name="score_error_message">Benificiary detail are being submitted to insurance company for verification. We are going submit kyc data to the server. Are you sure?</string>
-    <string name="score_message_verification">Beneficiary data has been submitted. Please proceed to print card.</string>
-    <string name="submit_data_message">Beneficiary detail has been submitted.</string>
+    <string name="score_message_verification">Beneficiary KYC details will be submitted to insurance company for verification.</string>
+    <string name="submit_data_message">Beneficiary detail has been submitted to the server.</string>
     <string name="print_card_message">Beneficiary has submitted data to further verification.</string>
 </resources>

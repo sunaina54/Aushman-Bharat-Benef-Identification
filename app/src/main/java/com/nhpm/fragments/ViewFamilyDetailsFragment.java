@@ -141,7 +141,6 @@ public class ViewFamilyDetailsFragment extends Fragment {
         benefcisryNameTV= (TextView) view.findViewById(R.id.beneficiaryNameTV);
         scoreLL = (LinearLayout) view.findViewById(R.id.scoreLL);
 
-
         if(familyDetailResponse!=null){
             benefcisryNameTV.setText(activity.getMemberDetailItem.getPersonalDetail().getBenefName());
             if(familyDetailResponse.getIdType()!=null &&
@@ -152,6 +151,7 @@ public class ViewFamilyDetailsFragment extends Fragment {
             if(familyDetailResponse.getIdNumber()!=null &&
                     !familyDetailResponse.getIdNumber().equalsIgnoreCase("")){
                 govtIdET.setText(familyDetailResponse.getIdNumber());
+                govtIdET.setEnabled(false);
             }
 
             if(familyDetailResponse.getIdImage()!=null
@@ -210,6 +210,7 @@ public class ViewFamilyDetailsFragment extends Fragment {
         govtIdSP.setAdapter(adapter);
 
         govtIdSP.setSelection(1);
+        govtIdSP.setEnabled(false);
 
     }
 

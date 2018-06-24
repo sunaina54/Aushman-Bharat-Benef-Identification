@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.customComponent.CustomAlert;
@@ -99,6 +100,7 @@ public class FindBeneficiaryByQrCode extends Fragment {
     String res = "";
     private Button proceedBT;
    private AadhaarResponseItem aadhaarResponseItem ;
+   private LinearLayout qrCodeLayout;
 
     public FindBeneficiaryByQrCode() {
         // Required empty public constructor
@@ -138,6 +140,8 @@ public class FindBeneficiaryByQrCode extends Fragment {
         }
         proceedBT= (Button) view.findViewById(R.id.proceedBT);
         proceedBT.setVisibility(View.GONE);
+        qrCodeLayout=(LinearLayout)view.findViewById(R.id.qrCodeLayout);
+        qrCodeLayout.setVisibility(View.GONE);
         consentCB = (CheckBox) view.findViewById(R.id.consentCheck);
         validateAadhaarBT = (Button) view.findViewById(R.id.validateAdhaarBT);
         validateLaterBT = (Button) view.findViewById(R.id.validateAdhaarLaterBT);
@@ -212,7 +216,7 @@ public class FindBeneficiaryByQrCode extends Fragment {
             }
         });
         if (aadhaarItem != null) {
-
+            qrCodeLayout.setVisibility(View.VISIBLE);
             qrCodeAadharNumberET.setText(aadhaarItem.getUid());
 
 
@@ -581,6 +585,7 @@ public class FindBeneficiaryByQrCode extends Fragment {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
                     //  Point[] p = barcode.cornerPoints;
+                    qrCodeLayout.setVisibility(View.VISIBLE);
                     parserAdhaarXML(barcode.displayValue);
 
                 } else {
