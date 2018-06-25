@@ -166,7 +166,7 @@ public class ViewFamilyDetailsFragment extends Fragment {
 
             if(familyDetailResponse.getFamilyMemberModels()!=null
                     && familyDetailResponse.getFamilyMemberModels().size()>0){
-                refreshList(familyDetailResponse.getFamilyMemberModels());
+                //refreshList(familyDetailResponse.getFamilyMemberModels());
             }
         }
 
@@ -187,6 +187,18 @@ public class ViewFamilyDetailsFragment extends Fragment {
         });
 
         nextBT = (Button) view.findViewById(R.id.nextBT);
+        nextBT.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                activity.printEcardLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+                Fragment fragment = new ViewPrintCardFragment();
+                CallFragment(fragment);
+            }
+        });
     }
 
 

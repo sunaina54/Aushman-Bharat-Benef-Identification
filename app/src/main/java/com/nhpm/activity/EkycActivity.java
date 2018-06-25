@@ -94,7 +94,7 @@ public class EkycActivity extends BaseActivity {
                 backLayout.performClick();
             }
         });
-        checkAppConfig();
+      //  checkAppConfig();
 
         if(selectedMode==null){
             if (isNetworkAvailable()) {

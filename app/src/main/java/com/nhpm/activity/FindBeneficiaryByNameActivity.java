@@ -84,7 +84,7 @@ public class FindBeneficiaryByNameActivity extends BaseActivity {
                 backLayout.performClick();
             }
         });
-        checkAppConfig();
+       // checkAppConfig();
         activityName = getIntent().getStringExtra("PhoneNumberActivity");
 
         if (isNetworkAvailable()) {

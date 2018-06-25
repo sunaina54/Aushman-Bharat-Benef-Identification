@@ -41,7 +41,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <TextView
                     style="@style/textView"
@@ -186,6 +187,7 @@
                         android:layout_height="wrap_content">
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/memberRecycle"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scrollbars="vertical" />
@@ -212,7 +214,8 @@
                         <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
                             <TextView
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_size_16sp"
@@ -293,7 +296,7 @@
 
 
             <Button
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/nextBT"
                 android:layout_width="150dp"
                 android:layout_height="45dp"

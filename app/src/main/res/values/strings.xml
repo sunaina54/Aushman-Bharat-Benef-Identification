@@ -3,7 +3,7 @@
 
     <!--LOGIN SCREEN-->
     <string name="locationNotAllocate">No location allocated</string>
-    <string name="nhps_logo">Pradhan Mantri-Rashtriya Swasthya Suraksha Mission</string>
+    <string name="nhps_logo">Ayushman Bharat Validation Program</string>
     <string name="nhps_logo_govt">Government of India</string>
     <string name="nhps_logo_mohfw">Ministry of Health and Family Welfare</string>
     <string name="nhps_cp">Copyright © 2016 NATIONAL INFORMATICS CENTRE</string>
@@ -24,7 +24,7 @@
     <string name="title_activity_member_detail">MemberDetailActivity</string>
     <string name="title_activity_edit_member_detail">EditMemberDetailActivity</string>
     <string name="title_activity_add_member">AddMemberActivity</string>
-    <string name="launcher_screen_label">PM-RSSM Beneficiary Identification</string>
+    <string name="launcher_screen_label">Ayushman Bharat Validation Program</string>
     <string name="adhar_hint">Enter your 12-digit Aadhaar</string>
     <string name="login_hint">Login with OTP </string>
     <string name="verifier_login">Surveyor Login</string>
@@ -285,7 +285,7 @@
     <string name="UpdateApp">Update App</string>
     <string name="pleaseConnectToInternet">Please connect your device to internet to logout.</string>
     <string name="pleaseSelectEb">Please select enumeration block</string>
-    <string name="nhpsFieldValidation">PM-RSSM Benificiary Identification</string>
+    <string name="nhpsFieldValidation">Ayushman Bharat Validation Program</string>
     <string name="Delete">Delete</string>
     <string name="uHave">You have</string>
     <string name="deleteEbMsg">pending household. Your data will be lost after deleting. Are you sure you want to delete?</string>
@@ -1008,7 +1008,7 @@
 
     <string name="emailTextHint">Email-Id of Registered Operator</string>
     <string name="mobileTextHint">Mobile Number of Registered Operator</string>
-    <string name="loginScreenLabel">Ayushman Bharat Enrollment Program</string>
+    <string name="loginScreenLabel">Ayushman Bharat Validation Program</string>
     <string name="emailLoginBTN">Verify and Login</string>
     <string name="label_find_beneficiary">Find Beneficiary Family</string>
     <string name="hint_search_beneficiary">Ration Card Number/RSBY URN/AHLTIN/Mobile Number</string>

@@ -41,6 +41,7 @@ public class ViewMemberDataActivity extends BaseActivity {
     private Context context;
     private ViewMemberDataActivity activity;
     private StateItem selectedStateItem;
+    public DocsListItem benefItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,9 @@ public class ViewMemberDataActivity extends BaseActivity {
         name = getIntent().getStringExtra("Name");
         getMemberDetailItem= GetMemberDetail.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
                 AppConstant.VIEW_DATA,context));
+
+        benefItem= DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME,
+                FamilyMembersListActivity.SELECTED_MEMBER,context));
 
         back = (ImageView) findViewById(R.id.back);
         backLayout = (RelativeLayout) findViewById(R.id.backLayout);

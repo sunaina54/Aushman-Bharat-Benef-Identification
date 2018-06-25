@@ -347,7 +347,7 @@
                         android:layout_marginBottom="@dimen/margine_20"
                         android:background="@drawable/rounded_shape_yello_button"
                         android:padding="@dimen/margine_10"
-                        android:text="Find Family Score"
+                        android:text="Match Family"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_size" />

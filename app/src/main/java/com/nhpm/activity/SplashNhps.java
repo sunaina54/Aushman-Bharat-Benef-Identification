@@ -116,7 +116,7 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
 
 
         mContext = SplashNhps.this;
-
+        createLogTable();
 
         mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
         language = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
@@ -502,5 +502,21 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
         countAsyncTask = new CustomAsyncTask(taskListener, mProgressBar, mContext);
         countAsyncTask.execute();
 
+    }
+
+    private void createLogTable (){
+      String query= "CREATE TABLE l_flowlog( flid bigint NOT NULL," +
+              "tid bigint NOT NULL,operatorheader text NOT NULL," +
+              "pagescreenname character varying(50) NOT NULL, " +
+              "sequence integer NOT NULL, attempt integer, action text NOT NULL," +
+              " operatorinput text NOT NULL, operatoroutput text NOT NULL," +
+              " subpageinput text, subpageoutput text, error text, created_by bigint NOT NULL," +
+              " creation_date date, source character varying(50)," +
+              " statecode integer, districtcode integer, CONSTRAINT l_flowlog_pk PRIMARY KEY (flid))";
+      try {
+          SeccDatabase.createTable(query, mContext);
+      }catch(Exception e) {
+
+      }
     }
 }

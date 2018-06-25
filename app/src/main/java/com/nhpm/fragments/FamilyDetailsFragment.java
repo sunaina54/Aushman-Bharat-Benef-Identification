@@ -1207,15 +1207,16 @@ public class FamilyDetailsFragment extends Fragment {
 
 
             final FamilyMemberModel item = dataSet.get(listPosition);
-            holder.menuLayout.setVisibility(View.GONE);
-            holder.settings.setVisibility(View.GONE);
-            if (listPosition == 0) {
+          //  holder.menuLayout.setVisibility(View.GONE);
+          //  holder.settings.setVisibility(View.GONE);
+
+          /*  if (listPosition == 0) {
                 holder.menuLayout.setVisibility(View.GONE);
                 holder.settings.setVisibility(View.GONE);
             } else {
                 editDelete(holder.menuLayout, holder.settings, item, listPosition);
 
-            }
+            }*/
            /* String aadhaarNo = "";
             holder.houseHoldIdTV.setText(item.getHouseholdId());
             if(item.getAadhaarNo()!=null && !item.getAadhaarNo().equalsIgnoreCase("")) {
@@ -1227,9 +1228,9 @@ public class FamilyDetailsFragment extends Fragment {
                 holder.menuLayout.setVisibility(View.GONE);
                 holder.settings.setVisibility(View.GONE);
             } else {
-                if (listPosition != 0) {
+                //if (listPosition != 0) {
                     editDelete(holder.menuLayout, holder.settings, item, listPosition);
-                }
+              //  }
 
             }
 
