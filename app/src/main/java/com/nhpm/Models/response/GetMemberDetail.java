@@ -8,12 +8,21 @@ import java.io.Serializable;
 public class GetMemberDetail implements Serializable {
         private boolean status;
         private String operation;
+        private String errorcode;
         private  String errorMessage;
         private String ahl_tin;
         private String hhd_no;
         private Integer statecode;
         private PersonalDetailResponse personalDetail;
         private FamilyDetailResponse familyDetailsItem;
+
+        public String getErrorcode() {
+                return errorcode;
+        }
+
+        public void setErrorcode(String errorcode) {
+                this.errorcode = errorcode;
+        }
 
         public boolean isStatus() {
                 return status;

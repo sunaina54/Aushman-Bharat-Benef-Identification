@@ -26,6 +26,134 @@ public class PersonalDetailItem implements Serializable {
     private int nameMatchScore;
     private String idName;
 
+
+    private String fatherNameSecc;
+    private String motherNameSecc;
+    private String genderIdSecc;
+    private String yobSecc;
+    private String dobBen;
+    private String genderBen;
+    private String addressBen;
+    private String stateNameBen;
+    private String districtNameBen;
+    private String subDistrictBen;
+    private String VtcBen;
+    private String postOfficeBen;
+    private String pinCodeBen;
+    private String emailBen;
+
+    public String getFatherNameSecc() {
+        return fatherNameSecc;
+    }
+
+    public void setFatherNameSecc(String fatherNameSecc) {
+        this.fatherNameSecc = fatherNameSecc;
+    }
+
+    public String getMotherNameSecc() {
+        return motherNameSecc;
+    }
+
+    public void setMotherNameSecc(String motherNameSecc) {
+        this.motherNameSecc = motherNameSecc;
+    }
+
+    public String getGenderIdSecc() {
+        return genderIdSecc;
+    }
+
+    public void setGenderIdSecc(String genderIdSecc) {
+        this.genderIdSecc = genderIdSecc;
+    }
+
+    public String getYobSecc() {
+        return yobSecc;
+    }
+
+    public void setYobSecc(String yobSecc) {
+        this.yobSecc = yobSecc;
+    }
+
+    public String getDobBen() {
+        return dobBen;
+    }
+
+    public void setDobBen(String dobBen) {
+        this.dobBen = dobBen;
+    }
+
+    public String getGenderBen() {
+        return genderBen;
+    }
+
+    public void setGenderBen(String genderBen) {
+        this.genderBen = genderBen;
+    }
+
+    public String getAddressBen() {
+        return addressBen;
+    }
+
+    public void setAddressBen(String addressBen) {
+        this.addressBen = addressBen;
+    }
+
+    public String getStateNameBen() {
+        return stateNameBen;
+    }
+
+    public void setStateNameBen(String stateNameBen) {
+        this.stateNameBen = stateNameBen;
+    }
+
+    public String getDistrictNameBen() {
+        return districtNameBen;
+    }
+
+    public void setDistrictNameBen(String districtNameBen) {
+        this.districtNameBen = districtNameBen;
+    }
+
+    public String getSubDistrictBen() {
+        return subDistrictBen;
+    }
+
+    public void setSubDistrictBen(String subDistrictBen) {
+        this.subDistrictBen = subDistrictBen;
+    }
+
+    public String getVtcBen() {
+        return VtcBen;
+    }
+
+    public void setVtcBen(String vtcBen) {
+        VtcBen = vtcBen;
+    }
+
+    public String getPostOfficeBen() {
+        return postOfficeBen;
+    }
+
+    public void setPostOfficeBen(String postOfficeBen) {
+        this.postOfficeBen = postOfficeBen;
+    }
+
+    public String getPinCodeBen() {
+        return pinCodeBen;
+    }
+
+    public void setPinCodeBen(String pinCodeBen) {
+        this.pinCodeBen = pinCodeBen;
+    }
+
+    public String getEmailBen() {
+        return emailBen;
+    }
+
+    public void setEmailBen(String emailBen) {
+        this.emailBen = emailBen;
+    }
+
     public String getPinCode() {
         return pinCode;
     }

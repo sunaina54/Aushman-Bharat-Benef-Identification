@@ -18,10 +18,13 @@ import com.customComponent.CustomAsyncTask;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
+import com.nhpm.Models.request.LogRequestItem;
 import com.nhpm.Models.request.MobileRationRequestModel;
+import com.nhpm.Models.request.SaveLoginTransactionRequestModel;
 import com.nhpm.Models.request.ValidateUrnRequestModel;
 import com.nhpm.Models.response.MobileSearchResponseItem;
 import com.nhpm.Models.response.MobileSearchResponseModel;
+import com.nhpm.Models.response.SaveLoginTransactionResponseModel;
 import com.nhpm.Models.response.URNResponseItem;
 import com.nhpm.Models.response.URNResponseModel;
 import com.nhpm.Models.response.master.StateItem;
@@ -29,6 +32,7 @@ import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
+import com.nhpm.fragments.BeneficiaryFamilySearchFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +58,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
     private FamilyListByMobileActivity activity;
     private StateItem selectedStateItem;
     private VerifierLoginResponse verifierLoginResp;
+    private LogRequestItem logRequestItem;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,8 @@ public class FamilyListByMobileActivity extends BaseActivity {
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
         verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
+        logRequestItem=LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,context));
+
         headerTV.setText("Family Data" + " by " + AppUtility.searchTitleHeader + " (" + selectedStateItem.getStateName() + ")");
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
@@ -103,8 +110,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
             @Override
             public void execute() {
                 try {
-                    noMemberLL.setVisibility(View.GONE);
-                    searchListRV.setVisibility(View.VISIBLE);
+
                     String request = mobileRationRequestModel.serialize();
                     String url = AppConstant.SEARCH_BY_MOBILE_RATION;
                     // HashMap<String, String> response = CustomHttp.httpPost(AppConstant.SEARCH_BY_MOBILE_RATION, request);
@@ -114,9 +120,24 @@ public class FamilyListByMobileActivity extends BaseActivity {
 
 
                     if (familyResponse != null) {
-
+                        if(logRequestItem==null){
+                            logRequestItem=new LogRequestItem();
+                        }
+                        logRequestItem.setOperatorinput(request);
                         familyListResponseModel = new MobileSearchResponseModel().create(familyResponse);
 
+                        logRequestItem.setOperatoroutput(familyListResponseModel.serialize());
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+                        try {
+                            SaveLoginTransactionRequestModel logTransReq=new SaveLoginTransactionRequestModel();
+                            logTransReq.setCreated_by(verifierLoginResp.getAadhaarNumber());
+                            HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                            SaveLoginTransactionResponseModel responseModel=SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"logTrans",responseModel.serialize(),context);
+                            BeneficiaryFamilySearchFragment.sequence=0;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -127,6 +148,8 @@ public class FamilyListByMobileActivity extends BaseActivity {
 
             @Override
             public void updateUI() {
+                noMemberLL.setVisibility(View.GONE);
+                searchListRV.setVisibility(View.VISIBLE);
                 if (familyListResponseModel != null) {
                     if (familyListResponseModel.isStatus()) {
                         if (familyListResponseModel.getUrnResponse() != null) {

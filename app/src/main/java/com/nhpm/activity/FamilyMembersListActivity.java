@@ -276,7 +276,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                             urnResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
                             || urnResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
                         Intent intent = new Intent(context, LoginActivity.class);
-                        CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
+                        CustomAlert.alertWithOkLogout(context, urnResponseModel.getErrorMessage(), intent);
 
                     } else {
                         errorTV.setVisibility(View.VISIBLE);
@@ -519,7 +519,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                                         getMemberDetailResponse.getErrorcode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
                                         || getMemberDetailResponse.getErrorcode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
                                     Intent intent = new Intent(context, LoginActivity.class);
-                                    CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
+                                    CustomAlert.alertWithOkLogout(context, getMemberDetailResponse.getErrorMessage(), intent);
                                 } else {
                                     CustomAlert.alertWithOk(context, getMemberDetailResponse.getErrorMessage());
                                 }

@@ -51,6 +51,7 @@ public interface AppConstant {
     int UPDATE_OPR = 1;
     String NHS_DATA_SYNC_TABLE = "";
     String PROJECT_PREF = "COM.FIELDVERIFY";
+    String LOG_REQUEST="logRequest";
     String APPLICATION_DATA = "APPLICATION_DATA";
     String HOUSEHOLD_TAB_STATUS = "houseHoldTabClick";
     String MEMBER_TAB_STATUS = "memberTabClick";
@@ -217,6 +218,7 @@ public interface AppConstant {
     String SECC_MEMBER_DOWNLOAD_API = MAIN_DOMAIN + "nhps/secc/members";
     String SECC_HOUSEHOLD_DOWNLOAD_API = MAIN_DOMAIN + "nhps/secc/houseHolds";
     String SEARCH_FAMILY_LIST = NEW_MAIN_DOMAIN_UPDATED+"search";
+    String SEARCH_BY_RATION=NEW_MAIN_DOMAIN_UPDATED+"searchByRation";
     String VALIDATE_URN = "https://pmrssm.gov.in/VIEWSTAT/api/validateURN";
     String SEARCH_BY_MOBILE_RATION =  NEW_MAIN_DOMAIN_UPDATED+"searchByMobileRationParameter";
     String GET_MEMBER_DETAIL="https://pmrssm.gov.in/reportapi/getMemberDetail";
@@ -362,7 +364,7 @@ public interface AppConstant {
     String VOTER_ID = "2";
     String RASHAN_CARD = "3";
     String AUTH_TOKEN = "authToken";
-    String RELEASE_DATE = "June 24, 2018";
+    String RELEASE_DATE = "June 26, 2018";
     String NEW_HEAD_RELATION_CODE = "01";
     String NO_INFO_AVAIL = "7";
     String invalid_user = "INVALID_USER";
@@ -442,6 +444,7 @@ public interface AppConstant {
     String m_state = "m_state";
     //String app_config = "app_config";
     String new_application_configuration = "application_configuration";
+    String flow_log="l_flowlog";
     String SELECTED_STATE = "selectedState";
     String LOGIN_TYPE_AADHAR = "1";
     String LOGIN_TYPE_EMAIL = "4";

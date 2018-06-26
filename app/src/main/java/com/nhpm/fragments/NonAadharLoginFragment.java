@@ -48,8 +48,10 @@ import com.nhpm.Models.ApplicationLanguageItem;
 import com.nhpm.Models.request.LoginRequest;
 import com.nhpm.Models.request.MobileOtpRequest;
 import com.nhpm.Models.request.MobileOtpRequestLoginModel;
+import com.nhpm.Models.request.SaveLoginTransactionRequestModel;
 import com.nhpm.Models.response.LoginOTPResponseModel;
 import com.nhpm.Models.response.MobileOTPResponse;
+import com.nhpm.Models.response.SaveLoginTransactionResponseModel;
 import com.nhpm.Models.response.master.ConfigurationItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.master.response.AppUpdatVersionResponse;
@@ -1899,10 +1901,17 @@ public class NonAadharLoginFragment extends Fragment {
                 System.out.print(payLoad);
                 try {
                     HashMap<String, String> response = CustomHttp.httpPost(AppConstant.REQUEST_FOR_OTP_VERIFICATION_GATEWAY, payLoad);
+
                     if (response != null) {
                         loginResponse = VerifierLoginResponse.create(response.get(AppConstant.RESPONSE_BODY));
                         //mobileOtpVerifyModel = MobileOTPResponse.create(response.get(AppConstant.RESPONSE_BODY));
                     }
+                    SaveLoginTransactionRequestModel logTransReq=new SaveLoginTransactionRequestModel();
+                    logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
+                    HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                    SaveLoginTransactionResponseModel responseModel=SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"logTrans",responseModel.serialize(),context);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -26,9 +26,11 @@ import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.LocalDataBase.dto.SeccDatabase;
+import com.nhpm.Models.SearchLocation;
 import com.nhpm.Models.request.AadharResultRequestModel;
 import com.nhpm.Models.request.AutoSuggestRequestItem;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.LogRequestItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
 import com.nhpm.Models.response.VillageResponseItem;
 import com.nhpm.Models.response.master.StateItem;
@@ -48,6 +50,8 @@ import java.util.HashMap;
  */
 
 public class FingerprintResultActivity extends BaseActivity {
+    private String LOCATION_TAG="villageTag";
+    private String DIST_TAG="distTag";
     private CustomAsyncTask customAsyncTask;
     private Context context;
     private AadhaarResponseItem aadhaarKycResponse;
@@ -77,6 +81,8 @@ public class FingerprintResultActivity extends BaseActivity {
   //  private SearchableSpinner stateSP;
     private Spinner stateSP,ruralUrbanSP;
     private String stateName,ruralUrbanStatus="",ruralUrbanTag;
+    private LogRequestItem logRequestItem;
+    private SearchLocation location=new SearchLocation();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +92,10 @@ public class FingerprintResultActivity extends BaseActivity {
     }
 
     private void setupScreen() {
+        location=SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                LOCATION_TAG,context  ));
         aadharResultRequestModel = new AadharResultRequestModel();
+        logRequestItem=LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,context));
         headerTV = (TextView) findViewById(R.id.centertext);
         ageCheck = (CheckBox) findViewById(R.id.ageCheck);
         //stateSP = (SearchableSpinner) findViewById(R.id.stateSP);
@@ -255,6 +264,7 @@ public class FingerprintResultActivity extends BaseActivity {
         ruralUrbanSP.setAdapter(ruralAdapter);
 
 
+
         updateKycButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,14 +320,21 @@ public class FingerprintResultActivity extends BaseActivity {
                 if (ruralCheck.isChecked()) {
                     request.setRural_urban(ruralUrbanTag.trim());
                 }
-
+                location.setVillageTrue(false);
                 if (vtcCheck.isChecked()) {
                     request.setVt_name(village);
+                    location.setVillageTrue(true);
                 }
-
+                location.setDistTrue(false);
                 if (distCheck.isChecked()) {
                     request.setDistrict_name(district);
+                    location.setDistTrue(true);
                 }
+                location.setVilageName(village);
+                location.setDistName(district);
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,LOCATION_TAG,location.serialize(),context);
+                logRequestItem.setOperatorinput(request.serialize());
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
                 //  if(dobCheck.isChecked())
                 // request.setD(pincode);
                 // CustomAlert.alertWithOk(context, "Under Development");
@@ -399,7 +416,40 @@ public class FingerprintResultActivity extends BaseActivity {
 
             }
         });
+        if(location!=null){
+            if(!location.getVilageName().equalsIgnoreCase("")){
+                kycVtc.setText("");
+                kycVtc.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        kycVtc.showDropDown();
+                        kycVtc.setText(location.getVilageName());
+                        //kycVtc.setSelection(mACTextViewEmail.getText().length());
+                    }
+                },500);
 
+                if(location.isVillageTrue()){
+                    vtcCheck.setChecked(true);
+                }
+            }
+            if(!location.getDistName().equalsIgnoreCase("")){
+                kycDist.setText("");
+
+                kycDist.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        kycDist.showDropDown();
+                        kycDist.setText(location.getDistName());
+                        //kycVtc.setSelection(mACTextViewEmail.getText().length());
+                    }
+                },500);
+                if(location.isDistTrue()){
+                    distCheck.setChecked(true);
+                }
+            }
+        }else{
+            location=new SearchLocation();
+        }
 
         cardTypeSpinner = (Spinner) findViewById(R.id.cardTypeSpinner);
         cardTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

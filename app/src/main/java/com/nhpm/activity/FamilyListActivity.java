@@ -21,6 +21,7 @@ import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.LogRequestItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
 import com.nhpm.Models.response.master.StateItem;
@@ -51,6 +52,7 @@ public class FamilyListActivity extends BaseActivity {
     private FamilyListActivity activity;
     private StateItem selectedStateItem;
     private VerifierLoginResponse verifierLoginResp;
+    private LogRequestItem logRequestItem;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,8 @@ public class FamilyListActivity extends BaseActivity {
 
     private void setupScreen() {
         //mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
+        logRequestItem=LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,context));
+
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
         verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
@@ -163,6 +167,8 @@ public class FamilyListActivity extends BaseActivity {
                     if(familyListResponseModel.isStatus()){
                     if (familyListResponseModel.getResult()!=null&&familyListResponseModel.getResult().getResponse() != null
                             ) {
+                        logRequestItem.setOperatoroutput(familyListResponseModel.serialize());
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
                         int matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
                         if (matchCount <= 5) {
                             noMemberTV.setText(matchCount + " matches found");

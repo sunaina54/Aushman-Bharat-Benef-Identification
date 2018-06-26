@@ -31,6 +31,7 @@ import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.AadhaarUtils.Global;
 import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.AadharAuthItem;
+import com.nhpm.Models.request.LogRequestItem;
 import com.nhpm.Models.response.AadhaarCaptureDetailItem;
 import com.nhpm.Models.response.seccMembers.SeccMemberItem;
 import com.nhpm.Models.response.seccMembers.SelectedMemberItem;
@@ -104,6 +105,7 @@ public class FindBeneficiaryByManualFragment extends Fragment {
     private Button proceedBT;
 
     private String aadharNo, currentYear;
+    private LogRequestItem logRequestItem;
 
     public FindBeneficiaryByManualFragment() {
         // Required empty public constructor
@@ -533,6 +535,10 @@ public class FindBeneficiaryByManualFragment extends Fragment {
         validateAadhaarBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logRequestItem=new LogRequestItem();
+                logRequestItem.setAction("SEARCH_BY_NAME/MANUAL");
+                logRequestItem.setPagescreenname("Manual");
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
 
                 AppUtility.hideSoftInput(activity, validateAadhaarBT);
                 String nameAsInAadhaar = manualNameAsInAadhaarET.getText().toString().trim();

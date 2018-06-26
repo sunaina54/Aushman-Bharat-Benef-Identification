@@ -1407,6 +1407,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);*/
 
                         if (personalDetailItem != null) {
+
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
@@ -1414,6 +1415,14 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                             personalDetailItem.setIsAadhar("Y");
                             personalDetailItem.setGender(aadhaarKycResponse.getGender());
                             personalDetailItem.setYob(aadhaarKycResponse.getDob());
+
+                            personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
+                            personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                            personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
+                            personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
+
+                            //address
+
                             personalDetailItem.setState(aadhaarKycResponse.getState());
                             personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
@@ -1431,6 +1440,11 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                             if(aadhaarKycResponse.getDob()!=null && !aadhaarKycResponse.getDob().equalsIgnoreCase("") ) {
                                 personalDetailItem.setYob(aadhaarKycResponse.getDob());
                             }
+                            personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
+                            personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                            personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
+                            personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
+
                             personalDetailItem.setState(aadhaarKycResponse.getState());
                             personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());

@@ -266,6 +266,8 @@ public class PinLoginActivity extends BaseActivity {
         forgotPinLayout = (LinearLayout) findViewById(R.id.forgetPinBT);
         if(screen!=null && screen.equalsIgnoreCase("Beneficiary")){
            // forgotPinLayout.setVisibility(View.GONE);
+
+
         }
         forgotPinLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -466,5 +468,9 @@ public class PinLoginActivity extends BaseActivity {
             }
         }
         return null;
+    }
+
+    private void insertDataInFlowLogTable(){
+        //SeccDatabase.saveFlowLogData()
     }
 }

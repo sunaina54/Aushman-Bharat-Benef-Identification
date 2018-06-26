@@ -16,7 +16,16 @@ public class FamilyDetailsItemModel implements Serializable {
     private String idType;
     private String screen;
     private String idName;
+    private String existingData;
     private Integer familyMatchScore=null;
+
+    public String getExistingData() {
+        return existingData;
+    }
+
+    public void setExistingData(String existingData) {
+        this.existingData = existingData;
+    }
 
     public String getIdName() {
         return idName;

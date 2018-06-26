@@ -142,7 +142,7 @@ public class ViewFamilyDetailsFragment extends Fragment {
         scoreLL = (LinearLayout) view.findViewById(R.id.scoreLL);
 
         if(familyDetailResponse!=null){
-            benefcisryNameTV.setText(activity.getMemberDetailItem.getPersonalDetail().getBenefName());
+            benefcisryNameTV.setText(activity.getMemberDetailItem.getPersonalDetail().getName());
             if(familyDetailResponse.getIdType()!=null &&
                     !familyDetailResponse.getIdType().equalsIgnoreCase("")){
                 prepareGovernmentIdSpinner();
@@ -166,7 +166,7 @@ public class ViewFamilyDetailsFragment extends Fragment {
 
             if(familyDetailResponse.getFamilyMemberModels()!=null
                     && familyDetailResponse.getFamilyMemberModels().size()>0){
-                //refreshList(familyDetailResponse.getFamilyMemberModels());
+                refreshList(familyDetailResponse.getFamilyMemberModels());
             }
         }
 

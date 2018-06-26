@@ -1512,6 +1512,12 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
+
+                            personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
+                            personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                            personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
+                            personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
+
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
 
@@ -1521,6 +1527,11 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                             personalDetailItem.setIdName("13");
+
+                            personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
+                            personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                            personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
+                            personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
 
                             personalDetailItem.setIsAadhar("Y");
                             personalDetailItem.setGender(aadhaarKycResponse.getGender());

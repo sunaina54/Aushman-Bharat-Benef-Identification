@@ -93,6 +93,22 @@ import java.util.regex.Pattern;
  * Created by psqit on 8/5/2016.
  */
 public class AppUtility {
+
+    public static final String SEARCH_BY_MOBILE= "SEARCH_BY_MOBILE";
+    public static final String SEARCH_BY_RATION_CARD= "SEARCH_BY_RATION_CARD";
+    public static final String SEARCH_BY_RSBY_URN= "SEARCH_BY_RSBY_URN";
+    public static final String SEARCH_INTO_CDAC_API= "SEARCH_INTO_CDAC_API";
+
+    public static final String SEARCH_BY_PARAMETER= "SEARCH_BY_PARAMETER";
+    public static final String SEARCH_BY_ADCD_DATA= "SEARCH_BY_ADCD_DATA";
+    public static final String SEARCH_BY_HHID= "SEARCH_BY_HHID";
+    public static final String SEARCH_BY_PARAMETER_VALUES= "SEARCH_BY_PARAMETER_VALUES";
+
+    public static final String CLICK_ON_VERIFY_DOCUMENTS= "CLICK_ON_VERIFY_DOCUMENTS";
+    public static final String DOCUMENTS_ALREADY_VERIFIED= "DOCUMENTS_ALREADY_VERIFIED";
+    public static final String PROCEED_TO_DOCUMENTS_UPLAOD= "PROCEED_TO_DOCUMENTS_UPLAOD";
+
+
     public  static String searchTitleHeader="";
     public static String DATABASE_NAME = "m_location_master.sqlite";
     public static String TABLE_MASTER_LOC = "location";

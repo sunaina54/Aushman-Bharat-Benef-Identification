@@ -98,6 +98,15 @@ public class DocsListItem implements Serializable {
     private String grampanchayatname;
     private String incomesource_urban;
     private String addressline2sl;
+    private String yob="";
+
+    public String getYob() {
+        return yob;
+    }
+
+    public void setYob(String yob) {
+        this.yob = yob;
+    }
 
     public String getSource() {
         return source;

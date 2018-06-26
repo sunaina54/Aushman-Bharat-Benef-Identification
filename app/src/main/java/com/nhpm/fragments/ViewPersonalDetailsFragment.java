@@ -164,11 +164,11 @@ public class ViewPersonalDetailsFragment extends Fragment {
 
         if (personalDetailItem != null) {
             if (personalDetailItem.getBenefName() != null && !personalDetailItem.getBenefName().equalsIgnoreCase("")) {
-                beneficiaryNameTV.setText(personalDetailItem.getBenefName());
+                beneficiaryNameTV.setText(personalDetailItem.getName());
             }
 
             if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
-                beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
+                beneficiaryNamePerIdTV.setText(personalDetailItem.getBenefName());
             }
             if(personalDetailItem.getBenefPhoto()!=null && !personalDetailItem.getBenefPhoto().equalsIgnoreCase("")){
                 beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));

@@ -690,6 +690,12 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                                 personalDetailItem.setIdName("13");
                                 personalDetailItem.setIsAadhar("Y");
+
+                                personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
+                                personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                                personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
+                                personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
+
                                 personalDetailItem.setGender(aadhaarKycResponse.getGender());
                                 personalDetailItem.setYob(aadhaarKycResponse.getDob());
                                 personalDetailItem.setState(aadhaarKycResponse.getState());
@@ -705,6 +711,12 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                                 personalDetailItem.setIdName("13");
                                 personalDetailItem.setIsAadhar("Y");
+
+                                personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
+                                personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                                personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
+                                personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
+
                                 personalDetailItem.setGender(aadhaarKycResponse.getGender());
                                 personalDetailItem.setYob(aadhaarKycResponse.getDob());
                                 personalDetailItem.setState(aadhaarKycResponse.getState());

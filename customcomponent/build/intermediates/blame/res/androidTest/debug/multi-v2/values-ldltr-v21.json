@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\ps_quick_it\\nhps-1june-updated\\PM-RSSM-25-June\\Aushman-Bharat-Benef-Identification\\customcomponent\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-ldltr-v21\\values-ldltr-v21.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Dell3\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\55b61ef2c17c177f9897b55124c4917e\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "112",
+                        "endOffsets": "163"
+                    }
+                }
+            ]
+        }
+    ]
+}

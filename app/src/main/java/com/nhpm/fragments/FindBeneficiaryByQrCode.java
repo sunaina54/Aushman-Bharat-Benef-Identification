@@ -36,6 +36,7 @@ import com.nhpm.AadhaarUtils.Global;
 import com.nhpm.CameraUtils.barcode.BarcodeCaptureActivity;
 import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.AadharAuthItem;
+import com.nhpm.Models.request.LogRequestItem;
 import com.nhpm.Models.response.AadhaarCaptureDetailItem;
 import com.nhpm.Models.response.seccMembers.SeccMemberItem;
 import com.nhpm.Models.response.seccMembers.SelectedMemberItem;
@@ -101,6 +102,7 @@ public class FindBeneficiaryByQrCode extends Fragment {
     private Button proceedBT;
    private AadhaarResponseItem aadhaarResponseItem ;
    private LinearLayout qrCodeLayout;
+   private LogRequestItem logRequestItem;
 
     public FindBeneficiaryByQrCode() {
         // Required empty public constructor
@@ -957,7 +959,10 @@ public class FindBeneficiaryByQrCode extends Fragment {
         aadhaarResponseItem.setGender(qrCodeGenderAsInAadhaarET.getText().toString());
         aadhaarResponseItem.setPc(qrCodePincodeET.getText().toString());
         aadhaarResponseItem.setResult("Y");
-
+        logRequestItem=new LogRequestItem();
+        logRequestItem.setPagescreenname("QRCODE");
+        logRequestItem.setAction("SEARCH_BY_NAME/QRCODE");
+        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
     //    aadhaarResponseItem.setUid(qrCodeAadharNumberET.getText().toString());
       //  alert.dismiss();
         Intent intent = new Intent(context , FingerprintResultActivity.class);

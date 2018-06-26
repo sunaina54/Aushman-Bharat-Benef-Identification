@@ -38,7 +38,7 @@ public class CollectDataActivity extends BaseActivity {
     private FragmentManager fragmentManager;
     private TextView headerTV;
     private ImageView back;
-    private RelativeLayout backLayout;
+    public RelativeLayout backLayout;
     private String name;
     public DocsListItem benefItem;
     private Context context;

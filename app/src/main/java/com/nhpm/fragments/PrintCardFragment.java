@@ -28,11 +28,14 @@ import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.GetMemberDetail;
+import com.nhpm.Models.request.LogRequestItem;
 import com.nhpm.Models.request.PersonalDetailItem;
+import com.nhpm.Models.request.SaveLoginTransactionRequestModel;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyDetailResponse;
 import com.nhpm.Models.response.GenericResponse;
 import com.nhpm.Models.response.PersonalDetailResponse;
+import com.nhpm.Models.response.SaveLoginTransactionResponseModel;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.PrintCard.PrintCardMainActivity;
 import com.nhpm.PrintCard.UsbHelper;
@@ -87,6 +90,8 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
     private GenericResponse genericResponse;
     private CustomAsyncTask customAsyncTask;
     private VerifierLoginResponse verifierDetail;
+    private LogRequestItem logRequestItem;
+    private CustomAsyncTask mobileOtpAsyncTask;
 
 
     public PrintCardFragment() {
@@ -122,15 +127,17 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
 
     private void setupScreen(View view){
         context=getActivity();
+
         fragmentManager = getActivity().getSupportFragmentManager();
         verifierDetail = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
+        logRequestItem=LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,context));
         nameTV=(TextView)view.findViewById(R.id.nameTV) ;
         cardNumberTV=(TextView)view.findViewById(R.id.cardNumberTV) ;
         fatherNameTV=(TextView)view.findViewById(R.id.fatherNameTV) ;
         genderTV=(TextView)view.findViewById(R.id.genderTV) ;
         yobTV=(TextView)view.findViewById(R.id.yobTV) ;
-
+        activity.backLayout.setVisibility(View.GONE);
         previousBT = (Button) view.findViewById(R.id.previousBT);
         printCardBT = (Button) view.findViewById(R.id.printCardBT);
         otherFamilyMemberBT = (Button) view.findViewById(R.id.otherMemberBT);
@@ -162,13 +169,13 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         otherFamilyMemberBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+
+                validateOTP();
             }
         });
         printCardBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 CustomAlert.alertWithOk(context,"Under Developement");
             }
@@ -208,6 +215,53 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         View view = inflater.inflate(R.layout.fragment_print_card, container, false);
         setupScreen(view);
         return view;
+
+    }
+
+    private void validateOTP() {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+
+                //request.setUserName(ApplicationGlobal.MOBILE_Username);
+                // request.setUserPass(ApplicationGlobal.MOBILE_Password);
+                SaveLoginTransactionResponseModel model=SaveLoginTransactionResponseModel.create(ProjectPrefrence.getSharedPrefrenceData(
+                        AppConstant.PROJECT_PREF,"logTrans",context));
+
+                logRequestItem.setCreated_by(verifierDetail.getAadhaarNumber());
+                logRequestItem.setOperatorheader(verifierDetail.getName());
+                logRequestItem.setTid(model.getTransactionId()+"");
+                logRequestItem.setSequence(String.valueOf(BeneficiaryFamilySearchFragment.sequence+1));
+                String payLoad = logRequestItem.serialize();
+                System.out.print(payLoad);
+                try {
+
+                    HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in//VIEWSTAT/api/login/saveLoginFlowLog", logRequestItem.serialize());
+                    SaveLoginTransactionResponseModel responseModel=SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                    Log.d("TAG","Log Response : "+responseModel.serialize());
+                    Log.d("TAG","Log Response1 : "+responseModel.serialize());
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                getActivity().finish();
+            }
+        };
+
+        if (mobileOtpAsyncTask != null) {
+            mobileOtpAsyncTask.cancel(true);
+            mobileOtpAsyncTask = null;
+        }
+
+        mobileOtpAsyncTask = new CustomAsyncTask(taskListener,"Please wait...", context);
+        mobileOtpAsyncTask.execute();
 
     }
     public final BroadcastReceiver usbReceiver = new BroadcastReceiver() {

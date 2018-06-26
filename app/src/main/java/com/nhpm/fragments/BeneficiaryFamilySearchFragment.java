@@ -18,16 +18,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.customComponent.CustomAlert;
+import com.customComponent.CustomAsyncTask;
+import com.customComponent.TaskListener;
+import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
 import com.google.zxing.client.result.VINParsedResult;
 import com.nhpm.Models.SerachOptionItem;
 import com.nhpm.Models.request.BeneficiarySearchModel;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.LogRequestItem;
+import com.nhpm.Models.request.MobileOtpRequestLoginModel;
 import com.nhpm.Models.request.MobileRationRequestModel;
+import com.nhpm.Models.request.SaveLoginTransactionRequestModel;
 import com.nhpm.Models.request.ValidateUrnRequestModel;
 import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
+import com.nhpm.Models.response.SaveLoginTransactionResponseModel;
 import com.nhpm.Models.response.master.StateItem;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -43,6 +51,7 @@ import com.nhpm.activity.SearchDashboardActivity;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by SUNAINA on 22-05-2018.
@@ -59,6 +68,10 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
     private ArrayList<BeneficiaryListItem> list;
     private StateItem selectedStateItem;
     private   FamilyListRequestModel request;
+    private VerifierLoginResponse loginResponse;
+    private CustomAsyncTask mobileOtpAsyncTask;
+    private LogRequestItem logRequestItem=new LogRequestItem();
+    public static int sequence=0;
 
 
     @Override
@@ -73,7 +86,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
     private void setupScreen(View view) {
         context = getActivity();
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
-
+        loginResponse=VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.VERIFIER_CONTENT,context));
         searchBTN = (Button) view.findViewById(R.id.searchBTN);
         noMemberTV = (TextView) view.findViewById(R.id.noMemberTV);
         noMemberTV.setVisibility(View.GONE);
@@ -102,6 +115,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 item.setMode(AppConstant.DEMO);
                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,AppConstant.SEARCH_OPTION,item.serialize(),context);
                 startActivity(intent);
+                logRequestItem.setAction("SEARCH_BY_NAME");
+                validateOTP();
             }
         });
         cardTypeTV = (TextView) view.findViewById(R.id.cardTypeTV);
@@ -343,7 +358,6 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         cardTypeSpinner.setAdapter(adapter);
         cardTypeSpinner.setSelection(0);
 
-
         searchBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -368,9 +382,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     //requestModel.setSelectedState(selectedStateItem.getStateCode());
                     requestModel.setSelectedState("6");
                     AppUtility.searchTitleHeader="Ration Card";
+                    logRequestItem.setAction(AppUtility.SEARCH_BY_RATION_CARD);
                     Intent theIntent=new Intent(context,FamilyListByMobileActivity.class);
                     theIntent.putExtra("SearchParam",requestModel);
                     startActivity(theIntent);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+
 
                 }
 
@@ -386,12 +403,14 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     }
 
                     AppUtility.searchTitleHeader="URN";
-
+                    logRequestItem.setAction(AppUtility.SEARCH_BY_RSBY_URN);
                     ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
                     requestModel.setUrn(cardNo);
                     Intent theIntent=new Intent(context,FamilyListByURNActivity.class);
                     theIntent.putExtra("SearchParam",requestModel);
                     startActivity(theIntent);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+
 
                 }
 
@@ -413,10 +432,11 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     request.setPincode("");
                     request.setFathername("");
                     AppUtility.searchTitleHeader="AHLTIN";
+                    logRequestItem.setAction("AHLTIN");
                     Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
                     theIntent.putExtra("SearchParam",request);
                     startActivity(theIntent);
-
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
 
                 }
 
@@ -430,6 +450,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         return;
                     }
                     AppUtility.searchTitleHeader="Mobile";
+                    logRequestItem.setAction(AppUtility.SEARCH_BY_MOBILE);
                     MobileRationRequestModel requestModel = new MobileRationRequestModel();
                     requestModel.setMobileRation(cardNo);
                     requestModel.setParam(AppConstant.MOBILE_PARAM);
@@ -437,6 +458,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     Intent theIntent=new Intent(context,FamilyListByMobileActivity.class);
                     theIntent.putExtra("SearchParam",requestModel);
                     startActivity(theIntent);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+
 
 
                 }
@@ -458,9 +481,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     request.setPincode("");
                     request.setFathername("");
                     AppUtility.searchTitleHeader="HHId";
+                    logRequestItem.setAction(AppUtility.SEARCH_BY_HHID);
                     Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
                     theIntent.putExtra("SearchParam",request);
                     startActivity(theIntent);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+
 
                 }
 
@@ -474,6 +500,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     intent.putExtra("cardNo",cardNo);
                     startActivity(intent);
                 }*/
+                //validateOTP();
             }
         });
 
@@ -542,5 +569,46 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         }
         return temp;
     }
+
+    private void validateOTP() {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+
+                //request.setUserName(ApplicationGlobal.MOBILE_Username);
+                // request.setUserPass(ApplicationGlobal.MOBILE_Password);
+              /*  String payLoad = request.serialize();
+                System.out.print(payLoad);*/
+                try {
+
+                    SaveLoginTransactionRequestModel logTransReq=new SaveLoginTransactionRequestModel();
+                    logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
+                    HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                    SaveLoginTransactionResponseModel responseModel=SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"logTrans",responseModel.serialize(),context);
+                    sequence=0;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+
+            }
+        };
+
+        if (mobileOtpAsyncTask != null) {
+            mobileOtpAsyncTask.cancel(true);
+            mobileOtpAsyncTask = null;
+        }
+
+        mobileOtpAsyncTask = new CustomAsyncTask(taskListener, context);
+        mobileOtpAsyncTask.execute();
+
+    }
+
 
 }

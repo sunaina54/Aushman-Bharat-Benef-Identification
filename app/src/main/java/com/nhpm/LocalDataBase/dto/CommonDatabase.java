@@ -3146,6 +3146,22 @@ public class CommonDatabase {
         helpers.close();
         return insertFlag;
     }
+    public static long saveFlowLogData(ConfigurationItem item, Context context) {
+        DatabaseHelpers helpers = DatabaseHelpers.getInstance(context);
+        ContentValues values = new ContentValues();
+        values.put("state_code", item.getStateCode());
+        values.put("config_id", item.getConfigId());
+        values.put("state_name", item.getStateName());
+        values.put("description", item.getDescription());
+        values.put("status", item.getStatus());
+        values.put("acceptedvalueName ", item.getAcceptedvalueName());
+
+        SQLiteDatabase db = helpers.getWritableDatabase();
+        long insertFlag = db.insert(AppConstant.new_application_configuration, null, values);
+        db.close();
+        helpers.close();
+        return insertFlag;
+    }
     public static long saveApplicationConfigData(ApplicationConfigurationModel item, Context context) {
         DatabaseHelpers helpers = DatabaseHelpers.getInstance(context);
         ContentValues values = new ContentValues();

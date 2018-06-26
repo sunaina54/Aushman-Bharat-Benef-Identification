@@ -912,7 +912,7 @@ public class PersonalDetailsFragment extends Fragment {
                         beneficiaryPhotoIV.setImageBitmap(imageBitmap);
                     }
                 }
-                personalDetailItem.setIsAadhaarAuth("1");
+                personalDetailItem.setIsAadhar("1");
                 if (personalDetailItem.getAadhaarNo() != null) {
                     aadharET.setEnabled(false);
                     aadharET.setText(personalDetailItem.getAadhaarNo());
@@ -974,7 +974,7 @@ public class PersonalDetailsFragment extends Fragment {
                     govtIdPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getIdPhoto()));
 
                 }
-                personalDetailItem.setIsAadhaarAuth("0");
+                personalDetailItem.setIsAadhar("0");
                 if (personalDetailItem.getGovtIdNo() != null &&
                         !personalDetailItem.getGovtIdNo().equalsIgnoreCase("")) {
                     govtIdNumberTV.setText(personalDetailItem.getGovtIdNo());
