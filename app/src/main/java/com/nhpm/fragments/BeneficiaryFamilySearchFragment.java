@@ -1,8 +1,10 @@
 package com.nhpm.fragments;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,8 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.customComponent.CustomAlert;
 import com.customComponent.CustomAsyncTask;
@@ -52,6 +56,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by SUNAINA on 22-05-2018.
@@ -60,18 +67,20 @@ import java.util.HashMap;
 public class BeneficiaryFamilySearchFragment extends Fragment {
     private Spinner cardTypeSpinner;
     private Context context;
-    private EditText rationCardET, rsbyET, ahlTinET, mobileET,hhIdNoET;
+    private EditText rationCardET, rsbyET, ahlTinET, mobileET, hhIdNoET;
     private ArrayList<BeneficiarySearchModel> searchModelArrayList;
     private TextView cardTypeTV, findByNameTV, noMemberTV;
     private Button searchBTN;
     private String cardNo = "", cardType = "";
     private ArrayList<BeneficiaryListItem> list;
     private StateItem selectedStateItem;
-    private   FamilyListRequestModel request;
+    private FamilyListRequestModel request;
     private VerifierLoginResponse loginResponse;
     private CustomAsyncTask mobileOtpAsyncTask;
-    private LogRequestItem logRequestItem=new LogRequestItem();
-    public static int sequence=0;
+    private LogRequestItem logRequestItem = new LogRequestItem();
+    public static int sequence = 0;
+    private RelativeLayout microphoneLL;
+    private final int REQ_CODE_SPEECH_INPUT = 100;
 
 
     @Override
@@ -86,10 +95,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
     private void setupScreen(View view) {
         context = getActivity();
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
-        loginResponse=VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.VERIFIER_CONTENT,context));
+        loginResponse = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         searchBTN = (Button) view.findViewById(R.id.searchBTN);
         noMemberTV = (TextView) view.findViewById(R.id.noMemberTV);
         noMemberTV.setVisibility(View.GONE);
+        microphoneLL = (RelativeLayout) view.findViewById(R.id.microphoneLL);
+
         findByNameTV = (TextView) view.findViewById(R.id.findByNameTV);
         findByNameTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,12 +119,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,AppConstant.SEARCH_OPTION,item.serialize(),context);
 */
 
-                Intent intent =new Intent(context,PinLoginActivity.class);
-                intent.putExtra("Beneficiary","Beneficiary");
-                SerachOptionItem item=new SerachOptionItem();
+                Intent intent = new Intent(context, PinLoginActivity.class);
+                intent.putExtra("Beneficiary", "Beneficiary");
+                SerachOptionItem item = new SerachOptionItem();
                 item.setSearchType(AppConstant.AADHAAR_SEARCH);
                 item.setMode(AppConstant.DEMO);
-                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,AppConstant.SEARCH_OPTION,item.serialize(),context);
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SEARCH_OPTION, item.serialize(), context);
                 startActivity(intent);
                 logRequestItem.setAction("SEARCH_BY_NAME");
                 validateOTP();
@@ -121,6 +132,11 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         });
         cardTypeTV = (TextView) view.findViewById(R.id.cardTypeTV);
         hhIdNoET = (EditText) view.findViewById(R.id.hhIdNoET);
+        hhIdNoET.setSelection(hhIdNoET.getText().toString().length());
+        if (hhIdNoET.getText().toString().length() == 24) {
+            hhIdNoET.setTextColor(AppUtility.getColor(context, R.color.green));
+
+        }
         hhIdNoET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -144,6 +160,11 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             }
         });
         rationCardET = (EditText) view.findViewById(R.id.rationCardET);
+        rationCardET.setSelection(rationCardET.getText().toString().length());
+        if (rationCardET.getText().toString().length() == 12) {
+            rationCardET.setTextColor(AppUtility.getColor(context, R.color.green));
+
+        }
         rationCardET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -167,6 +188,11 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             }
         });
         rsbyET = (EditText) view.findViewById(R.id.rsbyET);
+        rsbyET.setSelection(rsbyET.getText().toString().length());
+        if (rsbyET.getText().toString().length() == 17) {
+            rsbyET.setTextColor(AppUtility.getColor(context, R.color.green));
+
+        }
         rsbyET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -190,6 +216,11 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             }
         });
         ahlTinET = (EditText) view.findViewById(R.id.ahlTinET);
+        ahlTinET.setSelection(ahlTinET.getText().toString().length());
+        if (ahlTinET.getText().toString().length() == 29) {
+            ahlTinET.setTextColor(AppUtility.getColor(context, R.color.green));
+
+        }
         ahlTinET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -218,6 +249,11 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             }
         });
         mobileET = (EditText) view.findViewById(R.id.mobileET);
+        mobileET.setSelection(mobileET.getText().toString().length());
+        if (mobileET.getText().toString().length() == 10) {
+            mobileET.setTextColor(AppUtility.getColor(context, R.color.green));
+
+        }
         mobileET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -253,6 +289,13 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
             }
         });
+
+        microphoneLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                promptSpeechInput();
+            }
+        });
         ArrayList<String> spinnerList = new ArrayList<>();
         spinnerList.add("HHId Number");
         spinnerList.add("AHLTIN");
@@ -280,31 +323,33 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     ahlTinET.setVisibility(View.VISIBLE);
                     cardTypeTV.setText("AHLTIN");
                     cardType = "AHLTIN";
-                    String ahltin=ahlTinET.getText().toString();
-                    Log.d("TAG","AhlTine : "+ahltin);
-                    String firstTwoChar=ahltin.substring(0,2);
-                   // 2 7 8 5 4 3
-                    String nextSevenChar=ahltin.substring(2,9);
-                    String nextEightChar=ahltin.substring(9,17);
-                    String nextFiveChar=ahltin.substring(17,22);
-                    String nextFourChar=ahltin.substring(22,26);
-                    String lastThreeChar=ahltin.substring(26,29);
-                    Log.d("TAG","AhlTine : "+ahltin);
-                    Log.d("TAG","First TTwo : "+firstTwoChar);
-                    Log.d("TAG","next seven : "+nextSevenChar);
-                    Log.d("TAG","next eight : "+nextEightChar);
-                    Log.d("TAG","next five : "+nextFiveChar);
-                    Log.d("TAG","next four : "+nextFourChar);
-                    Log.d("TAG","next three : "+lastThreeChar);
-                    ahltin=firstTwoChar+" "+nextSevenChar+" "+nextEightChar+" "+nextFiveChar+" "+nextFourChar+" "+lastThreeChar;
-                    Log.d("TAG","Ayushman Id  : "+ahltin);
-                }else if(position==2){
+                    String ahltin = ahlTinET.getText().toString();
+                    Log.d("TAG", "AhlTine : " + ahltin);
+                    if(ahltin.length()==29) {
+                        String firstTwoChar = ahltin.substring(0, 2);
+                        // 2 7 8 5 4 3
+                        String nextSevenChar = ahltin.substring(2, 9);
+                        String nextEightChar = ahltin.substring(9, 17);
+                        String nextFiveChar = ahltin.substring(17, 22);
+                        String nextFourChar = ahltin.substring(22, 26);
+                        String lastThreeChar = ahltin.substring(26, 29);
+                        Log.d("TAG", "AhlTine : " + ahltin);
+                        Log.d("TAG", "First TTwo : " + firstTwoChar);
+                        Log.d("TAG", "next seven : " + nextSevenChar);
+                        Log.d("TAG", "next eight : " + nextEightChar);
+                        Log.d("TAG", "next five : " + nextFiveChar);
+                        Log.d("TAG", "next four : " + nextFourChar);
+                        Log.d("TAG", "next three : " + lastThreeChar);
+                        ahltin = firstTwoChar + " " + nextSevenChar + " " + nextEightChar + " " + nextFiveChar + " " + nextFourChar + " " + lastThreeChar;
+                        Log.d("TAG", "Ayushman Id  : " + ahltin);
+                    }
+                } else if (position == 2) {
                     cardType = "RSBY URN";
-                    rsbyET.setVisibility(View.VISIBLE );
-                }else if(position==3){
+                    rsbyET.setVisibility(View.VISIBLE);
+                } else if (position == 3) {
                     cardType = "Mobile Number";
                     mobileET.setVisibility(View.VISIBLE);
-                }else if(position==4){
+                } else if (position == 4) {
                     cardType = "Ration Card";
                     rationCardET.setVisibility(View.VISIBLE);
                 }
@@ -361,7 +406,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         searchBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                request=new FamilyListRequestModel();
+                request = new FamilyListRequestModel();
                 //
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("Ration Card")) {
                     cardNo = rationCardET.getText().toString();
@@ -374,19 +419,18 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     }*/
 
 
-
                     MobileRationRequestModel requestModel = new MobileRationRequestModel();
                     requestModel.setMobileRation(cardNo);
                     requestModel.setParam(AppConstant.RATION_PARAM);
 
                     //requestModel.setSelectedState(selectedStateItem.getStateCode());
                     requestModel.setSelectedState("6");
-                    AppUtility.searchTitleHeader="Ration Card";
+                    AppUtility.searchTitleHeader = "Ration Card";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_RATION_CARD);
-                    Intent theIntent=new Intent(context,FamilyListByMobileActivity.class);
-                    theIntent.putExtra("SearchParam",requestModel);
+                    Intent theIntent = new Intent(context, FamilyListByMobileActivity.class);
+                    theIntent.putExtra("SearchParam", requestModel);
                     startActivity(theIntent);
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
 
                 }
@@ -402,14 +446,14 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         return;
                     }
 
-                    AppUtility.searchTitleHeader="URN";
+                    AppUtility.searchTitleHeader = "URN";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_RSBY_URN);
                     ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
                     requestModel.setUrn(cardNo);
-                    Intent theIntent=new Intent(context,FamilyListByURNActivity.class);
-                    theIntent.putExtra("SearchParam",requestModel);
+                    Intent theIntent = new Intent(context, FamilyListByURNActivity.class);
+                    theIntent.putExtra("SearchParam", requestModel);
                     startActivity(theIntent);
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
 
                 }
@@ -431,12 +475,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     request.setAge("");
                     request.setPincode("");
                     request.setFathername("");
-                    AppUtility.searchTitleHeader="AHLTIN";
+                    AppUtility.searchTitleHeader = "AHLTIN";
                     logRequestItem.setAction("AHLTIN");
-                    Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
-                    theIntent.putExtra("SearchParam",request);
+                    Intent theIntent = new Intent(context, FamilyListByHHIDActivity.class);
+                    theIntent.putExtra("SearchParam", request);
                     startActivity(theIntent);
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
                 }
 
@@ -449,17 +493,16 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         CustomAlert.alertWithOk(context, "Please enter valid mobile number");
                         return;
                     }
-                    AppUtility.searchTitleHeader="Mobile";
+                    AppUtility.searchTitleHeader = "Mobile";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_MOBILE);
                     MobileRationRequestModel requestModel = new MobileRationRequestModel();
                     requestModel.setMobileRation(cardNo);
                     requestModel.setParam(AppConstant.MOBILE_PARAM);
                     requestModel.setSelectedState("6");
-                    Intent theIntent=new Intent(context,FamilyListByMobileActivity.class);
-                    theIntent.putExtra("SearchParam",requestModel);
+                    Intent theIntent = new Intent(context, FamilyListByMobileActivity.class);
+                    theIntent.putExtra("SearchParam", requestModel);
                     startActivity(theIntent);
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
-
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
 
                 }
@@ -470,22 +513,22 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter HHId number");
                         return;
-                    } /*else if (cardNo.length() < 24) {
+                    } else if (cardNo.length() < 24) {
                         CustomAlert.alertWithOk(context, "Please enter valid HHId number");
                         return;
-                    }*/
+                    }
 
                     request.setName("");
                     request.setGenderid("");
                     request.setAge("");
                     request.setPincode("");
                     request.setFathername("");
-                    AppUtility.searchTitleHeader="HHId";
+                    AppUtility.searchTitleHeader = "HHId";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_HHID);
-                    Intent theIntent=new Intent(context,FamilyListByHHIDActivity.class);
-                    theIntent.putExtra("SearchParam",request);
+                    Intent theIntent = new Intent(context, FamilyListByHHIDActivity.class);
+                    theIntent.putExtra("SearchParam", request);
                     startActivity(theIntent);
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
 
                 }
@@ -582,12 +625,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 System.out.print(payLoad);*/
                 try {
 
-                    SaveLoginTransactionRequestModel logTransReq=new SaveLoginTransactionRequestModel();
+                    SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                     logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
                     HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
-                    SaveLoginTransactionResponseModel responseModel=SaveLoginTransactionResponseModel.create(responseTid.get("response"));
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"logTrans",responseModel.serialize(),context);
-                    sequence=0;
+                    SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
+                    sequence = 0;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -610,5 +653,68 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
     }
 
+    /**
+     * Showing google speech input dialog
+     */
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speech_prompt));
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(context,
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && data!=null) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if(cardType.equalsIgnoreCase("HHId Number")) {
+                        hhIdNoET.setVisibility(View.VISIBLE);
+                        hhIdNoET.setText(result.get(0).trim());
+                        hhIdNoET.setSelection(hhIdNoET.getText().toString().length());
+                    }
+
+                    if(cardType.equalsIgnoreCase("AHLTIN")) {
+                        ahlTinET.setVisibility(View.VISIBLE);
+                        ahlTinET.setText(result.get(0).trim());
+                        ahlTinET.setSelection(ahlTinET.getText().toString().length());
+                    }
+
+                    if(cardType.equalsIgnoreCase("RSBY URN")) {
+                        rsbyET.setVisibility(View.VISIBLE);
+                        rsbyET.setText(result.get(0).trim());
+                        rsbyET.setSelection(rsbyET.getText().toString().length());
+
+                    }
+                    if(cardType.equalsIgnoreCase("Mobile Number")) {
+                        mobileET.setVisibility(View.VISIBLE);
+                        mobileET.setText(result.get(0).trim());
+                        mobileET.setSelection(mobileET.getText().toString().length());
+
+                    }
+                    if(cardType.equalsIgnoreCase("Ration Card")) {
+                        rationCardET.setVisibility(View.VISIBLE);
+                        rationCardET.setText(result.get(0).trim());
+                        rationCardET.setSelection(rationCardET.getText().toString().length());
+                    }
+
+                }
+                break;
+            }
+        }
+    }
 }

@@ -684,6 +684,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
 
 
                             if (personalDetailItem != null) {
+                                personalDetailItem.setGovtIdType("Aadhaar");
                                 personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                                 personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                                 personalDetailItem.setName(aadhaarKycResponse.getName());
@@ -707,6 +708,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                             }else {
 
                                 personalDetailItem = new PersonalDetailItem();
+                                personalDetailItem.setGovtIdType("Aadhaar");
                                 personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                                 personalDetailItem.setIdName("13");

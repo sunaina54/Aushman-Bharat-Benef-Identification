@@ -581,10 +581,27 @@ public class FingerprintResultActivity extends BaseActivity {
                 }
                 if (aadhaarKycResponse.getDob() != null && !aadhaarKycResponse.getDob().equalsIgnoreCase("")) {
                     String yob;
+                    String arr[];
                     yob = aadhaarKycResponse.getDob();
                     if (aadhaarKycResponse.getDob().length() > 4) {
                         yob = aadhaarKycResponse.getDob().substring(aadhaarKycResponse.getDob().length() - 4);
+                        if(aadhaarKycResponse.getDob().contains("-")){
+                            arr=aadhaarKycResponse.getDob().split("-") ;
+                            if(arr[0].length()==4){
+                                yob=arr[0];
+                            }else if(arr[2].length()==4){
+                                yob=arr[2];
+                            }
+                        }else if(aadhaarKycResponse.getDob().contains("/")){
+                            arr=aadhaarKycResponse.getDob().split("/") ;
+                            if(arr[0].length()==4){
+                                yob=arr[0];
+                            }else if(arr[2].length()==4){
+                                yob=arr[2];
+                            }
+                        }
                     }
+
 
                     kycDob.setText(yob);
 

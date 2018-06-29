@@ -466,7 +466,7 @@ public class AppUtility {
     public static ArrayList<GovernmentIdItem> prepareGovernmentIdSpinnerForNoAadhar() {
         ArrayList<GovernmentIdItem> govtIdStatusList = new ArrayList<>();
         govtIdStatusList.add(new GovernmentIdItem(0, "Choose Your ID Card"));
-        govtIdStatusList.add(new GovernmentIdItem(13, "Aadhaar"));
+       // govtIdStatusList.add(new GovernmentIdItem(13, "Aadhaar"));
         govtIdStatusList.add(new GovernmentIdItem(1, "Voter ID Card"));
         govtIdStatusList.add(new GovernmentIdItem(10, "MNREGA Job Card"));
         govtIdStatusList.add(new GovernmentIdItem(4, "Driving License"));

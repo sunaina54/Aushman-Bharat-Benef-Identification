@@ -218,6 +218,20 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size" />
 
+            <Button
+                android:id="@+id/logBT"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="@dimen/margine_20"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:padding="@dimen/margine_10"
+                android:text="Show Log"
+                android:textAllCaps="false"
+                android:visibility="visible"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size" />
+
             <!--
                  <Button
                      android:id="@+id/getFamilyScoreBT"

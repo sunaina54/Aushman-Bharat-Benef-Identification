@@ -62,6 +62,8 @@
     <dimen name="ic_album_overflow_width">20dp</dimen>
     <dimen name="ic_album_overflow_height">30dp</dimen>
     <dimen name="ic_album_overflow_margin_top">10dp</dimen>
+    <dimen name="margine_2">2dp</dimen>
+    <dimen name="margine_3">3dp</dimen>
     <dimen name="margine_5">5dp</dimen>
     <dimen name="margine_10">10dp</dimen>
     <dimen name="margine_15">15dp</dimen>

@@ -4,7 +4,7 @@
 
     <uses-feature android:name="android.hardware.usb.host" />
 
-    <!--     <uses-permission android:name="android.permission.sec.MDM_APP_MGMT" /> -->
+    <!-- <uses-permission android:name="android.permission.sec.MDM_APP_MGMT" /> -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- <uses-permission android:name="android.permission.sec.MDM_HW_CONTROL" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -318,8 +318,6 @@
             android:name=".rsbyFieldValidation.RsbySyncErrorActivity"
             android:screenOrientation="portrait" />
 
-
-
         <!--
             <activity
             android:name=".RsbyFieldValidation.RsbyCardDataPreview"
@@ -379,63 +377,57 @@
         <activity
             android:name=".activity.FingerprintResultActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".activity.SignUpActivity"></activity>
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activity.SignUpActivity" />
         <activity
             android:name=".activity.SearchDashboardActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.FamilyMembersListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.FamilyListByHHIDActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.CollectDataActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustPan">
-
-        </activity>
-
+            android:windowSoftInputMode="stateVisible|adjustPan"></activity>
         <activity
             android:name=".activity.FindBeneficiaryByNameActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.GovermentIDActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.FamilyMemberEntryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"></activity>
-
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activity.ViewMemberDataActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.FamilyListByURNActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.FamilyListByMobileActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.FamilyMemberMatchActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.NameMatchScoreActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activity.ShowLogActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
     </application>

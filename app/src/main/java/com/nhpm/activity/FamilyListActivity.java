@@ -164,12 +164,16 @@ public class FamilyListActivity extends BaseActivity {
             @Override
             public void updateUI() {
                 if (familyListResponseModel != null) {
+                    int matchCount=0;
                     if(familyListResponseModel.isStatus()){
                     if (familyListResponseModel.getResult()!=null&&familyListResponseModel.getResult().getResponse() != null
                             ) {
                         logRequestItem.setOperatoroutput(familyListResponseModel.serialize());
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
-                        int matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
+                        if(familyListResponseModel.getResult().getResponse().getNumFound()!=null
+                                && !familyListResponseModel.getResult().getResponse().getNumFound().equalsIgnoreCase("")) {
+                             matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
+                        }
                         if (matchCount <= 5) {
                             noMemberTV.setText(matchCount + " matches found");
                         } else {

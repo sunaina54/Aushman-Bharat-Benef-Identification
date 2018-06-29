@@ -298,7 +298,7 @@ public class NonAadharLoginFragment extends Fragment {
                     //String password = passwordET.getText().toString();
                     String password = "123456";
                     if (userName.equalsIgnoreCase("")) {
-                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.enterValiduserName));
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.enterValiduserMobileNumber));
                         return;
                     }
 

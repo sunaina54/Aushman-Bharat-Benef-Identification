@@ -1501,6 +1501,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
 
 
                         if (personalDetailItem != null) {
+                            personalDetailItem.setGovtIdType("Aadhaar");
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
@@ -1524,6 +1525,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                         } else {
 
                             personalDetailItem = new PersonalDetailItem();
+                            personalDetailItem.setGovtIdType("Aadhaar");
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                             personalDetailItem.setIdName("13");

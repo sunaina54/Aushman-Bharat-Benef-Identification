@@ -17,14 +17,19 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.customComponent.CustomAsyncTask;
+import com.customComponent.TaskListener;
+import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
 import com.nhpm.Models.FamilyMemberModel;
+import com.nhpm.Models.request.GetTotalScoreRequestModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by SUNAINA on 21-06-2018.
@@ -42,6 +47,9 @@ public class NameMatchScoreActivity extends BaseActivity {
     public static String PERSONAL_DETAIL_TAG = "PERSONAL_DETAIL";
     public static String SECC_DETAIL_TAG = "SECC_DETAIL";
     private TextView nameTV, genderTV, ageTV, distTV, stateTV, kycNameTV, kycgenderTV, kycageTV, kycdistTV, kycstateTV,pincodeTV,kycPincodeTV;
+    private CustomAsyncTask asyncTask;
+    private GetTotalScoreRequestModel requestModel;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +110,7 @@ public class NameMatchScoreActivity extends BaseActivity {
                     kycageTV.setText(age + "");
                 }
             }*/
-            if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() >= 4) {
+            if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() > 4) {
 
                     String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
 
@@ -133,8 +141,9 @@ public class NameMatchScoreActivity extends BaseActivity {
 
             }else  if(personalDetailItem.getYob() != null && personalDetailItem.getYob().length() ==4){
                 String currentYear = DateTimeUtil.currentDate("dd-mm-yyyy");
-                currentYear = currentYear.substring(0, 4);
+                currentYear = currentYear.substring(6, 10);
                 int age = Integer.parseInt(currentYear) - Integer.parseInt(personalDetailItem.getYob());
+                kycageTV.setText(age + "");
             }
 
             if (personalDetailItem.getGender() != null && !personalDetailItem.getGender().equalsIgnoreCase("")) {
@@ -163,12 +172,16 @@ public class NameMatchScoreActivity extends BaseActivity {
             if (docsListItem.getPincode() != null) {
                 pincodeTV.setText(docsListItem.getPincode());
             }
-            if (docsListItem.getGenderid().equalsIgnoreCase("1")) {
-                genderTV.setText("Male");
-            } else if (docsListItem.getGenderid().equalsIgnoreCase("2")) {
-                genderTV.setText("Female");
-            } else {
-                genderTV.setText("Other");
+            if(docsListItem.getGenderid()!=null) {
+                if (docsListItem.getGenderid().equalsIgnoreCase("1")
+                        || docsListItem.getGenderid().substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
+                    genderTV.setText("Male");
+                } else if (docsListItem.getGenderid().equalsIgnoreCase("2")
+                        || docsListItem.getGenderid().substring(0, 1).toUpperCase().equalsIgnoreCase("F")) {
+                    genderTV.setText("Female");
+                } else {
+                    genderTV.setText("Other");
+                }
             }
             String yob = "";
             if (docsListItem.getDob() != null && docsListItem.getDob().length() > 4) {
@@ -228,5 +241,53 @@ public class NameMatchScoreActivity extends BaseActivity {
         });
     }
 
+    private void getNameMatchScore(){
+     requestModel = new GetTotalScoreRequestModel();
+        //secc data
+        requestModel.setStrName1(nameTV.getText().toString());
+        requestModel.setStrState1(stateTV.getText().toString());
+        requestModel.setStrDistrict1(distTV.getText().toString());
+        requestModel.setChGender1(genderTV.getText().toString());
+        requestModel.setnAge1(ageTV.getText().toString());
+        requestModel.setStrVillage1(docsListItem.getVt_name());
+        requestModel.setStrSubDistrict1(docsListItem.getBlock_name_english());
 
+        //kyc data
+
+        requestModel.setStrName2(kycNameTV.getText().toString());
+        requestModel.setStrState2(kycstateTV.getText().toString());
+        requestModel.setStrDistrict2(kycdistTV.getText().toString());
+        requestModel.setChGender2(kycgenderTV.getText().toString());
+        requestModel.setnAge2(kycageTV.getText().toString());
+        requestModel.setStrVillage2(personalDetailItem.getVtcBen());
+        requestModel.setStrSubDistrict2(personalDetailItem.getSubDistrictBen());
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                String request = requestModel.serialize();
+                HashMap<String, String> response = null;
+                try {
+                    response = CustomHttp.httpPost(AppConstant.GET_NAME_MATCH_SCORE, request);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String familyResponse = response.get("response");
+            }
+
+            @Override
+            public void updateUI() {
+
+            }
+        };
+
+        if (asyncTask != null) {
+            asyncTask.cancel(true);
+            asyncTask = null;
+        }
+
+        asyncTask = new CustomAsyncTask(taskListener,"Please wait..." ,context);
+        asyncTask.execute();
+
+    }
 }

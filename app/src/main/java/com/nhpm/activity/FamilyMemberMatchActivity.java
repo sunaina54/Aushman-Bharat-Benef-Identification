@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +19,18 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.customComponent.CustomAsyncTask;
+import com.customComponent.TaskListener;
+import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
 import com.nhpm.Models.FamilyMemberModel;
+import com.nhpm.Models.request.FamilyMatchScoreRequestModel;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.fragments.FamilyDetailsFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by SUNAINA on 21-06-2018.
@@ -39,6 +45,9 @@ public class FamilyMemberMatchActivity extends BaseActivity {
     private String familyMatchScore = "";
     private Button confirmBTN, cancelBT, declineBT;
     private ArrayList<FamilyMemberModel> familyMemberFromSecc, familyMemberFromFamilyCard;
+    private FamilyMatchScoreRequestModel requestModel;
+    private CustomAsyncTask asyncTask;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +89,9 @@ public class FamilyMemberMatchActivity extends BaseActivity {
             public void onClick(View view) {
 
                 familyMatchScore = "80";
-                Intent data=new Intent();
-                data.putExtra("matchScore",familyMatchScore);
-                setResult(4,data);
+                Intent data = new Intent();
+                data.putExtra("matchScore", familyMatchScore);
+                setResult(4, data);
                 activity.finish();
 
             }
@@ -93,16 +102,13 @@ public class FamilyMemberMatchActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 familyMatchScore = "0";
-                /*Fragment fragment= new FamilyDetailsFragment();
-                Bundle args = new Bundle();
-                args.putString("familyMatchScore", familyMatchScore);
-                fragment.setArguments(args);
-                callFragment(fragment);
-                activity.finish();*/
                 Intent data=new Intent();
                 data.putExtra("matchScore",familyMatchScore);
                 setResult(4,data);
                 activity.finish();
+
+
+
 
 
             }
@@ -110,9 +116,9 @@ public class FamilyMemberMatchActivity extends BaseActivity {
         cancelBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent data=new Intent();
-                data.putExtra("matchScore",familyMatchScore);
-                setResult(4,data);
+                Intent data = new Intent();
+                data.putExtra("matchScore", familyMatchScore);
+                setResult(4, data);
                 activity.finish();
             }
         });
@@ -152,12 +158,15 @@ public class FamilyMemberMatchActivity extends BaseActivity {
         public class MyViewHolder extends RecyclerView.ViewHolder {
             RelativeLayout menuLayout;
             ImageView settings;
-            TextView nameTV;
+            TextView nameTV, genderTV, ageTV, pincodeTV;
 
 
             public MyViewHolder(final View itemView) {
                 super(itemView);
                 nameTV = (TextView) itemView.findViewById(R.id.nameTV);
+                genderTV = (TextView) itemView.findViewById(R.id.genderTV);
+                ageTV = (TextView) itemView.findViewById(R.id.ageTV);
+                pincodeTV = (TextView) itemView.findViewById(R.id.pincodeTV);
                 settings = (ImageView) itemView.findViewById(R.id.settingsIV);
                 settings.setVisibility(View.GONE);
                 menuLayout = (RelativeLayout) itemView.findViewById(R.id.menuLayoutRL);
@@ -187,6 +196,26 @@ public class FamilyMemberMatchActivity extends BaseActivity {
             holder.menuLayout.setVisibility(View.GONE);
             holder.settings.setVisibility(View.GONE);
             holder.nameTV.setText(item.getName());
+            if (item.getGenderid() != null) {
+                if (item.getGenderid().equalsIgnoreCase("1")) {
+                    holder.genderTV.setText("Male");
+                } else if (item.getGenderid().equalsIgnoreCase("2")) {
+                    holder.genderTV.setText("Female");
+                } else {
+                    holder.genderTV.setText("Other");
+                }
+            }
+            if (item.getDob() != null) {
+                String currentDate = DateTimeUtil.currentDate("dd MM yyyy");
+                Log.d("current date", currentDate);
+                String currentYear = currentDate.substring(6, 10);
+                Log.d("current year", currentYear);
+                int age = Integer.parseInt(currentYear) - Integer.parseInt(item.getDob());
+                holder.ageTV.setText(age + "");
+            }
+            if (item.getPincode() != null) {
+                holder.pincodeTV.setText(item.getPincode());
+            }
 
 
         }
@@ -208,7 +237,7 @@ public class FamilyMemberMatchActivity extends BaseActivity {
         public class MyViewHolder extends RecyclerView.ViewHolder {
             RelativeLayout menuLayout;
             ImageView settings;
-            TextView nameTV,pincodeTV,genderTV,ageTV;
+            TextView nameTV, pincodeTV, genderTV, ageTV;
 
 
             public MyViewHolder(final View itemView) {
@@ -245,16 +274,16 @@ public class FamilyMemberMatchActivity extends BaseActivity {
             final FamilyMemberModel item = dataSet.get(listPosition);
             holder.menuLayout.setVisibility(View.GONE);
             holder.settings.setVisibility(View.GONE);
-            if(item.getName()!=null) {
+            if (item.getName() != null) {
                 holder.nameTV.setText(item.getName());
             }
-            if(item.getPincode()!=null){
+            if (item.getPincode() != null) {
                 holder.pincodeTV.setText(item.getPincode());
             }
 
             String gender = "", address = "";
 
-            if(item.getGenderid()!=null) {
+            if (item.getGenderid() != null) {
                 if (item.getGenderid().equalsIgnoreCase("1")) {
                     gender = "Male";
                 } else if (item.getGenderid().equalsIgnoreCase("2")) {
@@ -266,7 +295,7 @@ public class FamilyMemberMatchActivity extends BaseActivity {
             }
 
             String yob = "";
-            if(item.getDob()!=null){
+            if (item.getDob() != null) {
                 if (item.getDob() != null && item.getDob().length() > 4) {
                     yob = item.getDob().substring(0, 4);
                 } else {
@@ -289,5 +318,52 @@ public class FamilyMemberMatchActivity extends BaseActivity {
         }
 
 
+    }
+
+    private void getFamilyMatchScore() {
+        String seccMemberList = "", kycMemberList = "";
+        for (FamilyMemberModel item : familyMemberFromSecc) {
+            String name = item.getName();
+            seccMemberList = seccMemberList + name + "; ";
+            Log.d("name secc:", seccMemberList);
+        }
+
+        for (FamilyMemberModel item : familyMemberFromFamilyCard) {
+            String name = item.getName();
+            kycMemberList = kycMemberList + name + "; ";
+            Log.d("name kyc:", kycMemberList);
+        }
+
+        requestModel = new FamilyMatchScoreRequestModel();
+        requestModel.setStrFamilyNames1(seccMemberList);
+        requestModel.setStrFamilyNames2(kycMemberList);
+
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                String request = requestModel.serialize();
+                HashMap<String, String> response = null;
+                try {
+                    response = CustomHttp.httpPost(AppConstant.GET_FAMILY_MATCH_SCORE, request);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String familyResponse = response.get("response");
+            }
+
+            @Override
+            public void updateUI() {
+
+            }
+        };
+
+        if(asyncTask!=null){
+            asyncTask.cancel(true);
+            asyncTask=null;
+        }
+
+        asyncTask = new CustomAsyncTask(taskListener,"Please wait..",context);
+        asyncTask.execute();
     }
 }

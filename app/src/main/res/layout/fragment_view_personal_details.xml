@@ -274,7 +274,8 @@
                     style="@style/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/govt_id_photo" />
+                    android:text="@string/govt_id_photo"
+                    android:id="@+id/govtPhotoLabelTV"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -291,26 +292,28 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:id="@+id/kycDetailsLL">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:padding="@dimen/margine_10">
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5">
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/textView"
+                            style="@style/personalDetailMemberTV"
                             android:textStyle="bold"
                             android:padding="@dimen/margine_5"
                             android:text="Govt Id Type: "/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                style="@style/textView"
+                                style="@style/personalDetailMemberTV"
                                 android:padding="@dimen/margine_5"
                                 android:id="@+id/govtIdType"
                               />
@@ -321,26 +324,267 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:paddingLeft="@dimen/margine_10"
-                            android:paddingRight="@dimen/margine_10"
-                            android:paddingBottom="@dimen/margine_10">
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5">
 
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                style="@style/textView"
+                                style="@style/personalDetailMemberTV"
                                 android:textStyle="bold"
                                 android:padding="@dimen/margine_5"
                                 android:text="Govt Id Number: "/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                style="@style/textView"
+                                style="@style/personalDetailMemberTV"
 
                                 android:padding="@dimen/margine_5"
 
                                 android:id="@+id/govtIdNumberTV"
+
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:textStyle="bold"
+                                android:padding="@dimen/margine_5"
+                                android:text="Gender: "/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:padding="@dimen/margine_5"
+                                android:id="@+id/genderTV"
+
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:textStyle="bold"
+                                android:padding="@dimen/margine_5"
+                                android:text="YoB: "/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:padding="@dimen/margine_5"
+                                android:id="@+id/yobTV"
+
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:textStyle="bold"
+                                android:padding="@dimen/margine_5"
+                                android:text="Pincode: "/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:padding="@dimen/margine_5"
+                                android:id="@+id/pincodeTV"
+
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5"
+                            android:visibility="gone"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:textStyle="bold"
+                                android:padding="@dimen/margine_5"
+                                android:text="Email Id: "/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:padding="@dimen/margine_5"
+                                android:id="@+id/emailTV"
+
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5"
+                            android:visibility="gone"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:textStyle="bold"
+                                android:padding="@dimen/margine_5"
+
+                                android:text="Post Office: "/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:padding="@dimen/margine_5"
+                                android:id="@+id/poTV"
+
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:textStyle="bold"
+                                android:padding="@dimen/margine_5"
+                                android:text="Village/Town: "/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:padding="@dimen/margine_5"
+                                android:id="@+id/vtcTV"
+
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5"
+                            android:visibility="gone"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:textStyle="bold"
+                                android:padding="@dimen/margine_5"
+
+                                android:text="Sub Dist: "/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:padding="@dimen/margine_5"
+                                android:id="@+id/subDistTV"
+
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:textStyle="bold"
+                                android:padding="@dimen/margine_5"
+                                android:text="District: "/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:padding="@dimen/margine_5"
+                                android:id="@+id/distTV"
+
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/margine_5"
+                            android:paddingRight="@dimen/margine_5"
+                            >
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:textStyle="bold"
+                                android:padding="@dimen/margine_5"
+                                android:text="State: "/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/personalDetailMemberTV"
+                                android:padding="@dimen/margine_5"
+                                android:id="@+id/stateTV"
 
                                 />
 

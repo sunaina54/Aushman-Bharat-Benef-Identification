@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -33,11 +35,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.customComponent.CustomAlert;
+import com.customComponent.CustomAsyncTask;
+import com.customComponent.TaskListener;
+import com.customComponent.utility.CustomHttp;
+import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.BaseActivity;
 import com.nhpm.CameraUtils.CommonUtilsImageCompression;
@@ -45,9 +53,12 @@ import com.nhpm.CameraUtils.FaceCropper;
 import com.nhpm.CameraUtils.squarecamera.CameraActivity;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
 import com.nhpm.LocalDataBase.dto.SeccDatabase;
+import com.nhpm.Models.SearchLocation;
+import com.nhpm.Models.request.AutoSuggestRequestItem;
 import com.nhpm.Models.request.GovtDetailsModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.GovernmentIdItem;
+import com.nhpm.Models.response.VillageResponseItem;
 import com.nhpm.Models.response.master.ConfigurationItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.seccMembers.SeccMemberItem;
@@ -65,12 +76,16 @@ import com.squareup.picasso.Transformation;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import pl.polidea.view.ZoomView;
 
 import static com.nhpm.Utility.AppUtility.isCheckFirstTwoChar;
+import static com.nhpm.fragments.NonAadharLoginFragment.isEmailValid;
 
 public class GovermentIDActivity extends BaseActivity {
 
@@ -134,7 +149,14 @@ public class GovermentIDActivity extends BaseActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransection;
     private Fragment fragment;
-    private EditText nameTV;
+
+    private EditText nameTV,yobET,pincodeET,emailET,subDistET,distET,vtcET,poET,stateET;
+    private RadioGroup genderRG;
+    private RadioButton maleRB, femaleRB, otherRB;
+    private String manualGenderSelection="",currentYear;
+    private boolean emailValid=false;
+
+
     private LinearLayout photoLayout;
     private Button capturePhotoBT;
     private ImageView photoIV;
@@ -143,6 +165,16 @@ public class GovermentIDActivity extends BaseActivity {
     private Button captureVoterIdBT;
     private String mobileNumber = "";
     private PersonalDetailItem personalDetailItem;
+    private AutoCompleteTextView distTV,vtcTV;
+    private Spinner stateSP;
+    private String stateName;
+    private StateItem selectedStateItem;
+    private VillageResponseItem villageResponse,districtResponse;
+    private CustomAsyncTask customAsyncTask;
+    private ArrayList<String> temp, distTemp;
+    private ArrayList<String> tempDist;
+    private SearchLocation location=new SearchLocation();
+
 
     private String blockCharacterSet = ":-/\\\\\\.";
 
@@ -214,9 +246,281 @@ public class GovermentIDActivity extends BaseActivity {
         headerTV = (TextView) v.findViewById(R.id.centertext);
         selectedMemItem = SelectedMemberItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.SELECTED_ITEM_FOR_VERIFICATION, context));
+        location= SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.DIST_VILLAGE_LOCATION,context));
         govtIdSP = (Spinner) v.findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
         nameTV = (EditText) v.findViewById(R.id.nameET);
+
+        yobET = (EditText) v.findViewById(R.id.yobET);
+        pincodeET = (EditText) v.findViewById(R.id.pincodeET);
+        emailET = (EditText) v.findViewById(R.id.emailET);
+        subDistET = (EditText) v.findViewById(R.id.subDistET);
+        //distET = (EditText) v.findViewById(R.id.distET);
+        //vtcET = (EditText) v.findViewById(R.id.vtcET);
+        poET = (EditText) v.findViewById(R.id.poET);
+      //  stateET = (EditText) v.findViewById(R.id.stateET);
+        distTV= (AutoCompleteTextView) v.findViewById(R.id.distTV);
+        vtcTV= (AutoCompleteTextView) v.findViewById(R.id.vtcTV);
+        distTV.setThreshold(1);
+        vtcTV.setThreshold(1);
+        distTV.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (distTV.hasFocus())
+                    autoSuggestDistrict(s.toString());
+                // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
+        vtcTV.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (vtcTV.hasFocus())
+                    autoSuggestVillage(s.toString());
+                // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
+        if(location!=null){
+            if(!location.getVilageName().equalsIgnoreCase("")){
+                vtcTV.setText("");
+                vtcTV.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        vtcTV.showDropDown();
+                        vtcTV.setText(location.getVilageName());
+                        //kycVtc.setSelection(mACTextViewEmail.getText().length());
+                    }
+                },500);
+
+               /* if(location.isVillageTrue()){
+                    vtcTV.setChecked(true);
+                }*/
+            }
+            if(!location.getDistName().equalsIgnoreCase("")){
+                distTV.setText("");
+
+                distTV.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        distTV.showDropDown();
+                        distTV.setText(location.getDistName());
+                        //kycVtc.setSelection(mACTextViewEmail.getText().length());
+                    }
+                },500);
+                /*if(location.isDistTrue()){
+                    distCheck.setChecked(true);
+                }*/
+            }
+        }else{
+            location=new SearchLocation();
+        }
+        stateSP = (Spinner) v.findViewById(R.id.stateSP);
+
+        final ArrayList<String> stateList = new ArrayList<>();
+        final ArrayList<StateItem> stateList1 = SeccDatabase.findStateList(context);
+
+        Collections.sort(stateList1, new Comparator<StateItem>() {
+            @Override
+            public int compare(StateItem s1, StateItem s2) {
+                return s1.getStateName().compareToIgnoreCase(s2.getStateName());
+            }
+        });
+        Log.d("Splash", "ListSize:" + " " + stateList.size());
+        //stateList.add(0, new StateItem("00", "Select State"));
+        final ArrayList<StateItem> stateList2=new ArrayList<>();
+        if (stateList != null) {
+            for (StateItem item1 : stateList1) {
+                if(item1.getStateCode().equalsIgnoreCase("16")){
+                    stateList.add("Haryana");
+                    stateList2.add(item1);
+                }else if(item1.getStateCode().equalsIgnoreCase("22")){
+                    stateList.add("Chattisgarh");
+                    stateList2.add(item1);
+                }else if(item1.getStateCode().equalsIgnoreCase("07")){
+                    stateList.add("Delhi");
+                    stateList2.add(item1);
+                }
+            }
+
+        }
+
+
+
+        stateSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                stateName = stateList.get(i);
+                vtcTV.setText("");
+                distTV.setText("");
+                Log.d("state name :", stateName);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, stateList);
+        stateSP.setAdapter(adapter1);
+
+        for (int i =0 ; i<stateList2.size();i++){
+
+            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList2.get(i).getStateCode())){
+
+                stateSP.setSelection(i);
+                // stateSP.setTitle(item.getStateName());
+
+                stateName=stateList.get(i);
+                Log.d("state name11 :", stateName);
+
+                break;
+            }
+        }
+        genderRG = (RadioGroup) v.findViewById(R.id.genderRG);
+        maleRB= (RadioButton) v.findViewById(R.id.maleRB);
+        femaleRB= (RadioButton) v.findViewById(R.id.femaleRB);
+        otherRB= (RadioButton) v.findViewById(R.id.otherRB);
+        genderRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == maleRB.getId()) {
+                    manualGenderSelection = "1";
+                } else if (checkedId == femaleRB.getId()) {
+                    manualGenderSelection = "2";
+                } else if (checkedId == otherRB.getId()) {
+                    manualGenderSelection = "3";
+                }
+
+            }
+
+        });
+
+        pincodeET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().length() > 0) {
+                    if(!charSequence.toString().startsWith("0")){
+                        // if (Integer.parseInt(charSequence.toString().substring(1)) < 2) {
+
+                        pincodeET.setTextColor(context.getResources().getColor(R.color.black_shine));
+
+                        if (pincodeET.getText().toString().length() == 6) {
+                            pincodeET.setTextColor(context.getResources().getColor(R.color.green));
+                            // isValidMobile = true;
+                        }else{
+                            //isValidMobile = false;
+                        }
+                    } else {
+                        //isValidMobile = false;
+                        pincodeET.setTextColor(context.getResources().getColor(R.color.red));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        yobET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().length() > 0) {
+                    if(charSequence.toString().startsWith("1") || charSequence.toString().startsWith("2")){
+                        // if (Integer.parseInt(charSequence.toString().substring(1)) < 2) {
+
+                        yobET.setTextColor(context.getResources().getColor(R.color.black_shine));
+
+                        if (yobET.getText().toString().length() == 4) {
+                            yobET.setTextColor(context.getResources().getColor(R.color.green));
+                            // isValidMobile = true;
+                        }else{
+                            //isValidMobile = false;
+                        }
+                    } else {
+                        //isValidMobile = false;
+                        yobET.setTextColor(context.getResources().getColor(R.color.red));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        emailET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emailET.setTextColor(Color.BLACK);
+                emailValid=false;
+                if (!isEmailValid(s.toString())) {
+
+                    emailET.setTextColor(Color.RED);
+                    emailValid=false;
+                } else {
+                    emailET.setTextColor(Color.GREEN);
+                    emailValid=true;
+                    //AppUtility.softKeyBoard(activity, 0);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        String currentDate = DateTimeUtil.currentDate("dd MM yyyy");
+        Log.d("current date", currentDate);
+        currentYear = currentDate.substring(6, 10);
+        Log.d("current year", currentYear);
+
         mobileNumber = getIntent().getStringExtra("mobileNumber");
         // nameLL= (LinearLayout) v.findViewById(R.id.nameBenefLL);
         //  nameLL.setVisibility(View.GONE);
@@ -275,6 +579,14 @@ public class GovermentIDActivity extends BaseActivity {
                 String voterIdNumber = voterIdCardNumberET.getText().toString();
                 String voterIdName = voterIdCardNameET.getText().toString();
                 String name = nameTV.getText().toString();
+                String yob = yobET.getText().toString();
+                String pincode = pincodeET.getText().toString();
+                String subDist = subDistET.getText().toString();
+                String vtc = vtcTV.getText().toString();
+                String po = poET.getText().toString();
+                String email = emailET.getText().toString();
+                String dist = distTV.getText().toString();
+                //String state = stateET.getText().toString();
 
                 if (item.statusCode == 0) {
                     CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzSelectGovId));
@@ -339,7 +651,72 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }
 
+                    if (yob.trim().equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please enter year of birth");
+                        return;
+                    }
+
+                    if (yob != null && !yob.equalsIgnoreCase("")) {
+                        int yearRange = Integer.parseInt(currentYear) - 100;
+
+                        if (yob.equalsIgnoreCase(currentYear) || Integer.parseInt(yob) < yearRange) {
+                            CustomAlert.alertWithOk(context, "Please enter valid year of birth");
+                            return;
+                        }
+
+                    }
+
+
+                    if (manualGenderSelection != null && manualGenderSelection.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterGenderGovt));
+                        return;
+                    }
+
+                    if (pincode.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPincodeGovt));
+                        return;
+                    }
+
+                    /*if (subDist.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterSubDist));
+                        return;
+                    }*/
+
+                    if (vtc.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterVTC));
+                        return;
+                    }
+
+                  /*  if (po.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPo));
+                        return;
+                    }*/
+
+                   /* if (email.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterEmail));
+                        return;
+                    }
+
+                    if(!emailValid){
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterEmailValid));
+                        return;
+                    }*/
+
+                 /*   if (state.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterState));
+                        return;
+                    }*/
+
+                    if (dist.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterDist));
+                        return;
+                    }
+
+
                     if (personalDetailItem != null) {
+                        if (mobileNumber != null) {
+                            personalDetailItem.setMobileNo(mobileNumber);
+                        }
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
                         personalDetailItem.setIdPhoto(voterIdImg);
@@ -348,9 +725,24 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setIdName(item.statusCode+"");
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
+
+                        personalDetailItem.setYob(yob);
+                        personalDetailItem.setState(stateName);
+                        personalDetailItem.setGender(manualGenderSelection);
+                        personalDetailItem.setPinCode(pincode);
+                        personalDetailItem.setSubDistrictBen(subDist);
+                        personalDetailItem.setVtcBen(vtc);
+                        personalDetailItem.setPostOfficeBen(po);
+                        personalDetailItem.setEmailBen(email);
+                        personalDetailItem.setDistrict(dist);
+                        location.setVilageName(vtc);
+                        location.setDistName(dist);
                     }else {
 
                         personalDetailItem = new PersonalDetailItem();
+                        if (mobileNumber != null) {
+                            personalDetailItem.setMobileNo(mobileNumber);
+                        }
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
                         personalDetailItem.setIdPhoto(voterIdImg);
@@ -359,8 +751,21 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setIdName(item.statusCode+"");
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
+
+                        personalDetailItem.setYob(yob);
+                        personalDetailItem.setState(stateName);
+                        personalDetailItem.setGender(manualGenderSelection);
+                        personalDetailItem.setPinCode(pincode);
+                        personalDetailItem.setSubDistrictBen(subDist);
+                        personalDetailItem.setVtcBen(vtc);
+                        personalDetailItem.setPostOfficeBen(po);
+                        personalDetailItem.setEmailBen(email);
+                        personalDetailItem.setDistrict(dist);
+                        location.setVilageName(vtc);
+                        location.setDistName(dist);
                     }
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.DIST_VILLAGE_LOCATION,location.serialize(),context);
 
                     activity.finish();
 //                    }
@@ -812,11 +1217,288 @@ public class GovermentIDActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedMemItem = SelectedMemberItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.SELECTED_ITEM_FOR_VERIFICATION, context));
+        location= SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.DIST_VILLAGE_LOCATION,context  ));
         govtIdSP = (Spinner) findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
         mobileNumber = getIntent().getStringExtra("mobileNumber");
         voterIdIV = (ImageView) findViewById(R.id.voterIdIV);
         nameTV = (EditText) findViewById(R.id.nameET);
+
+        yobET = (EditText) findViewById(R.id.yobET);
+        pincodeET = (EditText)findViewById(R.id.pincodeET);
+
+        emailET = (EditText)findViewById(R.id.emailET);
+        subDistET = (EditText)findViewById(R.id.subDistET);
+        //distET = (EditText)findViewById(R.id.distET);
+       // vtcET = (EditText)findViewById(R.id.vtcET);
+        poET = (EditText)findViewById(R.id.poET);
+        //stateET = (EditText)findViewById(R.id.stateET);
+
+        distTV= (AutoCompleteTextView) findViewById(R.id.distTV);
+
+        vtcTV= (AutoCompleteTextView) findViewById(R.id.vtcTV);
+        distTV.setThreshold(1);
+        vtcTV.setThreshold(1);
+        distTV.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (distTV.hasFocus())
+                    autoSuggestDistrict(s.toString());
+                // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
+        vtcTV.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (vtcTV.hasFocus())
+                    autoSuggestVillage(s.toString());
+                // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
+
+        if(location!=null){
+            if(!location.getVilageName().equalsIgnoreCase("")){
+                vtcTV.setText("");
+                vtcTV.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        vtcTV.showDropDown();
+                        vtcTV.setText(location.getVilageName());
+                        //kycVtc.setSelection(mACTextViewEmail.getText().length());
+                    }
+                },500);
+
+               /* if(location.isVillageTrue()){
+                    vtcTV.setChecked(true);
+                }*/
+            }
+            if(!location.getDistName().equalsIgnoreCase("")){
+                distTV.setText("");
+
+                distTV.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        distTV.showDropDown();
+                        distTV.setText(location.getDistName());
+                        //kycVtc.setSelection(mACTextViewEmail.getText().length());
+                    }
+                },500);
+                /*if(location.isDistTrue()){
+                    distCheck.setChecked(true);
+                }*/
+            }
+        }else{
+            location=new SearchLocation();
+        }
+        stateSP = (Spinner) findViewById(R.id.stateSP);
+
+        final ArrayList<String> stateList = new ArrayList<>();
+        final ArrayList<StateItem> stateList1 = SeccDatabase.findStateList(context);
+
+        Collections.sort(stateList1, new Comparator<StateItem>() {
+            @Override
+            public int compare(StateItem s1, StateItem s2) {
+                return s1.getStateName().compareToIgnoreCase(s2.getStateName());
+            }
+        });
+        Log.d("Splash", "ListSize:" + " " + stateList.size());
+        //stateList.add(0, new StateItem("00", "Select State"));
+        final ArrayList<StateItem> stateList2=new ArrayList<>();
+        if (stateList != null) {
+            for (StateItem item1 : stateList1) {
+                if(item1.getStateCode().equalsIgnoreCase("16")){
+                    stateList.add("Haryana");
+                    stateList2.add(item1);
+                }else if(item1.getStateCode().equalsIgnoreCase("22")){
+                    stateList.add("Chattisgarh");
+                    stateList2.add(item1);
+                }else if(item1.getStateCode().equalsIgnoreCase("07")){
+                    stateList.add("Delhi");
+                    stateList2.add(item1);
+                }
+            }
+
+        }
+
+
+
+        stateSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                stateName = stateList.get(i);
+                vtcTV.setText("");
+                distTV.setText("");
+                Log.d("state name :", stateName);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, stateList);
+        stateSP.setAdapter(adapter1);
+
+        for (int i =0 ; i<stateList2.size();i++){
+
+            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList2.get(i).getStateCode())){
+
+                stateSP.setSelection(i);
+                // stateSP.setTitle(item.getStateName());
+
+                stateName=stateList.get(i);
+                Log.d("state name11 :", stateName);
+
+                break;
+            }
+        }
+
+        genderRG = (RadioGroup) findViewById(R.id.genderRG);
+        maleRB= (RadioButton) findViewById(R.id.maleRB);
+        femaleRB= (RadioButton) findViewById(R.id.femaleRB);
+        otherRB= (RadioButton) findViewById(R.id.otherRB);
+        genderRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == maleRB.getId()) {
+                    manualGenderSelection = "1";
+                } else if (checkedId == femaleRB.getId()) {
+                    manualGenderSelection = "2";
+                } else if (checkedId == otherRB.getId()) {
+                    manualGenderSelection = "3";
+                }
+
+            }
+
+        });
+
+        yobET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().length() > 0) {
+                    if(charSequence.toString().startsWith("1") || charSequence.toString().startsWith("2")){
+                        // if (Integer.parseInt(charSequence.toString().substring(1)) < 2) {
+
+                        yobET.setTextColor(context.getResources().getColor(R.color.black_shine));
+
+                        if (yobET.getText().toString().length() == 4) {
+                            yobET.setTextColor(context.getResources().getColor(R.color.green));
+                            // isValidMobile = true;
+                        }else{
+                            //isValidMobile = false;
+                        }
+                    } else {
+                        //isValidMobile = false;
+                        yobET.setTextColor(context.getResources().getColor(R.color.red));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        String currentDate = DateTimeUtil.currentDate("dd MM yyyy");
+        Log.d("current date", currentDate);
+        currentYear = currentDate.substring(6, 10);
+        Log.d("current year", currentYear);
+        
+        emailET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emailET.setTextColor(Color.BLACK);
+                emailValid=false;
+                if (!isEmailValid(s.toString())) {
+                    emailET.setTextColor(Color.RED);
+                    emailValid=false;
+                } else {
+                    emailET.setTextColor(Color.GREEN);
+                    emailValid=true;
+                    //AppUtility.softKeyBoard(activity, 0);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        pincodeET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().length() > 0) {
+                    if(!charSequence.toString().startsWith("0")){
+                        // if (Integer.parseInt(charSequence.toString().substring(1)) < 2) {
+
+                        pincodeET.setTextColor(context.getResources().getColor(R.color.black_shine));
+
+                        if (pincodeET.getText().toString().length() == 6) {
+                            pincodeET.setTextColor(context.getResources().getColor(R.color.green));
+                            // isValidMobile = true;
+                        }else{
+                            //isValidMobile = false;
+                        }
+                    } else {
+                        //isValidMobile = false;
+                        pincodeET.setTextColor(context.getResources().getColor(R.color.red));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         //nameLL= (LinearLayout) findViewById(R.id.nameBenefLL);
         //nameLL.setVisibility(View.GONE);
         capturePhotoBT = (Button) findViewById(R.id.capturePhotoBT);
@@ -869,6 +1551,14 @@ public class GovermentIDActivity extends BaseActivity {
                 String voterIdNumber = voterIdCardNumberET.getText().toString();
                 String voterIdName = voterIdCardNameET.getText().toString();
                 String name = nameTV.getText().toString();
+                String yob = yobET.getText().toString();
+                String pincode = pincodeET.getText().toString();
+                String subDist = subDistET.getText().toString();
+                String vtc = vtcTV.getText().toString();
+                String po = poET.getText().toString();
+                String email = emailET.getText().toString();
+                String dist = distTV.getText().toString();
+               // String state = stateET.getText().toString();
                 if (item.statusCode == 0) {
                     CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzSelectGovId));
                     return;
@@ -920,7 +1610,127 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }
 
-                    PersonalDetailItem personalDetailItem = new PersonalDetailItem();
+                    if (yob.trim().equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please enter year of birth");
+                        return;
+                    }
+
+                    if (yob != null && !yob.equalsIgnoreCase("")) {
+                        int yearRange = Integer.parseInt(currentYear) - 100;
+
+                        if (yob.equalsIgnoreCase(currentYear) || Integer.parseInt(yob) < yearRange) {
+                            CustomAlert.alertWithOk(context, "Please enter valid year of birth");
+                            return;
+                        }
+
+                    }
+
+
+                    if (manualGenderSelection != null && manualGenderSelection.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterGenderGovt));
+                        return;
+                    }
+
+                    if (pincode.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPincodeGovt));
+                        return;
+                    }
+
+                   /* if (subDist.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterSubDist));
+                        return;
+                    }*/
+
+                    if (vtc.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterVTC));
+                        return;
+                    }
+
+                   /* if (po.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPo));
+                        return;
+                    }
+*/
+                   /* if (email.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterEmail));
+                        return;
+                    }
+
+                    if(!emailValid){
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterEmailValid));
+                        return;
+                    }*/
+
+                  /*  if (state.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterState));
+                        return;
+                    }*/
+
+                    if (dist.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterDist));
+                        return;
+                    }
+
+                    if (personalDetailItem != null) {
+                        if (mobileNumber != null) {
+                            personalDetailItem.setMobileNo(mobileNumber);
+                        }
+                        personalDetailItem.setBenefPhoto(benefImage);
+                        personalDetailItem.setName(name);
+                        personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setIsAadhar("N");
+                        personalDetailItem.setGovtIdType(item.status);
+                        personalDetailItem.setIdName(item.statusCode+"");
+                        personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
+                        personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
+
+                        personalDetailItem.setYob(yob);
+                        personalDetailItem.setState(stateName);
+                        personalDetailItem.setGender(manualGenderSelection);
+                        personalDetailItem.setPinCode(pincode);
+                        personalDetailItem.setSubDistrictBen(subDist);
+                        personalDetailItem.setVtcBen(vtc);
+                        personalDetailItem.setPostOfficeBen(po);
+                        personalDetailItem.setEmailBen(email);
+                        personalDetailItem.setDistrict(dist);
+                        location.setVilageName(vtc);
+                        location.setDistName(dist);
+
+                    }else {
+
+
+
+                        personalDetailItem = new PersonalDetailItem();
+
+                        if (mobileNumber != null) {
+                            personalDetailItem.setMobileNo(mobileNumber);
+                        }
+                        personalDetailItem.setBenefPhoto(benefImage);
+                        personalDetailItem.setName(name);
+                        personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setIsAadhar("N");
+                        personalDetailItem.setGovtIdType(item.status);
+                        personalDetailItem.setIdName(item.statusCode+"");
+                        personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
+                        personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
+
+                        personalDetailItem.setYob(yob);
+                        personalDetailItem.setState(stateName);
+                        personalDetailItem.setGender(manualGenderSelection);
+                        personalDetailItem.setPinCode(pincode);
+                        personalDetailItem.setSubDistrictBen(subDist);
+                        personalDetailItem.setVtcBen(vtc);
+                        personalDetailItem.setPostOfficeBen(po);
+                        personalDetailItem.setEmailBen(email);
+                        personalDetailItem.setDistrict(dist);
+                        location.setVilageName(vtc);
+                        location.setDistName(dist);
+                    }
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.DIST_VILLAGE_LOCATION,location.serialize(),context);
+
+
+                /*    PersonalDetailItem personalDetailItem = new PersonalDetailItem();
                     personalDetailItem.setBenefPhoto(benefImage);
                     personalDetailItem.setName(name);
                     if (mobileNumber != null) {
@@ -931,8 +1741,17 @@ public class GovermentIDActivity extends BaseActivity {
                     personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
 
+                    personalDetailItem.setYob(yob);
+                    personalDetailItem.setState(state);
+                    personalDetailItem.setGender(manualGenderSelection);
+                    personalDetailItem.setPinCode(pincode);
+                    personalDetailItem.setSubDistrictBen(subDist);
+                    personalDetailItem.setVtcBen(vtc);
+                    personalDetailItem.setPostOfficeBen(po);
+                    personalDetailItem.setEmailBen(email);
+                    personalDetailItem.setDistrict(dist);
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
-
+*/
                     activity.finish();
                 }
 
@@ -1938,7 +2757,7 @@ public class GovermentIDActivity extends BaseActivity {
 
 
     private void checkAppConfig() {
-        StateItem selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
         ArrayList<ConfigurationItem> configList = SeccDatabase.findConfiguration(selectedStateItem.getStateCode(), context);
 
         if (configList != null) {
@@ -2048,5 +2867,168 @@ public class GovermentIDActivity extends BaseActivity {
             return builder.append(")").toString();
         }
     };
+
+
+    private void autoSuggestDistrict(final String text) {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                AutoSuggestRequestItem request = new AutoSuggestRequestItem();
+
+                request.setDistrictName(text.toLowerCase());
+                if (stateName != null && !stateName.equalsIgnoreCase("")) {
+                    request.setStateName(stateName);
+                }
+                try {
+                    //String request = familyListRequestModel.serialize();
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
+                    String familyResponse = response.get("response");
+
+                    if (familyResponse != null) {
+                        districtResponse = new VillageResponseItem().create(familyResponse);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                tempDist = new ArrayList<>();
+                //distTemp = new ArrayList<>();
+                if (districtResponse != null) {
+                    for (String str : districtResponse) {
+                        // if(str.contains(text)){
+                        if(str!=null && !str.equalsIgnoreCase("")) {
+                            String tempArr[] = str.split(";");
+                            try {
+                                if (tempArr[0] != null) {
+                                    tempDist.add(tempArr[0]);
+                                }
+                                /*if (tempArr[1] != null) {
+                                    distTemp.add(tempArr[1]);
+                                }*/
+                            }catch (Exception e){
+                                Log.d("TAG","exception :"+e.toString());
+                            }
+                        }
+                        // }
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                            android.R.layout.simple_dropdown_item_1line, tempDist);
+                    distTV.setAdapter(adapter);
+
+                    distTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            String selected = tempDist.get(position);
+                            vtcTV.setText("");
+                            distTV.setText(selected);
+                            //kycDist.setText(distTemp.get(position));
+
+                        }
+                    });
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, context);
+        customAsyncTask.execute();
+        /*
+        String[] COUNTRIES = new String[] {
+                "Belgium", "Belance", "Betaly", "Bermany", "Beain"};
+        temp=new ArrayList<>();
+       */
+    }
+
+
+    private void autoSuggestVillage(final String text) {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                AutoSuggestRequestItem request = new AutoSuggestRequestItem();
+                request.setVillageName(text.toLowerCase());
+                if (stateName != null && !stateName.equalsIgnoreCase("")) {
+                    request.setStateName(stateName);
+                }
+                String district = distTV.getText().toString().trim();
+                if (district != null && !district.equalsIgnoreCase("")) {
+                    request.setDistrictName(district);
+                }
+                try {
+                    //String request = familyListRequestModel.serialize();
+                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
+                    String familyResponse = response.get("response");
+
+                    if (familyResponse != null) {
+                        villageResponse = new VillageResponseItem().create(familyResponse);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                temp = new ArrayList<>();
+                distTemp = new ArrayList<>();
+                if (villageResponse != null) {
+                    for (String str : villageResponse) {
+                        // if(str.contains(text)){
+                        if(str!=null && !str.equalsIgnoreCase("")) {
+                            String tempArr[] = str.split(";");
+                            try {
+                                if (tempArr[0] != null) {
+                                    temp.add(tempArr[0]);
+                                }
+                                if (tempArr[1] != null) {
+                                    distTemp.add(tempArr[1]);
+                                }
+                            }catch (Exception e){
+                                Log.d("TAG","exception :"+e.toString());
+                            }
+                        }
+                        // }
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                            android.R.layout.simple_dropdown_item_1line, temp);
+                    vtcTV.setAdapter(adapter);
+
+                    vtcTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            String selected = temp.get(position);
+                            vtcTV.setText(selected);
+                            distTV.setText(distTemp.get(position));
+                        }
+                    });
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, context);
+        customAsyncTask.execute();
+        /*
+        String[] COUNTRIES = new String[] {
+                "Belgium", "Belance", "Betaly", "Bermany", "Beain"};
+        temp=new ArrayList<>();
+       */
+    }
 
 }

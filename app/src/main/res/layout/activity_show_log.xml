@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.nhpm.activity.ShowLogActivity">
+
+    <include layout="@layout/header_layout"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+ <ScrollView
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margine_10"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/textView"
+            android:text="Action"
+            android:padding="@dimen/margine_5"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/textView"
+            android:hint="Action"
+            android:background="@drawable/edittext_background_gray_corner"
+
+            android:id="@+id/actionTV"
+            android:padding="@dimen/margine_5"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/textView"
+            android:text="Log"
+            android:padding="@dimen/margine_5"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/textView"
+            android:background="@drawable/edittext_background_gray_corner"
+            android:hint="Log"
+            android:id="@+id/logTV"
+            android:padding="@dimen/margine_5"
+            />
+    </LinearLayout>
+ </ScrollView>
+    </RelativeLayout>
+</LinearLayout>

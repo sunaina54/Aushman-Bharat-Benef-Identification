@@ -46,6 +46,7 @@ import com.nhpm.Utility.AppUtility;
 import com.nhpm.activity.CollectDataActivity;
 import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.LoginActivity;
+import com.nhpm.activity.ShowLogActivity;
 import com.pointman.mobiledesigner.PointManJNI;
 
 import java.text.SimpleDateFormat;
@@ -92,6 +93,7 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
     private VerifierLoginResponse verifierDetail;
     private LogRequestItem logRequestItem;
     private CustomAsyncTask mobileOtpAsyncTask;
+    private Button logBT;
 
 
     public PrintCardFragment() {
@@ -143,6 +145,24 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         otherFamilyMemberBT = (Button) view.findViewById(R.id.otherMemberBT);
         beneficiaryPhotoIV=(ImageView)view.findViewById(R.id.beneficiaryPhotoIV);
         stateTV=(TextView)view.findViewById(R.id.stateTV);
+        logBT = (Button) view.findViewById(R.id.logBT);
+        logBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SaveLoginTransactionResponseModel model=SaveLoginTransactionResponseModel.create(ProjectPrefrence.getSharedPrefrenceData(
+                        AppConstant.PROJECT_PREF,"logTrans",context));
+
+                logRequestItem.setCreated_by(verifierDetail.getAadhaarNumber());
+                logRequestItem.setOperatorheader(verifierDetail.getName());
+                logRequestItem.setTid(model.getTransactionId()+"");
+                logRequestItem.setSequence(String.valueOf(BeneficiaryFamilySearchFragment.sequence+1));
+                String payLoad = logRequestItem.serialize();
+                Intent intent = new Intent(context, ShowLogActivity.class);
+                intent.putExtra("log",payLoad);
+                intent.putExtra("action",logRequestItem.getAction());
+                startActivity(intent);
+            }
+        });
         if(beneficiaryListItem!=null && beneficiaryListItem.getPrintCardDetail()!=null){
             activity.printEcardLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
 

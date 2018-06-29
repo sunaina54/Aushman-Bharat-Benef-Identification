@@ -1407,7 +1407,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);*/
 
                         if (personalDetailItem != null) {
-
+                            personalDetailItem.setGovtIdType("Aadhaar");
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
@@ -1433,6 +1433,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                         } else {
 
                             personalDetailItem = new PersonalDetailItem();
+                            personalDetailItem.setGovtIdType("Aadhaar");
                             personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                             personalDetailItem.setIdName("13");
                             personalDetailItem.setIsAadhar("Y");
@@ -1440,6 +1441,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                             if(aadhaarKycResponse.getDob()!=null && !aadhaarKycResponse.getDob().equalsIgnoreCase("") ) {
                                 personalDetailItem.setYob(aadhaarKycResponse.getDob());
                             }
+
                             personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
                             personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
                             personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());

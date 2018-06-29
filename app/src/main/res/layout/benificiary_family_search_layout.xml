@@ -74,11 +74,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="1">
+                android:weightSum="1"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_background_login"
+                >
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1.0"
+                    android:layout_weight=".85"
                     android:layout_height="wrap_content">
 
                 <EditText
@@ -86,22 +89,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/edittext_background_login"
                     android:hint="Ration Card Number"
                     android:text="066001142786"
                     android:imeOptions="actionNext"
                     android:paddingBottom="5dp"
                     android:paddingLeft="15dp"
-
+                    android:visibility="gone"
                     android:paddingTop="5dp"
+                    android:inputType="number"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:background="@drawable/edittext_background_login"
+                    />
                     <EditText
                         android:id="@+id/rsbyET"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/edittext_background_login"
                         android:hint="RSBY URN"
                         android:imeOptions="actionNext"
                         android:paddingBottom="5dp"
@@ -112,13 +116,14 @@
                         android:inputType="number"
                         android:textAlignment="center"
                         android:maxLength="17"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:background="@drawable/edittext_background_login"
+                        />
                     <EditText
                         android:id="@+id/ahlTinET"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/edittext_background_login"
                         android:hint="AHLTIN"
                         android:text="43060600300650000025400040007"
                         android:imeOptions="actionNext"
@@ -129,13 +134,14 @@
                         android:maxLength="29"
                         android:inputType="number"
                         android:textAlignment="center"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:background="@drawable/edittext_background_login"
+                        />
                     <EditText
                         android:id="@+id/mobileET"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/edittext_background_login"
                         android:hint="@string/mobile_number"
                         android:text="9318836095"
                         android:imeOptions="actionNext"
@@ -146,24 +152,44 @@
                         android:paddingTop="5dp"
                         android:visibility="gone"
                         android:textAlignment="center"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:background="@drawable/edittext_background_login"
+                        />
 
                     <EditText
                         android:id="@+id/hhIdNoET"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/edittext_background_login"
                         android:hint="HHId Number"
                         android:text="060600300650000025400040"
                         android:imeOptions="actionNext"
                         android:paddingBottom="5dp"
+                        android:inputType="number"
                         android:paddingLeft="15dp"
                         android:paddingTop="5dp"
                         android:textAlignment="center"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+
+                        android:background="@drawable/edittext_background_login"
+                        />
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:id="@+id/microphoneLL">
+                    <ImageView
+                        android:layout_marginTop="18dp"
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/microphone"
+
+                        />
+                </RelativeLayout>
+
 
                 <TextView
                     android:visibility="gone"
@@ -174,6 +200,7 @@
                     android:layout_marginTop="@dimen/margine_15"
                     android:layout_weight="0.2"
                     android:text="Ration Card"
+                    android:inputType="number"
                     android:textAlignment="center" />
             </LinearLayout>
 

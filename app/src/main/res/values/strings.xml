@@ -799,6 +799,7 @@
     <string name="user_not_register">Invalid E-mail.</string>
     <string name="pleaseEnterUserName">Please enter User Name</string>
     <string name="enterValiduserName">Please enter E-mail.</string>
+    <string name="enterValiduserMobileNumber">Please enter mobile number.</string>
     <string name="enterValidPassword">Please enter Password.</string>
     <string name="IdentiveScm">Identive/SCM</string>
     <string name="HIDomni">HID Omnikey</string>
@@ -1045,4 +1046,18 @@
     <string name="score_message_verification">Beneficiary KYC details will be submitted to insurance company for verification.</string>
     <string name="submit_data_message">Beneficiary detail has been submitted to the server.</string>
     <string name="print_card_message">Beneficiary has submitted data to further verification.</string>
+    <string name="plzEnterSubDist">Please enter sub district</string>
+    <string name="plzEnterVTC">Please enter village town code</string>
+    <string name="plzEnterPo">Please enter post office</string>
+    <string name="plzEnterEmail">Please enter email id</string>
+    <string name="plzEnterEmailValid">Please enter valid email id</string>
+    <string name="plzEnterDist">Please enter district</string>
+    <string name="plzEnterState">Please enter state</string>
+    <string name="plzEnterDobGovt">Please enter year of birth</string>
+    <string name="plzEnterGenderGovt">Please enter gender</string>
+    <string name="plzEnterPincodeGovt">Please enter pincode</string>
+
+    <string name="speech_prompt">Say something&#8230;</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="tap_on_mic">Tap on mic to speak</string>
 </resources>

@@ -25,6 +25,7 @@ import com.customComponent.CustomAlert;
 import com.customComponent.CustomAsyncTask;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
+import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.GetMemberDetail;
@@ -144,37 +145,105 @@ public class ViewPrintCardFragment extends Fragment implements UsbPermissionRequ
             if (getMemberDetail.getAhl_tin() != null &&
                     !getMemberDetail.getAhl_tin().equalsIgnoreCase("")) {
                 String ahltin = getMemberDetail.getAhl_tin();
-                if (ahltin != null && !ahltin.equalsIgnoreCase("")) {
-                    Log.d("TAG", "AhlTine : " + ahltin);
-                    String firstTwoChar = ahltin.substring(0, 2);
-                    // 2 7 8 5 4 3
-                    String nextSevenChar = ahltin.substring(2, 9);
-                    String nextEightChar = ahltin.substring(9, 17);
-                    String nextFiveChar = ahltin.substring(17, 22);
-                    String nextFourChar = ahltin.substring(22, 26);
-                    String lastThreeChar = ahltin.substring(26, 29);
-                    Log.d("TAG", "AhlTine : " + ahltin);
-                    Log.d("TAG", "First TTwo : " + firstTwoChar);
-                    Log.d("TAG", "next seven : " + nextSevenChar);
-                    Log.d("TAG", "next eight : " + nextEightChar);
-                    Log.d("TAG", "next five : " + nextFiveChar);
-                    Log.d("TAG", "next four : " + nextFourChar);
-                    Log.d("TAG", "next three : " + lastThreeChar);
-                    ahltin = firstTwoChar + " " + nextSevenChar + "  " + nextEightChar + "  " + nextFiveChar + " " + nextFourChar + " " + lastThreeChar;
-                    Log.d("TAG", "Ayushman Id  : " + ahltin);
-                    Log.d("TAG", "Ayushman Id  : " + ahltin);
+                if(getMemberDetail.getDataSource().equalsIgnoreCase(AppConstant.RSBY_SOURCE_NEW)){
                     cardNumberTV.setText(ahltin);
+                }else {
+                    if (ahltin != null && !ahltin.equalsIgnoreCase("")) {
+                        Log.d("TAG", "AhlTine : " + ahltin);
+                        String firstTwoChar = ahltin.substring(0, 2);
+                        // 2 7 8 5 4 3
+                        String nextSevenChar = ahltin.substring(2, 9);
+                        String nextEightChar = ahltin.substring(9, 17);
+                        String nextFiveChar = ahltin.substring(17, 22);
+                        String nextFourChar = ahltin.substring(22, 26);
+                        String lastThreeChar = ahltin.substring(26, 29);
+                        Log.d("TAG", "AhlTine : " + ahltin);
+                        Log.d("TAG", "First TTwo : " + firstTwoChar);
+                        Log.d("TAG", "next seven : " + nextSevenChar);
+                        Log.d("TAG", "next eight : " + nextEightChar);
+                        Log.d("TAG", "next five : " + nextFiveChar);
+                        Log.d("TAG", "next four : " + nextFourChar);
+                        Log.d("TAG", "next three : " + lastThreeChar);
+                        ahltin = firstTwoChar + " " + nextSevenChar + "  " + nextEightChar + "  " + nextFiveChar + " " + nextFourChar + " " + lastThreeChar;
+                        Log.d("TAG", "Ayushman Id  : " + ahltin);
+                        Log.d("TAG", "Ayushman Id  : " + ahltin);
+                        cardNumberTV.setText(ahltin);
+                    }
+                }
+                if(getMemberDetail.getPersonalDetail() != null) {
+
+                    if (getMemberDetail.getPersonalDetail() != null &&
+                            getMemberDetail.getPersonalDetail().getBenefPhoto() != null) {
+                        beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(
+                                getMemberDetail.getPersonalDetail().getBenefPhoto()));
+                    }
+                    if (getMemberDetail.getPersonalDetail() != null && getMemberDetail.getPersonalDetail().getBenefName() != null) {
+                        nameTV.setText(getMemberDetail.getPersonalDetail().getBenefName());
+                    }
+
+                    if(getMemberDetail.getPersonalDetail().getFatherNameSecc()!=null){
+                        fatherNameTV.setText(getMemberDetail.getPersonalDetail().getFatherNameSecc());
+                    }
+
+                    if (getMemberDetail.getPersonalDetail().getDobBen()!= null && getMemberDetail.getPersonalDetail().getDobBen().length() > 4) {
+
+                        String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+
+                        currentYear = currentYear.substring(0, 4);
+                        String date=DateTimeUtil.
+                                convertTimeMillisIntoStringDate(DateTimeUtil.convertDateIntoTimeMillis(getMemberDetail.getPersonalDetail().getDobBen()),AppConstant.DATE_FORMAT);
+                        String arr[];
+                        String aadhaarYear=null;
+                        if(getMemberDetail.getPersonalDetail().getDobBen().contains("-")){
+                            arr=getMemberDetail.getPersonalDetail().getDobBen().split("-") ;
+                            if(arr[0].length()==4){
+                                aadhaarYear=arr[0];
+                            }else if(arr[2].length()==4){
+                                aadhaarYear=arr[2];
+                            }
+                        }else if(getMemberDetail.getPersonalDetail().getDobBen().contains("/")){
+                            arr=getMemberDetail.getPersonalDetail().getDobBen().split("/") ;
+                            if(arr[0].length()==4){
+                                aadhaarYear=arr[0];
+                            }else if(arr[2].length()==4){
+                                aadhaarYear=arr[2];
+                            }
+                        }
+                        if(aadhaarYear!=null) {
+                            //int age = Integer.parseInt(currentYear) - Integer.parseInt(aadhaarYear);
+                            yobTV.setText(aadhaarYear + "");
+                        }
+
+                    }else  if(getMemberDetail.getPersonalDetail().getDobBen() != null && getMemberDetail.getPersonalDetail().getDobBen().length() ==4){
+                    /*    String currentYear = DateTimeUtil.currentDate("dd-mm-yyyy");
+                        currentYear = currentYear.substring(6, 10);
+                        int age = Integer.parseInt(currentYear) - Integer.parseInt(getMemberDetail.getPersonalDetail().getDobBen());
+                        yobTV.setText(age + "");*/
+                        yobTV.setText(getMemberDetail.getPersonalDetail().getDobBen());
+                    }
+/*
+                    if(getMemberDetail.getPersonalDetail().getDobBen()!=null){
+                        yobTV.setText(getMemberDetail.getPersonalDetail().getYobSecc());
+                    }*/
+
+                    if(getMemberDetail.getPersonalDetail().getStateNameBen()!=null){
+                        stateTV.setText(getMemberDetail.getPersonalDetail().getStateNameBen());
+                    }
+
+                    if (getMemberDetail.getPersonalDetail().getGenderBen() != null &&
+                            getMemberDetail.getPersonalDetail().getGenderBen().equalsIgnoreCase("1")
+                            ||  getMemberDetail.getPersonalDetail().getGenderBen().substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
+                        genderTV.setText("Male");
+                    } else if (getMemberDetail.getPersonalDetail().getGenderBen() != null &&
+                            getMemberDetail.getPersonalDetail().getGenderBen().equalsIgnoreCase("2")
+                            ||  getMemberDetail.getPersonalDetail().getGenderBen().substring(0, 1).toUpperCase().equalsIgnoreCase("F") ) {
+                        genderTV.setText("Female");
+                    } else {
+                        genderTV.setText("Other");
+                    }
                 }
 
-                if (getMemberDetail.getPersonalDetail() != null &&
-                        getMemberDetail.getPersonalDetail().getBenefPhoto() != null) {
-                    beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(
-                            getMemberDetail.getPersonalDetail().getBenefPhoto()));
-                }
-                if (getMemberDetail.getPersonalDetail() != null && getMemberDetail.getPersonalDetail().getBenefName() != null) {
-                    nameTV.setText(getMemberDetail.getPersonalDetail().getBenefName());
-                }
-                if (beneficiaryListItem != null) {
+                /*if (beneficiaryListItem != null) {
                     if (beneficiaryListItem.getFathername() != null) {
                         fatherNameTV.setText(beneficiaryListItem.getFathername());
                     }
@@ -186,16 +255,18 @@ public class ViewPrintCardFragment extends Fragment implements UsbPermissionRequ
                     }
 
                     if (beneficiaryListItem.getGenderid() != null &&
-                            beneficiaryListItem.getGenderid().equalsIgnoreCase("1")) {
+                            beneficiaryListItem.getGenderid().equalsIgnoreCase("1")
+                            ||  beneficiaryListItem.getGenderid().substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
                         genderTV.setText("Male");
                     } else if (beneficiaryListItem.getGenderid() != null &&
-                            beneficiaryListItem.getGenderid().equalsIgnoreCase("2")) {
+                            beneficiaryListItem.getGenderid().equalsIgnoreCase("2")
+                            || beneficiaryListItem.getGenderid().substring(0, 1).toUpperCase().equalsIgnoreCase("F") ) {
                         genderTV.setText("Female");
                     } else if (beneficiaryListItem.getGenderid() != null &&
                             beneficiaryListItem.getGenderid().equalsIgnoreCase("3")) {
                         genderTV.setText("Other");
                     }
-                }
+                }*/
             }
         }
        /* if(beneficiaryListItem!=null && beneficiaryListItem.getPrintCardDetail()!=null){

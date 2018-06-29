@@ -8,6 +8,7 @@ public interface AppConstant {
     Boolean isKyCEnabled = false;
     String RSBY_DATE_FORMAT = "yyyy-MM-dd";
     String SUBMIT_MEMBER_ADDITIONAL_DATA="https://pmrssm.gov.in/reportapi/submitMemberAdditionalData";
+    String DIST_VILLAGE_LOCATION="DistVillageLocation";
     String MOBILE_PARAM="6";
     String RATION_PARAM="2";
     String SESSION_EXPIRED="N-404";
@@ -245,6 +246,9 @@ public interface AppConstant {
     String APPLICATION_CONFIGURATION_URL = NEW_MAIN_DOMAIN_UPDATED + "appStateConfig?stateCode=";
     String GET_STATE_MASTER_DATA = "http://164.100.58.98/state/1.0.0/state";
     String VERIFY_VALIDATOR = "http://164.100.58.98/authVerifierWithPin/1.0.0/authVerifierWithPin";
+    String GET_NAME_MATCH_SCORE="http://10.247.173.73/NameMatcherHISP/NameMatch/GetTotalScore";
+    String GET_FAMILY_MATCH_SCORE="http://10.247.173.73/NameMatcherHISP/NameMatch/ GetFamilyScore";
+
 
     String GET_RSBY_CATEGORY_MASTER = "http://164.100.58.98/rsbyCategory/1.0.0/rsbyCategory";
     String GET_RSBY_POLICIES_MASTER = "http://164.100.58.98/rsbyPolicies/1.0.0/rsbyPolicies";

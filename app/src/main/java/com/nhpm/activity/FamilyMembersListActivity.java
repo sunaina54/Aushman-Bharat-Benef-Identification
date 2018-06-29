@@ -184,8 +184,11 @@ public class FamilyMembersListActivity extends BaseActivity {
             public void updateUI() {
                 if (familyListResponseModel != null) {
                     if (familyListResponseModel.isStatus()) {
-                        if (familyListResponseModel.getResult() != null && familyListResponseModel.getResult().getResponse() != null) {
-                            int matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
+                        if (familyListResponseModel.getResult() != null &&
+                                familyListResponseModel.getResult().getResponse() != null) {
+                            if(familyListResponseModel.getResult().getResponse().getNumFound()!=null) {
+                                int matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
+                            }
                             //noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                             if (familyListResponseModel.getResult().getResponse().getDocs() != null && familyListResponseModel.getResult().getResponse().getDocs().size() > 0) {
                                 //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
@@ -726,6 +729,13 @@ public class FamilyMembersListActivity extends BaseActivity {
                                         item1.setHhd_no(item.getUrnNo());
                                         item1.setAhl_tin(item.getUrnNo()+""+item.getMemberId());
                                         item1.setSource(AppConstant.RSBY_SOURCE_NEW);
+                                        item1.setDob(item.getDob());
+                                        item1.setGenderid(item.getGender());
+                                        item1.setState_name(item.getStateName());
+                                        item1.setDistrict_name(item.getDistrictName());
+                                        item1.setFathername(item.getFatherhusbandname());
+
+                                      //  item1.setPincode(item.ge());
                                         ArrayList<FamilyMemberModel> oldMemList = new ArrayList<>();
                                         for (URNResponseItem item2 : mDataset) {
                                             FamilyMemberModel model = new FamilyMemberModel();
