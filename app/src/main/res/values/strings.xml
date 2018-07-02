@@ -483,6 +483,8 @@
     <string name="mobileNetworkNotAval">Mobile network not available</string>
     <string name="enterOtpRec">Enter Otp</string>
     <string name="enterValidOtp">Enter valid otp</string>
+
+    <string name="declined">Declined</string>
     // 5.april
     // dropdown menu
     <string name="profile">Profile</string>

@@ -1,5 +1,6 @@
 package com.nhpm.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +19,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.customComponent.CustomAlert;
 import com.customComponent.CustomAsyncTask;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
 import com.nhpm.Models.FamilyMemberModel;
+import com.nhpm.Models.NameMatchScoreModelRequest;
 import com.nhpm.Models.request.GetTotalScoreRequestModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.DocsListItem;
+import com.nhpm.Models.response.MatchScoreResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
+import com.nhpm.Utility.AppUtility;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +57,10 @@ public class NameMatchScoreActivity extends BaseActivity {
     private TextView nameTV, genderTV, ageTV, distTV, stateTV, kycNameTV, kycgenderTV, kycageTV, kycdistTV, kycstateTV,pincodeTV,kycPincodeTV;
     private CustomAsyncTask asyncTask;
     private GetTotalScoreRequestModel requestModel;
+    private NameMatchScoreModelRequest request;
+    private MatchScoreResponse matchResponse;
+    private AlertDialog dialog;
+    private Button fetchScoreBT;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +82,7 @@ public class NameMatchScoreActivity extends BaseActivity {
         distTV = (TextView) findViewById(R.id.distTV);
         stateTV = (TextView) findViewById(R.id.stateTV);
         pincodeTV=(TextView) findViewById(R.id.pincodeTV);
-
+        fetchScoreBT=(Button)findViewById(R.id.fetchScoreBT) ;
         confirmBTN = (Button) findViewById(R.id.tryAgainBT);
         cancelBT = (Button) findViewById(R.id.cancelBT);
         declineBT = (Button) findViewById(R.id.declineBT);
@@ -197,7 +209,12 @@ public class NameMatchScoreActivity extends BaseActivity {
             //  ageTV.setText();
         }
 
-
+    fetchScoreBT.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getNameMatchScore();
+        }
+    });
         confirmBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -261,23 +278,49 @@ public class NameMatchScoreActivity extends BaseActivity {
         requestModel.setnAge2(kycageTV.getText().toString());
         requestModel.setStrVillage2(personalDetailItem.getVtcBen());
         requestModel.setStrSubDistrict2(personalDetailItem.getSubDistrictBen());
+        request=new NameMatchScoreModelRequest();
+        request.setFirstName(nameTV.getText().toString());
+        request.setSecondName(kycNameTV.getText().toString());
+
 
         TaskListener taskListener = new TaskListener() {
+
             @Override
             public void execute() {
-                String request = requestModel.serialize();
+                String request1 = request.serialize();
                 HashMap<String, String> response = null;
                 try {
-                    response = CustomHttp.httpPost(AppConstant.GET_NAME_MATCH_SCORE, request);
+                    response = CustomHttp.httpPost(AppConstant.GET_NAME_MATCH_SCORE, request1);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 String familyResponse = response.get("response");
+                if(familyResponse!=null){
+                    matchResponse=MatchScoreResponse.create(familyResponse);
+                }
             }
 
             @Override
             public void updateUI() {
+                    if(matchResponse!=null){
+                        if(matchResponse.isStatus()){
+                           if(matchResponse.getErrorCode()==null) {
+                               if (matchResponse.getResult().getResult() != null) {
+                                   Log.d("TAG", "Match Score : " + matchResponse.getResult().getResult());
+                                   showConfirmationDialog(matchResponse.getResult().getResult());
+                               }
+                           }else if(matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED) ||
+                                   matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)){
+                               Intent intent = new Intent(context, LoginActivity.class);
+                               CustomAlert.alertWithOkLogout(context, matchResponse.getErrorMessage(), intent);
+                           }else {
+                               CustomAlert.alertWithOk(context,matchResponse.getErrorMessage());
+                           }
+                        }else{
+                            CustomAlert.alertWithOk(context,"Internal Server error");
 
+                        }
+                    }
             }
         };
 
@@ -288,6 +331,47 @@ public class NameMatchScoreActivity extends BaseActivity {
 
         asyncTask = new CustomAsyncTask(taskListener,"Please wait..." ,context);
         asyncTask.execute();
+
+    }
+
+    private void showConfirmationDialog(final String matchPercentage){
+        dialog = new AlertDialog.Builder(context).create();
+        LayoutInflater factory = LayoutInflater.from(context);
+        View alertView = factory.inflate(R.layout.opt_auth_layout, null);
+        dialog.setView(alertView);
+        dialog.setCancelable(false);
+        Button confirmBT=(Button) alertView.findViewById(R.id.confirmBT);
+        Button declineBT=(Button) alertView.findViewById(R.id.declineBT);
+        Button cancelBT=(Button) alertView.findViewById(R.id.cancelBT);
+        TextView confirmTV=(TextView)alertView.findViewById(R.id.confirmTV);
+        confirmTV.setText("Beneficiary name match score is "+matchPercentage+"%");
+        confirmBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameMatchScore = matchPercentage;
+                Intent data = new Intent();
+                data.putExtra("matchScore", nameMatchScore);
+                setResult(4, data);
+                activity.finish();
+            }
+        });
+        declineBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameMatchScore = matchPercentage;
+                Intent data = new Intent();
+                data.putExtra("matchScore", nameMatchScore);
+                setResult(4, data);
+                activity.finish();
+            }
+        });
+        cancelBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();;
+            }
+        });
+        dialog.show();
 
     }
 }
