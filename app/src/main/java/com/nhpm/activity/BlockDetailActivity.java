@@ -112,7 +112,7 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
     private DatabaseHelpers dbHelper;
     private final String TAG = "BlockDetailActivity";
     //  private Context context;
-    private TextView headerTV;
+    public TextView headerTV;
     private boolean pinLockIsShown = false;
     private MobileOTPResponse mobileOtpRequestModel;
     private CustomAsyncTask mobileOtpAsyncTask;
@@ -594,6 +594,8 @@ private BlockDetailActivity blockDetailActivity;
 
                                 startActivity(theIntent);
                                 ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.VERIFIER_CONTENT,context);
+                                ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_NAME,AppConstant.SESSION_EXPIRE_INVAILD_TOKEN,context);
+
                                 rightTransition();
                                 //verifierDetail.setLoginSession(false);
 /*

@@ -64,7 +64,7 @@ public class FindBeneficiaryByNameActivity extends BaseActivity {
 
         aadhaarNo = getIntent().getStringExtra("aadhaarNo");
         headerTV = (TextView) findViewById(R.id.centertext);
-        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
 
         headerTV.setText("Beneficiary Data"+" ("+selectedStateItem.getStateName()+")");
         AppUtility.navigateToHome(context,activity);

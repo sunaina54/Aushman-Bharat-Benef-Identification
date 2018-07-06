@@ -85,7 +85,7 @@ public class FamilyMembersListActivity extends BaseActivity {
         context = this;
         activity = this;
         centerText = (TextView) findViewById(R.id.centertext);
-        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
         verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
         centerText.setText("Family Members" + " by " + AppUtility.searchTitleHeader + " (" + selectedStateItem.getStateName() + ")");

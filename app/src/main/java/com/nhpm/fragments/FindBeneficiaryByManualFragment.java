@@ -189,7 +189,7 @@ public class FindBeneficiaryByManualFragment extends Fragment {
             seccItem = selectedMemItem.getSeccMemberItem();
         }
 
-        manualYobAsInAadhaarET.addTextChangedListener(new TextWatcher() {
+    /*    manualYobAsInAadhaarET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -220,7 +220,7 @@ public class FindBeneficiaryByManualFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
 
             }
-        });
+        });*/
         manualLayoutVisible();
     }
 
@@ -578,11 +578,18 @@ public class FindBeneficiaryByManualFragment extends Fragment {
                     return;
                 }*/
                 if (aadharDob.trim().equalsIgnoreCase("")) {
-                    CustomAlert.alertWithOk(context, "Please enter year of birth");
+                    CustomAlert.alertWithOk(context, "Please enter age");
                     return;
                 }
 
-                if (aadharDob != null && !aadharDob.equalsIgnoreCase("")) {
+                if(aadharDob != null && !aadharDob.equalsIgnoreCase("")){
+                    if(Integer.parseInt(aadharDob)<1){
+                        CustomAlert.alertWithOk(context,"Please enter valid age");
+                        return;
+                    }
+                }
+
+              /*  if (aadharDob != null && !aadharDob.equalsIgnoreCase("")) {
                     int yearRange = Integer.parseInt(currentYear) - 100;
 
                     if (aadharDob.equalsIgnoreCase(currentYear) || Integer.parseInt(aadharDob) < yearRange) {
@@ -590,7 +597,7 @@ public class FindBeneficiaryByManualFragment extends Fragment {
                         return;
                     }
 
-                }
+                }*/
 
 
                 if (manualGenderSelection != null && manualGenderSelection.equalsIgnoreCase("")) {

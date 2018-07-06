@@ -10,7 +10,13 @@ public interface AppConstant {
     String SUBMIT_MEMBER_ADDITIONAL_DATA="https://pmrssm.gov.in/reportapi/submitMemberAdditionalData";
     String DIST_VILLAGE_LOCATION="DistVillageLocation";
     String MOBILE_PARAM="6";
+    String VILLAGE_PARAM="7";
     String RATION_PARAM="2";
+    String MATCH_SCORE_STATUS="MATCH_SCORE_STATUS";
+
+    String MATCH_SCORE_STATUS_CONFIRM="C";
+    String MATCH_SCORE_STATUS_REJECT="R";
+
     String SESSION_EXPIRED="N-404";
     String INVALID_TOKEN="N-401";
     String APPLICATION_ID="3";
@@ -18,7 +24,8 @@ public interface AppConstant {
     int FAMILY_MEMBER_REQUEST_CODE_VALUE = 11;
     String dateTimeFormate = "yyyy-MM-dd";
     String VIEW_DATA = "VIEW_DATA";
-    String AUTO_SUGGEST="https://pmrssm.gov.in/SE/suggest";
+    //String AUTO_SUGGEST="https://pmrssm.gov.in/SE/suggest";
+    String AUTO_SUGGEST="https://pmrssm.gov.in/reportapi/suggest";
     String FAMILY_MEMBER_RESULT_CODE_NAME="FamilyMember";
     String WORNG_PIN_ENTERED_TIMESTAMP = "wornPinEnteredTimeStamp";
     String TOKEN_VALUE_AADHAAR = "Bearer 1139a002-5856-39e5-b51e-a2ad3d59efd7";
@@ -52,6 +59,7 @@ public interface AppConstant {
     int UPDATE_OPR = 1;
     String NHS_DATA_SYNC_TABLE = "";
     String PROJECT_PREF = "COM.FIELDVERIFY";
+    String SESSION_EXPIRE_INVAILD_TOKEN="SessionExpire";
     String LOG_REQUEST="logRequest";
     String APPLICATION_DATA = "APPLICATION_DATA";
     String HOUSEHOLD_TAB_STATUS = "houseHoldTabClick";
@@ -222,6 +230,7 @@ public interface AppConstant {
     String SEARCH_BY_RATION=NEW_MAIN_DOMAIN_UPDATED+"searchByRation";
     String VALIDATE_URN = "https://pmrssm.gov.in/VIEWSTAT/api/validateURN";
     String SEARCH_BY_MOBILE_RATION =  NEW_MAIN_DOMAIN_UPDATED+"searchByMobileRationParameter";
+   // String SEARCH_BY_VILLAGE =  "https://pmrssm.gov.in/reportapi/searchByMobileRationParameter";
     String GET_MEMBER_DETAIL="https://pmrssm.gov.in/reportapi/getMemberDetail";
 
     String VILLAGE_WISE_HOUSEHOLD_DOWNLOADING = MAIN_DOMAIN + "nhps/secc/village/houseHold";
@@ -246,8 +255,11 @@ public interface AppConstant {
     String APPLICATION_CONFIGURATION_URL = NEW_MAIN_DOMAIN_UPDATED + "appStateConfig?stateCode=";
     String GET_STATE_MASTER_DATA = "http://164.100.58.98/state/1.0.0/state";
     String VERIFY_VALIDATOR = "http://164.100.58.98/authVerifierWithPin/1.0.0/authVerifierWithPin";
-    String GET_NAME_MATCH_SCORE="http://10.247.173.73/NameMatcherHISP/NameMatch/GetTotalScore";
-    String GET_FAMILY_MATCH_SCORE="http://10.247.173.73/NameMatcherHISP/NameMatch/ GetFamilyScore";
+   // String GET_NAME_MATCH_SCORE="http://10.247.173.73/NameMatcherHISP/NameMatch/GetTotalScore";
+    //String GET_NAME_MATCH_SCORE="https://pmrssm.gov.in/reportapi2/nameMatch/compareString";
+    String GET_NAME_MATCH_SCORE="https://pmrssm.gov.in/reportapi/nameMatch/getTotalScore";
+    //String GET_FAMILY_MATCH_SCORE="http://10.247.173.73/NameMatcherHISP/NameMatch/ GetFamilyScore";
+    String GET_FAMILY_MATCH_SCORE="https://pmrssm.gov.in/reportapi/nameMatch/GetFamilyScore";
 
 
     String GET_RSBY_CATEGORY_MASTER = "http://164.100.58.98/rsbyCategory/1.0.0/rsbyCategory";
@@ -450,6 +462,7 @@ public interface AppConstant {
     String new_application_configuration = "application_configuration";
     String flow_log="l_flowlog";
     String SELECTED_STATE = "selectedState";
+    String SELECTED_STATE_SEARCH = "selectedStateSearch";
     String LOGIN_TYPE_AADHAR = "1";
     String LOGIN_TYPE_EMAIL = "4";
     String LOGIN_TYPE_MOBILE_NUMBER = "";

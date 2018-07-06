@@ -95,6 +95,7 @@ import java.util.regex.Pattern;
 public class AppUtility {
 
     public static final String SEARCH_BY_MOBILE= "SEARCH_BY_MOBILE";
+    public static final String SEARCH_BY_VILLAGE= "SEARCH_BY_VILLAGE";
     public static final String SEARCH_BY_RATION_CARD= "SEARCH_BY_RATION_CARD";
     public static final String SEARCH_BY_RSBY_URN= "SEARCH_BY_RSBY_URN";
     public static final String SEARCH_INTO_CDAC_API= "SEARCH_INTO_CDAC_API";

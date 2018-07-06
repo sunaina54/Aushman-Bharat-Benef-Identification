@@ -137,7 +137,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:weightSum="1"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/textViewYellow"
@@ -193,8 +194,8 @@
                         android:layout_height="40dp"
                         android:layout_weight="0.6"
                         android:enabled="true"
-                        android:inputType="date"
-                        android:maxLength="4"
+                        android:inputType="number"
+                        android:maxLength="2"
                         android:paddingLeft="5dp"
                         android:textSize="@dimen/text_size_15sp" />
 
@@ -527,7 +528,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:weightSum="1">
 
                     <TextView

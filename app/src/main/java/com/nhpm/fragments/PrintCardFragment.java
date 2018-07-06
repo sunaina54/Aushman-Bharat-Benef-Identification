@@ -439,4 +439,11 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
         customAsyncTask.execute();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        verifierDetail = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
+    }
 }

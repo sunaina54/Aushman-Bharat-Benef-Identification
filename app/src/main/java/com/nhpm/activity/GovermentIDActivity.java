@@ -130,7 +130,7 @@ public class GovermentIDActivity extends BaseActivity {
     private final int ENROLLMENT_ID = 15,
             VOTER_ID = 1, RASHAN_CARD = 3, NREGA = 10,
             DRIVIG_LICENCE = 4, BIRTH_CERT = 11, OTHER_CARD = 14,
-            NO_GOVID = 8, ID_NO_PHOTO = 9,AADHAR_ID =13;
+            NO_GOVID = 8, ID_NO_PHOTO = 9, AADHAR_ID = 13;
     private String nameAsIsinID, numberAsID;
     private CheckBox termCB;
     private LinearLayout mZoomLinearLayout;
@@ -150,11 +150,11 @@ public class GovermentIDActivity extends BaseActivity {
     private FragmentTransaction fragmentTransection;
     private Fragment fragment;
 
-    private EditText nameTV,yobET,pincodeET,emailET,subDistET,distET,vtcET,poET,stateET;
+    private EditText nameTV, yobET, pincodeET, emailET, subDistET, distET, vtcET, poET, stateET;
     private RadioGroup genderRG;
     private RadioButton maleRB, femaleRB, otherRB;
-    private String manualGenderSelection="",currentYear;
-    private boolean emailValid=false;
+    private String manualGenderSelection = "", currentYear;
+    private boolean emailValid = false;
 
 
     private LinearLayout photoLayout;
@@ -165,16 +165,16 @@ public class GovermentIDActivity extends BaseActivity {
     private Button captureVoterIdBT;
     private String mobileNumber = "";
     private PersonalDetailItem personalDetailItem;
-    private AutoCompleteTextView distTV,vtcTV;
+    private AutoCompleteTextView distTV, vtcTV;
     private Spinner stateSP;
     private String stateName;
     private StateItem selectedStateItem;
-    private VillageResponseItem villageResponse,districtResponse;
+    private VillageResponseItem villageResponse, districtResponse;
     private CustomAsyncTask customAsyncTask;
     private ArrayList<String> temp, distTemp;
     private ArrayList<String> tempDist;
-    private SearchLocation location=new SearchLocation();
-
+    private SearchLocation location = new SearchLocation();
+    private VerifierLoginResponse verifierLoginResponse;
 
     private String blockCharacterSet = ":-/\\\\\\.";
 
@@ -184,6 +184,9 @@ public class GovermentIDActivity extends BaseActivity {
         context = this;
         activity = this;
         checkAppConfig();
+        verifierLoginResponse = VerifierLoginResponse.create(
+                ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
+
         if (zoomMode.equalsIgnoreCase("N")) {
             setContentView(R.layout.activity_goverment_id);
             setupScreenWithoutZoom();
@@ -246,8 +249,8 @@ public class GovermentIDActivity extends BaseActivity {
         headerTV = (TextView) v.findViewById(R.id.centertext);
         selectedMemItem = SelectedMemberItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.SELECTED_ITEM_FOR_VERIFICATION, context));
-        location= SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
-                AppConstant.DIST_VILLAGE_LOCATION,context));
+        location = SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.DIST_VILLAGE_LOCATION, context));
         govtIdSP = (Spinner) v.findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
         nameTV = (EditText) v.findViewById(R.id.nameET);
@@ -259,9 +262,9 @@ public class GovermentIDActivity extends BaseActivity {
         //distET = (EditText) v.findViewById(R.id.distET);
         //vtcET = (EditText) v.findViewById(R.id.vtcET);
         poET = (EditText) v.findViewById(R.id.poET);
-      //  stateET = (EditText) v.findViewById(R.id.stateET);
-        distTV= (AutoCompleteTextView) v.findViewById(R.id.distTV);
-        vtcTV= (AutoCompleteTextView) v.findViewById(R.id.vtcTV);
+        //  stateET = (EditText) v.findViewById(R.id.stateET);
+        distTV = (AutoCompleteTextView) v.findViewById(R.id.distTV);
+        vtcTV = (AutoCompleteTextView) v.findViewById(R.id.vtcTV);
         distTV.setThreshold(1);
         vtcTV.setThreshold(1);
         distTV.addTextChangedListener(new TextWatcher() {
@@ -302,8 +305,8 @@ public class GovermentIDActivity extends BaseActivity {
 
             }
         });
-        if(location!=null){
-            if(!location.getVilageName().equalsIgnoreCase("")){
+        if (location != null) {
+            if (!location.getVilageName().equalsIgnoreCase("")) {
                 vtcTV.setText("");
                 vtcTV.postDelayed(new Runnable() {
                     @Override
@@ -312,13 +315,13 @@ public class GovermentIDActivity extends BaseActivity {
                         vtcTV.setText(location.getVilageName());
                         //kycVtc.setSelection(mACTextViewEmail.getText().length());
                     }
-                },500);
+                }, 500);
 
                /* if(location.isVillageTrue()){
                     vtcTV.setChecked(true);
                 }*/
             }
-            if(!location.getDistName().equalsIgnoreCase("")){
+            if (!location.getDistName().equalsIgnoreCase("")) {
                 distTV.setText("");
 
                 distTV.postDelayed(new Runnable() {
@@ -328,13 +331,13 @@ public class GovermentIDActivity extends BaseActivity {
                         distTV.setText(location.getDistName());
                         //kycVtc.setSelection(mACTextViewEmail.getText().length());
                     }
-                },500);
+                }, 500);
                 /*if(location.isDistTrue()){
                     distCheck.setChecked(true);
                 }*/
             }
-        }else{
-            location=new SearchLocation();
+        } else {
+            location = new SearchLocation();
         }
         stateSP = (Spinner) v.findViewById(R.id.stateSP);
 
@@ -349,23 +352,22 @@ public class GovermentIDActivity extends BaseActivity {
         });
         Log.d("Splash", "ListSize:" + " " + stateList.size());
         //stateList.add(0, new StateItem("00", "Select State"));
-        final ArrayList<StateItem> stateList2=new ArrayList<>();
+        final ArrayList<StateItem> stateList2 = new ArrayList<>();
         if (stateList != null) {
             for (StateItem item1 : stateList1) {
-                if(item1.getStateCode().equalsIgnoreCase("16")){
+                if (item1.getStateCode().equalsIgnoreCase("16")) {
                     stateList.add("Haryana");
                     stateList2.add(item1);
-                }else if(item1.getStateCode().equalsIgnoreCase("22")){
+                } else if (item1.getStateCode().equalsIgnoreCase("22")) {
                     stateList.add("Chattisgarh");
                     stateList2.add(item1);
-                }else if(item1.getStateCode().equalsIgnoreCase("07")){
+                } else if (item1.getStateCode().equalsIgnoreCase("07")) {
                     stateList.add("Delhi");
                     stateList2.add(item1);
                 }
             }
 
         }
-
 
 
         stateSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -387,27 +389,26 @@ public class GovermentIDActivity extends BaseActivity {
         });
 
 
-
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, stateList);
         stateSP.setAdapter(adapter1);
 
-        for (int i =0 ; i<stateList2.size();i++){
+        for (int i = 0; i < stateList2.size(); i++) {
 
-            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList2.get(i).getStateCode())){
+            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList2.get(i).getStateCode())) {
 
                 stateSP.setSelection(i);
                 // stateSP.setTitle(item.getStateName());
 
-                stateName=stateList.get(i);
+                stateName = stateList.get(i);
                 Log.d("state name11 :", stateName);
 
                 break;
             }
         }
         genderRG = (RadioGroup) v.findViewById(R.id.genderRG);
-        maleRB= (RadioButton) v.findViewById(R.id.maleRB);
-        femaleRB= (RadioButton) v.findViewById(R.id.femaleRB);
-        otherRB= (RadioButton) v.findViewById(R.id.otherRB);
+        maleRB = (RadioButton) v.findViewById(R.id.maleRB);
+        femaleRB = (RadioButton) v.findViewById(R.id.femaleRB);
+        otherRB = (RadioButton) v.findViewById(R.id.otherRB);
         genderRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -432,7 +433,7 @@ public class GovermentIDActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().length() > 0) {
-                    if(!charSequence.toString().startsWith("0")){
+                    if (!charSequence.toString().startsWith("0")) {
                         // if (Integer.parseInt(charSequence.toString().substring(1)) < 2) {
 
                         pincodeET.setTextColor(context.getResources().getColor(R.color.black_shine));
@@ -440,7 +441,7 @@ public class GovermentIDActivity extends BaseActivity {
                         if (pincodeET.getText().toString().length() == 6) {
                             pincodeET.setTextColor(context.getResources().getColor(R.color.green));
                             // isValidMobile = true;
-                        }else{
+                        } else {
                             //isValidMobile = false;
                         }
                     } else {
@@ -464,7 +465,7 @@ public class GovermentIDActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().length() > 0) {
-                    if(charSequence.toString().startsWith("1") || charSequence.toString().startsWith("2")){
+                    if (charSequence.toString().startsWith("1") || charSequence.toString().startsWith("2")) {
                         // if (Integer.parseInt(charSequence.toString().substring(1)) < 2) {
 
                         yobET.setTextColor(context.getResources().getColor(R.color.black_shine));
@@ -472,7 +473,7 @@ public class GovermentIDActivity extends BaseActivity {
                         if (yobET.getText().toString().length() == 4) {
                             yobET.setTextColor(context.getResources().getColor(R.color.green));
                             // isValidMobile = true;
-                        }else{
+                        } else {
                             //isValidMobile = false;
                         }
                     } else {
@@ -497,14 +498,14 @@ public class GovermentIDActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 emailET.setTextColor(Color.BLACK);
-                emailValid=false;
+                emailValid = false;
                 if (!isEmailValid(s.toString())) {
 
                     emailET.setTextColor(Color.RED);
-                    emailValid=false;
+                    emailValid = false;
                 } else {
                     emailET.setTextColor(Color.GREEN);
-                    emailValid=true;
+                    emailValid = true;
                     //AppUtility.softKeyBoard(activity, 0);
                 }
 
@@ -628,9 +629,9 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }
 
-                    if (item.statusCode==13) {
-                        Log.d("TAG","Aaadhaar Length : "+voterIdCardNameET.getText().toString().length());
-                        if(voterIdCardNumberET.getText().toString().length()!=12) {
+                    if (item.statusCode == 13) {
+                        Log.d("TAG", "Aaadhaar Length : " + voterIdCardNameET.getText().toString().length());
+                        if (voterIdCardNumberET.getText().toString().length() != 12) {
                             CustomAlert.alertWithOk(context, "Please enter valid Aadhaar Number");
                             return;
                         }
@@ -722,7 +723,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setIdPhoto(voterIdImg);
                         personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
-                        personalDetailItem.setIdName(item.statusCode+"");
+                        personalDetailItem.setIdName(item.statusCode + "");
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
@@ -737,7 +738,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setDistrict(dist);
                         location.setVilageName(vtc);
                         location.setDistName(dist);
-                    }else {
+                    } else {
 
                         personalDetailItem = new PersonalDetailItem();
                         if (mobileNumber != null) {
@@ -748,7 +749,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setIdPhoto(voterIdImg);
                         personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
-                        personalDetailItem.setIdName(item.statusCode+"");
+                        personalDetailItem.setIdName(item.statusCode + "");
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
@@ -765,7 +766,7 @@ public class GovermentIDActivity extends BaseActivity {
                         location.setDistName(dist);
                     }
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.DIST_VILLAGE_LOCATION,location.serialize(),context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
 
                     activity.finish();
 //                    }
@@ -878,7 +879,7 @@ public class GovermentIDActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // AadhaarStatusItem item=aadhaarStatusList.get(position);
                 item = govtIdStatusList.get(position);
-                voterIdCardNumberET.setInputType(InputType.TYPE_CLASS_TEXT );
+                voterIdCardNumberET.setInputType(InputType.TYPE_CLASS_TEXT);
                 AppUtility.showLog(AppConstant.LOG_STATUS, TAG, "Setup screen Selected id" + item.statusCode);
                 switch (item.statusCode) {
 
@@ -1171,10 +1172,10 @@ public class GovermentIDActivity extends BaseActivity {
                         AppUtility.showSoftInput(activity);
                         voterIdCardNumberET.setHint("Enter Aadhar Number");
                         voterIdCardNameET.setHint("Please Enter Name As in Aadhar");
-                        voterIdCardNumberET.setInputType(InputType.TYPE_CLASS_NUMBER );
-                       // voterIdCardNumberET.setMaxEms(12);
+                        voterIdCardNumberET.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        // voterIdCardNumberET.setMaxEms(12);
 
-                      //  voterIdCardNumberET.setInputType();
+                        //  voterIdCardNumberET.setInputType();
                         // voterIdCardNameET.setText(seccItem.getName());
                         if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
@@ -1217,8 +1218,8 @@ public class GovermentIDActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         selectedMemItem = SelectedMemberItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.SELECTED_ITEM_FOR_VERIFICATION, context));
-        location= SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
-                AppConstant.DIST_VILLAGE_LOCATION,context  ));
+        location = SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.DIST_VILLAGE_LOCATION, context));
         govtIdSP = (Spinner) findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
         mobileNumber = getIntent().getStringExtra("mobileNumber");
@@ -1226,18 +1227,18 @@ public class GovermentIDActivity extends BaseActivity {
         nameTV = (EditText) findViewById(R.id.nameET);
 
         yobET = (EditText) findViewById(R.id.yobET);
-        pincodeET = (EditText)findViewById(R.id.pincodeET);
+        pincodeET = (EditText) findViewById(R.id.pincodeET);
 
-        emailET = (EditText)findViewById(R.id.emailET);
-        subDistET = (EditText)findViewById(R.id.subDistET);
+        emailET = (EditText) findViewById(R.id.emailET);
+        subDistET = (EditText) findViewById(R.id.subDistET);
         //distET = (EditText)findViewById(R.id.distET);
-       // vtcET = (EditText)findViewById(R.id.vtcET);
-        poET = (EditText)findViewById(R.id.poET);
+        // vtcET = (EditText)findViewById(R.id.vtcET);
+        poET = (EditText) findViewById(R.id.poET);
         //stateET = (EditText)findViewById(R.id.stateET);
 
-        distTV= (AutoCompleteTextView) findViewById(R.id.distTV);
+        distTV = (AutoCompleteTextView) findViewById(R.id.distTV);
 
-        vtcTV= (AutoCompleteTextView) findViewById(R.id.vtcTV);
+        vtcTV = (AutoCompleteTextView) findViewById(R.id.vtcTV);
         distTV.setThreshold(1);
         vtcTV.setThreshold(1);
         distTV.addTextChangedListener(new TextWatcher() {
@@ -1279,8 +1280,8 @@ public class GovermentIDActivity extends BaseActivity {
             }
         });
 
-        if(location!=null){
-            if(!location.getVilageName().equalsIgnoreCase("")){
+        if (location != null) {
+            if (!location.getVilageName().equalsIgnoreCase("")) {
                 vtcTV.setText("");
                 vtcTV.postDelayed(new Runnable() {
                     @Override
@@ -1289,13 +1290,13 @@ public class GovermentIDActivity extends BaseActivity {
                         vtcTV.setText(location.getVilageName());
                         //kycVtc.setSelection(mACTextViewEmail.getText().length());
                     }
-                },500);
+                }, 500);
 
                /* if(location.isVillageTrue()){
                     vtcTV.setChecked(true);
                 }*/
             }
-            if(!location.getDistName().equalsIgnoreCase("")){
+            if (!location.getDistName().equalsIgnoreCase("")) {
                 distTV.setText("");
 
                 distTV.postDelayed(new Runnable() {
@@ -1305,13 +1306,13 @@ public class GovermentIDActivity extends BaseActivity {
                         distTV.setText(location.getDistName());
                         //kycVtc.setSelection(mACTextViewEmail.getText().length());
                     }
-                },500);
+                }, 500);
                 /*if(location.isDistTrue()){
                     distCheck.setChecked(true);
                 }*/
             }
-        }else{
-            location=new SearchLocation();
+        } else {
+            location = new SearchLocation();
         }
         stateSP = (Spinner) findViewById(R.id.stateSP);
 
@@ -1326,23 +1327,22 @@ public class GovermentIDActivity extends BaseActivity {
         });
         Log.d("Splash", "ListSize:" + " " + stateList.size());
         //stateList.add(0, new StateItem("00", "Select State"));
-        final ArrayList<StateItem> stateList2=new ArrayList<>();
+        final ArrayList<StateItem> stateList2 = new ArrayList<>();
         if (stateList != null) {
             for (StateItem item1 : stateList1) {
-                if(item1.getStateCode().equalsIgnoreCase("16")){
+                if (item1.getStateCode().equalsIgnoreCase("16")) {
                     stateList.add("Haryana");
                     stateList2.add(item1);
-                }else if(item1.getStateCode().equalsIgnoreCase("22")){
+                } else if (item1.getStateCode().equalsIgnoreCase("22")) {
                     stateList.add("Chattisgarh");
                     stateList2.add(item1);
-                }else if(item1.getStateCode().equalsIgnoreCase("07")){
+                } else if (item1.getStateCode().equalsIgnoreCase("07")) {
                     stateList.add("Delhi");
                     stateList2.add(item1);
                 }
             }
 
         }
-
 
 
         stateSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1364,18 +1364,17 @@ public class GovermentIDActivity extends BaseActivity {
         });
 
 
-
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, stateList);
         stateSP.setAdapter(adapter1);
 
-        for (int i =0 ; i<stateList2.size();i++){
+        for (int i = 0; i < stateList2.size(); i++) {
 
-            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList2.get(i).getStateCode())){
+            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList2.get(i).getStateCode())) {
 
                 stateSP.setSelection(i);
                 // stateSP.setTitle(item.getStateName());
 
-                stateName=stateList.get(i);
+                stateName = stateList.get(i);
                 Log.d("state name11 :", stateName);
 
                 break;
@@ -1383,9 +1382,9 @@ public class GovermentIDActivity extends BaseActivity {
         }
 
         genderRG = (RadioGroup) findViewById(R.id.genderRG);
-        maleRB= (RadioButton) findViewById(R.id.maleRB);
-        femaleRB= (RadioButton) findViewById(R.id.femaleRB);
-        otherRB= (RadioButton) findViewById(R.id.otherRB);
+        maleRB = (RadioButton) findViewById(R.id.maleRB);
+        femaleRB = (RadioButton) findViewById(R.id.femaleRB);
+        otherRB = (RadioButton) findViewById(R.id.otherRB);
         genderRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -1410,7 +1409,7 @@ public class GovermentIDActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().length() > 0) {
-                    if(charSequence.toString().startsWith("1") || charSequence.toString().startsWith("2")){
+                    if (charSequence.toString().startsWith("1") || charSequence.toString().startsWith("2")) {
                         // if (Integer.parseInt(charSequence.toString().substring(1)) < 2) {
 
                         yobET.setTextColor(context.getResources().getColor(R.color.black_shine));
@@ -1418,7 +1417,7 @@ public class GovermentIDActivity extends BaseActivity {
                         if (yobET.getText().toString().length() == 4) {
                             yobET.setTextColor(context.getResources().getColor(R.color.green));
                             // isValidMobile = true;
-                        }else{
+                        } else {
                             //isValidMobile = false;
                         }
                     } else {
@@ -1438,7 +1437,7 @@ public class GovermentIDActivity extends BaseActivity {
         Log.d("current date", currentDate);
         currentYear = currentDate.substring(6, 10);
         Log.d("current year", currentYear);
-        
+
         emailET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1448,13 +1447,13 @@ public class GovermentIDActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 emailET.setTextColor(Color.BLACK);
-                emailValid=false;
+                emailValid = false;
                 if (!isEmailValid(s.toString())) {
                     emailET.setTextColor(Color.RED);
-                    emailValid=false;
+                    emailValid = false;
                 } else {
                     emailET.setTextColor(Color.GREEN);
-                    emailValid=true;
+                    emailValid = true;
                     //AppUtility.softKeyBoard(activity, 0);
                 }
 
@@ -1475,7 +1474,7 @@ public class GovermentIDActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().length() > 0) {
-                    if(!charSequence.toString().startsWith("0")){
+                    if (!charSequence.toString().startsWith("0")) {
                         // if (Integer.parseInt(charSequence.toString().substring(1)) < 2) {
 
                         pincodeET.setTextColor(context.getResources().getColor(R.color.black_shine));
@@ -1483,7 +1482,7 @@ public class GovermentIDActivity extends BaseActivity {
                         if (pincodeET.getText().toString().length() == 6) {
                             pincodeET.setTextColor(context.getResources().getColor(R.color.green));
                             // isValidMobile = true;
-                        }else{
+                        } else {
                             //isValidMobile = false;
                         }
                     } else {
@@ -1558,7 +1557,7 @@ public class GovermentIDActivity extends BaseActivity {
                 String po = poET.getText().toString();
                 String email = emailET.getText().toString();
                 String dist = distTV.getText().toString();
-               // String state = stateET.getText().toString();
+                // String state = stateET.getText().toString();
                 if (item.statusCode == 0) {
                     CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzSelectGovId));
                     return;
@@ -1680,7 +1679,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setIdPhoto(voterIdImg);
                         personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
-                        personalDetailItem.setIdName(item.statusCode+"");
+                        personalDetailItem.setIdName(item.statusCode + "");
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
@@ -1696,8 +1695,7 @@ public class GovermentIDActivity extends BaseActivity {
                         location.setVilageName(vtc);
                         location.setDistName(dist);
 
-                    }else {
-
+                    } else {
 
 
                         personalDetailItem = new PersonalDetailItem();
@@ -1710,7 +1708,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setIdPhoto(voterIdImg);
                         personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
-                        personalDetailItem.setIdName(item.statusCode+"");
+                        personalDetailItem.setIdName(item.statusCode + "");
                         personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
@@ -1727,7 +1725,7 @@ public class GovermentIDActivity extends BaseActivity {
                         location.setDistName(dist);
                     }
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.DIST_VILLAGE_LOCATION,location.serialize(),context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
 
 
                 /*    PersonalDetailItem personalDetailItem = new PersonalDetailItem();
@@ -2757,7 +2755,7 @@ public class GovermentIDActivity extends BaseActivity {
 
 
     private void checkAppConfig() {
-        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
         ArrayList<ConfigurationItem> configList = SeccDatabase.findConfiguration(selectedStateItem.getStateCode(), context);
 
         if (configList != null) {
@@ -2882,7 +2880,7 @@ public class GovermentIDActivity extends BaseActivity {
                 }
                 try {
                     //String request = familyListRequestModel.serialize();
-                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.AUTO_SUGGEST, request.serialize(),AppConstant.AUTHORIZATION,verifierLoginResponse.getAuthToken());
                     String familyResponse = response.get("response");
 
                     if (familyResponse != null) {
@@ -2899,39 +2897,51 @@ public class GovermentIDActivity extends BaseActivity {
                 tempDist = new ArrayList<>();
                 //distTemp = new ArrayList<>();
                 if (districtResponse != null) {
-                    for (String str : districtResponse) {
-                        // if(str.contains(text)){
-                        if(str!=null && !str.equalsIgnoreCase("")) {
-                            String tempArr[] = str.split(";");
-                            try {
-                                if (tempArr[0] != null) {
-                                    tempDist.add(tempArr[0]);
-                                }
+
+                    if (districtResponse.isStatus()) {
+                        if (districtResponse.getResult() != null && districtResponse.getResult().getResult() != null) {
+                            for (String str : districtResponse.getResult().getResult()) {
+                                // if(str.contains(text)){
+                                if (str != null && !str.equalsIgnoreCase("")) {
+                                    String tempArr[] = str.split(";");
+                                    try {
+                                        if (tempArr[0] != null) {
+                                            tempDist.add(tempArr[0]);
+                                        }
                                 /*if (tempArr[1] != null) {
                                     distTemp.add(tempArr[1]);
                                 }*/
-                            }catch (Exception e){
-                                Log.d("TAG","exception :"+e.toString());
+                                    } catch (Exception e) {
+                                        Log.d("TAG", "exception :" + e.toString());
+                                    }
+                                }
+                                // }
                             }
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                                    android.R.layout.simple_dropdown_item_1line, tempDist);
+                            distTV.setAdapter(adapter);
+
+                            distTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view,
+                                                        int position, long id) {
+                                    String selected = tempDist.get(position);
+                                    vtcTV.setText("");
+                                    distTV.setText(selected);
+                                    //kycDist.setText(distTemp.get(position));
+
+                                }
+                            });
                         }
-                        // }
+                    } else if (districtResponse.getErrorCode() != null &&
+                            districtResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || districtResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, districtResponse.getErrorMessage(), intent);
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                            android.R.layout.simple_dropdown_item_1line, tempDist);
-                    distTV.setAdapter(adapter);
-
-                    distTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view,
-                                                int position, long id) {
-                            String selected = tempDist.get(position);
-                            vtcTV.setText("");
-                            distTV.setText(selected);
-                            //kycDist.setText(distTemp.get(position));
-
-                        }
-                    });
+                } else {
+                    CustomAlert.alertWithOk(context, "Internal server error");
                 }
             }
         };
@@ -2966,7 +2976,7 @@ public class GovermentIDActivity extends BaseActivity {
                 }
                 try {
                     //String request = familyListRequestModel.serialize();
-                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.AUTO_SUGGEST, request.serialize(),AppConstant.AUTHORIZATION,verifierLoginResponse.getAuthToken());
                     String familyResponse = response.get("response");
 
                     if (familyResponse != null) {
@@ -2983,37 +2993,48 @@ public class GovermentIDActivity extends BaseActivity {
                 temp = new ArrayList<>();
                 distTemp = new ArrayList<>();
                 if (villageResponse != null) {
-                    for (String str : villageResponse) {
-                        // if(str.contains(text)){
-                        if(str!=null && !str.equalsIgnoreCase("")) {
-                            String tempArr[] = str.split(";");
-                            try {
-                                if (tempArr[0] != null) {
-                                    temp.add(tempArr[0]);
+                    if (villageResponse.isStatus()) {
+                        if (villageResponse.getResult() != null && villageResponse.getResult().getResult() != null) {
+                            for (String str : villageResponse.getResult().getResult()) {
+                                // if(str.contains(text)){
+                                if (str != null && !str.equalsIgnoreCase("")) {
+                                    String tempArr[] = str.split(";");
+                                    try {
+                                        if (tempArr[0] != null) {
+                                            temp.add(tempArr[0]);
+                                        }
+                                        if (tempArr[1] != null) {
+                                            distTemp.add(tempArr[1]);
+                                        }
+                                    } catch (Exception e) {
+                                        Log.d("TAG", "exception :" + e.toString());
+                                    }
                                 }
-                                if (tempArr[1] != null) {
-                                    distTemp.add(tempArr[1]);
-                                }
-                            }catch (Exception e){
-                                Log.d("TAG","exception :"+e.toString());
+                                // }
                             }
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                                    android.R.layout.simple_dropdown_item_1line, temp);
+                            vtcTV.setAdapter(adapter);
+
+                            vtcTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view,
+                                                        int position, long id) {
+                                    String selected = temp.get(position);
+                                    vtcTV.setText(selected);
+                                    distTV.setText(distTemp.get(position));
+                                }
+                            });
                         }
-                        // }
+                    } else if (villageResponse.getErrorCode() != null &&
+                            villageResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || villageResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, villageResponse.getErrorMessage(), intent);
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                            android.R.layout.simple_dropdown_item_1line, temp);
-                    vtcTV.setAdapter(adapter);
-
-                    vtcTV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view,
-                                                int position, long id) {
-                            String selected = temp.get(position);
-                            vtcTV.setText(selected);
-                            distTV.setText(distTemp.get(position));
-                        }
-                    });
+                } else {
+                    CustomAlert.alertWithOk(context, "Internal server error");
                 }
             }
         };

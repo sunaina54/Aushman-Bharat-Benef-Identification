@@ -65,10 +65,10 @@ public class FamilyListActivity extends BaseActivity {
 
     private void setupScreen() {
         //mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
-        logRequestItem=LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,context));
+        logRequestItem = LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, context));
 
         headerTV = (TextView) findViewById(R.id.centertext);
-        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
         verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
         headerTV.setText("Family Data" + " (" + selectedStateItem.getStateName() + ")");
@@ -164,45 +164,45 @@ public class FamilyListActivity extends BaseActivity {
             @Override
             public void updateUI() {
                 if (familyListResponseModel != null) {
-                    int matchCount=0;
-                    if(familyListResponseModel.isStatus()){
-                    if (familyListResponseModel.getResult()!=null&&familyListResponseModel.getResult().getResponse() != null
-                            ) {
-                        logRequestItem.setOperatoroutput(familyListResponseModel.serialize());
-                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
-                        if(familyListResponseModel.getResult().getResponse().getNumFound()!=null
-                                && !familyListResponseModel.getResult().getResponse().getNumFound().equalsIgnoreCase("")) {
-                             matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
-                        }
-                        if (matchCount <= 5) {
-                            noMemberTV.setText(matchCount + " matches found");
-                        } else {
-                            noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
-                        }
-                        if (familyListResponseModel.getResult().getResponse().getDocs() != null && familyListResponseModel.getResult().getResponse().getDocs().size() > 0) {
-                            //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
-                            try {
-                                refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
-                            } catch (Exception e) {
-                                Log.d("TAG", "Exception : " + e.toString());
+                    int matchCount = 0;
+                    if (familyListResponseModel.isStatus()) {
+                        if (familyListResponseModel.getResult() != null && familyListResponseModel.getResult().getResponse() != null
+                                ) {
+                            logRequestItem.setOperatoroutput(familyListResponseModel.serialize());
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
+                            if (familyListResponseModel.getResult().getResponse().getNumFound() != null
+                                    && !familyListResponseModel.getResult().getResponse().getNumFound().equalsIgnoreCase("")) {
+                                matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
                             }
-                        /*}else {
-                            //mProgressBar.setVisibility(View.GONE);
-                            noMemberLL.setVisibility(View.VISIBLE);
-                            noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
-                        }*/
-                        } else {
-                            // mProgressBar.setVisibility(View.GONE);
-                            noMemberLL.setVisibility(View.VISIBLE);
-                            noMemberTV.setText("No Family member found");
-                        }
+                            if (matchCount <= 5) {
+                                noMemberTV.setText(matchCount + " matches found");
+                            } else {
+                                noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
+                            }
+                            if (familyListResponseModel.getResult().getResponse().getDocs() != null && familyListResponseModel.getResult().getResponse().getDocs().size() > 0) {
+                                if (matchCount <= familyListResponseModel.getResult().getResponse().getDocs().size()) {
+                                    try {
+                                        refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
+                                    } catch (Exception e) {
+                                        Log.d("TAG", "Exception : " + e.toString());
+                                    }
+                                } else {
+                                    //mProgressBar.setVisibility(View.GONE);
+                                    noMemberLL.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
+                                }
+                            } else {
+                                // mProgressBar.setVisibility(View.GONE);
+                                noMemberLL.setVisibility(View.VISIBLE);
+                                noMemberTV.setText("No Family member found");
+                            }
 
-                    }
-                    }else if(familyListResponseModel!=null &&
+                        }
+                    } else if (familyListResponseModel != null &&
                             familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
-                            || familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN) ){
-                        Intent intent = new Intent(context,LoginActivity.class);
-                        CustomAlert.alertWithOkLogout(context,familyListResponseModel.getErrorMessage(),intent);
+                            || familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
 
                     }
                 } else {
@@ -260,7 +260,7 @@ public class FamilyListActivity extends BaseActivity {
                 printCardBT = (Button) v.findViewById(R.id.printCardBT);
                 familyItemLL = (LinearLayout) v.findViewById(R.id.familyItemLL);
                 spouseLL = (LinearLayout) v.findViewById(R.id.spouseLL);
-                spouseLL.setVisibility(View.GONE);
+                //spouseLL.setVisibility(View.GONE);
 
             }
         }

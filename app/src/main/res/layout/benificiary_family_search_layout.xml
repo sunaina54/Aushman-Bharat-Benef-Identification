@@ -18,50 +18,69 @@
 
         <include layout="@layout/updated_header_layout"></include>
 
-      <!--  <LinearLayout
-            android:layout_width="match_parent"
+        <!--  <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:orientation="horizontal">
+
+              <ImageView
+                  android:layout_width="50dp"
+                  android:layout_height="50dp"
+                  android:src="@drawable/logo_ayushman_bharat" />
+
+              <TextView
+                  android:id="@+id/login1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:gravity="center"
+                  android:text="@string/loginScreenLabel"
+                  android:textColor="@color/red_login_label"
+                  android:textSize="@dimen/text_size_20sp"
+                  android:textStyle="bold"
+                  android:visibility="visible" />
+          </LinearLayout>-->
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/margine_15"
+            android:background="@drawable/edittext_background_gray_corner"
+            android:visibility="visible">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/logo_ayushman_bharat" />
-
-            <TextView
-                android:id="@+id/login1"
+            <Spinner
+                android:id="@+id/stateSP"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:text="@string/loginScreenLabel"
-                android:textColor="@color/red_login_label"
-                android:textSize="@dimen/text_size_20sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
-        </LinearLayout>-->
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:spinnerMode="dropdown"
+
+                />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/margine_30">
+            android:layout_marginTop="@dimen/margine_30"
+            android:orientation="vertical">
 
             <TextView
                 style="@style/textView"
-                android:textSize="22sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_find_beneficiary"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="22sp" />
 
 
             <LinearLayout
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:background="@drawable/rounded_shape_edittext">
+
                 <Spinner
                     android:id="@+id/cardTypeSpinner"
                     android:layout_width="match_parent"
@@ -73,118 +92,167 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_background_login"
-                >
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight=".85"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".85">
 
-                <EditText
-                    android:id="@+id/rationCardET"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="10dp"
-                    android:hint="Ration Card Number"
-                    android:text="066001142786"
-                    android:imeOptions="actionNext"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="15dp"
-                    android:visibility="gone"
-                    android:paddingTop="5dp"
-                    android:inputType="number"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    android:background="@drawable/edittext_background_login"
-                    />
+                    <EditText
+                        android:id="@+id/rationCardET"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
+                        android:hint="Ration Card Number"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:paddingBottom="5dp"
+
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:text="066001142786"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:visibility="gone" />
+
                     <EditText
                         android:id="@+id/rsbyET"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
                         android:hint="RSBY URN"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="17"
                         android:paddingBottom="5dp"
                         android:paddingLeft="15dp"
-                        android:text="22010100112000029"
                         android:paddingTop="5dp"
-                        android:visibility="gone"
-                        android:inputType="number"
+                        android:text="22010100112000029"
                         android:textAlignment="center"
-                        android:maxLength="17"
                         android:textSize="20sp"
-                        android:background="@drawable/edittext_background_login"
-                        />
+                        android:visibility="gone" />
+
                     <EditText
                         android:id="@+id/ahlTinET"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
                         android:hint="AHLTIN"
-                        android:text="43060600300650000025400040007"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="29"
                         android:paddingBottom="5dp"
                         android:paddingLeft="15dp"
-                        android:visibility="gone"
                         android:paddingTop="5dp"
-                        android:maxLength="29"
-                        android:inputType="number"
+                        android:text="43060600300650000025400040007"
                         android:textAlignment="center"
                         android:textSize="20sp"
-                        android:background="@drawable/edittext_background_login"
-                        />
+                        android:visibility="gone" />
+
                     <EditText
                         android:id="@+id/mobileET"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
                         android:hint="@string/mobile_number"
-                        android:text="9318836095"
                         android:imeOptions="actionNext"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="15dp"
                         android:inputType="number"
                         android:maxLength="10"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
                         android:paddingTop="5dp"
-                        android:visibility="gone"
+                        android:text="9318836095"
                         android:textAlignment="center"
                         android:textSize="20sp"
-                        android:background="@drawable/edittext_background_login"
-                        />
+                        android:visibility="gone" />
 
                     <EditText
                         android:id="@+id/hhIdNoET"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
                         android:hint="HHId Number"
-                        android:text="060600300650000025400040"
                         android:imeOptions="actionNext"
-                        android:paddingBottom="5dp"
                         android:inputType="number"
+                        android:maxLength="24"
+                        android:paddingBottom="5dp"
                         android:paddingLeft="15dp"
                         android:paddingTop="5dp"
+                        android:text="060600300650000025400040"
                         android:textAlignment="center"
                         android:textSize="20sp"
+                        android:visibility="visible"/>
 
-                        android:background="@drawable/edittext_background_login"
-                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:id="@+id/villageCodeLL"
+                        android:visibility="gone"
+                        >
+
+                        <EditText
+                            android:background="@drawable/edittext_background_login"
+
+                            android:id="@+id/villageCodeET"
+                            android:layout_width="250dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            android:hint="Village Code"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:layout_marginRight="@dimen/margine_10"
+                            android:maxLength="6"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="15dp"
+                            android:text="60848"
+                            android:paddingTop="5dp"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:visibility="visible"/>
+
+                        <EditText
+                            android:id="@+id/shhidET"
+                            android:layout_width="250dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            android:hint="SHHID"
+                            android:background="@drawable/edittext_background_login"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:text="100"
+                            android:visibility="visible"/>
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/microphoneLL"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
-                    android:id="@+id/microphoneLL">
+
+                    >
+
                     <ImageView
-                        android:layout_marginTop="18dp"
                         android:layout_width="70dp"
                         android:layout_height="30dp"
+                        android:layout_marginTop="18dp"
                         android:src="@drawable/microphone"
 
                         />
@@ -192,16 +260,16 @@
 
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/cardTypeTV"
                     style="@style/textView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margine_15"
                     android:layout_weight="0.2"
-                    android:text="Ration Card"
                     android:inputType="number"
-                    android:textAlignment="center" />
+                    android:text="Ration Card"
+                    android:textAlignment="center"
+                    android:visibility="gone" />
             </LinearLayout>
 
 
@@ -220,31 +288,31 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/findByNameTV"
                 style="@style/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margine_20"
-                android:id="@+id/findByNameTV"
-                android:textSize="22sp"
                 android:text="@string/byNameText"
                 android:textAlignment="center"
-                android:textColor="@color/textSearch" />
+                android:textColor="@color/textSearch"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/noMemberTV"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
-                android:visibility="gone"
                 android:background="@drawable/edittext_background_login"
                 android:imeOptions="actionNext"
+                android:maxLines="3"
                 android:paddingBottom="5dp"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
-                android:lines="2"
-                android:textColor="@color/red_label"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textColor="@color/red_label"
+                android:textSize="20sp"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

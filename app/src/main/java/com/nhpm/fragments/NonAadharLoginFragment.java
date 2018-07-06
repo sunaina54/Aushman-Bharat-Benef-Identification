@@ -367,17 +367,17 @@ public class NonAadharLoginFragment extends Fragment {
                         //isValidMobile = true;
                         emailAddrET.setTextColor(AppUtility.getColor(context, R.color.black_shine));
                         if (emailAddrET.getText().toString().length() == 10) {
-                           // whoseMobileSP.setEnabled(true);
-                           // whoseMobileSP.setAlpha(1.0f);
-                           // mobileValidateLayout.setVisibility(View.VISIBLE);
+                            // whoseMobileSP.setEnabled(true);
+                            // whoseMobileSP.setAlpha(1.0f);
+                            // mobileValidateLayout.setVisibility(View.VISIBLE);
                             //prepareFamilyStatusSpinner(mobileNumberET.getText().toString().trim());
                             emailAddrET.setTextColor(AppUtility.getColor(context, R.color.green));
 
                         }
                     } else {
                         //whoseMobileSP.setEnabled(false);
-                       // whoseMobileSP.setAlpha(0.4f);
-                       // isValidMobile = false;
+                        // whoseMobileSP.setAlpha(0.4f);
+                        // isValidMobile = false;
                         //mobileValidateLayout.setVisibility(View.GONE);
                         emailAddrET.setTextColor(AppUtility.getColor(context, R.color.red));
                     }
@@ -430,10 +430,18 @@ public class NonAadharLoginFragment extends Fragment {
             activity.finish();
             activity.leftTransition();
         } else {
-            Intent theIntent = new Intent(context, BlockDetailActivity.class);
-            startActivity(theIntent);
-            activity.finish();
-            activity.leftTransition();
+            String sessionValue = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SESSION_EXPIRE_INVAILD_TOKEN, context);
+            // Log.d("Session Value: ",sessionValue);
+            if (sessionValue != null && sessionValue.equalsIgnoreCase("Y")) {
+                activity.finish();
+                ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SESSION_EXPIRE_INVAILD_TOKEN, context);
+            } else {
+                ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SESSION_EXPIRE_INVAILD_TOKEN, context);
+                Intent theIntent = new Intent(context, BlockDetailActivity.class);
+                startActivity(theIntent);
+                activity.finish();
+                activity.leftTransition();
+            }
             /*if(SeccDatabase.getAadhaarStatusList(context).size()>0
                     && SeccDatabase.getMemberStatusList(context).size()>0) {
                 Intent theIntent = new Intent(context, BlockDetailActivity.class);
@@ -1844,15 +1852,15 @@ public class NonAadharLoginFragment extends Fragment {
                 request.setUserName(ApplicationGlobal.MOBILE_Username);
                 request.setUserPass(ApplicationGlobal.MOBILE_Password);
                 String payload = request.serialize();
-                Log.d("Request OTP :",payload);
+                Log.d("Request OTP :", payload);
 
                 try {
                     HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.REQUEST_FOR_MOBILE_OTP, request.serialize(), AppConstant.AUTHORIZATION, AppConstant.AUTHORIZATIONVALUE);
                     if (response != null) {
-                        try{
+                        try {
                             mobileOtpRequestModel = MobileOTPResponse.create(response.get(AppConstant.RESPONSE_BODY));
 
-                        }catch (Exception error){
+                        } catch (Exception error) {
                             error.printStackTrace();
                             Toast.makeText(context, "Server not responding/server is down. Please try after some time...", Toast.LENGTH_SHORT).show();
                         }
@@ -1891,12 +1899,12 @@ public class NonAadharLoginFragment extends Fragment {
                 MobileOtpRequestLoginModel request = new MobileOtpRequestLoginModel();
                 request.setMobileNo(mobileNumber);
                 request.setOtp(otp);
-               // request.setStatus("1");
+                // request.setStatus("1");
                 request.setSequenceNo(sequenceNo);
                 request.setApplicationId(AppConstant.APPLICATION_ID);
                 request.setAppVersion(AppUtility.getCurrentApplicationVersion(context));
                 //request.setUserName(ApplicationGlobal.MOBILE_Username);
-               // request.setUserPass(ApplicationGlobal.MOBILE_Password);
+                // request.setUserPass(ApplicationGlobal.MOBILE_Password);
                 String payLoad = request.serialize();
                 System.out.print(payLoad);
                 try {
@@ -1906,11 +1914,11 @@ public class NonAadharLoginFragment extends Fragment {
                         loginResponse = VerifierLoginResponse.create(response.get(AppConstant.RESPONSE_BODY));
                         //mobileOtpVerifyModel = MobileOTPResponse.create(response.get(AppConstant.RESPONSE_BODY));
                     }
-                    SaveLoginTransactionRequestModel logTransReq=new SaveLoginTransactionRequestModel();
+                    SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                     logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
                     HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
-                    SaveLoginTransactionResponseModel responseModel=SaveLoginTransactionResponseModel.create(responseTid.get("response"));
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"logTrans",responseModel.serialize(),context);
+                    SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1920,7 +1928,7 @@ public class NonAadharLoginFragment extends Fragment {
 
             @Override
             public void updateUI() {
-                if (loginResponse != null && loginResponse.isStatus() && loginResponse.getErrorCode()==null) {
+                if (loginResponse != null && loginResponse.isStatus() && loginResponse.getErrorCode() == null) {
                     setPin();
                     dialog.dismiss();
                 } else {

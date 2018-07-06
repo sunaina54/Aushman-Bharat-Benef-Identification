@@ -209,11 +209,12 @@ public class CustomAlert {
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                       // Intent theIntent;
-                        //theIntent = new Intent(mContext, LoginActivity.class);
-                        theIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        theIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        //theIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        //theIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ProjectPrefrence.saveSharedPrefrenceData("PM-RSSM","SessionExpire","Y",mContext);
                         mContext.startActivity(theIntent);
+                       // ((Activity)mContext).finish();
                       //  rightTransition();
                     }
                 });

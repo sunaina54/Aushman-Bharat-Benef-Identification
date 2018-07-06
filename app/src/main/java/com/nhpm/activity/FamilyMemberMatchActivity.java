@@ -1,6 +1,7 @@
 package com.nhpm.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,12 +20,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.customComponent.CustomAlert;
 import com.customComponent.CustomAsyncTask;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
+import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.request.FamilyMatchScoreRequestModel;
+import com.nhpm.Models.response.MatchScoreResponse;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.fragments.FamilyDetailsFragment;
@@ -43,11 +48,14 @@ public class FamilyMemberMatchActivity extends BaseActivity {
     private FamilyAdapter adapter;
     private RecyclerView memberRecycle, oldMemberRecycle;
     private String familyMatchScore = "";
-    private Button confirmBTN, cancelBT, declineBT;
+    private Button confirmBTN, cancelBT, declineBT,fetchScoreBT;
     private ArrayList<FamilyMemberModel> familyMemberFromSecc, familyMemberFromFamilyCard;
     private FamilyMatchScoreRequestModel requestModel;
     private CustomAsyncTask asyncTask;
+    private VerifierLoginResponse verifierLoginResponse;
+    private MatchScoreResponse matchResponse;
 
+    private AlertDialog dialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +66,8 @@ public class FamilyMemberMatchActivity extends BaseActivity {
     }
 
     private void setupScreen() {
-
+        verifierLoginResponse = VerifierLoginResponse.create(
+                ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         familyMemberFromSecc = (ArrayList<FamilyMemberModel>) getIntent().getSerializableExtra("Old_Members");
         familyMemberFromFamilyCard = (ArrayList<FamilyMemberModel>) getIntent().getSerializableExtra("Family_Card_Members");
 
@@ -72,6 +81,9 @@ public class FamilyMemberMatchActivity extends BaseActivity {
         oldMemberRecycle.setLayoutManager(layoutManager1);
         oldMemberRecycle.setItemAnimator(new DefaultItemAnimator());
 
+
+
+        fetchScoreBT = (Button) findViewById(R.id.fetchScoreBT);
         confirmBTN = (Button) findViewById(R.id.tryAgainBT);
         cancelBT = (Button) findViewById(R.id.cancelBT);
         declineBT = (Button) findViewById(R.id.declineBT);
@@ -102,13 +114,10 @@ public class FamilyMemberMatchActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 familyMatchScore = "0";
-                Intent data=new Intent();
-                data.putExtra("matchScore",familyMatchScore);
-                setResult(4,data);
+                Intent data = new Intent();
+                data.putExtra("matchScore", familyMatchScore);
+                setResult(4, data);
                 activity.finish();
-
-
-
 
 
             }
@@ -120,6 +129,13 @@ public class FamilyMemberMatchActivity extends BaseActivity {
                 data.putExtra("matchScore", familyMatchScore);
                 setResult(4, data);
                 activity.finish();
+            }
+        });
+
+        fetchScoreBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFamilyMatchScore();
             }
         });
     }
@@ -345,25 +361,92 @@ public class FamilyMemberMatchActivity extends BaseActivity {
                 String request = requestModel.serialize();
                 HashMap<String, String> response = null;
                 try {
-                    response = CustomHttp.httpPost(AppConstant.GET_FAMILY_MATCH_SCORE, request);
+                    response = CustomHttp.httpPostWithTokken(AppConstant.GET_FAMILY_MATCH_SCORE, request, AppConstant.AUTHORIZATION, verifierLoginResponse.getAuthToken());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 String familyResponse = response.get("response");
+                if (familyResponse != null) {
+                    matchResponse = MatchScoreResponse.create(familyResponse);
+                }
             }
 
             @Override
             public void updateUI() {
+                if(matchResponse!=null){
+                    if(matchResponse.isStatus()){
+                        if(matchResponse.getErrorCode()==null) {
+                            if (matchResponse.getResult().getResult() != null) {
+                                Log.d("TAG", "Match Score : " + matchResponse.getResult().getResult());
+                                showConfirmationDialog(matchResponse.getResult().getResult());
+                            }
+                        }else if(matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED) ||
+                                matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)){
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            CustomAlert.alertWithOkLogout(context, matchResponse.getErrorMessage(), intent);
+                        }else {
+                            CustomAlert.alertWithOk(context,matchResponse.getErrorMessage());
+                        }
+                    }else{
+                        CustomAlert.alertWithOk(context,"Internal Server error");
 
+                    }
+                }
             }
         };
 
-        if(asyncTask!=null){
+        if (asyncTask != null) {
             asyncTask.cancel(true);
-            asyncTask=null;
+            asyncTask = null;
         }
 
-        asyncTask = new CustomAsyncTask(taskListener,"Please wait..",context);
+        asyncTask = new CustomAsyncTask(taskListener, "Please wait..", context);
         asyncTask.execute();
+    }
+
+    private void showConfirmationDialog(final String matchPercentage){
+        dialog = new AlertDialog.Builder(context).create();
+        LayoutInflater factory = LayoutInflater.from(context);
+        View alertView = factory.inflate(R.layout.confirmation_dialog, null);
+        //View alertView = factory.inflate(R.layout.opt_auth_layout, null);
+        dialog.setView(alertView);
+        dialog.setCancelable(false);
+        Button confirmBT=(Button) alertView.findViewById(R.id.confirmBT);
+        Button declineBT=(Button) alertView.findViewById(R.id.declineBT);
+        Button cancelBT=(Button) alertView.findViewById(R.id.cancelBT);
+        TextView confirmTV=(TextView)alertView.findViewById(R.id.confirmTV);
+        confirmTV.setText("Beneficiary name match score is "+matchPercentage+"%");
+        confirmBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                familyMatchScore = matchPercentage;
+                Intent data = new Intent();
+                data.putExtra("matchScore", familyMatchScore);
+                data.putExtra(AppConstant.MATCH_SCORE_STATUS,AppConstant.MATCH_SCORE_STATUS_CONFIRM);
+
+                setResult(4, data);
+                activity.finish();
+            }
+        });
+        declineBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                familyMatchScore = matchPercentage;
+                Intent data = new Intent();
+                data.putExtra("matchScore", familyMatchScore);
+                data.putExtra(AppConstant.MATCH_SCORE_STATUS,AppConstant.MATCH_SCORE_STATUS_CONFIRM);
+
+                setResult(4, data);
+                activity.finish();
+            }
+        });
+        cancelBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();;
+            }
+        });
+        dialog.show();
+
     }
 }

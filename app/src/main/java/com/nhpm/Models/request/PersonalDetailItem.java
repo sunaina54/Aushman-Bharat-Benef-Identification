@@ -42,6 +42,16 @@ public class PersonalDetailItem implements Serializable {
     private String pinCodeBen;
     private String emailBen;
 
+    private String operatorMatchScoreStatus;
+
+    public String getOperatorMatchScoreStatus() {
+        return operatorMatchScoreStatus;
+    }
+
+    public void setOperatorMatchScoreStatus(String operatorMatchScoreStatus) {
+        this.operatorMatchScoreStatus = operatorMatchScoreStatus;
+    }
+
     public String getFatherNameSecc() {
         return fatherNameSecc;
     }

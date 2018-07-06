@@ -59,6 +59,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
     private StateItem selectedStateItem;
     private VerifierLoginResponse verifierLoginResp;
     private LogRequestItem logRequestItem;
+    private ArrayList<MobileSearchResponseItem> mobileSearchResponseItem;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
     private void setupScreen() {
         //mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
         headerTV = (TextView) findViewById(R.id.centertext);
-        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
         verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
         logRequestItem=LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,context));
@@ -83,7 +84,8 @@ public class FamilyListByMobileActivity extends BaseActivity {
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
 
         AppUtility.navigateToHome(context, activity);
-        mobileRationRequestModel = (MobileRationRequestModel) getIntent().getSerializableExtra("SearchParam");
+        //mobileRationRequestModel = (MobileRationRequestModel) getIntent().getSerializableExtra("SearchParam");
+        mobileSearchResponseItem = (ArrayList<MobileSearchResponseItem>) getIntent().getSerializableExtra("SearchByMobileRation");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +99,9 @@ public class FamilyListByMobileActivity extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         searchListRV.setLayoutManager(mLayoutManager);
         if (isNetworkAvailable()) {
-            familyListData();
+            if(mobileSearchResponseItem!=null && mobileSearchResponseItem.size()>0) {
+                refreshMembersList(mobileSearchResponseItem);
+            }
         } else {
             CustomAlert.alertWithOk(context, context.getResources().getString(R.string.internet_connection_msg));
         }

@@ -35,6 +35,7 @@ import com.nhpm.Models.response.FamilyListResponseItem;
 import com.nhpm.Models.response.VillageResponseItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.AadhaarResponseItem;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -50,8 +51,8 @@ import java.util.HashMap;
  */
 
 public class FingerprintResultActivity extends BaseActivity {
-    private String LOCATION_TAG="villageTag";
-    private String DIST_TAG="distTag";
+    private String LOCATION_TAG = "villageTag";
+    private String DIST_TAG = "distTag";
     private CustomAsyncTask customAsyncTask;
     private Context context;
     private AadhaarResponseItem aadhaarKycResponse;
@@ -72,17 +73,18 @@ public class FingerprintResultActivity extends BaseActivity {
     private AadharResultRequestModel aadharResultRequestModel;
     private Spinner cardTypeSpinner;
     private CheckBox ageCheck, nameCheck, dobCheck, genderCheck, pincodeCheck, fatherCheck, motherCheck,
-            spouseCheck, stateCheck, distCheck, vtcCheck,ruralCheck;
+            spouseCheck, stateCheck, distCheck, vtcCheck, ruralCheck;
     private ArrayList<String> temp, distTemp;
     private ArrayList<String> tempDist;
-    private VillageResponseItem villageResponse,districtResponse;
+    private VillageResponseItem villageResponse, districtResponse;
     private String screen;
     private StateItem selectedStateItem;
-  //  private SearchableSpinner stateSP;
-    private Spinner stateSP,ruralUrbanSP;
-    private String stateName,ruralUrbanStatus="",ruralUrbanTag;
+    //  private SearchableSpinner stateSP;
+    private Spinner stateSP, ruralUrbanSP;
+    private String stateName, ruralUrbanStatus = "", ruralUrbanTag;
     private LogRequestItem logRequestItem;
-    private SearchLocation location=new SearchLocation();
+    private SearchLocation location = new SearchLocation();
+    private VerifierLoginResponse verifierLoginResponse;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,10 +94,13 @@ public class FingerprintResultActivity extends BaseActivity {
     }
 
     private void setupScreen() {
-        location=SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
-                LOCATION_TAG,context  ));
+        location = SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                LOCATION_TAG, context));
+        verifierLoginResponse = VerifierLoginResponse.create(
+                ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
+
         aadharResultRequestModel = new AadharResultRequestModel();
-        logRequestItem=LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,context));
+        logRequestItem = LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, context));
         headerTV = (TextView) findViewById(R.id.centertext);
         ageCheck = (CheckBox) findViewById(R.id.ageCheck);
         //stateSP = (SearchableSpinner) findViewById(R.id.stateSP);
@@ -112,7 +117,7 @@ public class FingerprintResultActivity extends BaseActivity {
         distCheck = (CheckBox) findViewById(R.id.distCheck);
         vtcCheck = (CheckBox) findViewById(R.id.vtcCheck);
         ruralCheck = (CheckBox) findViewById(R.id.ruralCheck);
-        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
 
         headerTV.setText("Beneficiary Data" + " (" + selectedStateItem.getStateName() + ")");
         backIV = (ImageView) findViewById(R.id.back);
@@ -161,16 +166,16 @@ public class FingerprintResultActivity extends BaseActivity {
         });
         Log.d("Splash", "ListSize:" + " " + stateList.size());
         //stateList.add(0, new StateItem("00", "Select State"));
-        final ArrayList<StateItem> stateList2=new ArrayList<>();
+        final ArrayList<StateItem> stateList2 = new ArrayList<>();
         if (stateList != null) {
             for (StateItem item1 : stateList1) {
-                if(item1.getStateCode().equalsIgnoreCase("16")){
+                if (item1.getStateCode().equalsIgnoreCase("16")) {
                     stateList.add("Haryana");
                     stateList2.add(item1);
-                }else if(item1.getStateCode().equalsIgnoreCase("22")){
+                } else if (item1.getStateCode().equalsIgnoreCase("22")) {
                     stateList.add("Chattisgarh");
                     stateList2.add(item1);
-                }else if(item1.getStateCode().equalsIgnoreCase("07")){
+                } else if (item1.getStateCode().equalsIgnoreCase("07")) {
                     stateList.add("Delhi");
                     stateList2.add(item1);
                 }
@@ -204,18 +209,17 @@ public class FingerprintResultActivity extends BaseActivity {
         });
 
 
-
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, stateList);
         stateSP.setAdapter(adapter1);
 
-        for (int i =0 ; i<stateList2.size();i++){
+        for (int i = 0; i < stateList2.size(); i++) {
 
-            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList2.get(i).getStateCode())){
+            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList2.get(i).getStateCode())) {
 
                 stateSP.setSelection(i);
                 // stateSP.setTitle(item.getStateName());
 
-                stateName=stateList.get(i);
+                stateName = stateList.get(i);
                 Log.d("state name11 :", stateName);
                 stateCheck.setChecked(true);
                 break;
@@ -233,21 +237,21 @@ public class FingerprintResultActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String item = adapterView.getItemAtPosition(i).toString();
-                if(i==0){
+                if (i == 0) {
                     ruralCheck.setChecked(false);
-                    ruralUrbanStatus ="";
-                    ruralUrbanTag="";
-                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":"+ ruralUrbanTag);
-                }else if(i==1){
+                    ruralUrbanStatus = "";
+                    ruralUrbanTag = "";
+                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
+                } else if (i == 1) {
                     ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
-                    ruralUrbanTag="R";
-                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":"+ ruralUrbanTag);
-                }else if(i==2){
+                    ruralUrbanTag = "R";
+                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
+                } else if (i == 2) {
                     ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
-                    ruralUrbanTag="U";
-                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":"+ ruralUrbanTag);
+                    ruralUrbanTag = "U";
+                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
                 }
 
             }
@@ -259,10 +263,8 @@ public class FingerprintResultActivity extends BaseActivity {
         });
 
 
-
         ArrayAdapter<String> ruralAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, ruralList);
         ruralUrbanSP.setAdapter(ruralAdapter);
-
 
 
         updateKycButton.setOnClickListener(new View.OnClickListener() {
@@ -314,12 +316,12 @@ public class FingerprintResultActivity extends BaseActivity {
                     request.setSpousenm(spouseName.trim());
                 }
                 if (stateCheck.isChecked()) {
-
                     request.setState_name(stateName.trim());
                 }
                 if (ruralCheck.isChecked()) {
                     request.setRural_urban(ruralUrbanTag.trim());
                 }
+
                 location.setVillageTrue(false);
                 if (vtcCheck.isChecked()) {
                     request.setVt_name(village);
@@ -332,9 +334,9 @@ public class FingerprintResultActivity extends BaseActivity {
                 }
                 location.setVilageName(village);
                 location.setDistName(district);
-                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,LOCATION_TAG,location.serialize(),context);
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, LOCATION_TAG, location.serialize(), context);
                 logRequestItem.setOperatorinput(request.serialize());
-                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
                 //  if(dobCheck.isChecked())
                 // request.setD(pincode);
                 // CustomAlert.alertWithOk(context, "Under Development");
@@ -416,8 +418,8 @@ public class FingerprintResultActivity extends BaseActivity {
 
             }
         });
-        if(location!=null){
-            if(!location.getVilageName().equalsIgnoreCase("")){
+        if (location != null) {
+            if (!location.getVilageName().equalsIgnoreCase("")) {
                 kycVtc.setText("");
                 kycVtc.postDelayed(new Runnable() {
                     @Override
@@ -426,13 +428,13 @@ public class FingerprintResultActivity extends BaseActivity {
                         kycVtc.setText(location.getVilageName());
                         //kycVtc.setSelection(mACTextViewEmail.getText().length());
                     }
-                },500);
+                }, 500);
 
-                if(location.isVillageTrue()){
+                if (location.isVillageTrue()) {
                     vtcCheck.setChecked(true);
                 }
             }
-            if(!location.getDistName().equalsIgnoreCase("")){
+            if (!location.getDistName().equalsIgnoreCase("")) {
                 kycDist.setText("");
 
                 kycDist.postDelayed(new Runnable() {
@@ -442,13 +444,13 @@ public class FingerprintResultActivity extends BaseActivity {
                         kycDist.setText(location.getDistName());
                         //kycVtc.setSelection(mACTextViewEmail.getText().length());
                     }
-                },500);
-                if(location.isDistTrue()){
+                }, 500);
+                if (location.isDistTrue()) {
                     distCheck.setChecked(true);
                 }
             }
-        }else{
-            location=new SearchLocation();
+        } else {
+            location = new SearchLocation();
         }
 
         cardTypeSpinner = (Spinner) findViewById(R.id.cardTypeSpinner);
@@ -484,7 +486,7 @@ public class FingerprintResultActivity extends BaseActivity {
                         if (kycDob.getText().toString().length() == 4) {
                             kycDob.setTextColor(context.getResources().getColor(R.color.green));
 
-                            setAge(kycDob.getText().toString());
+                            //setAge(kycDob.getText().toString());
                             // isValidMobile = true;
                         } else {
                             //isValidMobile = false;
@@ -580,7 +582,8 @@ public class FingerprintResultActivity extends BaseActivity {
                     nameLL.setVisibility(View.GONE);
                 }
                 if (aadhaarKycResponse.getDob() != null && !aadhaarKycResponse.getDob().equalsIgnoreCase("")) {
-                    String yob;
+                    kycAge.setText(aadhaarKycResponse.getDob());
+                    /* String yob;
                     String arr[];
                     yob = aadhaarKycResponse.getDob();
                     if (aadhaarKycResponse.getDob().length() > 4) {
@@ -606,7 +609,7 @@ public class FingerprintResultActivity extends BaseActivity {
                     kycDob.setText(yob);
 
                     setAge(yob);
-                    aadharResultRequestModel.setDob(yob);
+                    aadharResultRequestModel.setDob(yob);*/
                 } else {
                     dobLL.setVisibility(View.GONE);
                 }
@@ -815,9 +818,12 @@ public class FingerprintResultActivity extends BaseActivity {
                 if (stateName != null && !stateName.equalsIgnoreCase("")) {
                     request.setStateName(stateName);
                 }
+                if (ruralUrbanTag != null && !ruralUrbanTag.equalsIgnoreCase("")) {
+                    request.setRuralUrban(ruralUrbanTag);
+                }
                 try {
                     //String request = familyListRequestModel.serialize();
-                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.AUTO_SUGGEST, request.serialize(),AppConstant.AUTHORIZATION,verifierLoginResponse.getAuthToken());
                     String familyResponse = response.get("response");
 
                     if (familyResponse != null) {
@@ -834,40 +840,52 @@ public class FingerprintResultActivity extends BaseActivity {
                 tempDist = new ArrayList<>();
                 //distTemp = new ArrayList<>();
                 if (districtResponse != null) {
-                    for (String str : districtResponse) {
-                        // if(str.contains(text)){
-                        if(str!=null && !str.equalsIgnoreCase("")) {
-                            String tempArr[] = str.split(";");
-                            try {
-                                if (tempArr[0] != null) {
-                                    tempDist.add(tempArr[0]);
-                                }
+                    if (districtResponse.isStatus()) {
+                        if (districtResponse != null && districtResponse.getResult() != null && districtResponse.getResult().getResult() != null) {
+                            for (String str : districtResponse.getResult().getResult()) {
+                                // if(str.contains(text)){
+                                if (str != null && !str.equalsIgnoreCase("")) {
+                                    String tempArr[] = str.split(";");
+                                    try {
+                                        if (tempArr[0] != null) {
+                                            tempDist.add(tempArr[0]);
+                                        }
                                 /*if (tempArr[1] != null) {
                                     distTemp.add(tempArr[1]);
                                 }*/
-                            }catch (Exception e){
-                                Log.d("TAG","exception :"+e.toString());
+                                    } catch (Exception e) {
+                                        Log.d("TAG", "exception :" + e.toString());
+                                    }
+                                }
+                                // }
                             }
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                                    android.R.layout.simple_dropdown_item_1line, tempDist);
+                            kycDist.setAdapter(adapter);
+
+                            kycDist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view,
+                                                        int position, long id) {
+                                    String selected = tempDist.get(position);
+                                    kycVtc.setText("");
+                                    distCheck.setChecked(true);
+                                    kycDist.setText(selected);
+                                    //kycDist.setText(distTemp.get(position));
+
+                                }
+                            });
                         }
-                        // }
+
+                    } else if (districtResponse.getErrorCode() != null &&
+                            districtResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || districtResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, districtResponse.getErrorMessage(), intent);
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                            android.R.layout.simple_dropdown_item_1line, tempDist);
-                    kycDist.setAdapter(adapter);
-
-                    kycDist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view,
-                                                int position, long id) {
-                            String selected = tempDist.get(position);
-                            kycVtc.setText("");
-                            distCheck.setChecked(true);
-                            kycDist.setText(selected);
-                            //kycDist.setText(distTemp.get(position));
-
-                        }
-                    });
+                } else {
+                    CustomAlert.alertWithOk(context, "Internal server error");
                 }
             }
         };
@@ -902,7 +920,7 @@ public class FingerprintResultActivity extends BaseActivity {
                 }
                 try {
                     //String request = familyListRequestModel.serialize();
-                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.AUTO_SUGGEST, request.serialize());
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.AUTO_SUGGEST, request.serialize(),AppConstant.AUTHORIZATION,verifierLoginResponse.getAuthToken());
                     String familyResponse = response.get("response");
 
                     if (familyResponse != null) {
@@ -919,39 +937,52 @@ public class FingerprintResultActivity extends BaseActivity {
                 temp = new ArrayList<>();
                 distTemp = new ArrayList<>();
                 if (villageResponse != null) {
-                    for (String str : villageResponse) {
-                        // if(str.contains(text)){
-                        if(str!=null && !str.equalsIgnoreCase("")) {
-                            String tempArr[] = str.split(";");
-                            try {
-                                if (tempArr[0] != null) {
-                                    temp.add(tempArr[0]);
+                    if (villageResponse != null && villageResponse.isStatus()) {
+                        if (villageResponse != null &&
+                                villageResponse.getResult() != null && villageResponse.getResult().getResult() != null) {
+                            for (String str : villageResponse.getResult().getResult()) {
+                                // if(str.contains(text)){
+                                if (str != null && !str.equalsIgnoreCase("")) {
+                                    String tempArr[] = str.split(";");
+                                    try {
+                                        if (tempArr[0] != null) {
+                                            temp.add(tempArr[0]);
+                                        }
+                                        if (tempArr[1] != null) {
+                                            distTemp.add(tempArr[1]);
+                                        }
+                                    } catch (Exception e) {
+                                        Log.d("TAG", "exception :" + e.toString());
+                                    }
                                 }
-                                if (tempArr[1] != null) {
-                                    distTemp.add(tempArr[1]);
-                                }
-                            }catch (Exception e){
-                                Log.d("TAG","exception :"+e.toString());
+                                // }
                             }
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                                    android.R.layout.simple_dropdown_item_1line, temp);
+                            kycVtc.setAdapter(adapter);
+
+                            kycVtc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view,
+                                                        int position, long id) {
+                                    String selected = temp.get(position);
+                                    vtcCheck.setChecked(true);
+                                    kycVtc.setText(selected);
+                                    kycDist.setText(distTemp.get(position));
+                                    distCheck.setChecked(true);
+                                }
+                            });
                         }
-                        // }
+                    } else if(villageResponse.getErrorCode()!=null &&
+                            villageResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            ||  villageResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, villageResponse.getErrorMessage(), intent);
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                            android.R.layout.simple_dropdown_item_1line, temp);
-                    kycVtc.setAdapter(adapter);
+                }else {
+                    CustomAlert.alertWithOk(context,"Internal server error");
 
-                    kycVtc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view,
-                                                int position, long id) {
-                            String selected = temp.get(position);
-                            vtcCheck.setChecked(true);
-                            kycVtc.setText(selected);
-                            kycDist.setText(distTemp.get(position));
-                            distCheck.setChecked(true);
-                        }
-                    });
                 }
             }
         };

@@ -24,12 +24,14 @@ import com.customComponent.CustomAsyncTask;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
+import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.NameMatchScoreModelRequest;
 import com.nhpm.Models.request.GetTotalScoreRequestModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.MatchScoreResponse;
+import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -61,6 +63,8 @@ public class NameMatchScoreActivity extends BaseActivity {
     private MatchScoreResponse matchResponse;
     private AlertDialog dialog;
     private Button fetchScoreBT;
+    private ImageView backIV;
+    private VerifierLoginResponse verifierLoginResponse;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +76,19 @@ public class NameMatchScoreActivity extends BaseActivity {
     }
 
     private void setupScreen() {
+        verifierLoginResponse = VerifierLoginResponse.create(
+                ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
 
         personalDetailItem = (PersonalDetailItem) getIntent().getSerializableExtra(PERSONAL_DETAIL_TAG);
         docsListItem = (DocsListItem) getIntent().getSerializableExtra(SECC_DETAIL_TAG);
-
+        backIV = (ImageView) findViewById(R.id.back);
+        backIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                rightTransition();
+            }
+        });
         nameTV = (TextView) findViewById(R.id.nameTV);
         genderTV = (TextView) findViewById(R.id.genderTV);
         ageTV = (TextView) findViewById(R.id.ageTV);
@@ -160,9 +173,9 @@ public class NameMatchScoreActivity extends BaseActivity {
 
             if (personalDetailItem.getGender() != null && !personalDetailItem.getGender().equalsIgnoreCase("")) {
                 String gender = personalDetailItem.getGender();
-                if (gender.substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
+                if (gender.equalsIgnoreCase("1")||gender.substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
                     kycgenderTV.setText("Male");
-                } else if (gender.substring(0, 1).toUpperCase().equalsIgnoreCase("F")) {
+                } else if (gender.equalsIgnoreCase("2")||gender.substring(0, 1).toUpperCase().equalsIgnoreCase("F")) {
                     kycgenderTV.setText("Female");
                 } else {
                     kycgenderTV.setText("Other");
@@ -174,11 +187,11 @@ public class NameMatchScoreActivity extends BaseActivity {
             if (docsListItem.getName() != null) {
                 nameTV.setText(docsListItem.getName());
             }
-            if (docsListItem.getDistrict_name() != null) {
-                distTV.setText(docsListItem.getDistrict_name());
+            if (docsListItem.getDistrict_name_english() != null) {
+                distTV.setText(docsListItem.getDistrict_name_english());
             }
-            if (docsListItem.getState_name() != null) {
-                stateTV.setText(docsListItem.getState_name());
+            if (docsListItem.getState_name_english() != null) {
+                stateTV.setText(docsListItem.getState_name_english());
             }
 
             if (docsListItem.getPincode() != null) {
@@ -261,13 +274,13 @@ public class NameMatchScoreActivity extends BaseActivity {
     private void getNameMatchScore(){
      requestModel = new GetTotalScoreRequestModel();
         //secc data
-        requestModel.setStrName1(nameTV.getText().toString());
-        requestModel.setStrState1(stateTV.getText().toString());
-        requestModel.setStrDistrict1(distTV.getText().toString());
-        requestModel.setChGender1(genderTV.getText().toString());
-        requestModel.setnAge1(ageTV.getText().toString());
-        requestModel.setStrVillage1(docsListItem.getVt_name());
-        requestModel.setStrSubDistrict1(docsListItem.getBlock_name_english());
+        requestModel.setStrName1(nameTV.getText().toString().trim());
+        requestModel.setStrState1(stateTV.getText().toString().trim());
+        requestModel.setStrDistrict1(distTV.getText().toString().trim());
+        requestModel.setChGender1(genderTV.getText().toString().trim());
+        requestModel.setnAge1(ageTV.getText().toString().trim());
+        requestModel.setStrVillage1(docsListItem.getVt_name().trim());
+        requestModel.setStrSubDistrict1(docsListItem.getBlock_name_english().trim());
 
         //kyc data
 
@@ -276,21 +289,23 @@ public class NameMatchScoreActivity extends BaseActivity {
         requestModel.setStrDistrict2(kycdistTV.getText().toString());
         requestModel.setChGender2(kycgenderTV.getText().toString());
         requestModel.setnAge2(kycageTV.getText().toString());
-        requestModel.setStrVillage2(personalDetailItem.getVtcBen());
-        requestModel.setStrSubDistrict2(personalDetailItem.getSubDistrictBen());
-        request=new NameMatchScoreModelRequest();
-        request.setFirstName(nameTV.getText().toString());
-        request.setSecondName(kycNameTV.getText().toString());
+        requestModel.setStrVillage2(personalDetailItem.getVtcBen().trim());
+        requestModel.setStrSubDistrict2(personalDetailItem.getSubDistrictBen().trim());
+
+        //request=new NameMatchScoreModelRequest();
+        //request.setFirstName(nameTV.getText().toString());
+        //request.setSecondName(kycNameTV.getText().toString());
+
 
 
         TaskListener taskListener = new TaskListener() {
 
             @Override
             public void execute() {
-                String request1 = request.serialize();
+                String request1 = requestModel.serialize();
                 HashMap<String, String> response = null;
                 try {
-                    response = CustomHttp.httpPost(AppConstant.GET_NAME_MATCH_SCORE, request1);
+                    response = CustomHttp.httpPostWithTokken(AppConstant.GET_NAME_MATCH_SCORE, request1,AppConstant.AUTHORIZATION,verifierLoginResponse.getAuthToken());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -320,6 +335,8 @@ public class NameMatchScoreActivity extends BaseActivity {
                             CustomAlert.alertWithOk(context,"Internal Server error");
 
                         }
+                    }else {
+                        CustomAlert.alertWithOk(context,"Internal Server error");
                     }
             }
         };
@@ -337,7 +354,8 @@ public class NameMatchScoreActivity extends BaseActivity {
     private void showConfirmationDialog(final String matchPercentage){
         dialog = new AlertDialog.Builder(context).create();
         LayoutInflater factory = LayoutInflater.from(context);
-        View alertView = factory.inflate(R.layout.opt_auth_layout, null);
+        View alertView = factory.inflate(R.layout.confirmation_dialog, null);
+        //View alertView = factory.inflate(R.layout.opt_auth_layout, null);
         dialog.setView(alertView);
         dialog.setCancelable(false);
         Button confirmBT=(Button) alertView.findViewById(R.id.confirmBT);
@@ -351,6 +369,7 @@ public class NameMatchScoreActivity extends BaseActivity {
                 nameMatchScore = matchPercentage;
                 Intent data = new Intent();
                 data.putExtra("matchScore", nameMatchScore);
+                data.putExtra(AppConstant.MATCH_SCORE_STATUS,AppConstant.MATCH_SCORE_STATUS_CONFIRM);
                 setResult(4, data);
                 activity.finish();
             }
@@ -361,6 +380,7 @@ public class NameMatchScoreActivity extends BaseActivity {
                 nameMatchScore = matchPercentage;
                 Intent data = new Intent();
                 data.putExtra("matchScore", nameMatchScore);
+                data.putExtra(AppConstant.MATCH_SCORE_STATUS,AppConstant.MATCH_SCORE_STATUS_REJECT);
                 setResult(4, data);
                 activity.finish();
             }

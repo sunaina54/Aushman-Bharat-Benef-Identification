@@ -10,9 +10,27 @@ import java.io.Serializable;
 
 public class MobileRationRequestModel implements Serializable {
 
-    private String mobileRation;
-    private String selectedState;
-    private String param;
+    private String mobileRation="";
+    private String selectedState="";
+    private String param="";
+    private String villageCode="";
+    private String shh="";
+
+    public String getVillageCode() {
+        return villageCode;
+    }
+
+    public void setVillageCode(String villageCode) {
+        this.villageCode = villageCode;
+    }
+
+    public String getShh() {
+        return shh;
+    }
+
+    public void setShh(String shh) {
+        this.shh = shh;
+    }
 
     public String getMobileRation() {
         return mobileRation;

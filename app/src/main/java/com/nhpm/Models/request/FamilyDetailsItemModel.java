@@ -16,8 +16,18 @@ public class FamilyDetailsItemModel implements Serializable {
     private String idType;
     private String screen;
     private String idName;
+
     private String existingData;
     private Integer familyMatchScore=null;
+    private String operatorMatchScoreStatus;
+
+    public String getOperatorMatchScoreStatus() {
+        return operatorMatchScoreStatus;
+    }
+
+    public void setOperatorMatchScoreStatus(String operatorMatchScoreStatus) {
+        this.operatorMatchScoreStatus = operatorMatchScoreStatus;
+    }
 
     public String getExistingData() {
         return existingData;

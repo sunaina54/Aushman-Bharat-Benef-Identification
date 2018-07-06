@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
 import com.google.zxing.client.result.VINParsedResult;
+import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.SerachOptionItem;
 import com.nhpm.Models.request.BeneficiarySearchModel;
 import com.nhpm.Models.request.FamilyListRequestModel;
@@ -37,17 +39,22 @@ import com.nhpm.Models.request.SaveLoginTransactionRequestModel;
 import com.nhpm.Models.request.ValidateUrnRequestModel;
 import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
+import com.nhpm.Models.response.FamilyListResponseItem;
+import com.nhpm.Models.response.MobileSearchResponseModel;
 import com.nhpm.Models.response.SaveLoginTransactionResponseModel;
+import com.nhpm.Models.response.URNResponseModel;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
+import com.nhpm.activity.BlockDetailActivity;
 import com.nhpm.activity.FamilyListActivity;
 import com.nhpm.activity.FamilyListByHHIDActivity;
 import com.nhpm.activity.FamilyListByMobileActivity;
 import com.nhpm.activity.FamilyListByURNActivity;
 import com.nhpm.activity.FamilyMembersListActivity;
+import com.nhpm.activity.LoginActivity;
 import com.nhpm.activity.PhoneNumberActivity;
 import com.nhpm.activity.PinLoginActivity;
 import com.nhpm.activity.SearchDashboardActivity;
@@ -55,6 +62,8 @@ import com.nhpm.activity.SearchDashboardActivity;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -67,13 +76,13 @@ import static android.app.Activity.RESULT_OK;
 public class BeneficiaryFamilySearchFragment extends Fragment {
     private Spinner cardTypeSpinner;
     private Context context;
-    private EditText rationCardET, rsbyET, ahlTinET, mobileET, hhIdNoET;
+    private EditText rationCardET, rsbyET, ahlTinET, mobileET, hhIdNoET, villageCodeET, shhidET;
     private ArrayList<BeneficiarySearchModel> searchModelArrayList;
     private TextView cardTypeTV, findByNameTV, noMemberTV;
     private Button searchBTN;
-    private String cardNo = "", cardType = "";
+    private String cardNo = "", cardType = "", villageCode = "", shhid = "";
     private ArrayList<BeneficiaryListItem> list;
-    private StateItem selectedStateItem;
+    private StateItem selectedStateItem, selectedStateItem1;
     private FamilyListRequestModel request;
     private VerifierLoginResponse loginResponse;
     private CustomAsyncTask mobileOtpAsyncTask;
@@ -81,7 +90,15 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
     public static int sequence = 0;
     private RelativeLayout microphoneLL;
     private final int REQ_CODE_SPEECH_INPUT = 100;
-
+    private FamilyListRequestModel familyListRequestModel;
+    private String familyResponse;
+    private FamilyListResponseItem familyListResponseModel;
+    private CustomAsyncTask customAsyncTask, urnAsyncTask, mobileAsyncTask;
+    private URNResponseModel urnResponseModel;
+    private MobileSearchResponseModel mobileSearchResponseModel;
+    private Spinner stateSP;
+    private LinearLayout villageCodeLL;
+    private BlockDetailActivity blockDetailActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,15 +113,73 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         context = getActivity();
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
         loginResponse = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
+
+        stateSP = (Spinner) view.findViewById(R.id.stateSP);
         searchBTN = (Button) view.findViewById(R.id.searchBTN);
         noMemberTV = (TextView) view.findViewById(R.id.noMemberTV);
         noMemberTV.setVisibility(View.GONE);
         microphoneLL = (RelativeLayout) view.findViewById(R.id.microphoneLL);
 
         findByNameTV = (TextView) view.findViewById(R.id.findByNameTV);
+
+        final ArrayList<StateItem> stateList1 = SeccDatabase.findStateList(context);
+
+        Collections.sort(stateList1, new Comparator<StateItem>() {
+            @Override
+            public int compare(StateItem s1, StateItem s2) {
+                return s1.getStateName().compareToIgnoreCase(s2.getStateName());
+            }
+        });
+        ArrayList<String> spinnerStateList = new ArrayList<>();
+        if (stateList1 != null) {
+            for (StateItem item1 : stateList1) {
+                spinnerStateList.add(item1.getStateName());
+            }
+
+        }
+        stateSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+
+                if (i == 0) {
+
+                } else {
+                    selectedStateItem1 = stateList1.get(i);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, selectedStateItem1.serialize(), context);
+                    blockDetailActivity.headerTV.setText(context.getResources().getString(R.string.nhpsFieldValidation) + " (" + selectedStateItem1.getStateName() + ")");
+
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, spinnerStateList);
+        stateSP.setAdapter(adapter1);
+        for (int i = 0; i < stateList1.size(); i++) {
+
+            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList1.get(i).getStateCode())) {
+
+                stateSP.setSelection(i);
+                // stateSP.setTitle(item.getStateName());
+
+                String stateName = stateList1.get(i).getStateName();
+                Log.d("state name11 :", stateName);
+                break;
+            }
+        }
+
+
         findByNameTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                /* Intent intent = new Intent(context, SearchDashboardActivity.class);
                 startActivity(intent);*/
 /*
@@ -131,6 +206,70 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             }
         });
         cardTypeTV = (TextView) view.findViewById(R.id.cardTypeTV);
+        villageCodeLL = (LinearLayout) view.findViewById(R.id.villageCodeLL);
+
+        villageCodeET = (EditText) view.findViewById(R.id.villageCodeET);
+        villageCodeET.setSelection(villageCodeET.getText().toString().length());
+        if (villageCodeET.getText().toString().length() == 6) {
+            villageCodeET.setTextColor(AppUtility.getColor(context, R.color.green));
+        }
+
+        shhidET = (EditText) view.findViewById(R.id.shhidET);
+        shhidET.setSelection(shhidET.getText().toString().length());
+        if (shhidET.getText().toString().length() == 4) {
+            shhidET.setTextColor(AppUtility.getColor(context, R.color.green));
+        }
+
+        villageCodeET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().length() > 0) {
+
+                    villageCodeET.setTextColor(AppUtility.getColor(context, R.color.black_shine));
+                    if (villageCodeET.getText().toString().length() == 6) {
+
+                        villageCodeET.setTextColor(AppUtility.getColor(context, R.color.green));
+
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        shhidET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().length() > 0) {
+
+                    shhidET.setTextColor(AppUtility.getColor(context, R.color.black_shine));
+                    if (shhidET.getText().toString().length() == 4) {
+
+                        shhidET.setTextColor(AppUtility.getColor(context, R.color.green));
+
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         hhIdNoET = (EditText) view.findViewById(R.id.hhIdNoET);
         hhIdNoET.setSelection(hhIdNoET.getText().toString().length());
         if (hhIdNoET.getText().toString().length() == 24) {
@@ -302,6 +441,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         spinnerList.add("RSBY URN");
         spinnerList.add("Mobile Number");
         spinnerList.add("Ration Card");
+        spinnerList.add("Village Code");
 
 
         cardTypeSpinner = (Spinner) view.findViewById(R.id.cardTypeSpinner);
@@ -315,17 +455,22 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 ahlTinET.setVisibility(View.GONE);
                 mobileET.setVisibility(View.GONE);
                 hhIdNoET.setVisibility(View.GONE);
+                villageCodeLL.setVisibility(View.GONE);
                 if (position == 0) {
                     hhIdNoET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+
                     cardTypeTV.setText("HHId Number");
                     cardType = "HHId Number";
                 } else if (position == 1) {
                     ahlTinET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+
                     cardTypeTV.setText("AHLTIN");
                     cardType = "AHLTIN";
                     String ahltin = ahlTinET.getText().toString();
                     Log.d("TAG", "AhlTine : " + ahltin);
-                    if(ahltin.length()==29) {
+                    if (ahltin.length() == 29) {
                         String firstTwoChar = ahltin.substring(0, 2);
                         // 2 7 8 5 4 3
                         String nextSevenChar = ahltin.substring(2, 9);
@@ -346,12 +491,21 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 } else if (position == 2) {
                     cardType = "RSBY URN";
                     rsbyET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+
                 } else if (position == 3) {
                     cardType = "Mobile Number";
                     mobileET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+
                 } else if (position == 4) {
                     cardType = "Ration Card";
                     rationCardET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+                } else if (position == 5) {
+                    cardType = "Village Code";
+                    villageCodeLL.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.GONE);
                 }
                     /*rationCardET.setVisibility(View.GONE);
                     rsbyET.setVisibility(View.VISIBLE);
@@ -419,17 +573,18 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     }*/
 
 
-                    MobileRationRequestModel requestModel = new MobileRationRequestModel();
+           /*         MobileRationRequestModel requestModel = new MobileRationRequestModel();
                     requestModel.setMobileRation(cardNo);
                     requestModel.setParam(AppConstant.RATION_PARAM);
 
                     //requestModel.setSelectedState(selectedStateItem.getStateCode());
-                    requestModel.setSelectedState("6");
+                    requestModel.setSelectedState("6");*/
                     AppUtility.searchTitleHeader = "Ration Card";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_RATION_CARD);
-                    Intent theIntent = new Intent(context, FamilyListByMobileActivity.class);
+                  /*  Intent theIntent = new Intent(context, FamilyListByMobileActivity.class);
                     theIntent.putExtra("SearchParam", requestModel);
-                    startActivity(theIntent);
+                    startActivity(theIntent);*/
+                    familyListDataByMobileOrRation();
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
 
@@ -448,11 +603,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                     AppUtility.searchTitleHeader = "URN";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_RSBY_URN);
-                    ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
-                    requestModel.setUrn(cardNo);
-                    Intent theIntent = new Intent(context, FamilyListByURNActivity.class);
+                  /*  ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
+                    requestModel.setUrn(cardNo);*/
+                    familyListDataByURN();
+                  /*  Intent theIntent = new Intent(context, FamilyListByURNActivity.class);
                     theIntent.putExtra("SearchParam", requestModel);
-                    startActivity(theIntent);
+                    startActivity(theIntent);*/
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
 
@@ -460,7 +616,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("AHLTIN")) {
                     cardNo = ahlTinET.getText().toString();
-                    request.setAhlTinno(cardNo);
+                    // request.setAhlTinno(cardNo);
 
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter AHLTIN number");
@@ -470,21 +626,23 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         return;
                     }
 
-                    request.setName("");
+                /*    request.setName("");
                     request.setGenderid("");
                     request.setAge("");
                     request.setPincode("");
-                    request.setFathername("");
+                    request.setFathername("");*/
                     AppUtility.searchTitleHeader = "AHLTIN";
                     logRequestItem.setAction("AHLTIN");
-                    Intent theIntent = new Intent(context, FamilyListByHHIDActivity.class);
+                    familyListDatabyHHIdOrAHLTIN();
+                  /*  Intent theIntent = new Intent(context, FamilyListByHHIDActivity.class);
                     theIntent.putExtra("SearchParam", request);
-                    startActivity(theIntent);
+                    startActivity(theIntent);*/
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
                 }
 
-                if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("Mobile Number")) {
+                if (!cardType.equalsIgnoreCase("") &&
+                        cardType.equalsIgnoreCase("Mobile Number")) {
                     cardNo = mobileET.getText().toString();
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter mobile number");
@@ -495,13 +653,14 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     }
                     AppUtility.searchTitleHeader = "Mobile";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_MOBILE);
-                    MobileRationRequestModel requestModel = new MobileRationRequestModel();
+                  /*  MobileRationRequestModel requestModel = new MobileRationRequestModel();
                     requestModel.setMobileRation(cardNo);
                     requestModel.setParam(AppConstant.MOBILE_PARAM);
                     requestModel.setSelectedState("6");
                     Intent theIntent = new Intent(context, FamilyListByMobileActivity.class);
                     theIntent.putExtra("SearchParam", requestModel);
-                    startActivity(theIntent);
+                    startActivity(theIntent);*/
+                    familyListDataByMobileOrRation();
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
 
@@ -509,7 +668,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("HHId Number")) {
                     cardNo = hhIdNoET.getText().toString();
-                    request.setHho_id(cardNo);
+                    // request.setHho_id(cardNo);
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter HHId number");
                         return;
@@ -518,16 +677,35 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         return;
                     }
 
-                    request.setName("");
-                    request.setGenderid("");
-                    request.setAge("");
-                    request.setPincode("");
-                    request.setFathername("");
+
                     AppUtility.searchTitleHeader = "HHId";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_HHID);
-                    Intent theIntent = new Intent(context, FamilyListByHHIDActivity.class);
+                   /* Intent theIntent = new Intent(context, FamilyListByHHIDActivity.class);
                     theIntent.putExtra("SearchParam", request);
-                    startActivity(theIntent);
+                    startActivity(theIntent);*/
+                    familyListDatabyHHIdOrAHLTIN();
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
+
+
+                }
+
+                if (!cardType.equalsIgnoreCase("") &&
+                        cardType.equalsIgnoreCase("Village Code")) {
+                    villageCode = villageCodeET.getText().toString();
+                    shhid = shhidET.getText().toString();
+                    // request.setHho_id(cardNo);
+                    if (villageCode.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please enter village code");
+                        return;
+                    }
+
+                    if (shhid.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please enter SHHId number");
+                        return;
+                    }
+                    AppUtility.searchTitleHeader = "Mobile";
+                    logRequestItem.setAction(AppUtility.SEARCH_BY_VILLAGE);
+                    familyListDataByMobileOrRation();
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
 
 
@@ -672,41 +850,47 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loginResponse = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
+        noMemberTV.setVisibility(View.GONE);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
-                if (resultCode == RESULT_OK && data!=null) {
+                if (resultCode == RESULT_OK && data != null) {
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    if(cardType.equalsIgnoreCase("HHId Number")) {
+                    if (cardType.equalsIgnoreCase("HHId Number")) {
                         hhIdNoET.setVisibility(View.VISIBLE);
                         hhIdNoET.setText(result.get(0).trim());
                         hhIdNoET.setSelection(hhIdNoET.getText().toString().length());
                     }
 
-                    if(cardType.equalsIgnoreCase("AHLTIN")) {
+                    if (cardType.equalsIgnoreCase("AHLTIN")) {
                         ahlTinET.setVisibility(View.VISIBLE);
                         ahlTinET.setText(result.get(0).trim());
                         ahlTinET.setSelection(ahlTinET.getText().toString().length());
                     }
 
-                    if(cardType.equalsIgnoreCase("RSBY URN")) {
+                    if (cardType.equalsIgnoreCase("RSBY URN")) {
                         rsbyET.setVisibility(View.VISIBLE);
                         rsbyET.setText(result.get(0).trim());
                         rsbyET.setSelection(rsbyET.getText().toString().length());
 
                     }
-                    if(cardType.equalsIgnoreCase("Mobile Number")) {
+                    if (cardType.equalsIgnoreCase("Mobile Number")) {
                         mobileET.setVisibility(View.VISIBLE);
                         mobileET.setText(result.get(0).trim());
                         mobileET.setSelection(mobileET.getText().toString().length());
 
                     }
-                    if(cardType.equalsIgnoreCase("Ration Card")) {
+                    if (cardType.equalsIgnoreCase("Ration Card")) {
                         rationCardET.setVisibility(View.VISIBLE);
                         rationCardET.setText(result.get(0).trim());
                         rationCardET.setSelection(rationCardET.getText().toString().length());
@@ -716,5 +900,409 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 break;
             }
         }
+    }
+
+    private void familyListDatabyHHIdOrAHLTIN() {
+
+
+        familyListRequestModel = new FamilyListRequestModel();
+        // familyListRequestModel.setName("sumit");
+        familyListRequestModel.setUserName("nhps_fvs^1&%mobile");
+        familyListRequestModel.setUserPass("ZCbEJyPUlaQXo8fJT2P+5PAKJOs6emRZgdI/w5qkIrN2NqRUQQ3Sdqp+9WbS8P4j");
+//familyListRequestModel.setAge("");
+
+        familyListRequestModel.setName("");
+        familyListRequestModel.setGenderid("");
+        familyListRequestModel.setAge("");
+        familyListRequestModel.setPincode("");
+        familyListRequestModel.setFathername("");
+
+        familyListRequestModel.setAhlblockno("");
+        familyListRequestModel.setBlock_name_english("");
+        familyListRequestModel.setDistrict_code("");
+        familyListRequestModel.setResultCount("100");
+        if (familyListRequestModel.getFathername() == null) {
+            familyListRequestModel.setFathername("");
+        }
+//familyListRequestModel.setGenderid("");
+        if (familyListRequestModel.getMothername() == null) {
+            familyListRequestModel.setMothername("");
+        }
+
+        if (cardType.equalsIgnoreCase("HHId Number")) {
+            familyListRequestModel.setHho_id(cardNo);
+        } else {
+            familyListRequestModel.setHho_id("");
+        }
+
+
+        if (familyListRequestModel.getState_name() == null) {
+            familyListRequestModel.setState_name("");
+        }
+
+        if (familyListRequestModel.getDistrict_name() == null) {
+            familyListRequestModel.setDistrict_name("");
+        }
+        if (familyListRequestModel.getVt_name() == null) {
+            familyListRequestModel.setVt_name("");
+        }
+
+
+        if (cardType.equalsIgnoreCase("AHLTIN")) {
+            familyListRequestModel.setAhlTinno(cardNo);
+        } else {
+            familyListRequestModel.setAhlTinno("");
+        }
+        if (familyListRequestModel.getPincode() == null) {
+            familyListRequestModel.setPincode("");
+        }
+        familyListRequestModel.setRural_urban("");
+        if (familyListRequestModel.getSpousenm() == null) {
+            familyListRequestModel.setSpousenm("");
+        }
+        if (familyListRequestModel.getState_name() == null) {
+            familyListRequestModel.setState_name("");
+        }
+        familyListRequestModel.setState_name_english("");
+        familyListRequestModel.setSpousenms("");
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                try {
+
+
+                    String request = familyListRequestModel.serialize();
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_FAMILY_LIST, request, AppConstant.AUTHORIZATION, loginResponse.getAuthToken());
+                    familyResponse = response.get("response");
+
+
+                    if (familyResponse != null) {
+                        if (logRequestItem == null) {
+                            logRequestItem = new LogRequestItem();
+                        }
+                        logRequestItem.setOperatorinput(request);
+                        familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
+                        logRequestItem.setOperatoroutput(familyListResponseModel.serialize());
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
+                        try {
+                            SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
+                            logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
+                            HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                            SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
+                            BeneficiaryFamilySearchFragment.sequence = 0;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                // noMemberLL.setVisibility(View.GONE);
+                // searchListRV.setVisibility(View.VISIBLE);
+                if (familyListResponseModel != null) {
+                    int matchCount = 0;
+                    noMemberTV.setVisibility(View.GONE);
+                    if (familyListResponseModel.isStatus()) {
+                        if (familyListResponseModel.getResult() != null && familyListResponseModel.getResult().getResponse() != null) {
+                            if (familyListResponseModel.getResult().getResponse().getNumFound() != null
+                                    && !familyListResponseModel.getResult().getResponse().getNumFound().equalsIgnoreCase("")) {
+                                matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
+
+                            }
+                            if (matchCount == 0) {
+                                if (cardType.equalsIgnoreCase("HHId Number")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for \n HHId number: " + cardNo + " in " + selectedStateItem.getStateName());
+
+                                }
+
+                                if (cardType.equalsIgnoreCase("AHLTIN")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for \n AHLTIN number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                }
+                                //noMemberTV.setText("No Family member found");
+                            }
+                            if (familyListResponseModel.getResult().getResponse().getDocs()
+                                    != null && familyListResponseModel.getResult().getResponse().getDocs().size() > 0) {
+                                Intent theIntent = new Intent(context, FamilyListByHHIDActivity.class);
+                                theIntent.putExtra("SearchByHHIdOrAHLTIN", familyListResponseModel.getResult().getResponse().getDocs());
+                                startActivity(theIntent);
+
+                               /* try {
+                                    refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
+                                } catch (Exception e) {
+                                    Log.d("TAG", "Exception : " + e.toString());
+                                }*/
+
+                            } else {
+                                if (cardType.equalsIgnoreCase("HHId Number")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for \n HHId number: " + cardNo + " in " + selectedStateItem.getStateName());
+
+                                }
+
+                                if (cardType.equalsIgnoreCase("AHLTIN")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for \n AHLTIN number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                }
+                                //  noMemberLL.setVisibility(View.VISIBLE);
+                                //  noMemberTV.setText("No Family member found");
+
+                            }
+
+                        }
+                    } else if (familyListResponseModel != null &&
+                            familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
+
+                    } else {
+                        CustomAlert.alertWithOk(context, familyListResponseModel.getErrorMessage());
+                    }
+                } else {
+                    CustomAlert.alertWithOk(context, "Internal Server Error");
+                    // noMemberLL.setVisibility(View.VISIBLE);
+                    // noMemberTV.setText("Internal Server Error");
+                    // searchListRV.setVisibility(View.GONE);
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+        customAsyncTask.execute();
+
+    }
+
+
+    private void familyListDataByURN() {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                try {
+                    ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
+                    requestModel.setUrn(cardNo);
+                    String request = requestModel.serialize();
+                    String url = AppConstant.SEARCH_BY_MOBILE_RATION;
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_BY_MOBILE_RATION, request, AppConstant.AUTHORIZATION, loginResponse.getAuthToken());
+                    familyResponse = response.get("response");
+                    if (familyResponse != null) {
+                        urnResponseModel = new URNResponseModel().create(familyResponse);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                if (urnResponseModel != null) {
+                    noMemberTV.setVisibility(View.GONE);
+                    if (urnResponseModel.isStatus()) {
+                        if (urnResponseModel.getUrnResponse() != null) {
+                            if (urnResponseModel.getUrnResponse().size() > 0) {
+                                Intent theIntent = new Intent(context, FamilyListByURNActivity.class);
+                                theIntent.putExtra("SearchByURN", urnResponseModel.getUrnResponse());
+                                startActivity(theIntent);
+                                // refreshMembersList(familyListResponseModel.getUrnResponse());
+                            } else {
+                                if (cardType.equalsIgnoreCase("RSBY URN")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for RSBY URN \n number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                }
+
+                            }
+                        }
+                    } else if (urnResponseModel != null &&
+                            urnResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || urnResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, urnResponseModel.getErrorMessage(), intent);
+
+                    } else {
+                        // unhandled issue is coming when rsby urn is wrong and errorMessage is "" blank
+                        // CustomAlert.alertWithOk(context,urnResponseModel.getErrorMessage());
+                        if (cardType.equalsIgnoreCase("RSBY URN")) {
+                            noMemberTV.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No family found for RSBY URN \n number: " + cardNo + " in " + selectedStateItem.getStateName());
+                        }
+                    }
+                } else {
+                    CustomAlert.alertWithOk(context, "Internal Server Error");
+
+                   /* noMemberLL.setVisibility(View.VISIBLE);
+                    noMemberTV.setText("Internal Server Error");
+                    searchListRV.setVisibility(View.GONE);*/
+                }
+            }
+        };
+        if (urnAsyncTask != null) {
+            urnAsyncTask.cancel(true);
+            urnAsyncTask = null;
+        }
+
+        urnAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+        urnAsyncTask.execute();
+
+    }
+
+    private void familyListDataByMobileOrRation() {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                try {
+                    MobileRationRequestModel requestModel = new MobileRationRequestModel();
+
+                    if (cardType.equalsIgnoreCase("Ration Card")) {
+                        requestModel.setParam(AppConstant.RATION_PARAM);
+                        requestModel.setMobileRation(cardNo);
+                        requestModel.setShh("");
+                        requestModel.setVillageCode("");
+                    }
+
+                    if (cardType.equalsIgnoreCase("Mobile Number")) {
+                        requestModel.setParam(AppConstant.MOBILE_PARAM);
+                        requestModel.setMobileRation(cardNo);
+                        requestModel.setShh("");
+                        requestModel.setVillageCode("");
+                    }
+
+                    if (cardType.equalsIgnoreCase("Village Code")) {
+                        requestModel.setParam(AppConstant.VILLAGE_PARAM);
+                        requestModel.setMobileRation("");
+                        requestModel.setShh(shhid);
+                        requestModel.setVillageCode(villageCode);
+                    }
+
+                    //requestModel.setSelectedState(selectedStateItem.getStateCode());
+                    requestModel.setSelectedState("6");
+                    String request = requestModel.serialize();
+                    String url = AppConstant.SEARCH_BY_MOBILE_RATION;
+
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_BY_MOBILE_RATION, request, AppConstant.AUTHORIZATION, loginResponse.getAuthToken());
+
+                    familyResponse = response.get("response");
+
+
+                    if (familyResponse != null) {
+                        if (logRequestItem == null) {
+                            logRequestItem = new LogRequestItem();
+                        }
+                        logRequestItem.setOperatorinput(request);
+                        mobileSearchResponseModel = new MobileSearchResponseModel().create(familyResponse);
+
+                        logRequestItem.setOperatoroutput(mobileSearchResponseModel.serialize());
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
+                        try {
+                            SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
+                            logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
+                            HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                            SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
+                            BeneficiaryFamilySearchFragment.sequence = 0;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+
+                if (mobileSearchResponseModel != null) {
+                    noMemberTV.setVisibility(View.GONE);
+
+                    if (mobileSearchResponseModel.isStatus()) {
+                        if (mobileSearchResponseModel.getUrnResponse() != null) {
+                            if (mobileSearchResponseModel.getUrnResponse().size() > 0) {
+                                Intent theIntent = new Intent(context, FamilyListByMobileActivity.class);
+                                theIntent.putExtra("SearchByMobileRation", mobileSearchResponseModel.getUrnResponse());
+                                startActivity(theIntent);
+                                //refreshMembersList(familyListResponseModel.getUrnResponse());
+                            } else {
+                                if (cardType.equalsIgnoreCase("Ration Card")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for \n ration card number: " + cardNo + " in " + selectedStateItem.getStateName());
+
+                                }
+
+                                if (cardType.equalsIgnoreCase("Mobile Number")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for \n mobile number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                }
+                             /*   noMemberLL.setVisibility(View.VISIBLE);
+                                noMemberTV.setText("No member found");
+                                searchListRV.setVisibility(View.GONE);*/
+                            }
+                        }
+                    } else if (mobileSearchResponseModel != null &&
+                            mobileSearchResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || mobileSearchResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, mobileSearchResponseModel.getErrorMessage(), intent);
+
+
+                    } else {
+                        if (cardType.equalsIgnoreCase("Ration Card")) {
+                            noMemberTV.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No family found for \n ration card number: " + cardNo + " in " + selectedStateItem.getStateName());
+
+                        }
+
+                        if (cardType.equalsIgnoreCase("Mobile Number")) {
+                            noMemberTV.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No family found for \n mobile number: " + cardNo + " in " + selectedStateItem.getStateName());
+                        }
+                        //  CustomAlert.alertWithOk(context,mobileSearchResponseModel.getErrorMessage());
+                       /* noMemberLL.setVisibility(View.VISIBLE);
+                        noMemberTV.setText(familyListResponseModel.getErrorMessage());
+                        searchListRV.setVisibility(View.GONE);*/
+                    }
+                } else {
+                    CustomAlert.alertWithOk(context, "Internal Server Error");
+
+                   /* noMemberLL.setVisibility(View.VISIBLE);
+                    noMemberTV.setText("Internal Server Error");
+                    searchListRV.setVisibility(View.GONE);*/
+                }
+            }
+        };
+        if (mobileAsyncTask != null) {
+            mobileAsyncTask.cancel(true);
+            mobileAsyncTask = null;
+        }
+
+        mobileAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+        mobileAsyncTask.execute();
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        blockDetailActivity = (BlockDetailActivity) context;
     }
 }

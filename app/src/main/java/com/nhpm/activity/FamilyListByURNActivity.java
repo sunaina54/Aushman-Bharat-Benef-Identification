@@ -57,6 +57,7 @@ public class FamilyListByURNActivity extends BaseActivity {
     private FamilyListByURNActivity activity;
     private StateItem selectedStateItem;
     private VerifierLoginResponse verifierLoginResp;
+    private ArrayList<URNResponseItem> urnResponseItem;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,7 @@ public class FamilyListByURNActivity extends BaseActivity {
     private void setupScreen() {
         //mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
         headerTV = (TextView) findViewById(R.id.centertext);
-        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
 
         verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
@@ -80,7 +81,8 @@ public class FamilyListByURNActivity extends BaseActivity {
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
 
         AppUtility.navigateToHome(context, activity);
-        validateUrnRequestModel = (ValidateUrnRequestModel) getIntent().getSerializableExtra("SearchParam");
+       // validateUrnRequestModel = (ValidateUrnRequestModel) getIntent().getSerializableExtra("SearchParam");
+       urnResponseItem = (ArrayList<URNResponseItem>) getIntent().getSerializableExtra("SearchByURN");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +96,11 @@ public class FamilyListByURNActivity extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         searchListRV.setLayoutManager(mLayoutManager);
         if (isNetworkAvailable()) {
-            familyListData();
+           // familyListData();
+            if(urnResponseItem!=null && urnResponseItem.size()>0){
+                refreshMembersList(urnResponseItem);
+            }
+
         } else {
             CustomAlert.alertWithOk(context, context.getResources().getString(R.string.internet_connection_msg));
         }

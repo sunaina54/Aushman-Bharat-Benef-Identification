@@ -157,9 +157,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="Year of birth"
+                            android:text="Age"
                             android:textColor="@color/blue"
                             style="@style/label" />
+                        <!--<TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Year of birth"
+                            android:textColor="@color/blue"
+                            style="@style/label" />-->
 
                         <RadioGroup
                             android:id="@+id/dateOfBirthRG"
@@ -209,12 +216,23 @@
                                 android:layout_height="40dp"
                                 android:layout_weight="0.9"
                                 android:background="@drawable/edit_text_border"
+                                android:inputType="number"
+                                android:maxLength="2"
+                                android:paddingLeft="5dp"
+                                android:textSize="@dimen/text_size_16sp"
+                                android:visibility="visible" />
+                          <!--  <EditText
+                                android:id="@+id/manualYobAsInAadhaarET"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_weight="0.9"
+                                android:background="@drawable/edit_text_border"
                                 android:hint="YYYY"
                                 android:inputType="date"
                                 android:maxLength="4"
                                 android:paddingLeft="5dp"
                                 android:textSize="@dimen/text_size_16sp"
-                                android:visibility="visible" />
+                                android:visibility="visible" />-->
                         </LinearLayout>
 
 

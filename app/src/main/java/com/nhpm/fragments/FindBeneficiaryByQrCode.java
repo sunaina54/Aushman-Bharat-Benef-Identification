@@ -954,8 +954,45 @@ public class FindBeneficiaryByQrCode extends Fragment {
     }
 
     private void proceedForSearch(){
+        String dobQrCode = qrCodeDobAsInAadhaarET.getText().toString();
+        int age=0;
+        if (dobQrCode != null && dobQrCode.length() > 4) {
+
+            String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+
+            currentYear = currentYear.substring(0, 4);
+            String date=DateTimeUtil.
+                    convertTimeMillisIntoStringDate(DateTimeUtil.convertDateIntoTimeMillis(dobQrCode),AppConstant.DATE_FORMAT);
+            String arr[];
+            String aadhaarYear=null;
+            if(dobQrCode.contains("-")){
+                arr=dobQrCode.split("-") ;
+                if(arr[0].length()==4){
+                    aadhaarYear=arr[0];
+                }else if(arr[2].length()==4){
+                    aadhaarYear=arr[2];
+                }
+            }else if(dobQrCode.contains("/")){
+                arr=dobQrCode.split("/") ;
+                if(arr[0].length()==4){
+                    aadhaarYear=arr[0];
+                }else if(arr[2].length()==4){
+                    aadhaarYear=arr[2];
+                }
+            }
+            if(aadhaarYear!=null) {
+                 age = Integer.parseInt(currentYear) - Integer.parseInt(aadhaarYear);
+                //kycageTV.setText(age + "");
+            }
+
+        }else  if(dobQrCode != null && dobQrCode.length() ==4){
+            String currentYear = DateTimeUtil.currentDate("dd-mm-yyyy");
+            currentYear = currentYear.substring(6, 10);
+             age = Integer.parseInt(currentYear) - Integer.parseInt(dobQrCode);
+            //kycageTV.setText(age + "");
+        }
         aadhaarResponseItem.setName(qrCodeNameAsInAadhaarET.getText().toString());
-        aadhaarResponseItem.setDob(qrCodeDobAsInAadhaarET.getText().toString());
+        aadhaarResponseItem.setDob(age+"");
         aadhaarResponseItem.setGender(qrCodeGenderAsInAadhaarET.getText().toString());
         aadhaarResponseItem.setPc(qrCodePincodeET.getText().toString());
         aadhaarResponseItem.setResult("Y");

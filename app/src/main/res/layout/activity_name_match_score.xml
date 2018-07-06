@@ -263,7 +263,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="0.7"
                     android:background="@drawable/button_background_orange_ehit"
-                    android:text="Eetch Score"
+                    android:text="Match Score"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="12sp" />

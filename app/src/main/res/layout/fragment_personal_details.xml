@@ -314,7 +314,8 @@
                             android:orientation="horizontal"
                             android:paddingLeft="@dimen/margine_5"
                             android:paddingRight="@dimen/margine_5"
-                          >
+                            android:id="@+id/govtIdNumberLL"
+                            >
 
 
                             <TextView
@@ -596,7 +597,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="80dp">
+                  >
 
 
                     <EditText
@@ -630,6 +631,29 @@
                         android:textSize="@dimen/font_size" />
 
 
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/textView"
+                    android:visibility="visible"
+                    android:text="@string/whose_mobile"
+                    />
+
+                <LinearLayout
+                    android:visibility="visible"
+                    android:layout_marginBottom="80dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_shape_edittext">
+
+                    <Spinner
+                        android:id="@+id/whoseMobileNoSP"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

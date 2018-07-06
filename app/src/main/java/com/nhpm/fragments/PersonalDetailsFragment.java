@@ -23,12 +23,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,8 +98,7 @@ public class PersonalDetailsFragment extends Fragment {
     private int GOVT_ID_REQUEST = 2;
     private Picasso mPicasso;
     private ImageView govtIdPhotoIV;
-    private TextView govtIdType, govtIdNumberTV,genderTV,yobTV,pincodeTV,emailTV,poTV,vtcTV,subDistTV
-            ,distTV,stateTV;
+    private TextView govtIdType, govtIdNumberTV, genderTV, yobTV, pincodeTV, emailTV, poTV, vtcTV, subDistTV, distTV, stateTV;
     private LinearLayout govtIdLL;
     private CollectDataActivity activity;
     private FaceCropper mFaceCropper;
@@ -117,12 +119,14 @@ public class PersonalDetailsFragment extends Fragment {
     private DocsListItem beneficiaryListItem;
     private PersonalDetailItem personalDetailItem;
     private String status = "";
-    private LinearLayout aadharLL, noAadhaarLL;
+    private LinearLayout aadharLL, noAadhaarLL, govtIdNumberLL;
     private Button matchBT;
     private VerifierLoginResponse storedLoginResponse;
-    private String nameMatchScore="";
+    private String nameMatchScore = "",nameMatchScoreStatus="",whoseMobileStatus="";
     private TextView govtPhotoLabelTV;
     private LinearLayout kycDetailsLL;
+    private Spinner whoseMobileNoSP;
+
 
     public AadhaarResponseItem getAadhaarKycResponse() {
         return aadhaarKycResponse;
@@ -168,6 +172,7 @@ public class PersonalDetailsFragment extends Fragment {
         aadharLL = (LinearLayout) view.findViewById(R.id.aadharLL);
         govtIdLL = (LinearLayout) view.findViewById(R.id.govtIdLL);
         noAadhaarLL = (LinearLayout) view.findViewById(R.id.noAadhaarLL);
+        govtIdNumberLL = (LinearLayout) view.findViewById(R.id.govtIdNumberLL);
         govtIdNumberTV = (TextView) view.findViewById(R.id.govtIdNumberTV);
         govtIdType = (TextView) view.findViewById(R.id.govtIdType);
         genderTV = (TextView) view.findViewById(R.id.genderTV);
@@ -179,8 +184,6 @@ public class PersonalDetailsFragment extends Fragment {
         subDistTV = (TextView) view.findViewById(R.id.subDistTV);
         distTV = (TextView) view.findViewById(R.id.distTV);
         stateTV = (TextView) view.findViewById(R.id.stateTV);
-
-
 
 
         nameScoreLabelTV = (TextView) view.findViewById(R.id.nameScoreLabelTV);
@@ -202,6 +205,40 @@ public class PersonalDetailsFragment extends Fragment {
         govtPhotoLabelTV = (TextView) view.findViewById(R.id.govtPhotoLabelTV);
         kycDetailsLL.setVisibility(View.GONE);
         // if(name!=null){
+        whoseMobileNoSP = (Spinner) view.findViewById(R.id.whoseMobileNoSP);
+
+        ArrayList<String> mobileList = new ArrayList<>();
+        mobileList.add("Self");
+        mobileList.add("Relative");
+        mobileList.add("Other");
+        whoseMobileStatus="S";
+
+        whoseMobileNoSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    verifyMobBT.setVisibility(View.VISIBLE);
+                    whoseMobileStatus="S";
+                }else if(position==1){
+                    verifyMobBT.setVisibility(View.GONE);
+                    whoseMobileStatus="R";
+                }else if(position==2){
+                    verifyMobBT.setVisibility(View.GONE);
+                    whoseMobileStatus="O";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+
+        });
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, mobileList);
+        whoseMobileNoSP.setAdapter(adapter1);
+
         noAadhaarTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,16 +257,16 @@ public class PersonalDetailsFragment extends Fragment {
 
         }
         if (personalDetailItem != null) {
-            nameMatchScore = personalDetailItem.getNameMatchScore()+"";
-            if(!nameMatchScore.equalsIgnoreCase("")){
+            nameMatchScore = personalDetailItem.getNameMatchScore() + "";
+            if (!nameMatchScore.equalsIgnoreCase("")) {
                 nameScoreLabelTV.setVisibility(View.VISIBLE);
                 nameScorePercentTV.setVisibility(View.VISIBLE);
-                nameScorePercentTV.setText(nameMatchScore +"%");
+                nameScorePercentTV.setText(nameMatchScore + "%");
             }
             if (!personalDetailItem.getFlowStatus().equalsIgnoreCase("")
                     && personalDetailItem.getFlowStatus().equalsIgnoreCase(AppConstant.AADHAR_STATUS)) {
                 aadharLL.setVisibility(View.VISIBLE);
-               // govtIdLL.setVisibility(View.GONE);
+                // govtIdLL.setVisibility(View.GONE);
                 //new parameters added
                 govtPhotoLabelTV.setVisibility(View.GONE);
                 govtIdPhotoIV.setVisibility(View.GONE);
@@ -237,6 +274,7 @@ public class PersonalDetailsFragment extends Fragment {
                 noAadhaarLL.setVisibility(View.GONE);
                 status = "aadhar";
                 isVeroff = true;
+                govtIdNumberLL.setVisibility(View.GONE);
                 if (personalDetailItem.getBenefPhoto() != null) {
                     beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));
                 }
@@ -272,48 +310,82 @@ public class PersonalDetailsFragment extends Fragment {
                 if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
                     beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
                 }
+                if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() > 4) {
 
-                if(personalDetailItem.getYob()!=null){
+                    String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+
+                    currentYear = currentYear.substring(0, 4);
+                    String date=DateTimeUtil.
+                            convertTimeMillisIntoStringDate(DateTimeUtil.convertDateIntoTimeMillis(personalDetailItem.getYob()),AppConstant.DATE_FORMAT);
+                    String arr[];
+                    String aadhaarYear=null;
+                    if(personalDetailItem.getYob().contains("-")){
+                        arr=personalDetailItem.getYob().split("-") ;
+                        if(arr[0].length()==4){
+                            aadhaarYear=arr[0];
+                        }else if(arr[2].length()==4){
+                            aadhaarYear=arr[2];
+                        }
+                    }else if(personalDetailItem.getYob().contains("/")){
+                        arr=personalDetailItem.getYob().split("/") ;
+                        if(arr[0].length()==4){
+                            aadhaarYear=arr[0];
+                        }else if(arr[2].length()==4){
+                            aadhaarYear=arr[2];
+                        }
+                    }
+                    if(aadhaarYear!=null) {
+                        //    int age = Integer.parseInt(currentYear) - Integer.parseInt(aadhaarYear);
+                        yobTV.setText(aadhaarYear);
+                    }
+
+                }else  if(personalDetailItem.getYob() != null && personalDetailItem.getYob().length() ==4){
+                /*    String currentYear = DateTimeUtil.currentDate("dd-mm-yyyy");
+                    currentYear = currentYear.substring(6, 10);
+                    int age = Integer.parseInt(currentYear) - Integer.parseInt(personalDetailItem.getYob());*/
                     yobTV.setText(personalDetailItem.getYob());
                 }
+              /*  if (personalDetailItem.getYob() != null) {
+                    yobTV.setText(personalDetailItem.getYob());
+                }*/
 
-                if(personalDetailItem.getGender()!=null){
-                    if(personalDetailItem.getGender().equalsIgnoreCase("1"))
-                    {
+                if (personalDetailItem.getGender() != null) {
+                    if (personalDetailItem.getGender().equalsIgnoreCase("1")
+                            || personalDetailItem.getGender().substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
                         genderTV.setText("Male");
-                    }else if(personalDetailItem.getGender().equalsIgnoreCase("2"))
-                    {
+                    } else if (personalDetailItem.getGender().equalsIgnoreCase("2")
+                            || personalDetailItem.getGender().substring(0, 1).toUpperCase().equalsIgnoreCase("F")) {
                         genderTV.setText("Female");
-                    }else {
+                    } else {
                         genderTV.setText("Other");
                     }
                 }
 
-                if(personalDetailItem.getDistrict()!=null){
+                if (personalDetailItem.getDistrict() != null) {
                     distTV.setText(personalDetailItem.getDistrict());
                 }
 
-                if(personalDetailItem.getSubDistrictBen()!=null){
+                if (personalDetailItem.getSubDistrictBen() != null) {
                     subDistTV.setText(personalDetailItem.getSubDistrictBen());
                 }
 
-                if(personalDetailItem.getState()!=null){
+                if (personalDetailItem.getState() != null) {
                     stateTV.setText(personalDetailItem.getState());
                 }
 
-                if(personalDetailItem.getVtcBen()!=null){
+                if (personalDetailItem.getVtcBen() != null) {
                     vtcTV.setText(personalDetailItem.getVtcBen());
                 }
 
-                if(personalDetailItem.getEmailBen()!=null){
+                if (personalDetailItem.getEmailBen() != null) {
                     emailTV.setText(personalDetailItem.getEmailBen());
                 }
 
-                if(personalDetailItem.getPostOfficeBen()!=null){
+                if (personalDetailItem.getPostOfficeBen() != null) {
                     poTV.setText(personalDetailItem.getPostOfficeBen());
                 }
 
-                if(personalDetailItem.getPinCode()!=null){
+                if (personalDetailItem.getPinCode() != null) {
                     pincodeTV.setText(personalDetailItem.getPinCode());
                 }
 
@@ -323,11 +395,11 @@ public class PersonalDetailsFragment extends Fragment {
             if (!personalDetailItem.getFlowStatus().equalsIgnoreCase("")
                     && personalDetailItem.getFlowStatus().equalsIgnoreCase(AppConstant.GOVT_STATUS)) {
                 aadharLL.setVisibility(View.GONE);
-               // govtIdLL.setVisibility(View.VISIBLE);
+                // govtIdLL.setVisibility(View.VISIBLE);
                 govtPhotoLabelTV.setVisibility(View.VISIBLE);
                 govtIdPhotoIV.setVisibility(View.VISIBLE);
                 kycDetailsLL.setVisibility(View.VISIBLE);
-
+                govtIdNumberLL.setVisibility(View.VISIBLE);
                 noAadhaarLL.setVisibility(View.GONE);
                 status = "govt";
                 if (personalDetailItem.getBenefPhoto() != null) {
@@ -340,7 +412,6 @@ public class PersonalDetailsFragment extends Fragment {
                     govtIdPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getIdPhoto()));
 
                 }
-
 
 
                 if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
@@ -369,50 +440,85 @@ public class PersonalDetailsFragment extends Fragment {
 
                 }
 
-                if(personalDetailItem.getYob()!=null){
+                if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() > 4) {
+
+                    String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+
+                    currentYear = currentYear.substring(0, 4);
+                    String date=DateTimeUtil.
+                            convertTimeMillisIntoStringDate(DateTimeUtil.convertDateIntoTimeMillis(personalDetailItem.getYob()),AppConstant.DATE_FORMAT);
+                    String arr[];
+                    String aadhaarYear=null;
+                    if(personalDetailItem.getYob().contains("-")){
+                        arr=personalDetailItem.getYob().split("-") ;
+                        if(arr[0].length()==4){
+                            aadhaarYear=arr[0];
+                        }else if(arr[2].length()==4){
+                            aadhaarYear=arr[2];
+                        }
+                    }else if(personalDetailItem.getYob().contains("/")){
+                        arr=personalDetailItem.getYob().split("/") ;
+                        if(arr[0].length()==4){
+                            aadhaarYear=arr[0];
+                        }else if(arr[2].length()==4){
+                            aadhaarYear=arr[2];
+                        }
+                    }
+                    if(aadhaarYear!=null) {
+                        //    int age = Integer.parseInt(currentYear) - Integer.parseInt(aadhaarYear);
+                        yobTV.setText(aadhaarYear);
+                    }
+
+                }else  if(personalDetailItem.getYob() != null && personalDetailItem.getYob().length() ==4){
+                /*    String currentYear = DateTimeUtil.currentDate("dd-mm-yyyy");
+                    currentYear = currentYear.substring(6, 10);
+                    int age = Integer.parseInt(currentYear) - Integer.parseInt(personalDetailItem.getYob());*/
                     yobTV.setText(personalDetailItem.getYob());
                 }
 
-                if(personalDetailItem.getGender()!=null){
-                    if(personalDetailItem.getGender().equalsIgnoreCase("1"))
-                    {
+                /*if (personalDetailItem.getYob() != null) {
+                    yobTV.setText(personalDetailItem.getYob());
+                }*/
+
+                if (personalDetailItem.getGender() != null) {
+                    if (personalDetailItem.getGender().equalsIgnoreCase("1")
+                            || personalDetailItem.getGender().substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
                         genderTV.setText("Male");
-                    }else if(personalDetailItem.getGender().equalsIgnoreCase("2"))
-                    {
+                    } else if (personalDetailItem.getGender().equalsIgnoreCase("2")
+                            || personalDetailItem.getGender().substring(0, 1).toUpperCase().equalsIgnoreCase("F")) {
                         genderTV.setText("Female");
-                    }else {
+                    } else {
                         genderTV.setText("Other");
                     }
                 }
 
-                if(personalDetailItem.getDistrict()!=null){
+                if (personalDetailItem.getDistrict() != null) {
                     distTV.setText(personalDetailItem.getDistrict());
                 }
 
-                if(personalDetailItem.getSubDistrictBen()!=null){
+                if (personalDetailItem.getSubDistrictBen() != null) {
                     subDistTV.setText(personalDetailItem.getSubDistrictBen());
                 }
 
-                if(personalDetailItem.getState()!=null){
+                if (personalDetailItem.getState() != null) {
                     stateTV.setText(personalDetailItem.getState());
                 }
 
-                if(personalDetailItem.getVtcBen()!=null){
+                if (personalDetailItem.getVtcBen() != null) {
                     vtcTV.setText(personalDetailItem.getVtcBen());
                 }
 
-                if(personalDetailItem.getEmailBen()!=null){
+                if (personalDetailItem.getEmailBen() != null) {
                     emailTV.setText(personalDetailItem.getEmailBen());
                 }
 
-                if(personalDetailItem.getPostOfficeBen()!=null){
+                if (personalDetailItem.getPostOfficeBen() != null) {
                     poTV.setText(personalDetailItem.getPostOfficeBen());
                 }
 
-                if(personalDetailItem.getPinCode()!=null){
+                if (personalDetailItem.getPinCode() != null) {
                     pincodeTV.setText(personalDetailItem.getPinCode());
                 }
-
 
 
             }
@@ -465,10 +571,10 @@ public class PersonalDetailsFragment extends Fragment {
                 String beneficiaryName, nameAsKyc;
                 beneficiaryName = beneficiaryNameTV.getText().toString();
                 nameAsKyc = beneficiaryNamePerIdTV.getText().toString();
-                Intent intent=new Intent(context, NameMatchScoreActivity.class);
-                intent.putExtra(NameMatchScoreActivity.PERSONAL_DETAIL_TAG,personalDetailItem);
-                intent.putExtra(NameMatchScoreActivity.SECC_DETAIL_TAG,beneficiaryListItem);
-                startActivityForResult(intent,3);
+                Intent intent = new Intent(context, NameMatchScoreActivity.class);
+                intent.putExtra(NameMatchScoreActivity.PERSONAL_DETAIL_TAG, personalDetailItem);
+                intent.putExtra(NameMatchScoreActivity.SECC_DETAIL_TAG, beneficiaryListItem);
+                startActivityForResult(intent, 3);
                /* if (beneficiaryName != null && !beneficiaryName.equalsIgnoreCase("")
                         && nameAsKyc != null && !nameAsKyc.equalsIgnoreCase("")) {
                     alertForValidateLater(beneficiaryName, nameAsKyc);
@@ -592,22 +698,35 @@ public class PersonalDetailsFragment extends Fragment {
                             return;
                         }
 
-                        if (personalDetailItem != null && personalDetailItem.getIsMobileAuth() == null || !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")) {
+                      /*  if (personalDetailItem != null && personalDetailItem.getIsMobileAuth() == null
+                                || !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y") &&
+                              whoseMobileStatus.equalsIgnoreCase("S")) {
                             CustomAlert.alertWithOk(context, "Please verify the mobile number");
                             return;
+                        }*/
+
+                        if(personalDetailItem!=null &&
+                                 whoseMobileStatus.equalsIgnoreCase("S")){
+                            if(personalDetailItem.getIsMobileAuth()==null ||
+                                    !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")){
+                                CustomAlert.alertWithOk(context, "Please verify the mobile number");
+                                return;
+                            }
                         }
 
-                        if(nameMatchScore==null || nameMatchScore.equalsIgnoreCase("")){
+                        if (nameMatchScore == null || nameMatchScore.equalsIgnoreCase("")) {
                             CustomAlert.alertWithOk(context, "Please match beneficiary name");
                             return;
                         }
 
-                        if(nameMatchScore!=null && nameMatchScore.equalsIgnoreCase("0")){
+                        if (nameMatchScore != null && nameMatchScore.equalsIgnoreCase("0")) {
                             CustomAlert.alertWithOk(context, "Name as an SECC and Name as an KYC is not matching");
                             return;
                         }
 
                         personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
+                        personalDetailItem.setOperatorMatchScoreStatus(nameMatchScoreStatus);
+
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                         activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
                         beneficiaryListItem.setPersonalDetail(personalDetailItem);
@@ -628,9 +747,13 @@ public class PersonalDetailsFragment extends Fragment {
                             return;
                         }
 
-                        if (personalDetailItem != null && personalDetailItem.getIsMobileAuth() == null || !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")) {
-                            CustomAlert.alertWithOk(context, "Please verify the mobile number");
-                            return;
+                        if(personalDetailItem!=null &&
+                                whoseMobileStatus.equalsIgnoreCase("S")){
+                            if(personalDetailItem.getIsMobileAuth()==null ||
+                                    !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")){
+                                CustomAlert.alertWithOk(context, "Please verify the mobile number");
+                                return;
+                            }
                         }
 
                         if (personalDetailItem != null && personalDetailItem.getBenefPhoto() == null
@@ -644,16 +767,17 @@ public class PersonalDetailsFragment extends Fragment {
                             CustomAlert.alertWithOk(context, "Govt id photo cannot be blank");
                             return;
                         }
-                        if(nameMatchScore==null || nameMatchScore.equalsIgnoreCase("")){
+                        if (nameMatchScore == null || nameMatchScore.equalsIgnoreCase("")) {
                             CustomAlert.alertWithOk(context, "Please match beneficiary name");
                             return;
                         }
 
-                        if(nameMatchScore!=null && nameMatchScore.equalsIgnoreCase("0")){
+                        if (nameMatchScore != null && nameMatchScore.equalsIgnoreCase("0")) {
                             CustomAlert.alertWithOk(context, "Name as SECC and Name as KYC is not matching");
                             return;
                         }
                         personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
+                        personalDetailItem.setOperatorMatchScoreStatus(nameMatchScoreStatus);
                         beneficiaryListItem.setPersonalDetail(personalDetailItem);
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                         activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
@@ -790,7 +914,7 @@ public class PersonalDetailsFragment extends Fragment {
                     String operatorId = operationId.substring(operationId.length() - 4);
                     Log.d("operator id :", operatorId);
                     personalDetailItem.setOpertaorid(Integer.parseInt(operatorId));
-                   // personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
+                    // personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
                     //beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
                     Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
                     // CustomAlert.alertWithOk(context, "OTP verified successfully");
@@ -911,7 +1035,7 @@ public class PersonalDetailsFragment extends Fragment {
                         String operatorId = operationId.substring(operationId.length() - 4);
                         Log.d("operator id :", operatorId);
                         personalDetailItem.setOpertaorid(Integer.parseInt(operatorId));
-                     //   personalDetailItem.setNameMatchScore(75);
+                        //   personalDetailItem.setNameMatchScore(75);
                         personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
                         // beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
                         Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
@@ -1004,15 +1128,17 @@ public class PersonalDetailsFragment extends Fragment {
             }
         }
 
-        if(resultCode==4) {
+        if (resultCode == 4) {
             if (requestCode == 3) {
                 if (data != null) {
 
                     nameMatchScore = data.getStringExtra("matchScore");
-                    if(nameMatchScore!=null){
+                    nameMatchScoreStatus = data.getStringExtra(AppConstant.MATCH_SCORE_STATUS);
+
+                    if (nameMatchScore != null) {
                         nameScoreLabelTV.setVisibility(View.GONE);
                         nameScorePercentTV.setVisibility(View.GONE);
-                        if(!nameMatchScore.equalsIgnoreCase("")){
+                        if (!nameMatchScore.equalsIgnoreCase("")) {
                             nameScoreLabelTV.setVisibility(View.VISIBLE);
                             nameScorePercentTV.setVisibility(View.VISIBLE);
                             nameScorePercentTV.setText(nameMatchScore + "%");
@@ -1035,11 +1161,11 @@ public class PersonalDetailsFragment extends Fragment {
                 verifyAadharBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                 beneficiaryListItem.setPersonalDetail(personalDetailItem);
                 aadharLL.setVisibility(View.VISIBLE);
-               // govtIdLL.setVisibility(View.GONE);
+                // govtIdLL.setVisibility(View.GONE);
                 govtPhotoLabelTV.setVisibility(View.GONE);
                 govtIdPhotoIV.setVisibility(View.GONE);
                 kycDetailsLL.setVisibility(View.VISIBLE);
-
+                govtIdNumberLL.setVisibility(View.GONE);
                 noAadhaarLL.setVisibility(View.GONE);
                 if (personalDetailItem.getBenefPhoto() != null && !personalDetailItem.getBenefPhoto().equalsIgnoreCase("")) {
                     Bitmap imageBitmap = AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto());
@@ -1060,6 +1186,8 @@ public class PersonalDetailsFragment extends Fragment {
                 }
                 if (personalDetailItem.getGovtIdNo() != null &&
                         !personalDetailItem.getGovtIdNo().equalsIgnoreCase("")) {
+
+
                     govtIdNumberTV.setText(personalDetailItem.getGovtIdNo());
 
                 }
@@ -1068,47 +1196,84 @@ public class PersonalDetailsFragment extends Fragment {
                         !personalDetailItem.getGovtIdType().equalsIgnoreCase("")) {
                     govtIdType.setText(personalDetailItem.getGovtIdType());
                 }
-                if(personalDetailItem.getYob()!=null){
+
+                if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() > 4) {
+
+                    String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+
+                    currentYear = currentYear.substring(0, 4);
+                    String date=DateTimeUtil.
+                            convertTimeMillisIntoStringDate(DateTimeUtil.convertDateIntoTimeMillis(personalDetailItem.getYob()),AppConstant.DATE_FORMAT);
+                    String arr[];
+                    String aadhaarYear=null;
+                    if(personalDetailItem.getYob().contains("-")){
+                        arr=personalDetailItem.getYob().split("-") ;
+                        if(arr[0].length()==4){
+                            aadhaarYear=arr[0];
+                        }else if(arr[2].length()==4){
+                            aadhaarYear=arr[2];
+                        }
+                    }else if(personalDetailItem.getYob().contains("/")){
+                        arr=personalDetailItem.getYob().split("/") ;
+                        if(arr[0].length()==4){
+                            aadhaarYear=arr[0];
+                        }else if(arr[2].length()==4){
+                            aadhaarYear=arr[2];
+                        }
+                    }
+                    if(aadhaarYear!=null) {
+                    //    int age = Integer.parseInt(currentYear) - Integer.parseInt(aadhaarYear);
+                        yobTV.setText(aadhaarYear);
+                    }
+
+                }else  if(personalDetailItem.getYob() != null && personalDetailItem.getYob().length() ==4){
+                /*    String currentYear = DateTimeUtil.currentDate("dd-mm-yyyy");
+                    currentYear = currentYear.substring(6, 10);
+                    int age = Integer.parseInt(currentYear) - Integer.parseInt(personalDetailItem.getYob());*/
                     yobTV.setText(personalDetailItem.getYob());
                 }
 
-                if(personalDetailItem.getGender()!=null){
-                    if(personalDetailItem.getGender().equalsIgnoreCase("1"))
-                    {
+              /*  if (personalDetailItem.getYob() != null) {
+                    yobTV.setText(personalDetailItem.getYob());
+                }*/
+
+                if (personalDetailItem.getGender() != null) {
+                    if (personalDetailItem.getGender().equalsIgnoreCase("1")
+                            || personalDetailItem.getGender().substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
                         genderTV.setText("Male");
-                    }else if(personalDetailItem.getGender().equalsIgnoreCase("2"))
-                    {
+                    } else if (personalDetailItem.getGender().equalsIgnoreCase("2")
+                            || personalDetailItem.getGender().substring(0, 1).toUpperCase().equalsIgnoreCase("F")) {
                         genderTV.setText("Female");
-                    }else {
+                    } else {
                         genderTV.setText("Other");
                     }
                 }
 
-                if(personalDetailItem.getDistrict()!=null){
+                if (personalDetailItem.getDistrict() != null) {
                     distTV.setText(personalDetailItem.getDistrict());
                 }
 
-                if(personalDetailItem.getSubDistrictBen()!=null){
+                if (personalDetailItem.getSubDistrictBen() != null) {
                     subDistTV.setText(personalDetailItem.getSubDistrictBen());
                 }
 
-                if(personalDetailItem.getState()!=null){
+                if (personalDetailItem.getState() != null) {
                     stateTV.setText(personalDetailItem.getState());
                 }
 
-                if(personalDetailItem.getVtcBen()!=null){
+                if (personalDetailItem.getVtcBen() != null) {
                     vtcTV.setText(personalDetailItem.getVtcBen());
                 }
 
-                if(personalDetailItem.getEmailBen()!=null){
+                if (personalDetailItem.getEmailBen() != null) {
                     emailTV.setText(personalDetailItem.getEmailBen());
                 }
 
-                if(personalDetailItem.getPostOfficeBen()!=null){
+                if (personalDetailItem.getPostOfficeBen() != null) {
                     poTV.setText(personalDetailItem.getPostOfficeBen());
                 }
 
-                if(personalDetailItem.getPinCode()!=null){
+                if (personalDetailItem.getPinCode() != null) {
                     pincodeTV.setText(personalDetailItem.getPinCode());
                 }
 
@@ -1148,12 +1313,13 @@ public class PersonalDetailsFragment extends Fragment {
                     getSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", context));//(AadhaarResponseItem) getActivity().getIntent().getSerializableExtra("result");
             if (personalDetailItem != null) {
                 beneficiaryListItem.setPersonalDetail(personalDetailItem);
-               // govtIdLL.setVisibility(View.VISIBLE);
+                // govtIdLL.setVisibility(View.VISIBLE);
                 govtPhotoLabelTV.setVisibility(View.VISIBLE);
                 govtIdPhotoIV.setVisibility(View.VISIBLE);
                 kycDetailsLL.setVisibility(View.VISIBLE);
                 aadharLL.setVisibility(View.GONE);
                 noAadhaarLL.setVisibility(View.GONE);
+                govtIdNumberLL.setVisibility(View.VISIBLE);
                 if (personalDetailItem.getBenefPhoto() != null &&
                         !personalDetailItem.getBenefPhoto().equalsIgnoreCase("")) {
                     beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));
@@ -1178,47 +1344,82 @@ public class PersonalDetailsFragment extends Fragment {
                     govtIdType.setText(personalDetailItem.getGovtIdType());
                 }
 
-                if(personalDetailItem.getYob()!=null){
+                if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() > 4) {
+
+                    String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+
+                    currentYear = currentYear.substring(0, 4);
+                    String date=DateTimeUtil.
+                            convertTimeMillisIntoStringDate(DateTimeUtil.convertDateIntoTimeMillis(personalDetailItem.getYob()),AppConstant.DATE_FORMAT);
+                    String arr[];
+                    String aadhaarYear=null;
+                    if(personalDetailItem.getYob().contains("-")){
+                        arr=personalDetailItem.getYob().split("-") ;
+                        if(arr[0].length()==4){
+                            aadhaarYear=arr[0];
+                        }else if(arr[2].length()==4){
+                            aadhaarYear=arr[2];
+                        }
+                    }else if(personalDetailItem.getYob().contains("/")){
+                        arr=personalDetailItem.getYob().split("/") ;
+                        if(arr[0].length()==4){
+                            aadhaarYear=arr[0];
+                        }else if(arr[2].length()==4){
+                            aadhaarYear=arr[2];
+                        }
+                    }
+                    if(aadhaarYear!=null) {
+                        //    int age = Integer.parseInt(currentYear) - Integer.parseInt(aadhaarYear);
+                        yobTV.setText(aadhaarYear);
+                    }
+
+                }else  if(personalDetailItem.getYob() != null && personalDetailItem.getYob().length() ==4){
+                /*    String currentYear = DateTimeUtil.currentDate("dd-mm-yyyy");
+                    currentYear = currentYear.substring(6, 10);
+                    int age = Integer.parseInt(currentYear) - Integer.parseInt(personalDetailItem.getYob());*/
                     yobTV.setText(personalDetailItem.getYob());
                 }
-
-                if(personalDetailItem.getGender()!=null){
-                    if(personalDetailItem.getGender().equalsIgnoreCase("1"))
-                    {
+              /*  if (personalDetailItem.getYob() != null) {
+                    yobTV.setText(personalDetailItem.getYob());
+                }
+*/
+                if (personalDetailItem.getGender() != null) {
+                    if (personalDetailItem.getGender().equalsIgnoreCase("1")
+                            || personalDetailItem.getGender().substring(0, 1).toUpperCase().equalsIgnoreCase("M")) {
                         genderTV.setText("Male");
-                    }else if(personalDetailItem.getGender().equalsIgnoreCase("2"))
-                    {
+                    } else if (personalDetailItem.getGender().equalsIgnoreCase("2")
+                            || personalDetailItem.getGender().substring(0, 1).toUpperCase().equalsIgnoreCase("F")) {
                         genderTV.setText("Female");
-                    }else {
+                    } else {
                         genderTV.setText("Other");
                     }
                 }
 
-                if(personalDetailItem.getDistrict()!=null){
+                if (personalDetailItem.getDistrict() != null) {
                     distTV.setText(personalDetailItem.getDistrict());
                 }
 
-                if(personalDetailItem.getSubDistrictBen()!=null){
+                if (personalDetailItem.getSubDistrictBen() != null) {
                     subDistTV.setText(personalDetailItem.getSubDistrictBen());
                 }
 
-                if(personalDetailItem.getState()!=null){
+                if (personalDetailItem.getState() != null) {
                     stateTV.setText(personalDetailItem.getState());
                 }
 
-                if(personalDetailItem.getVtcBen()!=null){
+                if (personalDetailItem.getVtcBen() != null) {
                     vtcTV.setText(personalDetailItem.getVtcBen());
                 }
 
-                if(personalDetailItem.getEmailBen()!=null){
+                if (personalDetailItem.getEmailBen() != null) {
                     emailTV.setText(personalDetailItem.getEmailBen());
                 }
 
-                if(personalDetailItem.getPostOfficeBen()!=null){
+                if (personalDetailItem.getPostOfficeBen() != null) {
                     poTV.setText(personalDetailItem.getPostOfficeBen());
                 }
 
-                if(personalDetailItem.getPinCode()!=null){
+                if (personalDetailItem.getPinCode() != null) {
                     pincodeTV.setText(personalDetailItem.getPinCode());
                 }
 
@@ -1343,7 +1544,7 @@ public class PersonalDetailsFragment extends Fragment {
 
 
     private void alertForValidateLater(String beneficiaryName, String nameAsKYC) {
-       internetDiaolg = new AlertDialog.Builder(context).create();
+        internetDiaolg = new AlertDialog.Builder(context).create();
         LayoutInflater factory = LayoutInflater.from(context);
         View alertView = factory.inflate(R.layout.match_name_layout, null);
         internetDiaolg.setView(alertView);
@@ -1361,7 +1562,7 @@ public class PersonalDetailsFragment extends Fragment {
                 nameMatchScore = "80";
                 nameScoreLabelTV.setVisibility(View.VISIBLE);
                 nameScorePercentTV.setVisibility(View.VISIBLE);
-                nameScorePercentTV.setText(nameMatchScore +"%");
+                nameScorePercentTV.setText(nameMatchScore + "%");
                 personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
                 internetDiaolg.dismiss();
 
@@ -1375,7 +1576,7 @@ public class PersonalDetailsFragment extends Fragment {
                 nameMatchScore = "0";
                 nameScoreLabelTV.setVisibility(View.VISIBLE);
                 nameScorePercentTV.setVisibility(View.VISIBLE);
-                nameScorePercentTV.setText(nameMatchScore +"%");
+                nameScorePercentTV.setText(nameMatchScore + "%");
                 personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
                 internetDiaolg.dismiss();
 
@@ -1390,6 +1591,22 @@ public class PersonalDetailsFragment extends Fragment {
             }
         });
         internetDiaolg.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        storedLoginResponse = VerifierLoginResponse.create(
+                ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
+
+    }
+
+    private void whoseMobileNoList(){
+        ArrayList<String> mobile = new ArrayList<>();
+        mobile.add("Self");
+        mobile.add("Relative");
+        mobile.add("Other");
+
     }
 }
 

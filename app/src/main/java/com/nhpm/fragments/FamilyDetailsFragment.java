@@ -112,7 +112,7 @@ public class FamilyDetailsFragment extends Fragment {
     private FamilyDetailsItemModel familyDetailsItemModel;
     private EditText govtIdET;
     private Button getFamilyScoreBT, nextBT, submitBT;
-    private String familyMatchScore = "";
+    private String familyMatchScore = "",familyMatchScoreStatus="";
     public static String FAMILY_DETAIL = "familyDetail";
     public static String INDEX = "Index";
     private LinearLayout scoreLL;
@@ -535,6 +535,7 @@ public class FamilyDetailsFragment extends Fragment {
                 familyDetailsItemModel.setIdName(item.statusCode + "");
                 familyDetailsItemModel.setIdImage(voterIdImg);
                 familyDetailsItemModel.setFamilyMatchScore(Integer.parseInt(familyMatchScore));
+                familyDetailsItemModel.setOperatorMatchScoreStatus(familyMatchScoreStatus);
 
                 // familyDetailsItemModel.setFamilyMatchScore(78);
                 familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
@@ -1254,6 +1255,7 @@ public class FamilyDetailsFragment extends Fragment {
             if (requestCode == 3) {
                 if (data != null) {
                     familyMatchScore = data.getStringExtra("matchScore");
+                    familyMatchScoreStatus=data.getStringExtra(AppConstant.MATCH_SCORE_STATUS);
                     if (familyMatchScore != null) {
                         familyScoreLL.setVisibility(View.GONE);
                         if (!familyMatchScore.equalsIgnoreCase("")) {
@@ -1838,5 +1840,12 @@ public class FamilyDetailsFragment extends Fragment {
         govtIdET.setEnabled(true);
         captureImageBT.setEnabled(true);
         captureImageBT.setBackground(getResources().getDrawable(R.drawable.rounded_shape_yello_button));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        verifierDetail = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
     }
 }

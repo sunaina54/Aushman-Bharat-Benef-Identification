@@ -14,8 +14,17 @@ public class AutoSuggestRequestItem implements Serializable{
        private String districtName="";
        private String blockName="";
        private String villageName="";
+       private String ruralUrban="";
        private String userName="nhps_fvs^1&%mobile";
        private String userPass="ZCbEJyPUlaQXo8fJT2P+5PAKJOs6emRZgdI/w5qkIrN2NqRUQQ3Sdqp+9WbS8P4j";
+
+    public String getRuralUrban() {
+        return ruralUrban;
+    }
+
+    public void setRuralUrban(String ruralUrban) {
+        this.ruralUrban = ruralUrban;
+    }
 
     public String getName() {
         return name;
