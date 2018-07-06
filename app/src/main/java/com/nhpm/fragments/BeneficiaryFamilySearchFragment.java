@@ -111,8 +111,10 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
     private void setupScreen(View view) {
         context = getActivity();
+        AppUtility.softKeyBoard(blockDetailActivity,0);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
         loginResponse = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
+        selectedStateItem1 = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
 
         stateSP = (Spinner) view.findViewById(R.id.stateSP);
         searchBTN = (Button) view.findViewById(R.id.searchBTN);
@@ -147,6 +149,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 } else {
                     selectedStateItem1 = stateList1.get(i);
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, selectedStateItem1.serialize(), context);
+                    selectedStateItem1=StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
                     blockDetailActivity.headerTV.setText(context.getResources().getString(R.string.nhpsFieldValidation) + " (" + selectedStateItem1.getStateName() + ")");
 
                 }
@@ -163,15 +166,22 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, spinnerStateList);
         stateSP.setAdapter(adapter1);
         for (int i = 0; i < stateList1.size(); i++) {
-
-            if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList1.get(i).getStateCode())) {
-
-                stateSP.setSelection(i);
-                // stateSP.setTitle(item.getStateName());
-
-                String stateName = stateList1.get(i).getStateName();
-                Log.d("state name11 :", stateName);
-                break;
+            if(selectedStateItem1==null) {
+                if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList1.get(i).getStateCode())) {
+                    stateSP.setSelection(i);
+                    // stateSP.setTitle(item.getStateName());
+                    String stateName = stateList1.get(i).getStateName();
+                    Log.d("state name11 :", stateName);
+                    break;
+                }
+            }else{
+                if (selectedStateItem1.getStateCode().equalsIgnoreCase(stateList1.get(i).getStateCode())) {
+                    stateSP.setSelection(i);
+                    // stateSP.setTitle(item.getStateName());
+                    String stateName = stateList1.get(i).getStateName();
+                    Log.d("state name11 :", stateName);
+                    break;
+                }
             }
         }
 
@@ -1021,13 +1031,13 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             if (matchCount == 0) {
                                 if (cardType.equalsIgnoreCase("HHId Number")) {
                                     noMemberTV.setVisibility(View.VISIBLE);
-                                    noMemberTV.setText("No family found for \n HHId number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                    noMemberTV.setText("No family found for \n HHId number: " + cardNo + " in " + selectedStateItem1.getStateName());
 
                                 }
 
                                 if (cardType.equalsIgnoreCase("AHLTIN")) {
                                     noMemberTV.setVisibility(View.VISIBLE);
-                                    noMemberTV.setText("No family found for \n AHLTIN number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                    noMemberTV.setText("No family found for \n AHLTIN number: " + cardNo + " in " + selectedStateItem1.getStateName());
                                 }
                                 //noMemberTV.setText("No Family member found");
                             }
@@ -1046,13 +1056,13 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             } else {
                                 if (cardType.equalsIgnoreCase("HHId Number")) {
                                     noMemberTV.setVisibility(View.VISIBLE);
-                                    noMemberTV.setText("No family found for \n HHId number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                    noMemberTV.setText("No family found for \n HHId number: " + cardNo + " in " + selectedStateItem1.getStateName());
 
                                 }
 
                                 if (cardType.equalsIgnoreCase("AHLTIN")) {
                                     noMemberTV.setVisibility(View.VISIBLE);
-                                    noMemberTV.setText("No family found for \n AHLTIN number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                    noMemberTV.setText("No family found for \n AHLTIN number: " + cardNo + " in " + selectedStateItem1.getStateName());
                                 }
                                 //  noMemberLL.setVisibility(View.VISIBLE);
                                 //  noMemberTV.setText("No Family member found");
@@ -1125,7 +1135,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             } else {
                                 if (cardType.equalsIgnoreCase("RSBY URN")) {
                                     noMemberTV.setVisibility(View.VISIBLE);
-                                    noMemberTV.setText("No family found for RSBY URN \n number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                    noMemberTV.setText("No family found for RSBY URN \n number: " + cardNo + " in " + selectedStateItem1.getStateName());
                                 }
 
                             }
@@ -1141,7 +1151,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         // CustomAlert.alertWithOk(context,urnResponseModel.getErrorMessage());
                         if (cardType.equalsIgnoreCase("RSBY URN")) {
                             noMemberTV.setVisibility(View.VISIBLE);
-                            noMemberTV.setText("No family found for RSBY URN \n number: " + cardNo + " in " + selectedStateItem.getStateName());
+                            noMemberTV.setText("No family found for RSBY URN \n number: " + cardNo + " in " + selectedStateItem1.getStateName());
                         }
                     }
                 } else {
@@ -1192,8 +1202,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         requestModel.setVillageCode(villageCode);
                     }
 
-                    //requestModel.setSelectedState(selectedStateItem.getStateCode());
-                    requestModel.setSelectedState("6");
+                    requestModel.setSelectedState(selectedStateItem1.getStateCode());
+                    /*if(selectedStateItem1!=null){
+                        requestModel.setSelectedState(selectedStateItem1.getStateCode());
+                    }else {
+                        requestModel.setSelectedState(selectedStateItem.getStateCode());
+                    }*/
                     String request = requestModel.serialize();
                     String url = AppConstant.SEARCH_BY_MOBILE_RATION;
 
@@ -1245,13 +1259,17 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             } else {
                                 if (cardType.equalsIgnoreCase("Ration Card")) {
                                     noMemberTV.setVisibility(View.VISIBLE);
-                                    noMemberTV.setText("No family found for \n ration card number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                    noMemberTV.setText("No family found for \n ration card number: " + cardNo + " in " + selectedStateItem1.getStateName());
 
                                 }
 
                                 if (cardType.equalsIgnoreCase("Mobile Number")) {
                                     noMemberTV.setVisibility(View.VISIBLE);
-                                    noMemberTV.setText("No family found for \n mobile number: " + cardNo + " in " + selectedStateItem.getStateName());
+                                    noMemberTV.setText("No family found for \n mobile number: " + cardNo + " in " + selectedStateItem1.getStateName());
+                                }
+                                if (cardType.equalsIgnoreCase("Village Code")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for \n village code: " + villageCode + " in " + selectedStateItem1.getStateName());
                                 }
                              /*   noMemberLL.setVisibility(View.VISIBLE);
                                 noMemberTV.setText("No member found");
@@ -1268,13 +1286,17 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     } else {
                         if (cardType.equalsIgnoreCase("Ration Card")) {
                             noMemberTV.setVisibility(View.VISIBLE);
-                            noMemberTV.setText("No family found for \n ration card number: " + cardNo + " in " + selectedStateItem.getStateName());
+                            noMemberTV.setText("No family found for \n ration card number: " + cardNo + " in " + selectedStateItem1.getStateName());
 
                         }
 
                         if (cardType.equalsIgnoreCase("Mobile Number")) {
                             noMemberTV.setVisibility(View.VISIBLE);
-                            noMemberTV.setText("No family found for \n mobile number: " + cardNo + " in " + selectedStateItem.getStateName());
+                            noMemberTV.setText("No family found for \n mobile number: " + cardNo + " in " + selectedStateItem1.getStateName());
+                        }
+                        if (cardType.equalsIgnoreCase("Village Code")) {
+                            noMemberTV.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No family found for \n village code: " + villageCode + " in " + selectedStateItem1.getStateName());
                         }
                         //  CustomAlert.alertWithOk(context,mobileSearchResponseModel.getErrorMessage());
                        /* noMemberLL.setVisibility(View.VISIBLE);

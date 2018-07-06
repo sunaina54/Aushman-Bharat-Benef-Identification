@@ -163,7 +163,7 @@ public class CustomHttp {
         return responseMap;
     }
     public static HashMap<String, String> httpGet(String url, String[] header) throws Exception {
-        DefaultHttpClient mHttpClient = new DefaultHttpClient();
+        HttpClient mHttpClient = com.customComponent.Networking.MySSLSocketFactory.getNewHttpClient();
         String inputStream = null;
         //String[] str = new String[2];
         HashMap<String, String> responseMap = new HashMap<>();

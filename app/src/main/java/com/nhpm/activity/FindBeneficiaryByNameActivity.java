@@ -81,7 +81,7 @@ public class FindBeneficiaryByNameActivity extends BaseActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backLayout.performClick();
+                finish();
             }
         });
        // checkAppConfig();

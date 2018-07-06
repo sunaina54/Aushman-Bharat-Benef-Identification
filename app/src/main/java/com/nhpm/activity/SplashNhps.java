@@ -453,7 +453,7 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
             @Override
             public void execute() {
                 try {
-                    HashMap<String, String> response = CustomHttp.httpPost(AppConstant.GET_STATE_MASTER_DATA, null);
+                    HashMap<String, String> response = CustomHttp.httpGet(AppConstant.GET_STATE_MASTER_DATA, null);
                     if (response != null) {
                         stateListArray = new StateItemList().create(response.get(AppConstant.RESPONSE_BODY)).getStateItemList();
                         //   dataCountModel = new StateItem().create(response.get(AppConstant.RESPONSE_BODY));

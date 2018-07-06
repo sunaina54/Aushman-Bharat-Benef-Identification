@@ -246,7 +246,7 @@ public class PinLoginActivity extends BaseActivity {
         screen = getIntent().getStringExtra("Beneficiary");
 
         // openSoftinputKeyBoard();
-        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
 
         response = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         goForVerificationBT = (Button) findViewById(R.id.goForVerificationBT);

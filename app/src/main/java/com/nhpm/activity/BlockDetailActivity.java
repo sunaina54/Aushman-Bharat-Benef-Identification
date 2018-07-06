@@ -232,6 +232,7 @@ private BlockDetailActivity blockDetailActivity;
                     setupZoomScreen();
                 }
             } else {
+
                 downloadConfigurationData();
             }
         } else {

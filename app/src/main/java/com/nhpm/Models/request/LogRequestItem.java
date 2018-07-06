@@ -9,20 +9,20 @@ import java.io.Serializable;
  */
 
 public class LogRequestItem implements Serializable{
-    private String tid;
-    private String operatorheader;
-    private String pagescreenname;
-    private String sequence;
-    private String attempt;
-    private String action;
-    private String operatorinput;
-    private String operatoroutput;
-    private String subpageinput;
-    private String subpageoutput;
+    private String tid="";
+    private String operatorheader="";
+    private String pagescreenname="";
+    private String sequence="";
+    private String attempt="";
+    private String action="";
+    private String operatorinput="";
+    private String operatoroutput="";
+    private String subpageinput="";
+    private String subpageoutput="";
     private String source="Mobile";
-    private String error;
-    private String created_by;
-    private String creation_date;
+    private String error="";
+    private String created_by="";
+    private String creation_date="";
 
     static public LogRequestItem create(String serializedData) {
         // Use GSON to instantiate this class using the JSON representation of the state

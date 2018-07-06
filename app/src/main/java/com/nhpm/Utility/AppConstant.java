@@ -253,7 +253,7 @@ public interface AppConstant {
     String GET_DATA_DOWNLOAD_COUNT = "http://164.100.58.98:80/dataCount/1.0.0/dataCount";
   //  String APPLICATION_CONFIGURATION_URL = "http://164.100.58.98:80/appStateConfig/1.0.0/appStateConfig?stateCode=";
     String APPLICATION_CONFIGURATION_URL = NEW_MAIN_DOMAIN_UPDATED + "appStateConfig?stateCode=";
-    String GET_STATE_MASTER_DATA = "http://164.100.58.98/state/1.0.0/state";
+    String GET_STATE_MASTER_DATA = NEW_MAIN_DOMAIN_UPDATED + "state";
     String VERIFY_VALIDATOR = "http://164.100.58.98/authVerifierWithPin/1.0.0/authVerifierWithPin";
    // String GET_NAME_MATCH_SCORE="http://10.247.173.73/NameMatcherHISP/NameMatch/GetTotalScore";
     //String GET_NAME_MATCH_SCORE="https://pmrssm.gov.in/reportapi2/nameMatch/compareString";

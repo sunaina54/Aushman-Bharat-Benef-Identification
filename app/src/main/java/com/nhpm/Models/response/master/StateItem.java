@@ -8,10 +8,10 @@ import java.io.Serializable;
  * Created by dell1 on 18-04-2017.
  */
 public class StateItem implements Serializable {
-    private String stateCode;
-    private String stateName;
+    private String state_code;
+    private String state_name;
     private String status;
-    private String loginType;
+    private String login_type;
 
     static public StateItem create(String serializedData) {
         // Use GSON to instantiate this class using the JSON representation of the state
@@ -29,24 +29,24 @@ public class StateItem implements Serializable {
     }
 
     public StateItem(String stateCode, String stateName) {
-        this.stateCode = stateCode;
-        this.stateName = stateName;
+        this.state_code = stateCode;
+        this.state_name = stateName;
     }
 
     public String getStateCode() {
-        return stateCode;
+        return state_code;
     }
 
     public void setStateCode(String stateCode) {
-        this.stateCode = stateCode;
+        this.state_code = stateCode;
     }
 
     public String getStateName() {
-        return stateName;
+        return state_name;
     }
 
     public void setStateName(String stateName) {
-        this.stateName = stateName;
+        this.state_name = stateName;
     }
 
     public String getStatus() {
@@ -58,10 +58,10 @@ public class StateItem implements Serializable {
     }
 
     public String getLogin_type() {
-        return loginType;
+        return login_type;
     }
 
     public void setLogin_type(String login_type) {
-        this.loginType = login_type;
+        this.login_type = login_type;
     }
 }
