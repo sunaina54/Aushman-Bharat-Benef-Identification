@@ -31,6 +31,9 @@ public class PersonalDetailResponse implements Serializable{
     private String postOfficeBen="";
     private String pinCodeBen="";
     private String emailBen="";
+    private String memberType="";
+
+
 
 
 
@@ -50,6 +53,14 @@ public class PersonalDetailResponse implements Serializable{
              "postOfficeBen" : "",
              "pinCodeBen" : "",
              "emailBen" : ""*/
+
+    public String getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
+    }
 
     public String getFatherNameSecc() {
         return fatherNameSecc;

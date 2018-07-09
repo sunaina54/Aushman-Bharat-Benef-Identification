@@ -10,12 +10,12 @@ import java.io.Serializable;
 
 public class GetTotalScoreRequestModel implements Serializable {
     private String strName1;
-    private String strState1;
-    private String strDistrict1;
-    private String strSubDistrict1;
-    private String strVillage1;
-    private String nAge1;
-    private String chGender1;
+    private String strState1="";
+    private String strDistrict1="";
+    private String strSubDistrict1="";
+    private String strVillage1="";
+    private String nAge1="";
+    private String chGender1="";
     private String strName2;
     private String strState2;
     private String strDistrict2;

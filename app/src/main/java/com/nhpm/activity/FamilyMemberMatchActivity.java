@@ -56,6 +56,7 @@ public class FamilyMemberMatchActivity extends BaseActivity {
     private MatchScoreResponse matchResponse;
 
     private AlertDialog dialog;
+    private ImageView backIV;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,14 @@ public class FamilyMemberMatchActivity extends BaseActivity {
                 ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         familyMemberFromSecc = (ArrayList<FamilyMemberModel>) getIntent().getSerializableExtra("Old_Members");
         familyMemberFromFamilyCard = (ArrayList<FamilyMemberModel>) getIntent().getSerializableExtra("Family_Card_Members");
-
+        backIV = (ImageView) findViewById(R.id.back);
+        backIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                rightTransition();
+            }
+        });
         memberRecycle = (RecyclerView) findViewById(R.id.memberRecycle);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         memberRecycle.setLayoutManager(layoutManager);
@@ -387,10 +395,14 @@ public class FamilyMemberMatchActivity extends BaseActivity {
                         }else {
                             CustomAlert.alertWithOk(context,matchResponse.getErrorMessage());
                         }
-                    }else{
-                        CustomAlert.alertWithOk(context,"Internal Server error");
-
+                    }else if(matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED) ||
+                            matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)){
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, matchResponse.getErrorMessage(), intent);
                     }
+                }else{
+                    CustomAlert.alertWithOk(context,"Internal Server error");
+
                 }
             }
         };

@@ -97,12 +97,14 @@ public class GovermentIDActivity extends BaseActivity {
     private ImageView rashanCardIV, voterIdIV;
     private ImageView voterClickIV, rashanCardClickIV;
     private int CAMERA_PIC_REQUEST = 0;
+    private int CAMERA_PIC_BACK_REQUEST = 101;
     private int PIC_REQUEST = 1;
+    private int PIC_REQUEST2 = 2;
     private String benefImage;
 
     private LinearLayout rashanCardCaptureLayout, enrollmentLayout;
     private RelativeLayout voterIdCaptureLayout;
-    private Bitmap captureImageBM;
+    private Bitmap captureImageBM,captureImageBackBM;
     private LinearLayout nameLL;
     private ImageView backIV;
     private Button rationCardSubmitBT, voterIdSubmitBT, enrollmentSubmitBT;
@@ -113,7 +115,7 @@ public class GovermentIDActivity extends BaseActivity {
     private GovernmentIdItem item;
     private EditText rationCardNameET, rationCardNumberET, voterIdCardNameET, voterIdCardNumberET, enrollmentNameET, enrollmentIdET;
     private AlertDialog internetDiaolg;
-    private String voterIdImg, rashanCardImg;
+    private String voterIdImg, rashanCardImg,voterIdBackImg="";
     private int selectedId = 0;
     private int RASHAN_CARD_REQUEST = 1;
     private int VOTER_ID_REQUEST = 2;
@@ -162,7 +164,8 @@ public class GovermentIDActivity extends BaseActivity {
     private ImageView photoIV;
     private FaceCropper mFaceCropper;
     private Picasso mPicasso;
-    private Button captureVoterIdBT;
+    private Button captureVoterIdBT,captureVoterIdBackBT;
+    private ImageView voterIdBackIV;
     private String mobileNumber = "";
     private PersonalDetailItem personalDetailItem;
     private AutoCompleteTextView distTV, vtcTV;
@@ -530,12 +533,14 @@ public class GovermentIDActivity extends BaseActivity {
         capturePhotoBT = (Button) v.findViewById(R.id.capturePhotoBT);
         photoIV = (ImageView) v.findViewById(R.id.photoIV);
         voterIdIV = (ImageView) v.findViewById(R.id.voterIdIV);
+        voterIdBackIV = (ImageView) v.findViewById(R.id.voterIdBackIV);
         rashanCardIV = (ImageView) v.findViewById(R.id.rationCardIV);
         backIV = (ImageView) v.findViewById(R.id.back);
         rationCardLayout = (LinearLayout) v.findViewById(R.id.rationCardLayout);
         voterIdLayout = (LinearLayout) v.findViewById(R.id.voterIdLayout);
         voterIdCaptureLayout = (RelativeLayout) v.findViewById(R.id.voterIdCaptureLayout);
         captureVoterIdBT = (Button) v.findViewById(R.id.captureVoterIdBT);
+        captureVoterIdBackBT = (Button) v.findViewById(R.id.captureVoterIdBackBT);
         rashanCardCaptureLayout = (LinearLayout) v.findViewById(R.id.rashanCardCaptureLayout);
         govtIdPhotoLayout = (LinearLayout) v.findViewById(R.id.govtIdPhotoLayout);
         enrollmentLayout = (LinearLayout) v.findViewById(R.id.enrollmentLayout);
@@ -721,6 +726,8 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
                         personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setIdPhoto1(voterIdBackImg);
+
                         personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
                         personalDetailItem.setIdName(item.statusCode + "");
@@ -747,6 +754,7 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
                         personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setIdPhoto1(voterIdBackImg);
                         personalDetailItem.setIsAadhar("N");
                         personalDetailItem.setGovtIdType(item.status);
                         personalDetailItem.setIdName(item.statusCode + "");
@@ -845,6 +853,30 @@ public class GovermentIDActivity extends BaseActivity {
 
             }
         });
+
+        captureVoterIdBackBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppUtility.capturingType = AppConstant.capturingModeGovId;
+              /*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+              //  Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto" +".jpg"));
+                Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto/IMG_12345.jpg"));
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(cameraIntent, 2);*/
+                File mediaStorageDir = new File(
+                        DatabaseHelpers.DELETE_FOLDER_PATH,
+                        context.getString(R.string.squarecamera__app_name) + "/photoCapture"
+                );
+
+                if (mediaStorageDir.exists()) {
+                    deleteDir(mediaStorageDir);
+                }
+                Intent startCustomCameraIntent = new Intent(context, CameraActivity.class);
+                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_BACK_REQUEST);
+
+            }
+        });
+
         rashanCardCaptureLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1224,6 +1256,7 @@ public class GovermentIDActivity extends BaseActivity {
         prepareGovernmentIdSpinner();
         mobileNumber = getIntent().getStringExtra("mobileNumber");
         voterIdIV = (ImageView) findViewById(R.id.voterIdIV);
+        voterIdBackIV = (ImageView) findViewById(R.id.voterIdBackIV);
         nameTV = (EditText) findViewById(R.id.nameET);
 
         yobET = (EditText) findViewById(R.id.yobET);
@@ -1510,6 +1543,7 @@ public class GovermentIDActivity extends BaseActivity {
         voterIdLayout = (LinearLayout) findViewById(R.id.voterIdLayout);
         voterIdCaptureLayout = (RelativeLayout) findViewById(R.id.voterIdCaptureLayout);
         captureVoterIdBT = (Button) findViewById(R.id.captureVoterIdBT);
+        captureVoterIdBackBT = (Button) findViewById(R.id.captureVoterIdBackBT);
         rashanCardCaptureLayout = (LinearLayout) findViewById(R.id.rashanCardCaptureLayout);
         govtIdPhotoLayout = (LinearLayout) findViewById(R.id.govtIdPhotoLayout);
         enrollmentLayout = (LinearLayout) findViewById(R.id.enrollmentLayout);
@@ -1565,18 +1599,190 @@ public class GovermentIDActivity extends BaseActivity {
                 if (item.statusCode == 8) {
                     alertForNoGovIdValidateLater();
                 } else {
-                    if (voterIdNumber.equalsIgnoreCase("")) {
+                     /*  if (voterIdName.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterNameAsGovId));
+                        return;
+                    }*/
+//                    if (selectedIdType != ID_NO_PHOTO) {
+                    if (voterIdImg == null || voterIdIV == null || voterIdImg.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzCaptureGovId));
+                        return;
+                    }
+
+                    if (DuplicateCharRemoverbool(voterIdNumber)) {
+                        voterIdCardNumberET.setText("");
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterValidGovId));
+                        return;
+                    }
+
+
+                    if (name.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please enter name");
+                        return;
+                    }
+
+                    if (!isCheckFirstTwoChar(voterIdNumber)) {
+                        voterIdCardNumberET.setText("");
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterValidGovId));
+                        return;
+                    }
+
+                    if (item.statusCode == 13) {
+                        Log.d("TAG", "Aaadhaar Length : " + voterIdCardNameET.getText().toString().length());
+                        if (voterIdCardNumberET.getText().toString().length() != 12) {
+                            CustomAlert.alertWithOk(context, "Please enter valid Aadhaar Number");
+                            return;
+                        }
+
+                    }
+                    /*if (benefImage != null && benefImage.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please capture beneficiary image");
+                        return;
+                    }*/
+
+                    if (benefImage != null && benefImage.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please capture beneficiary image");
+                        return;
+                    }
+
+                    if (benefImage == null || benefImage.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please capture beneficiary image");
+                        return;
+                    }
+
+                    if (yob.trim().equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, "Please enter year of birth");
+                        return;
+                    }
+
+                    if (yob != null && !yob.equalsIgnoreCase("")) {
+                        int yearRange = Integer.parseInt(currentYear) - 100;
+
+                        if (yob.equalsIgnoreCase(currentYear) || Integer.parseInt(yob) < yearRange) {
+                            CustomAlert.alertWithOk(context, "Please enter valid year of birth");
+                            return;
+                        }
+
+                    }
+
+
+                    if (manualGenderSelection != null && manualGenderSelection.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterGenderGovt));
+                        return;
+                    }
+
+                    if (pincode.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPincodeGovt));
+                        return;
+                    }
+
+                    /*if (subDist.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterSubDist));
+                        return;
+                    }*/
+
+                    if (vtc.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterVTC));
+                        return;
+                    }
+
+                  /*  if (po.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPo));
+                        return;
+                    }*/
+
+                   /* if (email.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterEmail));
+                        return;
+                    }
+
+                    if(!emailValid){
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterEmailValid));
+                        return;
+                    }*/
+
+                 /*   if (state.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterState));
+                        return;
+                    }*/
+
+                    if (dist.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterDist));
+                        return;
+                    }
+
+
+                    if (personalDetailItem != null) {
+                        if (mobileNumber != null) {
+                            personalDetailItem.setMobileNo(mobileNumber);
+                        }
+                        personalDetailItem.setBenefPhoto(benefImage);
+                        personalDetailItem.setName(name);
+                        personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setIdPhoto1(voterIdBackImg);
+                        personalDetailItem.setIsAadhar("N");
+                        personalDetailItem.setGovtIdType(item.status);
+                        personalDetailItem.setIdName(item.statusCode + "");
+                        personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
+                        personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
+
+                        personalDetailItem.setYob(yob);
+                        personalDetailItem.setState(stateName);
+                        personalDetailItem.setGender(manualGenderSelection);
+                        personalDetailItem.setPinCode(pincode);
+                        personalDetailItem.setSubDistrictBen(subDist);
+                        personalDetailItem.setVtcBen(vtc);
+                        personalDetailItem.setPostOfficeBen(po);
+                        personalDetailItem.setEmailBen(email);
+                        personalDetailItem.setDistrict(dist);
+                        location.setVilageName(vtc);
+                        location.setDistName(dist);
+                    } else {
+
+                        personalDetailItem = new PersonalDetailItem();
+                        if (mobileNumber != null) {
+                            personalDetailItem.setMobileNo(mobileNumber);
+                        }
+                        personalDetailItem.setBenefPhoto(benefImage);
+                        personalDetailItem.setName(name);
+
+                        personalDetailItem.setIdPhoto(voterIdImg);
+                        personalDetailItem.setIdPhoto1(voterIdBackImg);
+
+                        personalDetailItem.setIsAadhar("N");
+                        personalDetailItem.setGovtIdType(item.status);
+                        personalDetailItem.setIdName(item.statusCode + "");
+                        personalDetailItem.setFlowStatus(AppConstant.GOVT_STATUS);
+                        personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
+
+                        personalDetailItem.setYob(yob);
+                        personalDetailItem.setState(stateName);
+                        personalDetailItem.setGender(manualGenderSelection);
+                        personalDetailItem.setPinCode(pincode);
+                        personalDetailItem.setSubDistrictBen(subDist);
+                        personalDetailItem.setVtcBen(vtc);
+                        personalDetailItem.setPostOfficeBen(po);
+                        personalDetailItem.setEmailBen(email);
+                        personalDetailItem.setDistrict(dist);
+                        location.setVilageName(vtc);
+                        location.setDistName(dist);
+                    }
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
+
+                    activity.finish();
+                  /*  if (voterIdNumber.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterGovId));
                         return;
                     }
-                    if (voterIdName.equalsIgnoreCase("")) {
+                   *//* if (voterIdName.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterNameAsGovId));
                         return;
-                    }
-            /*if(consent.equalsIgnoreCase("N")){
+                    }*//*
+            *//*if(consent.equalsIgnoreCase("N")){
                     CustomAlert.alertWithOk(context,"Please tick Name in SECC and name in govt. id are of same person");
                     return;
-                }*/
+                }*//*
                     if (selectedIdType == ID_NO_PHOTO) {
                         if (voterIdImg == null) {
                             CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzCaptureGovId));
@@ -1635,22 +1841,22 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }
 
-                   /* if (subDist.equalsIgnoreCase("")) {
+                   *//* if (subDist.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterSubDist));
                         return;
-                    }*/
+                    }*//*
 
                     if (vtc.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterVTC));
                         return;
                     }
 
-                   /* if (po.equalsIgnoreCase("")) {
+                   *//* if (po.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPo));
                         return;
                     }
-*/
-                   /* if (email.equalsIgnoreCase("")) {
+*//*
+                   *//* if (email.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterEmail));
                         return;
                     }
@@ -1658,12 +1864,12 @@ public class GovermentIDActivity extends BaseActivity {
                     if(!emailValid){
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterEmailValid));
                         return;
-                    }*/
+                    }*//*
 
-                  /*  if (state.equalsIgnoreCase("")) {
+                  *//*  if (state.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterState));
                         return;
-                    }*/
+                    }*//*
 
                     if (dist.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterDist));
@@ -1728,7 +1934,7 @@ public class GovermentIDActivity extends BaseActivity {
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
 
 
-                /*    PersonalDetailItem personalDetailItem = new PersonalDetailItem();
+                *//*    PersonalDetailItem personalDetailItem = new PersonalDetailItem();
                     personalDetailItem.setBenefPhoto(benefImage);
                     personalDetailItem.setName(name);
                     if (mobileNumber != null) {
@@ -1749,8 +1955,8 @@ public class GovermentIDActivity extends BaseActivity {
                     personalDetailItem.setEmailBen(email);
                     personalDetailItem.setDistrict(dist);
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
-*/
-                    activity.finish();
+*//*
+                    activity.finish();*/
                 }
 
 
@@ -1823,6 +2029,31 @@ public class GovermentIDActivity extends BaseActivity {
 
             }
         });
+
+
+        captureVoterIdBackBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppUtility.capturingType = AppConstant.capturingModeGovId;
+              /*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+              //  Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto" +".jpg"));
+                Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto/IMG_12345.jpg"));
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(cameraIntent, 2);*/
+                File mediaStorageDir = new File(
+                        DatabaseHelpers.DELETE_FOLDER_PATH,
+                        context.getString(R.string.squarecamera__app_name) + "/photoCapture"
+                );
+
+                if (mediaStorageDir.exists()) {
+                    deleteDir(mediaStorageDir);
+                }
+                Intent startCustomCameraIntent = new Intent(context, CameraActivity.class);
+                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_BACK_REQUEST);
+
+            }
+        });
+
         rashanCardCaptureLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1894,9 +2125,9 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.enter24digitEid));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.enterNameInEid));
                         voterIdCardNameET.setEnabled(true);
-                        voterIdCardNameET.setText(seccItem.getName());
+                     //   voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNameET.setFilters(new InputFilter[]{new InputFilter.LengthFilter(24)});
-                        if (seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ENROLLMENT_ID + "")) {
+                        if (seccItem!=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ENROLLMENT_ID + "")) {
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
                                 voterIdCardNumberET.setText(seccItem.getIdNo());
@@ -1924,13 +2155,13 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterVoterIdNum));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsVoterId));
 
-                        voterIdCardNameET.setText(seccItem.getName());
+//                        voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNameET.setEnabled(true);
 
                        /* rationCardLayout.setVisibility(View.GONE);
                         enrollmentLayout.setVisibility(View.GONE);*/
                         // aadhaarStatus="2";
-                        if (seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(VOTER_ID + "")) {
+                        if (seccItem!=null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(VOTER_ID + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -1957,13 +2188,13 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCardNameET.setText("");
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterRationCardNum));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsRationCard));
-                        voterIdCardNameET.setText(seccItem.getName());
+                     //   voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNameET.setEnabled(true);
 
                        /* rationCardLayout.setVisibility(View.VISIBLE);
                         enrollmentLayout.setVisibility(View.GONE);*/
                         //aadhaarStatus="3";
-                        if (seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(RASHAN_CARD + "")) {
+                        if (seccItem!=null &&seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(RASHAN_CARD + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -1986,12 +2217,12 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCardNameET.setText("");
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterNaregaNum));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsNarega));
-                        voterIdCardNameET.setText(seccItem.getName());
+//                        voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNameET.setEnabled(true);
 
                         voterIdCardNumberET.requestFocus();
                         AppUtility.showSoftInput(activity);
-                        if (seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(NREGA + "")) {
+                        if (seccItem!=null &&seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(NREGA + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -2019,10 +2250,10 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCardNameET.setText("");
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterDrivingNum));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsDriving));
-                        voterIdCardNameET.setText(seccItem.getName());
+                      //  voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNameET.setEnabled(true);
 
-                        if (seccItem.getIdType().equalsIgnoreCase(DRIVIG_LICENCE + "")) {
+                        if (seccItem!=null &&seccItem.getIdType().equalsIgnoreCase(DRIVIG_LICENCE + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdType() != null && seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -2049,10 +2280,10 @@ public class GovermentIDActivity extends BaseActivity {
                         AppUtility.showSoftInput(activity);
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterBirthCerfNum));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsBirthCerf));
-                        voterIdCardNameET.setText(seccItem.getName());
+                     //   voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNameET.setEnabled(true);
 
-                        if (seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(BIRTH_CERT + "")) {
+                        if (seccItem!=null &&seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(BIRTH_CERT + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -2079,10 +2310,10 @@ public class GovermentIDActivity extends BaseActivity {
                         AppUtility.showSoftInput(activity);
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterId));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsId));
-                        voterIdCardNameET.setText(seccItem.getName());
+                      //  voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNameET.setEnabled(true);
 
-                        if (seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(OTHER_CARD + "")) {
+                        if (seccItem!=null &&seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(OTHER_CARD + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -2112,10 +2343,10 @@ public class GovermentIDActivity extends BaseActivity {
                         AppUtility.showSoftInput(activity);
                         voterIdCardNumberET.setHint(context.getResources().getString(R.string.plzEnterId));
                         voterIdCardNameET.setHint(context.getResources().getString(R.string.plzEnterNameAsId));
-                        voterIdCardNameET.setText(seccItem.getName());
+                       // voterIdCardNameET.setText(seccItem.getName());
                         voterIdCardNameET.setEnabled(true);
 
-                        if (seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
+                        if (seccItem!=null &&seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -2150,7 +2381,7 @@ public class GovermentIDActivity extends BaseActivity {
                         voterIdCardNumberET.setHint("Enter Aadhar Number");
                         voterIdCardNameET.setHint("Please Enter Name As in Aadhar");
                         // voterIdCardNameET.setText(seccItem.getName());
-                        if (seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
+                        if (seccItem!=null &&seccItem != null && seccItem.getIdType() != null && seccItem.getIdType().equalsIgnoreCase(ID_NO_PHOTO + "")) {
                             voterIdImg = seccItem.getGovtIdPhoto();
                             if (seccItem.getIdNo() != null && !seccItem.getIdNo().equalsIgnoreCase("")) {
                                 voterIdCardNameET.setText(seccItem.getNameAsId());
@@ -2170,7 +2401,7 @@ public class GovermentIDActivity extends BaseActivity {
 
             }
         });
-        if (selectedMemItem.getSeccMemberItem() != null) {
+        if (selectedMemItem!=null && selectedMemItem.getSeccMemberItem() != null) {
             seccItem = selectedMemItem.getSeccMemberItem();
             if (seccItem != null && seccItem.getDataSource() != null &&
                     seccItem.getDataSource().trim().equalsIgnoreCase(AppConstant.RSBY_SOURCE)) {
@@ -2290,6 +2521,26 @@ public class GovermentIDActivity extends BaseActivity {
        /* }else{
 
         }*/
+            if (requestCode == CAMERA_PIC_BACK_REQUEST) {
+               /* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
+                try {
+                    captureImageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri); //(Bitmap)imageUri;//data.getExtras().get("data");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+                Uri fileUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,
+                        context.getString(R.string.squarecamera__app_name) + "/photoCapture/IMG_12345.jpg"));
+                Uri compressedUri = Uri.fromFile(new File(CommonUtilsImageCompression.compressImage(fileUri.getPath(), context, "/photoCapture")));
+                //  captureImageBM=(Bitmap)data.getExtras().get("data");
+                try {
+                    captureImageBackBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(), compressedUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Log.d(TAG," Bitmap Size : "+image.getAllocationByteCount());
+                voterIdBackImg = AppUtility.convertBitmapToString(captureImageBackBM);
+                updateBackImageScreen(voterIdBackImg);
+            }
         } else {
             if (requestCode == VOTER_ID_REQUEST) {
                /* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
@@ -2379,7 +2630,21 @@ public class GovermentIDActivity extends BaseActivity {
 
         }
     }
+    private void updateBackImageScreen(String idImage) {
+        try {
+            if (idImage != null) {
+                voterIdBackIV.setImageBitmap(AppUtility.convertStringToBitmap(idImage));
+            } else {
+//                if (seccItem.getGovtIdPhoto() != null && !seccItem.getGovtIdPhoto().equalsIgnoreCase("")) {
+//
+//                } else {
+                voterIdBackIV.setImageBitmap(null);
+//                }
+            }
+        } catch (Exception e) {
 
+        }
+    }
     private void prepareGovernmentIdSpinner() {
         govtIdStatusList = AppUtility.prepareGovernmentIdSpinnerForNoAadhar();
         ArrayList<String> spinnerList = new ArrayList<>();

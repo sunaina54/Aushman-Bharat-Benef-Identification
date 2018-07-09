@@ -41,6 +41,24 @@ public class PersonalDetailItem implements Serializable {
     private String postOfficeBen;
     private String pinCodeBen;
     private String emailBen;
+    private String idPhoto1;
+    private String memberType;
+
+    public String getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
+    }
+
+    public String getIdPhoto1() {
+        return idPhoto1;
+    }
+
+    public void setIdPhoto1(String idPhoto1) {
+        this.idPhoto1 = idPhoto1;
+    }
 
     private String operatorMatchScoreStatus;
 

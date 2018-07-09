@@ -9,9 +9,16 @@ public interface AppConstant {
     String RSBY_DATE_FORMAT = "yyyy-MM-dd";
     String SUBMIT_MEMBER_ADDITIONAL_DATA="https://pmrssm.gov.in/reportapi/submitMemberAdditionalData";
     String DIST_VILLAGE_LOCATION="DistVillageLocation";
+
     String MOBILE_PARAM="6";
     String VILLAGE_PARAM="7";
     String RATION_PARAM="2";
+    String HHID_PARAM="1";
+    String SECC_PARAM="4";
+    String RSBY_PARAM="3";
+    String MOBILE_SOURCE="2";
+
+
     String MATCH_SCORE_STATUS="MATCH_SCORE_STATUS";
 
     String MATCH_SCORE_STATUS_CONFIRM="C";
@@ -232,6 +239,7 @@ public interface AppConstant {
     String SEARCH_BY_MOBILE_RATION =  NEW_MAIN_DOMAIN_UPDATED+"searchByMobileRationParameter";
    // String SEARCH_BY_VILLAGE =  "https://pmrssm.gov.in/reportapi/searchByMobileRationParameter";
     String GET_MEMBER_DETAIL="https://pmrssm.gov.in/reportapi/getMemberDetail";
+    String GET_SEARCH_PARA= NEW_MAIN_DOMAIN_UPDATED+"savedLogData";
 
     String VILLAGE_WISE_HOUSEHOLD_DOWNLOADING = MAIN_DOMAIN + "nhps/secc/village/houseHold";
     String VILLAGE_WISE_MEMBER_DOWNLOADING = MAIN_DOMAIN + "nhps/secc/village/seccMembers";

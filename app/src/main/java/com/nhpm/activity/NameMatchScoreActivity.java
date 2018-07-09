@@ -279,9 +279,16 @@ public class NameMatchScoreActivity extends BaseActivity {
         requestModel.setStrDistrict1(distTV.getText().toString().trim());
         requestModel.setChGender1(genderTV.getText().toString().trim());
         requestModel.setnAge1(ageTV.getText().toString().trim());
-        requestModel.setStrVillage1(docsListItem.getVt_name().trim());
-        requestModel.setStrSubDistrict1(docsListItem.getBlock_name_english().trim());
+        if(docsListItem!=null&& docsListItem.getVt_name()!=null){
+        requestModel.setStrVillage1(docsListItem.getVt_name().trim());}else {
+            requestModel.setStrVillage1("");
+        }
+        if(docsListItem!=null && docsListItem.getBlock_name_english()!=null) {
+            requestModel.setStrSubDistrict1(docsListItem.getBlock_name_english().trim());
+        }else {
+            requestModel.setStrSubDistrict1("");
 
+        }
         //kyc data
 
         requestModel.setStrName2(kycNameTV.getText().toString());

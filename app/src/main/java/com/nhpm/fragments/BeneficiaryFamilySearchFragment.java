@@ -32,6 +32,7 @@ import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.SerachOptionItem;
 import com.nhpm.Models.request.BeneficiarySearchModel;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.GetSearchParaRequestModel;
 import com.nhpm.Models.request.LogRequestItem;
 import com.nhpm.Models.request.MobileOtpRequestLoginModel;
 import com.nhpm.Models.request.MobileRationRequestModel;
@@ -40,6 +41,7 @@ import com.nhpm.Models.request.ValidateUrnRequestModel;
 import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
 import com.nhpm.Models.response.FamilyListResponseItem;
+import com.nhpm.Models.response.GetSearchParaResponseModel;
 import com.nhpm.Models.response.MobileSearchResponseModel;
 import com.nhpm.Models.response.SaveLoginTransactionResponseModel;
 import com.nhpm.Models.response.URNResponseModel;
@@ -99,6 +101,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
     private Spinner stateSP;
     private LinearLayout villageCodeLL;
     private BlockDetailActivity blockDetailActivity;
+    private String searchType="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -212,6 +215,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SEARCH_OPTION, item.serialize(), context);
                 startActivity(intent);
                 logRequestItem.setAction("SEARCH_BY_NAME");
+                searchType = AppConstant.SECC_PARAM;
                 validateOTP();
             }
         });
@@ -472,6 +476,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                     cardTypeTV.setText("HHId Number");
                     cardType = "HHId Number";
+                    searchType=AppConstant.HHID_PARAM;
                 } else if (position == 1) {
                     ahlTinET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
@@ -502,20 +507,23 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     cardType = "RSBY URN";
                     rsbyET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
+                    searchType=AppConstant.RSBY_PARAM;
 
                 } else if (position == 3) {
                     cardType = "Mobile Number";
                     mobileET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
-
+                    searchType=AppConstant.MOBILE_PARAM;
                 } else if (position == 4) {
                     cardType = "Ration Card";
                     rationCardET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
+                    searchType=AppConstant.RATION_PARAM;
                 } else if (position == 5) {
                     cardType = "Village Code";
                     villageCodeLL.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.GONE);
+                    searchType=AppConstant.VILLAGE_PARAM;
                 }
                     /*rationCardET.setVisibility(View.GONE);
                     rsbyET.setVisibility(View.VISIBLE);
@@ -819,6 +827,24 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                     sequence = 0;
+                    long time= System.currentTimeMillis();
+                    GetSearchParaRequestModel getSearchParaRequestModel = new GetSearchParaRequestModel();
+                    getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
+                    getSearchParaRequestModel.setType_of_search(searchType);
+                    getSearchParaRequestModel.setUid_search_type("");
+                    getSearchParaRequestModel.setState_code(selectedStateItem1.getStateCode());
+                    getSearchParaRequestModel.setDistrict_code("");
+                    getSearchParaRequestModel.setAhl_tin("");
+                    getSearchParaRequestModel.setType_of_doc("");
+                    getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                    getSearchParaRequestModel.setStartTime(time);
+                    //                    getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                    String request1= getSearchParaRequestModel.serialize();
+                    Log.d("Find by name",request1);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", getSearchParaRequestModel.serialize(), context);
+
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1002,6 +1028,25 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                             BeneficiaryFamilySearchFragment.sequence = 0;
+
+                            long time= System.currentTimeMillis();
+                            GetSearchParaRequestModel getSearchParaRequestModel = new GetSearchParaRequestModel();
+                            getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
+                            getSearchParaRequestModel.setType_of_search(searchType);
+                            getSearchParaRequestModel.setUid_search_type("");
+                            getSearchParaRequestModel.setState_code(selectedStateItem1.getStateCode());
+                            getSearchParaRequestModel.setDistrict_code("");
+                            getSearchParaRequestModel.setAhl_tin("");
+                            getSearchParaRequestModel.setType_of_doc("");
+                            getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                            getSearchParaRequestModel.setStartTime(time);
+                          //  getSearchParaRequestModel.setEndTime(Long.valueOf(""));
+                            getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+
+
+
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", getSearchParaRequestModel.serialize(), context);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -1112,6 +1157,37 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     familyResponse = response.get("response");
                     if (familyResponse != null) {
                         urnResponseModel = new URNResponseModel().create(familyResponse);
+                        SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
+                        logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
+                        HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                        SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
+                        BeneficiaryFamilySearchFragment.sequence = 0;
+
+                        long time= System.currentTimeMillis();
+                        GetSearchParaRequestModel getSearchParaRequestModel = new GetSearchParaRequestModel();
+                        getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
+                        getSearchParaRequestModel.setType_of_search(searchType);
+                        getSearchParaRequestModel.setUid_search_type("");
+                        getSearchParaRequestModel.setState_code(selectedStateItem1.getStateCode());
+                        getSearchParaRequestModel.setDistrict_code("");
+                        getSearchParaRequestModel.setAhl_tin("");
+                        getSearchParaRequestModel.setType_of_doc("");
+                        getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                        getSearchParaRequestModel.setStartTime(time);
+                        //getSearchParaRequestModel.setEndTime(Long.valueOf(""));
+                        getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+
+                     /*   if (urnResponseModel==null || urnResponseModel.getUrnResponse()==null || urnResponseModel.getUrnResponse().size() <= 0) {
+                            HashMap<String, String> searchResRsby = CustomHttp.httpPostWithTokken(AppConstant.GET_SEARCH_PARA, getSearchParaRequestModel.serialize(), AppConstant.AUTHORIZATION, loginResponse.getAuthToken());
+                            String searchResponse = searchResRsby.get("response");
+                            GetSearchParaResponseModel getSearchParaResponseModel = GetSearchParaResponseModel.create(searchResponse);
+
+                        } else {*/
+
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", getSearchParaRequestModel.serialize(), context);
+
+                        //}
 
                     }
                 } catch (Exception e) {
@@ -1225,6 +1301,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                         logRequestItem.setOperatoroutput(mobileSearchResponseModel.serialize());
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
+
+
                         try {
                             SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                             logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
@@ -1232,6 +1310,23 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                             BeneficiaryFamilySearchFragment.sequence = 0;
+                            long time= System.currentTimeMillis();
+                            GetSearchParaRequestModel getSearchParaRequestModel = new GetSearchParaRequestModel();
+                            getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
+                            getSearchParaRequestModel.setType_of_search(searchType);
+                            getSearchParaRequestModel.setUid_search_type("");
+                            getSearchParaRequestModel.setState_code(selectedStateItem1.getStateCode());
+                            getSearchParaRequestModel.setDistrict_code("");
+                            getSearchParaRequestModel.setAhl_tin("");
+                            getSearchParaRequestModel.setType_of_doc("");
+                            getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                            getSearchParaRequestModel.setStartTime(time);
+                           // getSearchParaRequestModel.setEndTime(Long.valueOf(""));
+                            getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                            String request1= getSearchParaRequestModel.serialize();
+                            Log.d("Find by name",request1);
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", getSearchParaRequestModel.serialize(), context);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

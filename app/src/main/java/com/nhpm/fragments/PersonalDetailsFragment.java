@@ -211,20 +211,20 @@ public class PersonalDetailsFragment extends Fragment {
         mobileList.add("Self");
         mobileList.add("Relative");
         mobileList.add("Other");
-        whoseMobileStatus="S";
+        whoseMobileStatus="Self";
 
         whoseMobileNoSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
                     verifyMobBT.setVisibility(View.VISIBLE);
-                    whoseMobileStatus="S";
+                    whoseMobileStatus="Self";
                 }else if(position==1){
                     verifyMobBT.setVisibility(View.GONE);
-                    whoseMobileStatus="R";
+                    whoseMobileStatus="Relative";
                 }else if(position==2){
                     verifyMobBT.setVisibility(View.GONE);
-                    whoseMobileStatus="O";
+                    whoseMobileStatus="Others";
                 }
             }
 
@@ -706,7 +706,7 @@ public class PersonalDetailsFragment extends Fragment {
                         }*/
 
                         if(personalDetailItem!=null &&
-                                 whoseMobileStatus.equalsIgnoreCase("S")){
+                                 whoseMobileStatus.equalsIgnoreCase("Self")){
                             if(personalDetailItem.getIsMobileAuth()==null ||
                                     !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")){
                                 CustomAlert.alertWithOk(context, "Please verify the mobile number");
@@ -724,6 +724,7 @@ public class PersonalDetailsFragment extends Fragment {
                             return;
                         }
 
+                        personalDetailItem.setMemberType(whoseMobileStatus);
                         personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
                         personalDetailItem.setOperatorMatchScoreStatus(nameMatchScoreStatus);
 
@@ -748,7 +749,7 @@ public class PersonalDetailsFragment extends Fragment {
                         }
 
                         if(personalDetailItem!=null &&
-                                whoseMobileStatus.equalsIgnoreCase("S")){
+                                whoseMobileStatus.equalsIgnoreCase("Self")){
                             if(personalDetailItem.getIsMobileAuth()==null ||
                                     !personalDetailItem.getIsMobileAuth().equalsIgnoreCase("Y")){
                                 CustomAlert.alertWithOk(context, "Please verify the mobile number");
@@ -776,6 +777,8 @@ public class PersonalDetailsFragment extends Fragment {
                             CustomAlert.alertWithOk(context, "Name as SECC and Name as KYC is not matching");
                             return;
                         }
+
+                        personalDetailItem.setMemberType(whoseMobileStatus);
                         personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
                         personalDetailItem.setOperatorMatchScoreStatus(nameMatchScoreStatus);
                         beneficiaryListItem.setPersonalDetail(personalDetailItem);

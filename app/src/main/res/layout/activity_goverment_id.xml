@@ -518,53 +518,120 @@
                                 android:paddingLeft="5dp"
                                 android:singleLine="true" />
                         </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
-                        <RelativeLayout
-                            android:id="@+id/voterIdCaptureLayout"
-                            android:layout_marginTop="@dimen/margine_10"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/voterIdCaptureLayout"
+            android:layout_marginTop="@dimen/margine_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-                            <Button
-                                android:id="@+id/captureVoterIdBT"
-                                android:layout_width="250dp"
-                                android:layout_height="30dp"
+            <Button
+                android:id="@+id/captureVoterIdBT"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
 
-                                android:layout_centerHorizontal="true"
-                                android:layout_margin="5dp"
-                                android:background="@drawable/rounded_shape_yello_button"
-                                android:text="Capture Id Photo"
-                                android:textAllCaps="false"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_size_18sp" />
-                        </RelativeLayout>
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:text="Capture Id Photo(Front)"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18sp" />
+        </RelativeLayout>
 
-                        <LinearLayout
-                            android:id="@+id/govtIdPhotoLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:visibility="visible"
-                            android:weightSum="2">
+        <LinearLayout
+            android:id="@+id/govtIdPhotoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:visibility="visible"
+            android:weightSum="2">
 
-                            <LinearLayout
+            <LinearLayout
 
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:gravity="center">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center">
 
-                                <ImageView
-                                    android:id="@+id/voterIdIV"
-                                    android:layout_width="200dp"
-                                    android:layout_height="200dp"
-                                    android:background="@drawable/no_image_preview"
-                                    android:scaleType="fitXY" />
-                            </LinearLayout>
+                <ImageView
+                    android:id="@+id/voterIdIV"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/no_image_preview"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
 
-                        </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/margine_10">
+
+
+        <RelativeLayout
+            android:id="@+id/voterIdCaptureLayoutBack"
+            android:layout_marginTop="@dimen/margine_10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:id="@+id/captureVoterIdBackBT"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:text="Capture Id Photo(Back)"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/govtIdPhotoBackLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:visibility="visible"
+            android:weightSum="2">
+
+            <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/voterIdBackIV"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/no_image_preview"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
 
                         <RelativeLayout
                             android:id="@+id/photoCaptureLayout"

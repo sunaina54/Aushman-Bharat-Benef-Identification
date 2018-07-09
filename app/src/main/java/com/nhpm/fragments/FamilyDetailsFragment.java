@@ -46,6 +46,7 @@ import com.nhpm.Models.FamilyCardList;
 import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.GetMemberDetail;
+import com.nhpm.Models.request.GetSearchParaRequestModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.request.PrintCardItem;
 import com.nhpm.Models.request.SearchByRationRequestModel;
@@ -53,6 +54,7 @@ import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyDetailResponse;
 import com.nhpm.Models.response.FamilyListResponseItem;
 import com.nhpm.Models.response.GenericResponse;
+import com.nhpm.Models.response.GetSearchParaResponseModel;
 import com.nhpm.Models.response.GovernmentIdItem;
 import com.nhpm.Models.response.PersonalDetailResponse;
 import com.nhpm.Models.response.SearchResult;
@@ -979,6 +981,7 @@ public class FamilyDetailsFragment extends Fragment {
                     personalDetail.setGovtIdNo(personalDetailItem.getGovtIdNo());
                     personalDetail.setGovtIdType(personalDetailItem.getIdName());
                     personalDetail.setIdPhoto(personalDetailItem.getIdPhoto());
+                    personalDetail.setIdPhoto1(personalDetailItem.getIdPhoto1());
                     personalDetail.setIsAadhar(personalDetailItem.getIsAadhar());
                     personalDetail.setMobileNo(personalDetailItem.getMobileNo());
                     personalDetail.setName(personalDetailItem.getBenefName());
@@ -986,6 +989,7 @@ public class FamilyDetailsFragment extends Fragment {
                     personalDetail.setIsMobileAuth(personalDetailItem.getIsMobileAuth());
                     personalDetail.setOpertaorid(personalDetailItem.getOpertaorid());
                     personalDetail.setFlowStatus(personalDetailItem.getFlowStatus());
+                    personalDetail.setMemberType(personalDetailItem.getMemberType());
 
                     personalDetail.setDistrictNameBen(personalDetailItem.getDistrict());
                     personalDetail.setSubDistrictBen(personalDetailItem.getSubDistrictBen());
@@ -993,15 +997,15 @@ public class FamilyDetailsFragment extends Fragment {
 
                     personalDetail.setDobBen(personalDetailItem.getYob());
                     personalDetail.setEmailBen(personalDetailItem.getEmailBen());
-                    String gender="";
-                    if(personalDetailItem.getGender()!=null) {
+                    String gender = "";
+                    if (personalDetailItem.getGender() != null) {
 
                         gender = personalDetailItem.getGender().toUpperCase().substring(0, 1);
-                        if(gender.equalsIgnoreCase("M")||gender.equalsIgnoreCase("1")) {
+                        if (gender.equalsIgnoreCase("M") || gender.equalsIgnoreCase("1")) {
                             personalDetail.setGenderBen("1");
-                        }else if(gender.equalsIgnoreCase("F")||gender.equalsIgnoreCase("2")){
+                        } else if (gender.equalsIgnoreCase("F") || gender.equalsIgnoreCase("2")) {
                             personalDetail.setGenderBen("2");
-                        }else{
+                        } else {
                             personalDetail.setGenderBen("3");
                         }
 
@@ -1009,12 +1013,12 @@ public class FamilyDetailsFragment extends Fragment {
                     personalDetail.setPinCodeBen(personalDetailItem.getPinCode());
                     personalDetail.setStateNameBen(personalDetailItem.getState());
                     personalDetail.setPostOfficeBen(personalDetailItem.getPostOfficeBen());
-                    if(beneficiaryListItem.getYob()!=null && !beneficiaryListItem.getYob().equalsIgnoreCase("")) {
+                    if (beneficiaryListItem.getYob() != null && !beneficiaryListItem.getYob().equalsIgnoreCase("")) {
                         personalDetail.setYobSecc(beneficiaryListItem.getYob());
                     }
 
-                    if(beneficiaryListItem.getDob()!=null &&beneficiaryListItem.getDob().length()>4 ){
-                        personalDetail.setYobSecc(beneficiaryListItem.getDob().substring(0,4));
+                    if (beneficiaryListItem.getDob() != null && beneficiaryListItem.getDob().length() > 4) {
+                        personalDetail.setYobSecc(beneficiaryListItem.getDob().substring(0, 4));
                     }
                     personalDetail.setFatherNameSecc(beneficiaryListItem.getFathername());
                     personalDetail.setMotherNameSecc(beneficiaryListItem.getMothername());
@@ -1038,7 +1042,57 @@ public class FamilyDetailsFragment extends Fragment {
 
                     if (familyResponse != null) {
                         genericResponse = new GenericResponse().create(familyResponse);
+                        String ahltin = activity.benefItem.getAhl_tin();
+                        GetSearchParaRequestModel getSearchParaRequestModel= GetSearchParaRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", context));
+                        //getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
+                       // getSearchParaRequestModel.setType_of_search(searchType);
+                        getSearchParaRequestModel.setUid_search_type(personalDetailItem.getIsAadhar());
+                        //getSearchParaRequestModel.setState_code(selectedStateItem1.getStateCode());
+                        getSearchParaRequestModel.setDistrict_code(activity.benefItem.getDistrict_code());
+                        getSearchParaRequestModel.setAhl_tin(ahltin);
+                        getSearchParaRequestModel.setType_of_doc(personalDetailItem.getIdName());
+                        //getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                       // getSearchParaRequestModel.setStartTime(time+"");
+                        long endTime= System.currentTimeMillis();
+
+                        getSearchParaRequestModel.setEndTime(endTime);
+                       // getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                        String request1= getSearchParaRequestModel.serialize();
+                        Log.d("Find by name",request1);
+                        if (genericResponse!=null && genericResponse.isStatus()) {
+                            //Hit log api to track the app
+                            HashMap<String, String> searchResRsby = CustomHttp.httpPostWithTokken(AppConstant.GET_SEARCH_PARA, getSearchParaRequestModel.serialize(), AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
+                            String searchResponse = searchResRsby.get("response");
+                            GetSearchParaResponseModel getSearchParaResponseModel = GetSearchParaResponseModel.create(searchResponse);
+
+                        }
+
                     }
+
+                  /*  String ahltin = activity.benefItem.getAhl_tin();
+                    GetSearchParaRequestModel getSearchParaRequestModel= GetSearchParaRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", context));
+                    //getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
+                    // getSearchParaRequestModel.setType_of_search(searchType);
+                    getSearchParaRequestModel.setUid_search_type(personalDetailItem.getIsAadhar());
+                    //getSearchParaRequestModel.setState_code(selectedStateItem1.getStateCode());
+                    getSearchParaRequestModel.setDistrict_code(activity.benefItem.getDistrict_code());
+                    getSearchParaRequestModel.setAhl_tin(ahltin);
+                    getSearchParaRequestModel.setType_of_doc(personalDetailItem.getIdName());
+                    //getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                    // getSearchParaRequestModel.setStartTime(time+"");
+                    long endTime= System.currentTimeMillis();
+
+                    getSearchParaRequestModel.setEndTime(endTime);
+                    // getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                    String request1= getSearchParaRequestModel.serialize();
+                    Log.d("Find by name",request1);
+                  //  if (genericResponse!=null && genericResponse.isStatus()) {
+                        //Hit log api to track the app
+                        HashMap<String, String> searchResRsby = CustomHttp.httpPostWithTokken(AppConstant.GET_SEARCH_PARA, getSearchParaRequestModel.serialize(), AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
+                        String searchResponse = searchResRsby.get("response");
+                        GetSearchParaResponseModel getSearchParaResponseModel = GetSearchParaResponseModel.create(searchResponse);
+*/
+                   // }
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -1116,7 +1170,7 @@ public class FamilyDetailsFragment extends Fragment {
                         CustomAlert.alertWithOk(context, genericResponse.getErrorMessage());
                     }
                 } else {
-                    CustomAlert.alertWithOk(context, "Server Error");
+                    CustomAlert.alertWithOk(context, "Internal server error");
 
                 }
             }
