@@ -28,6 +28,7 @@ import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.GetMemberDetail;
+import com.nhpm.Models.request.GetSearchParaRequestModel;
 import com.nhpm.Models.request.LogRequestItem;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.request.SaveLoginTransactionRequestModel;
@@ -149,17 +150,19 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
         logBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveLoginTransactionResponseModel model=SaveLoginTransactionResponseModel.create(ProjectPrefrence.getSharedPrefrenceData(
-                        AppConstant.PROJECT_PREF,"logTrans",context));
-
-                logRequestItem.setCreated_by(verifierDetail.getAadhaarNumber());
+            /*    SaveLoginTransactionResponseModel model=SaveLoginTransactionResponseModel.create(ProjectPrefrence.getSharedPrefrenceData(
+                        AppConstant.PROJECT_PREF,"logTrans",context));*/
+                GetSearchParaRequestModel log = GetSearchParaRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"updated log",context));
+               /* logRequestItem.setCreated_by(verifierDetail.getAadhaarNumber());
                 logRequestItem.setOperatorheader(verifierDetail.getName());
                 logRequestItem.setTid(model.getTransactionId()+"");
                 logRequestItem.setSequence(String.valueOf(BeneficiaryFamilySearchFragment.sequence+1));
-                String payLoad = logRequestItem.serialize();
+                String payLoad = logRequestItem.serialize();*/
                 Intent intent = new Intent(context, ShowLogActivity.class);
-                intent.putExtra("log",payLoad);
-                intent.putExtra("action",logRequestItem.getAction());
+              //  intent.putExtra("log",payLoad);
+                intent.putExtra("log",log.serialize());
+                intent.putExtra("action",log.getType_of_search());
+              //  intent.putExtra("action",logRequestItem.getAction());
                 startActivity(intent);
             }
         });

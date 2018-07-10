@@ -108,6 +108,8 @@ import java.util.HashMap;
 
 import pl.polidea.view.ZoomView;
 
+import static com.nhpm.Utility.AppUtility.printKeyHash;
+
 public class BlockDetailActivity extends BaseActivity implements ComponentCallbacks2 {
     private DatabaseHelpers dbHelper;
     private final String TAG = "BlockDetailActivity";
@@ -212,6 +214,7 @@ private BlockDetailActivity blockDetailActivity;
         context = this;
         activity = this;
         blockDetailActivity = this;
+        printKeyHash(activity);
         verifierDetail = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));

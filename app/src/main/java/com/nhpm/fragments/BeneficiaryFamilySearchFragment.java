@@ -82,7 +82,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
     private ArrayList<BeneficiarySearchModel> searchModelArrayList;
     private TextView cardTypeTV, findByNameTV, noMemberTV;
     private Button searchBTN;
-    private String cardNo = "", cardType = "", villageCode = "", shhid = "";
+    private String cardNo = "", cardType = "", villageCode = "", shhid = "",shhid1="";
     private ArrayList<BeneficiaryListItem> list;
     private StateItem selectedStateItem, selectedStateItem1;
     private FamilyListRequestModel request;
@@ -710,18 +710,20 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 if (!cardType.equalsIgnoreCase("") &&
                         cardType.equalsIgnoreCase("Village Code")) {
                     villageCode = villageCodeET.getText().toString();
-                    shhid = shhidET.getText().toString();
+                    shhid1 = shhidET.getText().toString();
                     // request.setHho_id(cardNo);
                     if (villageCode.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter village code");
                         return;
                     }
 
-                    if (shhid.equalsIgnoreCase("")) {
+                    if (shhid1.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter SHHId number");
                         return;
                     }
-                    AppUtility.searchTitleHeader = "Mobile";
+                    int shhid_no= Integer.parseInt(shhid1);
+                    shhid=shhid_no+"";
+                    AppUtility.searchTitleHeader = "Village";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_VILLAGE);
                     familyListDataByMobileOrRation();
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);

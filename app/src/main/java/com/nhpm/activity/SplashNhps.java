@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
@@ -68,6 +71,8 @@ import com.splunk.mint.Mint;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -77,6 +82,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.nhpm.Utility.AppUtility.printKeyHash;
 
 public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCallbacks {
 
@@ -108,6 +115,8 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
     private CustomAsyncTask countAsyncTask;
 
     static final int DEVICE_ADMIN_ADD_RESULT_ENABLE = 1;
+    private MessageDigest md = null;
+    private SplashNhps activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +125,25 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
 
 
         mContext = SplashNhps.this;
+        activity=this;
+        printKeyHash(activity);
         createLogTable();
+
+       /* try {
+            PackageInfo info = mContext.getPackageManager().getPackageInfo(
+                    mContext.getPackageName(),
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+        Log.i("SecretKey = ",Base64.encodeToString(md.digest(), Base64.DEFAULT));*/
+
 
         mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
         language = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
@@ -519,4 +546,6 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
 
       }
     }
+
+
 }

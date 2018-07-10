@@ -178,6 +178,9 @@ public class FingerprintResultActivity extends BaseActivity {
                 } else if (item1.getStateCode().equalsIgnoreCase("07")) {
                     stateList.add("Delhi");
                     stateList2.add(item1);
+                } else if (item1.getStateCode().equalsIgnoreCase("09")) {
+                    stateList.add("Uttar Pradesh");
+                    stateList2.add(item1);
                 }
             }
 
@@ -228,7 +231,7 @@ public class FingerprintResultActivity extends BaseActivity {
 
 
         final ArrayList<String> ruralList = new ArrayList<>();
-        ruralList.add("Select Rural/Urban");
+        //ruralList.add("Select Rural/Urban");
         ruralList.add("Rural");
         ruralList.add("Urban");
 
@@ -237,17 +240,17 @@ public class FingerprintResultActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String item = adapterView.getItemAtPosition(i).toString();
-                if (i == 0) {
-                    ruralCheck.setChecked(false);
+               /* if (i == 0) {
+                  *//*  ruralCheck.setChecked(false);
                     ruralUrbanStatus = "";
                     ruralUrbanTag = "";
-                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
-                } else if (i == 1) {
+                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);*//*
+                } else*/ if (i == 0) {
                     ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
                     ruralUrbanTag = "R";
                     Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
-                } else if (i == 2) {
+                } else if (i == 1) {
                     ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
                     ruralUrbanTag = "U";
@@ -262,6 +265,11 @@ public class FingerprintResultActivity extends BaseActivity {
             }
         });
 
+        ruralUrbanSP.setSelection(0);
+        ruralCheck.setChecked(true);
+        ruralUrbanTag = "R";
+
+        Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
 
         ArrayAdapter<String> ruralAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, ruralList);
         ruralUrbanSP.setAdapter(ruralAdapter);
@@ -388,7 +396,12 @@ public class FingerprintResultActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (kycVtc.hasFocus())
-                    autoSuggestVillage(s.toString());
+                    if (isNetworkAvailable()) {
+                        autoSuggestVillage(s.toString());
+                    } else {
+                        CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+
+                    }
                 // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
             }
 
@@ -407,8 +420,13 @@ public class FingerprintResultActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (kycDist.hasFocus())
-                    autoSuggestDistrict(s.toString());
+                if (kycDist.hasFocus()) {
+                    if (isNetworkAvailable()) {
+                        autoSuggestDistrict(s.toString());
+                    } else {
+                        CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
+                    }
+                }
                 // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
             }
 
@@ -815,15 +833,15 @@ public class FingerprintResultActivity extends BaseActivity {
                 AutoSuggestRequestItem request = new AutoSuggestRequestItem();
 
                 request.setDistrictName(text.toLowerCase());
-                if (stateName != null && !stateName.equalsIgnoreCase("")) {
+                if (stateCheck.isChecked() && stateName != null && !stateName.equalsIgnoreCase("")) {
                     request.setStateName(stateName);
                 }
-                if (ruralUrbanTag != null && !ruralUrbanTag.equalsIgnoreCase("")) {
+                if (ruralCheck.isChecked() && ruralUrbanTag != null && !ruralUrbanTag.equalsIgnoreCase("")) {
                     request.setRuralUrban(ruralUrbanTag);
                 }
                 try {
                     //String request = familyListRequestModel.serialize();
-                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.AUTO_SUGGEST, request.serialize(),AppConstant.AUTHORIZATION,verifierLoginResponse.getAuthToken());
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.AUTO_SUGGEST, request.serialize(), AppConstant.AUTHORIZATION, verifierLoginResponse.getAuthToken());
                     String familyResponse = response.get("response");
 
                     if (familyResponse != null) {
@@ -920,7 +938,7 @@ public class FingerprintResultActivity extends BaseActivity {
                 }
                 try {
                     //String request = familyListRequestModel.serialize();
-                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.AUTO_SUGGEST, request.serialize(),AppConstant.AUTHORIZATION,verifierLoginResponse.getAuthToken());
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.AUTO_SUGGEST, request.serialize(), AppConstant.AUTHORIZATION, verifierLoginResponse.getAuthToken());
                     String familyResponse = response.get("response");
 
                     if (familyResponse != null) {
@@ -974,14 +992,14 @@ public class FingerprintResultActivity extends BaseActivity {
                                 }
                             });
                         }
-                    } else if(villageResponse.getErrorCode()!=null &&
+                    } else if (villageResponse.getErrorCode() != null &&
                             villageResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
-                            ||  villageResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                            || villageResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
                         Intent intent = new Intent(context, LoginActivity.class);
                         CustomAlert.alertWithOkLogout(context, villageResponse.getErrorMessage(), intent);
                     }
-                }else {
-                    CustomAlert.alertWithOk(context,"Internal server error");
+                } else {
+                    CustomAlert.alertWithOk(context, "Internal server error");
 
                 }
             }

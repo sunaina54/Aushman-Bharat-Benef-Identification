@@ -13,8 +13,8 @@ public interface AppConstant {
     String MOBILE_PARAM="6";
     String VILLAGE_PARAM="7";
     String RATION_PARAM="2";
-    String HHID_PARAM="1";
-    String SECC_PARAM="4";
+    String HHID_PARAM="4";
+    String SECC_PARAM="1";
     String RSBY_PARAM="3";
     String MOBILE_SOURCE="2";
 

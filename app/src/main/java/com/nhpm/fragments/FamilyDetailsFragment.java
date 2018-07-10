@@ -1047,7 +1047,7 @@ public class FamilyDetailsFragment extends Fragment {
                         //getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
                        // getSearchParaRequestModel.setType_of_search(searchType);
                         getSearchParaRequestModel.setUid_search_type(personalDetailItem.getIsAadhar());
-                        //getSearchParaRequestModel.setState_code(selectedStateItem1.getStateCode());
+                        getSearchParaRequestModel.setState_code(activity.benefItem.getState_code());
                         getSearchParaRequestModel.setDistrict_code(activity.benefItem.getDistrict_code());
                         getSearchParaRequestModel.setAhl_tin(ahltin);
                         getSearchParaRequestModel.setType_of_doc(personalDetailItem.getIdName());
@@ -1059,6 +1059,7 @@ public class FamilyDetailsFragment extends Fragment {
                        // getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
                         String request1= getSearchParaRequestModel.serialize();
                         Log.d("Find by name",request1);
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"updated log",getSearchParaRequestModel.serialize(),context);
                         if (genericResponse!=null && genericResponse.isStatus()) {
                             //Hit log api to track the app
                             HashMap<String, String> searchResRsby = CustomHttp.httpPostWithTokken(AppConstant.GET_SEARCH_PARA, getSearchParaRequestModel.serialize(), AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());

@@ -372,26 +372,30 @@ public class FamilyMembersListActivity extends BaseActivity {
             holder.fatherNameTV.setText(item.getFathername());
             String gender = "", address = "";
 
-            if (item.getGenderid().equalsIgnoreCase("1")) {
-                gender = "Male";
-            } else if (item.getGenderid().equalsIgnoreCase("2")) {
-                gender = "Female";
-            } else {
-                gender = "Other";
+            if(item.getGenderid()!=null) {
+                if (item.getGenderid().equalsIgnoreCase("1")) {
+                    gender = "Male";
+                } else if (item.getGenderid().equalsIgnoreCase("2")) {
+                    gender = "Female";
+                } else {
+                    gender = "Other";
+                }
+                holder.genderTV.setText(gender);
             }
-            holder.genderTV.setText(gender);
 
             String yob = "";
-            if (item.getDob() != null && item.getDob().length() > 4) {
-                yob = item.getDob().substring(0, 4);
-            } else {
-                yob = item.getDob();
-            }
+            if(item.getDob() != null) {
+                if (item.getDob().length() > 4) {
+                    yob = item.getDob().substring(0, 4);
+                } else {
+                    yob = item.getDob();
+                }
 
-            String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
-            currentYear = currentYear.substring(0, 4);
-            int age = Integer.parseInt(currentYear) - Integer.parseInt(yob);
-            holder.ageTV.setText(age + "");
+                String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+                currentYear = currentYear.substring(0, 4);
+                int age = Integer.parseInt(currentYear) - Integer.parseInt(yob);
+                holder.ageTV.setText(age + "");
+            }
 
             // holder.ageTV.setText(item.getAge());
             if (item != null) {
