@@ -615,8 +615,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     requestModel.setSelectedState("6");*/
                     AppUtility.searchTitleHeader = "Ration Card";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_RATION_CARD);
-                    logRequestModel.setMethod(AppConstant.RATION_PARAM);
-                    logRequestModel.setSearchParameter("Rashan Card No ="+cardNo);
+//                    logRequestModel.setMethod(AppConstant.RATION_PARAM);
+                  //  logRequestModel.setSearchParameter("Rashan Card No ="+cardNo);
                   /*  Intent theIntent = new Intent(context, FamilyListByMobileActivity.class);
                     theIntent.putExtra("SearchParam", requestModel);
                     startActivity(theIntent);*/
@@ -639,8 +639,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                     AppUtility.searchTitleHeader = "URN";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_RSBY_URN);
-                    logRequestModel.setMethod(AppConstant.RSBY_PARAM);
-                    logRequestModel.setSearchParameter(cardNo);
+//                    logRequestModel.setMethod(AppConstant.RSBY_PARAM);
+                   // logRequestModel.setSearchParameter(cardNo);
                   /*  ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
                     requestModel.setUrn(cardNo);*/
                     familyListDataByURN();

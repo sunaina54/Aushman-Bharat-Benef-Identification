@@ -1069,7 +1069,7 @@ public class FamilyDetailsFragment extends Fragment {
 
                         }
 
-                        LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, context));
+                        LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
                         logRequestModel.setSource(AppConstant.MOBILE_SOURCE);
                         Log.d("Log Request Updated", logRequestModel.serialize());
 

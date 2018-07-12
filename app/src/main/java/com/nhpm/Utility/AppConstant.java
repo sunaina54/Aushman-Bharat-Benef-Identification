@@ -16,6 +16,9 @@ public interface AppConstant {
     String HHID_PARAM="4";
     String SECC_PARAM="1";
     String RSBY_PARAM="3";
+    String RSBY_PARAM_ADCD="10"; //RSBY Number (as per ADCD) //Additional data collection drive
+    String MSBY_PARAM_ADCD="11"; //MSBY
+
     String MOBILE_SOURCE="2";
 
 

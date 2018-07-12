@@ -804,7 +804,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                     }
 
                     if (!familyStatus.equalsIgnoreCase("")) {
-                        final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, context));
+                        final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
                         logRequestModel.setCorrectIncorrectFamilyStatus(familyStatus);
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 

@@ -243,7 +243,7 @@ public class FamilyListByURNActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final URNResponseItem item = mDataset.get(position);
-            final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, context));
+            final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
 
             holder.familyIdTV.setText(item.getFamilyId());
             holder.nameTV.setText(item.getMemberName().trim());
@@ -293,7 +293,7 @@ public class FamilyListByURNActivity extends BaseActivity {
                         logRequestModel.setHhId(mDataset.get(position).getUrnNo());
                         logRequestModel.setAhl_tin(mDataset.get(position).getUrnNo() + "" + mDataset.get(position).getMemberId());
 
-                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
                         Intent intent = new Intent(context, FamilyMembersListActivity.class);
                         //intent.putExtra("result", beneficiaryModel);
