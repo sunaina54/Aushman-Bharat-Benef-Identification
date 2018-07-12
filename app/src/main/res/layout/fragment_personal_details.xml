@@ -368,6 +368,7 @@
                             android:orientation="horizontal"
                             android:paddingLeft="@dimen/margine_5"
                             android:paddingRight="@dimen/margine_5"
+
                            >
 
 
@@ -476,6 +477,7 @@
                             android:orientation="horizontal"
                             android:paddingLeft="@dimen/margine_5"
                             android:paddingRight="@dimen/margine_5"
+                            android:visibility="gone"
                             >
 
 
@@ -531,6 +533,7 @@
                             android:orientation="horizontal"
                             android:paddingLeft="@dimen/margine_5"
                             android:paddingRight="@dimen/margine_5"
+                            android:visibility="gone"
                         >
 
 
@@ -558,6 +561,7 @@
                             android:orientation="horizontal"
                             android:paddingLeft="@dimen/margine_5"
                             android:paddingRight="@dimen/margine_5"
+                            android:visibility="gone"
                           >
 
 
@@ -586,6 +590,125 @@
 
                 </LinearLayout>
                 </LinearLayout>
+
+                <LinearLayout
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="2"
+                    android:id="@+id/vtcLL">
+
+                    <TextView
+                        android:textSize="@dimen/text_size_20sp"
+                        style="@style/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="5dp"
+                        android:text="Village/Town"
+                     />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/vtcACTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="true"
+                        android:inputType="none"
+                        android:paddingLeft="5dp"
+                        android:hint="Type few characters of village"
+                        android:textSize="@dimen/text_size_20sp" />
+
+                </LinearLayout>
+                <LinearLayout
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="2"
+                    android:id="@+id/distLL">
+
+                    <TextView
+                        android:textSize="@dimen/text_size_20sp"
+                        style="@style/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="5dp"
+                        android:text="District"
+                         />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/distACTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="true"
+                        android:inputType="none"
+                        android:paddingLeft="5dp"
+                        android:hint="Type few characters of district"
+                        android:textSize="@dimen/text_size_20sp" />
+
+                </LinearLayout>
+                <LinearLayout
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="2"
+                    android:id="@+id/stateLL">
+
+                    <TextView
+                        android:textSize="@dimen/text_size_20sp"
+                        style="@style/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="5dp"
+                        android:text="State"
+                        />
+
+                    <Spinner
+                        android:id="@+id/stateSP"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:spinnerMode="dropdown"
+
+
+                        />
+                </LinearLayout>
+                <LinearLayout
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="2"
+                    android:id="@+id/ruralUrbanLL">
+
+                    <TextView
+                        android:textSize="@dimen/text_size_20sp"
+                        style="@style/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="5dp"
+                        android:text="Rural/Urban"
+                        />
+
+                    <Spinner
+                        android:id="@+id/ruralUrbanSP"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:spinnerMode="dropdown"
+
+                        />
+                </LinearLayout>
+
+
+
                 <TextView
                     style="@style/textView"
                     android:layout_width="match_parent"

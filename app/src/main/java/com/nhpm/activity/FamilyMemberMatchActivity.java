@@ -366,6 +366,8 @@ public class FamilyMemberMatchActivity extends BaseActivity {
         TaskListener taskListener = new TaskListener() {
             @Override
             public void execute() {
+                verifierLoginResponse = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                        AppConstant.VERIFIER_CONTENT, context));
                 String request = requestModel.serialize();
                 HashMap<String, String> response = null;
                 try {

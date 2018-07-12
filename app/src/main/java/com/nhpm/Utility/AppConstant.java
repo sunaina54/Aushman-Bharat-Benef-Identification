@@ -68,6 +68,7 @@ public interface AppConstant {
     String PROJECT_PREF = "COM.FIELDVERIFY";
     String SESSION_EXPIRE_INVAILD_TOKEN="SessionExpire";
     String LOG_REQUEST="logRequest";
+    String SAVE_LOG_REQUEST="SavelogRequest";
     String APPLICATION_DATA = "APPLICATION_DATA";
     String HOUSEHOLD_TAB_STATUS = "houseHoldTabClick";
     String MEMBER_TAB_STATUS = "memberTabClick";
@@ -237,6 +238,7 @@ public interface AppConstant {
     String SEARCH_BY_RATION=NEW_MAIN_DOMAIN_UPDATED+"searchByRation";
     String VALIDATE_URN = "https://pmrssm.gov.in/VIEWSTAT/api/validateURN";
     String SEARCH_BY_MOBILE_RATION =  NEW_MAIN_DOMAIN_UPDATED+"searchByMobileRationParameter";
+    String SEARCH_LOG_API=NEW_MAIN_DOMAIN_UPDATED+"log/search";
    // String SEARCH_BY_VILLAGE =  "https://pmrssm.gov.in/reportapi/searchByMobileRationParameter";
     String GET_MEMBER_DETAIL="https://pmrssm.gov.in/reportapi/getMemberDetail";
     String GET_SEARCH_PARA= NEW_MAIN_DOMAIN_UPDATED+"savedLogData";
@@ -388,7 +390,7 @@ public interface AppConstant {
     String VOTER_ID = "2";
     String RASHAN_CARD = "3";
     String AUTH_TOKEN = "authToken";
-    String RELEASE_DATE = "June 26, 2018";
+    String RELEASE_DATE = "July 12, 2018";
     String NEW_HEAD_RELATION_CODE = "01";
     String NO_INFO_AVAIL = "7";
     String invalid_user = "INVALID_USER";

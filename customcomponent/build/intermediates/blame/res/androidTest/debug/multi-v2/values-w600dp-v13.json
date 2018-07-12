@@ -1,21 +1,6 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ps_quick_it\\nhps-1june-updated\\PM-RSSM-25-June\\Aushman-Bharat-Benef-Identification\\customcomponent\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-w600dp-v13\\values-w600dp-v13.xml",
-            "map": [
-                {
-                    "source": "C:\\Users\\Dell3\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\55b61ef2c17c177f9897b55124c4917e\\res\\values-w600dp-v13\\values-w600dp-v13.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,119",
-                        "endColumns": "63,54",
-                        "endOffsets": "114,169"
-                    }
-                }
-            ]
-        },
-        {
             "outputFile": "D:\\ps_quick_it\\nhps-1june-updated\\PM-RSSM-2-July\\Aushman-Bharat-Benef-Identification\\customcomponent\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-w600dp-v13\\values-w600dp-v13.xml",
             "map": [
                 {

@@ -31,7 +31,9 @@ import com.nhpm.Models.request.AadharResultRequestModel;
 import com.nhpm.Models.request.AutoSuggestRequestItem;
 import com.nhpm.Models.request.FamilyListRequestModel;
 import com.nhpm.Models.request.LogRequestItem;
+import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.response.FamilyListResponseItem;
+import com.nhpm.Models.response.SaveLoginTransactionResponseModel;
 import com.nhpm.Models.response.VillageResponseItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.AadhaarResponseItem;
@@ -105,6 +107,7 @@ public class FingerprintResultActivity extends BaseActivity {
         ageCheck = (CheckBox) findViewById(R.id.ageCheck);
         //stateSP = (SearchableSpinner) findViewById(R.id.stateSP);
         stateSP = (Spinner) findViewById(R.id.stateSP);
+        stateSP.setEnabled(false);
         ruralUrbanSP = (Spinner) findViewById(R.id.ruralUrbanSP);
         nameCheck = (CheckBox) findViewById(R.id.nameCheck);
         dobCheck = (CheckBox) findViewById(R.id.dobCheck);
@@ -169,7 +172,7 @@ public class FingerprintResultActivity extends BaseActivity {
         final ArrayList<StateItem> stateList2 = new ArrayList<>();
         if (stateList != null) {
             for (StateItem item1 : stateList1) {
-                if (item1.getStateCode().equalsIgnoreCase("16")) {
+                if (item1.getStateCode().equalsIgnoreCase("06")) {
                     stateList.add("Haryana");
                     stateList2.add(item1);
                 } else if (item1.getStateCode().equalsIgnoreCase("22")) {
@@ -231,7 +234,7 @@ public class FingerprintResultActivity extends BaseActivity {
 
 
         final ArrayList<String> ruralList = new ArrayList<>();
-        //ruralList.add("Select Rural/Urban");
+        ruralList.add("Select Rural/Urban");
         ruralList.add("Rural");
         ruralList.add("Urban");
 
@@ -240,17 +243,17 @@ public class FingerprintResultActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String item = adapterView.getItemAtPosition(i).toString();
-               /* if (i == 0) {
-                  *//*  ruralCheck.setChecked(false);
+                if (i == 0) {
+                    ruralCheck.setChecked(false);
                     ruralUrbanStatus = "";
                     ruralUrbanTag = "";
-                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);*//*
-                } else*/ if (i == 0) {
+                    Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
+                } else if (i == 1) {
                     ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
                     ruralUrbanTag = "R";
                     Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
-                } else if (i == 1) {
+                } else if (i == 2) {
                     ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
                     ruralUrbanTag = "U";
@@ -265,9 +268,9 @@ public class FingerprintResultActivity extends BaseActivity {
             }
         });
 
-        ruralUrbanSP.setSelection(0);
-        ruralCheck.setChecked(true);
-        ruralUrbanTag = "R";
+       // ruralUrbanSP.setSelection(0);
+       // ruralCheck.setChecked(true);
+        //ruralUrbanTag = "R";
 
         Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
 
@@ -304,44 +307,93 @@ public class FingerprintResultActivity extends BaseActivity {
                 //String[] str=villageCode.split("-");
 
                 FamilyListRequestModel request = new FamilyListRequestModel();
-
+                final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+                StringBuilder builder=new StringBuilder();
+                String temp="";
                 if (nameCheck.isChecked()) {
                     request.setName(name.trim());
+                  //  logRequestModel.setSearchParameter(name+";");
+                    builder.append("name="+name+";");
+                    temp=logRequestModel.getSearchParameter();
                 }
                 if (genderCheck.isChecked())
                     request.setGenderid(gender.trim());
-                if (ageCheck.isChecked())
+                    builder.append("gender="+gender+";");
+               // logRequestModel.setSearchParameter(temp+gender+";");
+                    temp=logRequestModel.getSearchParameter();
+                if (ageCheck.isChecked()) {
                     request.setAge(age.trim());
-                if (pincodeCheck.isChecked())
+                    //logRequestModel.setSearchParameter(temp+age+";");
+                    builder.append("age=" + age + ";");
+                    temp = logRequestModel.getSearchParameter();
+                }
+                if (pincodeCheck.isChecked()) {
                     request.setPincode(pincode.trim());
+                    //logRequestModel.setSearchParameter(temp+pincode+";");
+                    builder.append("pincode=" + pincode + ";");
+                    temp = logRequestModel.getSearchParameter();
+                }
+
                 if (fatherCheck.isChecked()) {
                     request.setFathername(fatherName.trim());
+                    logRequestModel.setSearchParameter(temp+fatherName+";");
+                    temp=logRequestModel.getSearchParameter();
+                    builder.append("Father Name="+fatherName+";");
                 }
                 if (motherCheck.isChecked()) {
                     request.setMothername(motherName.trim());
+                    logRequestModel.setSearchParameter(temp+motherName+";");
+                    temp=logRequestModel.getSearchParameter();
+                    builder.append("Mother Name="+motherName+";");
                 }
                 if (spouseCheck.isChecked()) {
                     request.setSpousenm(spouseName.trim());
+                    logRequestModel.setSearchParameter(temp+spouseName+";");
+                    temp=logRequestModel.getSearchParameter();
+                    builder.append("Spouse Name="+spouseName+";");
+
                 }
                 if (stateCheck.isChecked()) {
                     request.setState_name(stateName.trim());
+                    logRequestModel.setSearchParameter(temp+stateName+";");
+                    temp=logRequestModel.getSearchParameter();
+                    builder.append("State="+stateName+";");
+
                 }
                 if (ruralCheck.isChecked()) {
                     request.setRural_urban(ruralUrbanTag.trim());
+                    logRequestModel.setSearchParameter(temp+ruralUrbanTag+";");
+                    temp=logRequestModel.getSearchParameter();
+                    builder.append("RuralUrban="+ruralUrbanTag+";");
+
                 }
 
                 location.setVillageTrue(false);
                 if (vtcCheck.isChecked()) {
                     request.setVt_name(village);
                     location.setVillageTrue(true);
+                    logRequestModel.setSearchParameter(temp+village+";");
+                    builder.append("Village="+village+";");
+                    temp=logRequestModel.getSearchParameter();
+
                 }
                 location.setDistTrue(false);
                 if (distCheck.isChecked()) {
                     request.setDistrict_name(district);
                     location.setDistTrue(true);
+                    logRequestModel.setSearchParameter(temp+district+";");
+                    builder.append("Dist="+district+";");
+                    temp=logRequestModel.getSearchParameter();
+
                 }
                 location.setVilageName(village);
                 location.setDistName(district);
+                logRequestModel.setSearchParameter(builder.toString());
+                SaveLoginTransactionResponseModel tran= SaveLoginTransactionResponseModel.create(ProjectPrefrence.
+                        getSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", context));
+                logRequestModel.setTransactionId(tran.getTransactionId()+"");
+
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, LOCATION_TAG, location.serialize(), context);
                 logRequestItem.setOperatorinput(request.serialize());
                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);

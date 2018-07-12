@@ -1382,95 +1382,100 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
 
         @Override
         protected void onPostExecute(String result) {
-            progressBar.setVisibility(View.GONE);
-            if (result.equalsIgnoreCase("ERROR") || result.equalsIgnoreCase("False from server") || result.equalsIgnoreCase("Connection time out Error")) {
+            try {
+                progressBar.setVisibility(View.GONE);
+                if (result.equalsIgnoreCase("ERROR") || result.equalsIgnoreCase("False from server") || result.equalsIgnoreCase("Connection time out Error")) {
 
-                AppUtility.alertWithOk(context, result);
-            } else if (result.equalsIgnoreCase(AppConstant.ACCESS_DENIED_ERROR)) {
+                    AppUtility.alertWithOk(context, result);
+                } else if (result.equalsIgnoreCase(AppConstant.ACCESS_DENIED_ERROR)) {
 
-                AppUtility.alertWithOk(context, "ACCESS DENIED", result);
-            } else if (result.equalsIgnoreCase("")) {
+                    AppUtility.alertWithOk(context, "ACCESS DENIED", result);
+                } else if (result.equalsIgnoreCase("")) {
 
-                AppUtility.alertWithOk(context, "No response from Server");
-            } else {
-                //edtxt_Aadhaar.setText("");
-                aadhaarKycResponse = new AadhaarResponseItem().create(result);
-                if (aadhaarKycResponse != null) {
-                    if (aadhaarKycResponse.getResult() != null && aadhaarKycResponse.getResult().equalsIgnoreCase(AppConstant.AADHAAR_AUTH_YES)) {
+                    AppUtility.alertWithOk(context, "No response from Server");
+                } else {
+                    //edtxt_Aadhaar.setText("");
+                    aadhaarKycResponse = new AadhaarResponseItem().create(result);
+                    if (aadhaarKycResponse != null) {
+                        if (aadhaarKycResponse.getResult() != null && aadhaarKycResponse.getResult().equalsIgnoreCase(AppConstant.AADHAAR_AUTH_YES)) {
                         /*Intent intent = new Intent(context, PersonalDetailsFragment.class);
                         intent.se("result", aadhaarKycResponse);*/
-                        // startActivity(intent);
+                            // startActivity(intent);
                        /* PersonalDetailItem personalDetailItem = new PersonalDetailItem();
                         personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                         personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                         personalDetailItem.setName(aadhaarKycResponse.getName());
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);*/
 
-                        if (personalDetailItem != null) {
-                            personalDetailItem.setGovtIdType("Aadhaar");
-                            personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
-                            personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
-                            personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
-                            personalDetailItem.setIdName("13");
-                            personalDetailItem.setIsAadhar("Y");
-                            personalDetailItem.setGender(aadhaarKycResponse.getGender());
-                            personalDetailItem.setYob(aadhaarKycResponse.getDob());
-
-                            personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
-                            personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
-                            personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
-                            personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
-
-                            //address
-
-                            personalDetailItem.setState(aadhaarKycResponse.getState());
-                            personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
-                            personalDetailItem.setName(aadhaarKycResponse.getName());
-                            personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
-                            personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
-
-                        } else {
-
-                            personalDetailItem = new PersonalDetailItem();
-                            personalDetailItem.setGovtIdType("Aadhaar");
-                            personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
-                            personalDetailItem.setIdName("13");
-                            personalDetailItem.setIsAadhar("Y");
-                            personalDetailItem.setGender(aadhaarKycResponse.getGender());
-                            if(aadhaarKycResponse.getDob()!=null && !aadhaarKycResponse.getDob().equalsIgnoreCase("") ) {
+                            if (personalDetailItem != null) {
+                                personalDetailItem.setGovtIdType("Aadhaar");
+                                personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
+                                personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
+                                personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
+                                personalDetailItem.setIdName("13");
+                                personalDetailItem.setIsAadhar("Y");
+                                personalDetailItem.setGender(aadhaarKycResponse.getGender());
                                 personalDetailItem.setYob(aadhaarKycResponse.getDob());
+
+                                personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
+
+                                personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
+                                personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
+
+                                // personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                                //  personalDetailItem.setState(aadhaarKycResponse.getState());
+                                // personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
+                                personalDetailItem.setName(aadhaarKycResponse.getName());
+                                personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
+                                personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
+
+                            } else {
+
+                                personalDetailItem = new PersonalDetailItem();
+                                personalDetailItem.setGovtIdType("Aadhaar");
+                                personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
+                                personalDetailItem.setIdName("13");
+                                personalDetailItem.setIsAadhar("Y");
+                                personalDetailItem.setGender(aadhaarKycResponse.getGender());
+                                if (aadhaarKycResponse.getDob() != null && !aadhaarKycResponse.getDob().equalsIgnoreCase("")) {
+                                    personalDetailItem.setYob(aadhaarKycResponse.getDob());
+                                }
+
+                                personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
+                                //    personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                                personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
+                                personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
+
+                                //   personalDetailItem.setState(aadhaarKycResponse.getState());
+                                //  personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
+                                personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
+                                personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
+                                personalDetailItem.setName(aadhaarKycResponse.getName());
+                                personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
+                                personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
                             }
-
-                            personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
-                            personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
-                            personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
-                            personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
-
-                            personalDetailItem.setState(aadhaarKycResponse.getState());
-                            personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
-                            personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
-                            personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
-                            personalDetailItem.setName(aadhaarKycResponse.getName());
-                            personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
-                            personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
-                        }
-                        ekycActivity.finish();
-
+                            ekycActivity.finish();
                         /*PersonalDetailsFragment fragment = new PersonalDetailsFragment();
                         fragment.setAadhaarKycResponse(aadhaarKycResponse);
                         callFragment(fragment);
 */
+                        } else {
+                            CustomAlert.alertWithOk(context, aadhaarKycResponse.getErr());
+                            return;
+                        }
                     } else {
-                        CustomAlert.alertWithOk(context, aadhaarKycResponse.getErr());
+                        CustomAlert.alertWithOk(context, "Unable To Connect from UIDAI Server, Please try again.");
                         return;
                     }
-                } else {
-                    CustomAlert.alertWithOk(context, "Unable To Connect from UIDAI Server, Please try again.");
-                    return;
+
+                    // ShowKycDataNew(result);
                 }
-                // ShowKycDataNew(result);
+            }catch (Exception e){
+                CustomAlert.alertWithOk(context, "Unable To Connect from UIDAI Server, Please try again.");
+                return;
+
             }
         }
 

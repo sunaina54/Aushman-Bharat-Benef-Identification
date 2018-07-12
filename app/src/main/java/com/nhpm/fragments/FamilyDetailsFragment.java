@@ -47,6 +47,7 @@ import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.request.FamilyDetailsItemModel;
 import com.nhpm.Models.request.GetMemberDetail;
 import com.nhpm.Models.request.GetSearchParaRequestModel;
+import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.request.PersonalDetailItem;
 import com.nhpm.Models.request.PrintCardItem;
 import com.nhpm.Models.request.SearchByRationRequestModel;
@@ -105,7 +106,7 @@ public class FamilyDetailsFragment extends Fragment {
     private String voterIdImg;
     private ImageView beneficiaryPhotoIV;
     private int CAMERA_PIC_REQUEST = 0;
-    private Button previousBT, searchBT,editBT;
+    private Button previousBT, searchBT, editBT;
     private ImageView addIV;
     private PersonalDetailItem personalDetailItem;
     private LinearLayout addFamilyMemberLL, familyDetailsLL;
@@ -114,7 +115,7 @@ public class FamilyDetailsFragment extends Fragment {
     private FamilyDetailsItemModel familyDetailsItemModel;
     private EditText govtIdET;
     private Button getFamilyScoreBT, nextBT, submitBT;
-    private String familyMatchScore = "",familyMatchScoreStatus="";
+    private String familyMatchScore = "", familyMatchScoreStatus = "";
     public static String FAMILY_DETAIL = "familyDetail";
     public static String INDEX = "Index";
     private LinearLayout scoreLL;
@@ -122,7 +123,7 @@ public class FamilyDetailsFragment extends Fragment {
     private VerifierLoginResponse verifierDetail;
     private FamilyCardList familyCardList;
     private String FAMILY_CARD_LIST = "FAMILY_CARD_LIST";
-    private String searchTag="";
+    private String searchTag = "";
 
     public FamilyDetailsFragment() {
         // Required empty public constructor
@@ -238,10 +239,10 @@ public class FamilyDetailsFragment extends Fragment {
             printCardItem = beneficiaryListItem.getPrintCardDetail();
 
             if (familyDetailsItemModel != null) {
-                searchTag=familyDetailsItemModel.getExistingData();
+                searchTag = familyDetailsItemModel.getExistingData();
                 familyDetailsLL.setVisibility(View.VISIBLE);
-                if(familyDetailsItemModel.getExistingData()!=null &&
-                        searchTag.equalsIgnoreCase("SearchByRation")){
+                if (familyDetailsItemModel.getExistingData() != null &&
+                        searchTag.equalsIgnoreCase("SearchByRation")) {
                     searchBT.setEnabled(false);
                     searchBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                     addFamilyMemberLL.setEnabled(false);
@@ -249,7 +250,7 @@ public class FamilyDetailsFragment extends Fragment {
                     govtIdET.setEnabled(false);
                     captureImageBT.setEnabled(false);
                     captureImageBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
-                }else {
+                } else {
                     addFamilyMemberLL.setEnabled(true);
                     addFamilyMemberLL.setBackground(getResources().getDrawable(R.drawable.rounded_shape_yello_button));
                     govtIdET.setEnabled(true);
@@ -309,10 +310,10 @@ public class FamilyDetailsFragment extends Fragment {
                 if (familyDetailsItemModel.getFamilyMemberModels() != null) {
                     familyMembersList = familyDetailsItemModel.getFamilyMemberModels();
                     //scoreLL.setVisibility(View.VISIBLE);
-                    if(familyDetailsItemModel.getExistingData()!=null &&
-                            searchTag.equalsIgnoreCase("SearchByRation")){
+                    if (familyDetailsItemModel.getExistingData() != null &&
+                            searchTag.equalsIgnoreCase("SearchByRation")) {
                         refreshListWithExistingMember(familyMembersList);
-                    }else {
+                    } else {
                         refreshList(familyDetailsItemModel.getFamilyMemberModels());
                     }
                 }
@@ -360,7 +361,7 @@ public class FamilyDetailsFragment extends Fragment {
                 if (getMemberDetailResponse != null && getMemberDetailResponse.getFamilyDetailsItem() != null &&
                         getMemberDetailResponse.getFamilyDetailsItem().getIdNumber() != null &&
                         !getMemberDetailResponse.getFamilyDetailsItem().getIdNumber().equalsIgnoreCase("")) {
-                    searchTag="SearchByRation";
+                    searchTag = "SearchByRation";
                     familyDetailsItemModel.setExistingData(searchTag);
                 }
 
@@ -889,7 +890,7 @@ public class FamilyDetailsFragment extends Fragment {
                     }
                 }
                 Intent theIntent = new Intent(context, FamilyMemberEntryActivity.class);
-                theIntent.putExtra("FamilyMemberList",familyMembersList);
+                theIntent.putExtra("FamilyMemberList", familyMembersList);
                 theIntent.putExtra(AppConstant.FAMILY_MEMBER_RESULT_CODE_NAME, item);
                 startActivityForResult(theIntent, AppConstant.FAMILY_MEMBER_REQUEST_CODE_VALUE);
             }
@@ -930,13 +931,13 @@ public class FamilyDetailsFragment extends Fragment {
                 printCard.setCardNo(ahltin);
 
 
-
             }
         }
 
 
-        if(beneficiaryListItem.getState_name_english()!=null){
-        printCard.setStateName(beneficiaryListItem.getState_name_english());}
+        if (beneficiaryListItem.getState_name_english() != null) {
+            printCard.setStateName(beneficiaryListItem.getState_name_english());
+        }
         if (activity.benefItem.getDob() != null && activity.benefItem.getDob().length() >= 4) {
             printCard.setYobObCard(activity.benefItem.getDob().substring(0, 4));
         }
@@ -1043,27 +1044,39 @@ public class FamilyDetailsFragment extends Fragment {
                     if (familyResponse != null) {
                         genericResponse = new GenericResponse().create(familyResponse);
                         String ahltin = activity.benefItem.getAhl_tin();
-                        GetSearchParaRequestModel getSearchParaRequestModel= GetSearchParaRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", context));
+                        GetSearchParaRequestModel getSearchParaRequestModel = GetSearchParaRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", context));
                         //getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
-                       // getSearchParaRequestModel.setType_of_search(searchType);
+                        // getSearchParaRequestModel.setType_of_search(searchType);
                         getSearchParaRequestModel.setUid_search_type(personalDetailItem.getIsAadhar());
                         getSearchParaRequestModel.setState_code(activity.benefItem.getState_code());
                         getSearchParaRequestModel.setDistrict_code(activity.benefItem.getDistrict_code());
                         getSearchParaRequestModel.setAhl_tin(ahltin);
                         getSearchParaRequestModel.setType_of_doc(personalDetailItem.getIdName());
                         //getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
-                       // getSearchParaRequestModel.setStartTime(time+"");
-                        long endTime= System.currentTimeMillis();
+                        // getSearchParaRequestModel.setStartTime(time+"");
+                        long endTime = System.currentTimeMillis();
 
                         getSearchParaRequestModel.setEndTime(endTime);
-                       // getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
-                        String request1= getSearchParaRequestModel.serialize();
-                        Log.d("Find by name",request1);
-                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"updated log",getSearchParaRequestModel.serialize(),context);
-                        if (genericResponse!=null && genericResponse.isStatus()) {
+                        // getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                        String request1 = getSearchParaRequestModel.serialize();
+                        Log.d("Find by name", request1);
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "updated log", getSearchParaRequestModel.serialize(), context);
+                        if (genericResponse != null && genericResponse.isStatus()) {
                             //Hit log api to track the app
                             HashMap<String, String> searchResRsby = CustomHttp.httpPostWithTokken(AppConstant.GET_SEARCH_PARA, getSearchParaRequestModel.serialize(), AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
                             String searchResponse = searchResRsby.get("response");
+                            GetSearchParaResponseModel getSearchParaResponseModel = GetSearchParaResponseModel.create(searchResponse);
+
+                        }
+
+                        LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, context));
+                        logRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                        Log.d("Log Request Updated", logRequestModel.serialize());
+
+                        if (genericResponse != null && genericResponse.isStatus()) {
+                            //Hit log api to track the app
+                            HashMap<String, String> logRes = CustomHttp.httpPostWithTokken(AppConstant.GET_SEARCH_PARA, logRequestModel.serialize(), AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
+                            String searchResponse = logRes.get("response");
                             GetSearchParaResponseModel getSearchParaResponseModel = GetSearchParaResponseModel.create(searchResponse);
 
                         }
@@ -1093,7 +1106,7 @@ public class FamilyDetailsFragment extends Fragment {
                         String searchResponse = searchResRsby.get("response");
                         GetSearchParaResponseModel getSearchParaResponseModel = GetSearchParaResponseModel.create(searchResponse);
 */
-                   // }
+                    // }
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -1162,7 +1175,7 @@ public class FamilyDetailsFragment extends Fragment {
                         Fragment fragment = new PrintCardFragment();
                         CallFragment(fragment);*/
                     } else if (genericResponse != null && genericResponse.getErrorCode() != null &&
-                            genericResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)|| genericResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                            genericResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED) || genericResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
                         Intent intent = new Intent(context, LoginActivity.class);
                         CustomAlert.alertWithOkLogout(context, genericResponse.getErrorMessage(), intent);
 
@@ -1206,7 +1219,6 @@ public class FamilyDetailsFragment extends Fragment {
         govtIdSP.setSelection(1);
 
         if (personalDetailItem != null && personalDetailItem.getFamilyDetailsItem() != null) {
-
             govtIdSP.setSelection(1);
         }
 
@@ -1310,7 +1322,7 @@ public class FamilyDetailsFragment extends Fragment {
             if (requestCode == 3) {
                 if (data != null) {
                     familyMatchScore = data.getStringExtra("matchScore");
-                    familyMatchScoreStatus=data.getStringExtra(AppConstant.MATCH_SCORE_STATUS);
+                    familyMatchScoreStatus = data.getStringExtra(AppConstant.MATCH_SCORE_STATUS);
                     if (familyMatchScore != null) {
                         familyScoreLL.setVisibility(View.GONE);
                         if (!familyMatchScore.equalsIgnoreCase("")) {
@@ -1416,7 +1428,7 @@ public class FamilyDetailsFragment extends Fragment {
         public class MyViewHolder extends RecyclerView.ViewHolder {
             RelativeLayout menuLayout;
             ImageView settings;
-            TextView nameTV,genderTV,ageTV,pincodeTV;
+            TextView nameTV, genderTV, ageTV, pincodeTV;
 
 
             public MyViewHolder(final View itemView) {
@@ -1469,24 +1481,24 @@ public class FamilyDetailsFragment extends Fragment {
             }
             holder.houseHoldAadhaarNoTV.setText(aadhaarNo);*/
             holder.nameTV.setText(item.getName());
-            if(item.getGenderid()!=null){
-                if(item.getGenderid().equalsIgnoreCase("1")){
+            if (item.getGenderid() != null) {
+                if (item.getGenderid().equalsIgnoreCase("1")) {
                     holder.genderTV.setText("Male");
-                }else if(item.getGenderid().equalsIgnoreCase("2")){
+                } else if (item.getGenderid().equalsIgnoreCase("2")) {
                     holder.genderTV.setText("Female");
-                }else {
+                } else {
                     holder.genderTV.setText("Other");
                 }
             }
-            if(item.getDob()!=null){
+            if (item.getDob() != null) {
                 String currentDate = DateTimeUtil.currentDate("dd MM yyyy");
                 Log.d("current date", currentDate);
                 String currentYear = currentDate.substring(6, 10);
                 Log.d("current year", currentYear);
                 int age = Integer.parseInt(currentYear) - Integer.parseInt(item.getDob());
-                holder.ageTV.setText(age+"");
+                holder.ageTV.setText(age + "");
             }
-            if(item.getPincode()!=null){
+            if (item.getPincode() != null) {
                 holder.pincodeTV.setText(item.getPincode());
             }
             if (beneficiaryListItem.getPrintCardDetail() != null) {
@@ -1807,12 +1819,12 @@ public class FamilyDetailsFragment extends Fragment {
             public void updateUI() {
                 if (getMemberDetailResponse != null) {
                     if (getMemberDetailResponse.isStatus()) {
-                        if (getMemberDetailResponse.getFamilyDetailsItem()!=null&& getMemberDetailResponse.getFamilyDetailsItem().getIdNumber() != null &&
+                        if (getMemberDetailResponse.getFamilyDetailsItem() != null && getMemberDetailResponse.getFamilyDetailsItem().getIdNumber() != null &&
                                 !getMemberDetailResponse.getFamilyDetailsItem().getIdNumber().equalsIgnoreCase("")) {
 
                             setExistingData(getMemberDetailResponse);
-                        } else  {
-                            CustomAlert.alertWithOk(context,getMemberDetailResponse.getErrorMessage());
+                        } else {
+                            CustomAlert.alertWithOk(context, getMemberDetailResponse.getErrorMessage());
                             setNewData();
                         }
                     } else if (getMemberDetailResponse != null &&
@@ -1879,16 +1891,17 @@ public class FamilyDetailsFragment extends Fragment {
         captureImageBT.setEnabled(true);
         captureImageBT.setBackground(getResources().getDrawable(R.drawable.rounded_shape_yello_button));
     }
+
     private void resetData() {
         familyDetailsLL.setVisibility(View.GONE);
         familyMembersList = new ArrayList<>();
         FamilyMemberModel item = new FamilyMemberModel();
-        searchTag="";
+        searchTag = "";
         item.setName(beneficiaryListItem.getName());
         familyMembersList.add(item);
         refreshList(familyMembersList);
         voterIdImg = null;
-        getMemberDetailResponse=null;
+        getMemberDetailResponse = null;
         beneficiaryPhotoIV.setImageBitmap(null);
         addFamilyMemberLL.setEnabled(true);
         addFamilyMemberLL.setBackground(getResources().getDrawable(R.drawable.rounded_shape_yello_button));

@@ -1,6 +1,8 @@
 package com.nhpm.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +22,12 @@ import com.customComponent.CustomAsyncTask;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
+import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.GetMemberDetail;
+import com.nhpm.Models.request.GetMemberDetailRequestModel;
 import com.nhpm.Models.request.LogRequestItem;
+import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
 import com.nhpm.Models.response.master.StateItem;
@@ -53,7 +59,11 @@ public class FamilyListActivity extends BaseActivity {
     private StateItem selectedStateItem;
     private VerifierLoginResponse verifierLoginResp;
     private LogRequestItem logRequestItem;
-
+    private LogRequestModel logRequestModel;
+    private int matchCount = 0;
+    private Button saveLogBT;
+    private AlertDialog alert;
+    private boolean logStatus;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
@@ -65,6 +75,8 @@ public class FamilyListActivity extends BaseActivity {
 
     private void setupScreen() {
         //mProgressBar = (ProgressBar) findViewById(R.id.mProgressBar);
+        logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+
         logRequestItem = LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, context));
 
         headerTV = (TextView) findViewById(R.id.centertext);
@@ -75,6 +87,7 @@ public class FamilyListActivity extends BaseActivity {
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
+        saveLogBT=(Button)findViewById(R.id.saveLogBT);
 
         AppUtility.navigateToHome(context, activity);
         familyListRequestModel = (FamilyListRequestModel) getIntent().getSerializableExtra("SearchParam");
@@ -84,6 +97,13 @@ public class FamilyListActivity extends BaseActivity {
             public void onClick(View v) {
                 finish();
                 rightTransition();
+            }
+        });
+        saveLogBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //saveLogData();
+                showAlert();
             }
         });
         searchListRV = (RecyclerView) findViewById(R.id.searchListRV);
@@ -97,6 +117,60 @@ public class FamilyListActivity extends BaseActivity {
         }
     }
 
+    private void showAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getResources().getString(com.customComponent.R.string.Alert));
+
+        builder.setMessage("Do you want send the search log ?")
+                .setCancelable(false)
+                .setNegativeButton(context.getResources().getString(R.string.No), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        alert.dismiss();
+
+                    }
+                })
+                .setPositiveButton(context.getResources().getString(R.string.Yes), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        saveLogData();
+                    }
+                });
+
+        alert = builder.create();
+        alert.show();
+
+    }
+    private void saveLogData() {
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                try {
+                   // logRequestModel.setCorrectIncorrectFamilyStatus(familyStatus);
+
+                    HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
+                    String resp=searchLogAPI.get("response");
+                    Log.d("TAG"," Search Log Resp : "+resp);
+                    logStatus=true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                        finish();
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+        customAsyncTask.execute();
+
+    }
 
     private void familyListData() {
 
@@ -163,8 +237,10 @@ public class FamilyListActivity extends BaseActivity {
 
             @Override
             public void updateUI() {
+                saveLogBT.setVisibility(View.GONE);
+
                 if (familyListResponseModel != null) {
-                    int matchCount = 0;
+
                     if (familyListResponseModel.isStatus()) {
                         if (familyListResponseModel.getResult() != null && familyListResponseModel.getResult().getResponse() != null
                                 ) {
@@ -177,6 +253,8 @@ public class FamilyListActivity extends BaseActivity {
                             if (matchCount <= 5) {
                                 noMemberTV.setText(matchCount + " matches found");
                             } else {
+                                saveLogBT.setVisibility(View.VISIBLE);
+                                logRequestModel.setResult(matchCount+"");
                                 noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                             }
                             if (familyListResponseModel.getResult().getResponse().getDocs() != null && familyListResponseModel.getResult().getResponse().getDocs().size() > 0) {
@@ -298,6 +376,8 @@ public class FamilyListActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final DocsListItem item = mDataset.get(position);
+            final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+
             if (item.getName() != null) {
                 holder.nameTV.setText(item.getName().trim());
             }
@@ -332,9 +412,11 @@ public class FamilyListActivity extends BaseActivity {
             if (item.getAhl_tin() != null) {
                 holder.ahltinTV.setText(item.getAhl_tin());
             }
+
             if (item.getHhd_no() != null) {
                 holder.hhidTV.setText(item.getHhd_no());
             }
+
             if (item.getState_name_english() != null) {
                 holder.stateTV.setText(item.getState_name_english());
             }
@@ -358,6 +440,12 @@ public class FamilyListActivity extends BaseActivity {
                         return;
                     }
                     if (mDataset.get(position).getHhd_no() != null && !mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
+                        logRequestModel.setResult(matchCount+"");
+                        logRequestModel.setAhl_tin(mDataset.get(position).getAhl_tin());
+                        logRequestModel.setHhId(mDataset.get(position).getHhd_no());
+
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
                         Intent intent = new Intent(context, FamilyMembersListActivity.class);
                         //intent.putExtra("result", beneficiaryModel);
                         intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());

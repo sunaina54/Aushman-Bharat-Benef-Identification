@@ -19,6 +19,7 @@ import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.LogRequestItem;
+import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.request.MobileRationRequestModel;
 import com.nhpm.Models.request.SaveLoginTransactionRequestModel;
 import com.nhpm.Models.request.ValidateUrnRequestModel;
@@ -60,6 +61,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
     private VerifierLoginResponse verifierLoginResp;
     private LogRequestItem logRequestItem;
     private ArrayList<MobileSearchResponseItem> mobileSearchResponseItem;
+    private LogRequestModel logRequestModel;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +84,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
+         logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
 
         AppUtility.navigateToHome(context, activity);
         //mobileRationRequestModel = (MobileRationRequestModel) getIntent().getSerializableExtra("SearchParam");
@@ -264,6 +267,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final MobileSearchResponseItem item = mDataset.get(position);
+
             if (item.getFamily_status() != null) {
                 holder.familyStatusTV.setText(item.getFamily_status());
             }
@@ -276,6 +280,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
             }
             if (item.getAhl_hh_id() != null) {
                 holder.ahlHHIdTV.setText(item.getAhl_hh_id());
+
             }
             if (item.getStateName() != null) {
                 holder.stateTV.setText(item.getStateName());
@@ -315,10 +320,13 @@ public class FamilyListByMobileActivity extends BaseActivity {
                     }
 
                     if (mDataset.get(position).getAhl_hh_id() != null && !mDataset.get(position).getAhl_hh_id().equalsIgnoreCase("")) {
+                        logRequestModel.setHhId(mDataset.get(position).getAhl_hh_id());
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
                         Intent intent = new Intent(context, FamilyMembersListActivity.class);
                         //intent.putExtra("result", beneficiaryModel);
                         intent.putExtra("hhdNo", mDataset.get(position).getAhl_hh_id());
                         startActivity(intent);
+
                     }
                 }
             });

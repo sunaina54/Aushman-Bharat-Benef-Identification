@@ -22,6 +22,7 @@ import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.FamilyListRequestModel;
 import com.nhpm.Models.request.LogRequestItem;
+import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.request.SaveLoginTransactionRequestModel;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
@@ -334,6 +335,7 @@ public class FamilyListByHHIDActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final DocsListItem item = mDataset.get(position);
+
             if (item.getName() != null) {
                 holder.nameTV.setText(item.getName().trim());
             }
@@ -366,9 +368,12 @@ public class FamilyListByHHIDActivity extends BaseActivity {
             // holder.spouseNameTV.setText(item.gets);
             if (item.getAhl_tin() != null) {
                 holder.ahltinTV.setText(item.getAhl_tin());
+
+
             }
             if (item.getHhd_no() != null) {
                 holder.hhidTV.setText(item.getHhd_no());
+
             }
             if (item.getState_name_english() != null) {
                 holder.stateTV.setText(item.getState_name_english());
@@ -395,11 +400,22 @@ public class FamilyListByHHIDActivity extends BaseActivity {
                     }
 
                     if (mDataset.get(position).getHhd_no() != null && !mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
+                        final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, context));
+
+                        logRequestModel.setAhl_tin(mDataset.get(position).getAhl_tin());
+                        logRequestModel.setHhId(mDataset.get(position).getHhd_no());
+
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
                         Intent intent = new Intent(context, FamilyMembersListActivity.class);
                         //intent.putExtra("result", beneficiaryModel);
                         intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
                         startActivity(intent);
+
                     }
+
+
+
                 }
             });
 

@@ -342,6 +342,7 @@ public class GovermentIDActivity extends BaseActivity {
         } else {
             location = new SearchLocation();
         }
+
         stateSP = (Spinner) v.findViewById(R.id.stateSP);
 
         final ArrayList<String> stateList = new ArrayList<>();
@@ -366,6 +367,9 @@ public class GovermentIDActivity extends BaseActivity {
                     stateList2.add(item1);
                 } else if (item1.getStateCode().equalsIgnoreCase("07")) {
                     stateList.add("Delhi");
+                    stateList2.add(item1);
+                } else if (item1.getStateCode().equalsIgnoreCase("09")) {
+                    stateList.add("Uttar Pradesh");
                     stateList2.add(item1);
                 }
             }
@@ -588,10 +592,11 @@ public class GovermentIDActivity extends BaseActivity {
                 String yob = yobET.getText().toString();
                 String pincode = pincodeET.getText().toString();
                 String subDist = subDistET.getText().toString();
-                String vtc = vtcTV.getText().toString();
+
                 String po = poET.getText().toString();
                 String email = emailET.getText().toString();
-                String dist = distTV.getText().toString();
+                //     String vtc = vtcTV.getText().toString();
+         //       String dist = distTV.getText().toString();
                 //String state = stateET.getText().toString();
 
                 if (item.statusCode == 0) {
@@ -688,10 +693,7 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }*/
 
-                    if (vtc.equalsIgnoreCase("")) {
-                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterVTC));
-                        return;
-                    }
+
 
                   /*  if (po.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPo));
@@ -707,16 +709,19 @@ public class GovermentIDActivity extends BaseActivity {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterEmailValid));
                         return;
                     }*/
-
+    /* if (vtc.equalsIgnoreCase("")) {
+                        CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterVTC));
+                        return;
+                    }*/
                  /*   if (state.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterState));
                         return;
                     }*/
 
-                    if (dist.equalsIgnoreCase("")) {
+                   /* if (dist.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterDist));
                         return;
-                    }
+                    }*/
 
 
                     if (personalDetailItem != null) {
@@ -735,16 +740,16 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
                         personalDetailItem.setYob(yob);
-                        personalDetailItem.setState(stateName);
+                       // personalDetailItem.setState(stateName);
                         personalDetailItem.setGender(manualGenderSelection);
                         personalDetailItem.setPinCode(pincode);
                         personalDetailItem.setSubDistrictBen(subDist);
-                        personalDetailItem.setVtcBen(vtc);
+                      //  personalDetailItem.setVtcBen(vtc);
                         personalDetailItem.setPostOfficeBen(po);
                         personalDetailItem.setEmailBen(email);
-                        personalDetailItem.setDistrict(dist);
-                        location.setVilageName(vtc);
-                        location.setDistName(dist);
+                      //  personalDetailItem.setDistrict(dist);
+                        //location.setVilageName(vtc);
+                       // location.setDistName(dist);
                     } else {
 
                         personalDetailItem = new PersonalDetailItem();
@@ -762,19 +767,19 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
                         personalDetailItem.setYob(yob);
-                        personalDetailItem.setState(stateName);
+                     //   personalDetailItem.setState(stateName);
                         personalDetailItem.setGender(manualGenderSelection);
                         personalDetailItem.setPinCode(pincode);
                         personalDetailItem.setSubDistrictBen(subDist);
-                        personalDetailItem.setVtcBen(vtc);
+                     //   personalDetailItem.setVtcBen(vtc);
                         personalDetailItem.setPostOfficeBen(po);
                         personalDetailItem.setEmailBen(email);
-                        personalDetailItem.setDistrict(dist);
-                        location.setVilageName(vtc);
-                        location.setDistName(dist);
+                      //  personalDetailItem.setDistrict(dist);
+                     //   location.setVilageName(vtc);
+                     //   location.setDistName(dist);
                     }
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
-                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
+                 //   ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
 
                     activity.finish();
 //                    }
@@ -1587,10 +1592,10 @@ public class GovermentIDActivity extends BaseActivity {
                 String yob = yobET.getText().toString();
                 String pincode = pincodeET.getText().toString();
                 String subDist = subDistET.getText().toString();
-                String vtc = vtcTV.getText().toString();
+               // String vtc = vtcTV.getText().toString();
                 String po = poET.getText().toString();
                 String email = emailET.getText().toString();
-                String dist = distTV.getText().toString();
+              //  String dist = distTV.getText().toString();
                 // String state = stateET.getText().toString();
                 if (item.statusCode == 0) {
                     CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzSelectGovId));
@@ -1681,10 +1686,10 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }*/
 
-                    if (vtc.equalsIgnoreCase("")) {
+                  /*  if (vtc.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterVTC));
                         return;
-                    }
+                    }*/
 
                   /*  if (po.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPo));
@@ -1706,10 +1711,10 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }*/
 
-                    if (dist.equalsIgnoreCase("")) {
+                   /* if (dist.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterDist));
                         return;
-                    }
+                    }*/
 
 
                     if (personalDetailItem != null) {
@@ -1727,16 +1732,16 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
                         personalDetailItem.setYob(yob);
-                        personalDetailItem.setState(stateName);
+                       // personalDetailItem.setState(stateName);
                         personalDetailItem.setGender(manualGenderSelection);
                         personalDetailItem.setPinCode(pincode);
                         personalDetailItem.setSubDistrictBen(subDist);
-                        personalDetailItem.setVtcBen(vtc);
+                      //  personalDetailItem.setVtcBen(vtc);
                         personalDetailItem.setPostOfficeBen(po);
                         personalDetailItem.setEmailBen(email);
-                        personalDetailItem.setDistrict(dist);
-                        location.setVilageName(vtc);
-                        location.setDistName(dist);
+                      //  personalDetailItem.setDistrict(dist);
+                     //   location.setVilageName(vtc);
+                     //   location.setDistName(dist);
                     } else {
 
                         personalDetailItem = new PersonalDetailItem();
@@ -1756,16 +1761,16 @@ public class GovermentIDActivity extends BaseActivity {
                         personalDetailItem.setGovtIdNo(voterIdCardNumberET.getText().toString());
 
                         personalDetailItem.setYob(yob);
-                        personalDetailItem.setState(stateName);
+                     //   personalDetailItem.setState(stateName);
                         personalDetailItem.setGender(manualGenderSelection);
                         personalDetailItem.setPinCode(pincode);
                         personalDetailItem.setSubDistrictBen(subDist);
-                        personalDetailItem.setVtcBen(vtc);
+                     //   personalDetailItem.setVtcBen(vtc);
                         personalDetailItem.setPostOfficeBen(po);
                         personalDetailItem.setEmailBen(email);
-                        personalDetailItem.setDistrict(dist);
-                        location.setVilageName(vtc);
-                        location.setDistName(dist);
+                     //   personalDetailItem.setDistrict(dist);
+                    //    location.setVilageName(vtc);
+                    //    location.setDistName(dist);
                     }
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", personalDetailItem.serialize(), context);
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);

@@ -14,21 +14,6 @@
                     }
                 }
             ]
-        },
-        {
-            "outputFile": "D:\\ps_quick_it\\nhps-1june-updated\\PM-RSSM-25-June\\Aushman-Bharat-Benef-Identification\\customcomponent\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-sw600dp-v13\\values-sw600dp-v13.xml",
-            "map": [
-                {
-                    "source": "C:\\Users\\Dell3\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\55b61ef2c17c177f9897b55124c4917e\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,124,194,268,344,403,474,542",
-                        "endColumns": "68,69,73,75,58,70,67,54",
-                        "endOffsets": "119,189,263,339,398,469,537,592"
-                    }
-                }
-            ]
         }
     ]
 }

@@ -344,7 +344,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:weightSum="2"
-                            android:id="@+id/vtcLL">
+                            android:id="@+id/vtcLL"
+                            android:visibility="gone">
 
                             <TextView
                                 android:textSize="@dimen/text_size_20sp"
@@ -385,7 +386,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:weightSum="2"
-                            android:id="@+id/distLL">
+                            android:id="@+id/distLL"
+                            android:visibility="gone">
 
                             <TextView
                                 android:textSize="@dimen/text_size_20sp"
@@ -460,7 +462,8 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:weightSum="2"
-                            android:id="@+id/stateLL">
+                            android:id="@+id/stateLL"
+                            android:visibility="gone">
 
                             <TextView
                                 android:textSize="@dimen/text_size_20sp"

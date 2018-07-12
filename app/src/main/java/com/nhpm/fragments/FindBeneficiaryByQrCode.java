@@ -37,6 +37,7 @@ import com.nhpm.CameraUtils.barcode.BarcodeCaptureActivity;
 import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.AadharAuthItem;
 import com.nhpm.Models.request.LogRequestItem;
+import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.response.AadhaarCaptureDetailItem;
 import com.nhpm.Models.response.seccMembers.SeccMemberItem;
 import com.nhpm.Models.response.seccMembers.SelectedMemberItem;
@@ -1002,6 +1003,10 @@ public class FindBeneficiaryByQrCode extends Fragment {
         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
     //    aadhaarResponseItem.setUid(qrCodeAadharNumberET.getText().toString());
       //  alert.dismiss();
+        final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+        logRequestModel.setSubMethod("QRCODE");
+        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
         Intent intent = new Intent(context , FingerprintResultActivity.class);
         intent.putExtra("result",aadhaarResponseItem);
         startActivity(intent);

@@ -48,5 +48,14 @@
             android:scrollbars="vertical">
 
         </android.support.v7.widget.RecyclerView>
+
     </RelativeLayout>
+    <Button
+        android:layout_margin="100dp"
+        android:visibility="gone"
+        android:background="@drawable/button_background_blue"
+        android:id="@+id/saveLogBT"
+        android:layout_width="match_parent"
+        android:text="Save Log"
+        android:layout_height="40dp" />
 </LinearLayout>

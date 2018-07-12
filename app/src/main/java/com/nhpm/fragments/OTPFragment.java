@@ -693,14 +693,14 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setIsAadhar("Y");
 
                                 personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
-                                personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                              //  personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
                                 personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
                                 personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
 
                                 personalDetailItem.setGender(aadhaarKycResponse.getGender());
                                 personalDetailItem.setYob(aadhaarKycResponse.getDob());
-                                personalDetailItem.setState(aadhaarKycResponse.getState());
-                                personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
+                              //  personalDetailItem.setState(aadhaarKycResponse.getState());
+                              //  personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                                 personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
@@ -715,14 +715,14 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setIsAadhar("Y");
 
                                 personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
-                                personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                               // personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
                                 personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
                                 personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
 
                                 personalDetailItem.setGender(aadhaarKycResponse.getGender());
                                 personalDetailItem.setYob(aadhaarKycResponse.getDob());
-                                personalDetailItem.setState(aadhaarKycResponse.getState());
-                                personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
+                            //    personalDetailItem.setState(aadhaarKycResponse.getState());
+                             //   personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                                 personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                                 personalDetailItem.setName(aadhaarKycResponse.getName());
                                 personalDetailItem.setPinCode(aadhaarKycResponse.getPc());

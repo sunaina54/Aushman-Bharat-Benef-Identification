@@ -23,6 +23,7 @@ import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.request.ValidateUrnRequestModel;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
@@ -81,8 +82,8 @@ public class FamilyListByURNActivity extends BaseActivity {
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
 
         AppUtility.navigateToHome(context, activity);
-       // validateUrnRequestModel = (ValidateUrnRequestModel) getIntent().getSerializableExtra("SearchParam");
-       urnResponseItem = (ArrayList<URNResponseItem>) getIntent().getSerializableExtra("SearchByURN");
+        // validateUrnRequestModel = (ValidateUrnRequestModel) getIntent().getSerializableExtra("SearchParam");
+        urnResponseItem = (ArrayList<URNResponseItem>) getIntent().getSerializableExtra("SearchByURN");
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,8 +97,8 @@ public class FamilyListByURNActivity extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         searchListRV.setLayoutManager(mLayoutManager);
         if (isNetworkAvailable()) {
-           // familyListData();
-            if(urnResponseItem!=null && urnResponseItem.size()>0){
+            // familyListData();
+            if (urnResponseItem != null && urnResponseItem.size() > 0) {
                 refreshMembersList(urnResponseItem);
             }
 
@@ -242,14 +243,25 @@ public class FamilyListByURNActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final URNResponseItem item = mDataset.get(position);
+            final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, context));
+
             holder.familyIdTV.setText(item.getFamilyId());
             holder.nameTV.setText(item.getMemberName().trim());
             holder.relationTV.setText(item.getRelationName());
             holder.stateTV.setText(item.getStateName());
             holder.distTV.setText(item.getDistrictName());
             holder.villageTV.setText(item.getVillageName());
-            holder.memberIdTV.setText(item.getMemberId());
-            holder.urnNoTV.setText(item.getUrnNo());
+
+            if (item.getUrnNo() != null) {
+                holder.urnNoTV.setText(item.getUrnNo());
+
+            }
+            if (item.getMemberId() != null) {
+                holder.memberIdTV.setText(item.getMemberId());
+            }
+            if (item.getMemberId() != null && item.getUrnNo() != null) {
+              //  logRequestModel.setAhl_tin(item.getUrnNo() + "" + item.getMemberId());
+            }
             holder.fatherNameTV.setText(item.getFatherhusbandname());
             String gender = "";
             if (item.getGender().equalsIgnoreCase("M")) {
@@ -278,10 +290,16 @@ public class FamilyListByURNActivity extends BaseActivity {
                     }
 
                     if (mDataset.get(position).getUrnNo() != null && !mDataset.get(position).getUrnNo().equalsIgnoreCase("")) {
+                        logRequestModel.setHhId(mDataset.get(position).getUrnNo());
+                        logRequestModel.setAhl_tin(mDataset.get(position).getUrnNo() + "" + mDataset.get(position).getMemberId());
+
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
                         Intent intent = new Intent(context, FamilyMembersListActivity.class);
                         //intent.putExtra("result", beneficiaryModel);
                         intent.putExtra("urnNo", mDataset.get(position).getUrnNo());
                         startActivity(intent);
+
                     }
                 }
             });

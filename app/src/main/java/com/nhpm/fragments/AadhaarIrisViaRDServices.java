@@ -1473,7 +1473,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
-
+            try{
             if (result.equalsIgnoreCase("ERROR") || result.equalsIgnoreCase("False from server") || result.equalsIgnoreCase("Connection time out Error")) {
 
                 AppUtility.alertWithOk(context, result);
@@ -1509,13 +1509,13 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setIsAadhar("Y");
                             personalDetailItem.setGender(aadhaarKycResponse.getGender());
                             personalDetailItem.setYob(aadhaarKycResponse.getDob());
-                            personalDetailItem.setState(aadhaarKycResponse.getState());
-                            personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
+                          //  personalDetailItem.setState(aadhaarKycResponse.getState());
+                         //   personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
 
                             personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
-                            personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                         //   personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
                             personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
                             personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
 
@@ -1531,15 +1531,15 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setIdName("13");
 
                             personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
-                            personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
+                          //  personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
                             personalDetailItem.setPostOfficeBen(aadhaarKycResponse.getPo());
                             personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
 
                             personalDetailItem.setIsAadhar("Y");
                             personalDetailItem.setGender(aadhaarKycResponse.getGender());
                             personalDetailItem.setYob(aadhaarKycResponse.getDob());
-                            personalDetailItem.setState(aadhaarKycResponse.getState());
-                            personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
+                         //   personalDetailItem.setState(aadhaarKycResponse.getState());
+                          //  personalDetailItem.setDistrict(aadhaarKycResponse.getDist());
                             personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
@@ -1555,6 +1555,11 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                     CustomAlert.alertWithOk(context, "Unable To Connect from UIDAI Server, Please try again.");
 
                 }
+            }
+            }catch (Exception e){
+                CustomAlert.alertWithOk(context, "Unable To Connect from UIDAI Server, Please try again.");
+                return;
+
             }
         }
 

@@ -1,21 +1,6 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\ps_quick_it\\nhps-1june-updated\\PM-RSSM-25-June\\Aushman-Bharat-Benef-Identification\\customcomponent\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-large-v4\\values-large-v4.xml",
-            "map": [
-                {
-                    "source": "C:\\Users\\Dell3\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\55b61ef2c17c177f9897b55124c4917e\\res\\values-large-v4\\values-large-v4.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,117,189,248,319,390,460,530,598,666,730,785,889",
-                        "endColumns": "61,71,58,70,70,69,69,67,67,63,54,103,115",
-                        "endOffsets": "112,184,243,314,385,455,525,593,661,725,780,884,1000"
-                    }
-                }
-            ]
-        },
-        {
             "outputFile": "D:\\ps_quick_it\\nhps-1june-updated\\PM-RSSM-2-July\\Aushman-Bharat-Benef-Identification\\customcomponent\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-large-v4\\values-large-v4.xml",
             "map": [
                 {

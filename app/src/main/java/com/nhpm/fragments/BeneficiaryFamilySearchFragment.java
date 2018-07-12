@@ -34,6 +34,7 @@ import com.nhpm.Models.request.BeneficiarySearchModel;
 import com.nhpm.Models.request.FamilyListRequestModel;
 import com.nhpm.Models.request.GetSearchParaRequestModel;
 import com.nhpm.Models.request.LogRequestItem;
+import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.request.MobileOtpRequestLoginModel;
 import com.nhpm.Models.request.MobileRationRequestModel;
 import com.nhpm.Models.request.SaveLoginTransactionRequestModel;
@@ -76,13 +77,14 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class BeneficiaryFamilySearchFragment extends Fragment {
+    private String LOCATION_TAG = "villageTag";
     private Spinner cardTypeSpinner;
     private Context context;
     private EditText rationCardET, rsbyET, ahlTinET, mobileET, hhIdNoET, villageCodeET, shhidET;
     private ArrayList<BeneficiarySearchModel> searchModelArrayList;
     private TextView cardTypeTV, findByNameTV, noMemberTV;
     private Button searchBTN;
-    private String cardNo = "", cardType = "", villageCode = "", shhid = "",shhid1="";
+    private String cardNo = "", cardType = "", villageCode = "", shhid = "", shhid1 = "";
     private ArrayList<BeneficiaryListItem> list;
     private StateItem selectedStateItem, selectedStateItem1;
     private FamilyListRequestModel request;
@@ -101,7 +103,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
     private Spinner stateSP;
     private LinearLayout villageCodeLL;
     private BlockDetailActivity blockDetailActivity;
-    private String searchType="";
+    private String searchType = "";
+    private LogRequestModel logRequestModel ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,7 +117,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
     private void setupScreen(View view) {
         context = getActivity();
-        AppUtility.softKeyBoard(blockDetailActivity,0);
+        AppUtility.softKeyBoard(blockDetailActivity, 0);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
         loginResponse = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
         selectedStateItem1 = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
@@ -151,8 +154,13 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                 } else {
                     selectedStateItem1 = stateList1.get(i);
+                    if (!selectedStateItem1.getStateCode().equalsIgnoreCase(selectedStateItem.getStateCode())) {
+                        ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, context);
+                        ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF, LOCATION_TAG, context);
+
+                    }
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, selectedStateItem1.serialize(), context);
-                    selectedStateItem1=StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
+                    selectedStateItem1 = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
                     blockDetailActivity.headerTV.setText(context.getResources().getString(R.string.nhpsFieldValidation) + " (" + selectedStateItem1.getStateName() + ")");
 
                 }
@@ -169,7 +177,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, spinnerStateList);
         stateSP.setAdapter(adapter1);
         for (int i = 0; i < stateList1.size(); i++) {
-            if(selectedStateItem1==null) {
+            if (selectedStateItem1 == null) {
                 if (selectedStateItem.getStateCode().equalsIgnoreCase(stateList1.get(i).getStateCode())) {
                     stateSP.setSelection(i);
                     // stateSP.setTitle(item.getStateName());
@@ -177,7 +185,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     Log.d("state name11 :", stateName);
                     break;
                 }
-            }else{
+            } else {
                 if (selectedStateItem1.getStateCode().equalsIgnoreCase(stateList1.get(i).getStateCode())) {
                     stateSP.setSelection(i);
                     // stateSP.setTitle(item.getStateName());
@@ -216,6 +224,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 startActivity(intent);
                 logRequestItem.setAction("SEARCH_BY_NAME");
                 searchType = AppConstant.SECC_PARAM;
+                logRequestModel=new LogRequestModel();
+                logRequestModel.setMethod(AppConstant.SECC_PARAM);
+                logRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                logRequestModel.setMobile(loginResponse.getAadhaarNumber());
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
                 validateOTP();
             }
         });
@@ -476,7 +490,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                     cardTypeTV.setText("HHId Number");
                     cardType = "HHId Number";
-                    searchType=AppConstant.HHID_PARAM;
+                    searchType = AppConstant.HHID_PARAM;
                 } else if (position == 1) {
                     ahlTinET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
@@ -507,23 +521,23 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     cardType = "RSBY URN";
                     rsbyET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
-                    searchType=AppConstant.RSBY_PARAM;
+                    searchType = AppConstant.RSBY_PARAM;
 
                 } else if (position == 3) {
                     cardType = "Mobile Number";
                     mobileET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
-                    searchType=AppConstant.MOBILE_PARAM;
+                    searchType = AppConstant.MOBILE_PARAM;
                 } else if (position == 4) {
                     cardType = "Ration Card";
                     rationCardET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
-                    searchType=AppConstant.RATION_PARAM;
+                    searchType = AppConstant.RATION_PARAM;
                 } else if (position == 5) {
                     cardType = "Village Code";
                     villageCodeLL.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.GONE);
-                    searchType=AppConstant.VILLAGE_PARAM;
+                    searchType = AppConstant.VILLAGE_PARAM;
                 }
                     /*rationCardET.setVisibility(View.GONE);
                     rsbyET.setVisibility(View.VISIBLE);
@@ -579,6 +593,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 request = new FamilyListRequestModel();
+            //    logRequestModel.setMobile(loginResponse.getAadhaarNumber());
+
                 //
                 if (!cardType.equalsIgnoreCase("") && cardType.equalsIgnoreCase("Ration Card")) {
                     cardNo = rationCardET.getText().toString();
@@ -599,6 +615,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     requestModel.setSelectedState("6");*/
                     AppUtility.searchTitleHeader = "Ration Card";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_RATION_CARD);
+                    logRequestModel.setMethod(AppConstant.RATION_PARAM);
+                    logRequestModel.setSearchParameter("Rashan Card No ="+cardNo);
                   /*  Intent theIntent = new Intent(context, FamilyListByMobileActivity.class);
                     theIntent.putExtra("SearchParam", requestModel);
                     startActivity(theIntent);*/
@@ -621,6 +639,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                     AppUtility.searchTitleHeader = "URN";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_RSBY_URN);
+                    logRequestModel.setMethod(AppConstant.RSBY_PARAM);
+                    logRequestModel.setSearchParameter(cardNo);
                   /*  ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
                     requestModel.setUrn(cardNo);*/
                     familyListDataByURN();
@@ -628,6 +648,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     theIntent.putExtra("SearchParam", requestModel);
                     startActivity(theIntent);*/
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
+                   // ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
 
                 }
@@ -651,11 +672,14 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     request.setFathername("");*/
                     AppUtility.searchTitleHeader = "AHLTIN";
                     logRequestItem.setAction("AHLTIN");
+                    //logRequestModel.setMethod("AHLTIN");
+                   // logRequestModel.setSearchParameter(cardNo);
                     familyListDatabyHHIdOrAHLTIN();
                   /*  Intent theIntent = new Intent(context, FamilyListByHHIDActivity.class);
                     theIntent.putExtra("SearchParam", request);
                     startActivity(theIntent);*/
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
+                    //ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
                 }
 
@@ -671,6 +695,9 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     }
                     AppUtility.searchTitleHeader = "Mobile";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_MOBILE);
+                    /*logRequestModel=new LogRequestModel();
+                    logRequestModel.setMethod(AppConstant.MOBILE_PARAM);
+                    logRequestModel.setSearchParameter(cardNo);*/
                   /*  MobileRationRequestModel requestModel = new MobileRationRequestModel();
                     requestModel.setMobileRation(cardNo);
                     requestModel.setParam(AppConstant.MOBILE_PARAM);
@@ -680,6 +707,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     startActivity(theIntent);*/
                     familyListDataByMobileOrRation();
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
+                    //ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
 
                 }
@@ -698,11 +726,14 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                     AppUtility.searchTitleHeader = "HHId";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_HHID);
+                  /*  logRequestModel.setMethod(AppConstant.HHID_PARAM);
+                    logRequestModel.setSearchParameter(cardNo);*/
                    /* Intent theIntent = new Intent(context, FamilyListByHHIDActivity.class);
                     theIntent.putExtra("SearchParam", request);
                     startActivity(theIntent);*/
                     familyListDatabyHHIdOrAHLTIN();
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
+                  //  ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
 
                 }
@@ -721,13 +752,16 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         CustomAlert.alertWithOk(context, "Please enter SHHId number");
                         return;
                     }
-                    int shhid_no= Integer.parseInt(shhid1);
-                    shhid=shhid_no+"";
+                    int shhid_no = Integer.parseInt(shhid1);
+                    shhid = shhid_no + "";
                     AppUtility.searchTitleHeader = "Village";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_VILLAGE);
+                    /*logRequestModel.setMethod(AppConstant.VILLAGE_PARAM);
+                    logRequestModel.setSearchParameter(villageCode + ";" + shhid1);*/
+                   // ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SAVE_LOG_REQUEST, context);
                     familyListDataByMobileOrRation();
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
-
+                    //ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
                 }
 
@@ -829,7 +863,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                     sequence = 0;
-                    long time= System.currentTimeMillis();
+                    long time = System.currentTimeMillis();
                     GetSearchParaRequestModel getSearchParaRequestModel = new GetSearchParaRequestModel();
                     getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
                     getSearchParaRequestModel.setType_of_search(searchType);
@@ -838,13 +872,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     getSearchParaRequestModel.setDistrict_code("");
                     getSearchParaRequestModel.setAhl_tin("");
                     getSearchParaRequestModel.setType_of_doc("");
-                    getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                    getSearchParaRequestModel.setTid(responseModel.getTransactionId() + "");
                     getSearchParaRequestModel.setStartTime(time);
                     //                    getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
-                    String request1= getSearchParaRequestModel.serialize();
-                    Log.d("Find by name",request1);
+                    String request1 = getSearchParaRequestModel.serialize();
+                    Log.d("Find by name", request1);
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", getSearchParaRequestModel.serialize(), context);
-
 
 
                 } catch (Exception e) {
@@ -942,7 +975,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
     private void familyListDatabyHHIdOrAHLTIN() {
 
-
+        logRequestModel=new LogRequestModel();
         familyListRequestModel = new FamilyListRequestModel();
         // familyListRequestModel.setName("sumit");
         familyListRequestModel.setUserName("nhps_fvs^1&%mobile");
@@ -966,9 +999,11 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         if (familyListRequestModel.getMothername() == null) {
             familyListRequestModel.setMothername("");
         }
-
+//bsvjvsavk
         if (cardType.equalsIgnoreCase("HHId Number")) {
             familyListRequestModel.setHho_id(cardNo);
+            logRequestModel.setMethod(AppConstant.HHID_PARAM);
+            logRequestModel.setSearchParameter("hhidNo="+cardNo);
         } else {
             familyListRequestModel.setHho_id("");
         }
@@ -988,6 +1023,9 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
         if (cardType.equalsIgnoreCase("AHLTIN")) {
             familyListRequestModel.setAhlTinno(cardNo);
+            logRequestModel.setMethod("0");
+            logRequestModel.setSearchParameter("ahlTin="+cardNo);
+
         } else {
             familyListRequestModel.setAhlTinno("");
         }
@@ -1019,6 +1057,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         if (logRequestItem == null) {
                             logRequestItem = new LogRequestItem();
                         }
+
                         logRequestItem.setOperatorinput(request);
                         familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
                         logRequestItem.setOperatoroutput(familyListResponseModel.serialize());
@@ -1031,7 +1070,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                             BeneficiaryFamilySearchFragment.sequence = 0;
 
-                            long time= System.currentTimeMillis();
+                            long time = System.currentTimeMillis();
                             GetSearchParaRequestModel getSearchParaRequestModel = new GetSearchParaRequestModel();
                             getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
                             getSearchParaRequestModel.setType_of_search(searchType);
@@ -1040,14 +1079,34 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             getSearchParaRequestModel.setDistrict_code("");
                             getSearchParaRequestModel.setAhl_tin("");
                             getSearchParaRequestModel.setType_of_doc("");
-                            getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                            getSearchParaRequestModel.setTid(responseModel.getTransactionId() + "");
                             getSearchParaRequestModel.setStartTime(time);
-                          //  getSearchParaRequestModel.setEndTime(Long.valueOf(""));
+                            //  getSearchParaRequestModel.setEndTime(Long.valueOf(""));
                             getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
 
-
-
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", getSearchParaRequestModel.serialize(), context);
+                            logRequestModel.setTransactionId(responseModel.getTransactionId() + "");
+                            logRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                            logRequestModel.setMobile(loginResponse.getAadhaarNumber());
+                            if(familyListResponseModel!=null && familyListResponseModel.isStatus()){
+                                if (familyListResponseModel.getResult() != null && familyListResponseModel.getResult().getResponse() != null) {
+                                    logRequestModel.setResult("0");
+                                    HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
+                                    String resp=searchLogAPI.get("response");
+                                    Log.d("TAG"," Search Log Resp : "+resp);
+                                }else{
+                                    logRequestModel.setResult(familyListResponseModel.getResult().getResponse().getDocs().size()+"");
+                                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
+                                }
+                            }else {
+                                logRequestModel.setResult(familyListResponseModel.getResult().getResponse().getDocs().size()+"");
+                                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+                             /*   String logggg= ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context);
+                                LogRequestModel   logRequestModel1 = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+*/
+                            }
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -1073,6 +1132,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             if (familyListResponseModel.getResult().getResponse().getNumFound() != null
                                     && !familyListResponseModel.getResult().getResponse().getNumFound().equalsIgnoreCase("")) {
                                 matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
+                                logRequestModel.setResult(matchCount + "");
+                                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
                             }
                             if (matchCount == 0) {
@@ -1153,6 +1214,13 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 try {
                     ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
                     requestModel.setUrn(cardNo);
+                    logRequestModel=new LogRequestModel();
+                    logRequestModel.setMethod(searchType);
+                    logRequestModel.setSearchParameter("URN="+cardNo);
+                    //.setTransactionId(responseModel.getTransactionId() + "");
+                    logRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                    logRequestModel.setMobile(loginResponse.getAadhaarNumber());
+
                     String request = requestModel.serialize();
                     String url = AppConstant.SEARCH_BY_MOBILE_RATION;
                     HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_BY_MOBILE_RATION, request, AppConstant.AUTHORIZATION, loginResponse.getAuthToken());
@@ -1166,7 +1234,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                         BeneficiaryFamilySearchFragment.sequence = 0;
 
-                        long time= System.currentTimeMillis();
+                        long time = System.currentTimeMillis();
                         GetSearchParaRequestModel getSearchParaRequestModel = new GetSearchParaRequestModel();
                         getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
                         getSearchParaRequestModel.setType_of_search(searchType);
@@ -1175,11 +1243,21 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         getSearchParaRequestModel.setDistrict_code("");
                         getSearchParaRequestModel.setAhl_tin("");
                         getSearchParaRequestModel.setType_of_doc("");
-                        getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                        getSearchParaRequestModel.setTid(responseModel.getTransactionId() + "");
                         getSearchParaRequestModel.setStartTime(time);
                         //getSearchParaRequestModel.setEndTime(Long.valueOf(""));
                         getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
-
+                        logRequestModel.setTransactionId(responseModel.getTransactionId()+"");
+                        if(urnResponseModel!=null && urnResponseModel.isStatus()){
+                            if(urnResponseModel.getUrnResponse()!=null && urnResponseModel.getUrnResponse().size()==0){
+                                logRequestModel.setResult("0");
+                                HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
+                                String resp=searchLogAPI.get("response");
+                                Log.d("TAG"," Search Log Resp : "+resp);
+                            }else{
+                                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+                            }
+                        }
                      /*   if (urnResponseModel==null || urnResponseModel.getUrnResponse()==null || urnResponseModel.getUrnResponse().size() <= 0) {
                             HashMap<String, String> searchResRsby = CustomHttp.httpPostWithTokken(AppConstant.GET_SEARCH_PARA, getSearchParaRequestModel.serialize(), AppConstant.AUTHORIZATION, loginResponse.getAuthToken());
                             String searchResponse = searchResRsby.get("response");
@@ -1187,7 +1265,10 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                         } else {*/
 
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", getSearchParaRequestModel.serialize(), context);
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", getSearchParaRequestModel.serialize(), context);
+                        logRequestModel.setTransactionId(responseModel.getTransactionId() + "");
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
 
                         //}
 
@@ -1205,6 +1286,9 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     noMemberTV.setVisibility(View.GONE);
                     if (urnResponseModel.isStatus()) {
                         if (urnResponseModel.getUrnResponse() != null) {
+                            logRequestModel.setResult(urnResponseModel.getUrnResponse().size() + "");
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
                             if (urnResponseModel.getUrnResponse().size() > 0) {
                                 Intent theIntent = new Intent(context, FamilyListByURNActivity.class);
                                 theIntent.putExtra("SearchByURN", urnResponseModel.getUrnResponse());
@@ -1258,12 +1342,18 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             public void execute() {
                 try {
                     MobileRationRequestModel requestModel = new MobileRationRequestModel();
+                    logRequestModel=new LogRequestModel();
+                    //.setTransactionId(responseModel.getTransactionId() + "");
+                    logRequestModel.setSource(AppConstant.MOBILE_SOURCE);
+                    logRequestModel.setMobile(loginResponse.getAadhaarNumber());
+
 
                     if (cardType.equalsIgnoreCase("Ration Card")) {
                         requestModel.setParam(AppConstant.RATION_PARAM);
                         requestModel.setMobileRation(cardNo);
                         requestModel.setShh("");
                         requestModel.setVillageCode("");
+                        logRequestModel.setSearchParameter("Rashan card="+cardNo);
                     }
 
                     if (cardType.equalsIgnoreCase("Mobile Number")) {
@@ -1271,6 +1361,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         requestModel.setMobileRation(cardNo);
                         requestModel.setShh("");
                         requestModel.setVillageCode("");
+                        logRequestModel.setSearchParameter("Mobile No="+cardNo);
                     }
 
                     if (cardType.equalsIgnoreCase("Village Code")) {
@@ -1278,8 +1369,10 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         requestModel.setMobileRation("");
                         requestModel.setShh(shhid);
                         requestModel.setVillageCode(villageCode);
+                        logRequestModel.setSearchParameter("Village Code="+villageCode+"/"+shhid);
                     }
 
+                    logRequestModel.setMethod(requestModel.getParam());
                     requestModel.setSelectedState(selectedStateItem1.getStateCode());
                     /*if(selectedStateItem1!=null){
                         requestModel.setSelectedState(selectedStateItem1.getStateCode());
@@ -1298,6 +1391,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         if (logRequestItem == null) {
                             logRequestItem = new LogRequestItem();
                         }
+
+
                         logRequestItem.setOperatorinput(request);
                         mobileSearchResponseModel = new MobileSearchResponseModel().create(familyResponse);
 
@@ -1312,7 +1407,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                             BeneficiaryFamilySearchFragment.sequence = 0;
-                            long time= System.currentTimeMillis();
+                            long time = System.currentTimeMillis();
                             GetSearchParaRequestModel getSearchParaRequestModel = new GetSearchParaRequestModel();
                             getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
                             getSearchParaRequestModel.setType_of_search(searchType);
@@ -1321,12 +1416,28 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             getSearchParaRequestModel.setDistrict_code("");
                             getSearchParaRequestModel.setAhl_tin("");
                             getSearchParaRequestModel.setType_of_doc("");
-                            getSearchParaRequestModel.setTid(responseModel.getTransactionId()+"");
+                            getSearchParaRequestModel.setTid(responseModel.getTransactionId() + "");
                             getSearchParaRequestModel.setStartTime(time);
-                           // getSearchParaRequestModel.setEndTime(Long.valueOf(""));
+                            // getSearchParaRequestModel.setEndTime(Long.valueOf(""));
                             getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
-                            String request1= getSearchParaRequestModel.serialize();
-                            Log.d("Find by name",request1);
+
+                            String request1 = getSearchParaRequestModel.serialize();
+                           // Log.d("Find by name", request1);
+                            logRequestModel.setTransactionId(responseModel.getTransactionId()+"");
+                            if(mobileSearchResponseModel!=null && !mobileSearchResponseModel.isStatus()){
+                                if(mobileSearchResponseModel.getUrnResponse()!=null && mobileSearchResponseModel.getUrnResponse().size()==0){
+                                    logRequestModel.setResult("0");
+                                    HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
+                                    String resp=searchLogAPI.get("response");
+                                    Log.d("TAG"," Search Log Resp : "+resp);
+                                }
+                            }else {
+                                logRequestModel.setResult(mobileSearchResponseModel.getUrnResponse().size()+"");
+                                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+                             /*   String logggg= ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context);
+                                LogRequestModel   logRequestModel1 = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+*/
+                            }
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", getSearchParaRequestModel.serialize(), context);
 
                         } catch (Exception e) {
@@ -1337,7 +1448,6 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     e.printStackTrace();
 
                 }
-
             }
 
             @Override
@@ -1348,6 +1458,9 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                     if (mobileSearchResponseModel.isStatus()) {
                         if (mobileSearchResponseModel.getUrnResponse() != null) {
+                           /* logRequestModel.setResult(mobileSearchResponseModel.getUrnResponse().size() + "");
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+*/
                             if (mobileSearchResponseModel.getUrnResponse().size() > 0) {
                                 Intent theIntent = new Intent(context, FamilyListByMobileActivity.class);
                                 theIntent.putExtra("SearchByMobileRation", mobileSearchResponseModel.getUrnResponse());

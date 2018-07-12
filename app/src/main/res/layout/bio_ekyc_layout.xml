@@ -753,7 +753,8 @@
                         android:layout_height="30dp"
                         android:layout_margin="2dp"
                         android:layout_weight="0.1"
-                        android:checked="false" />
+                        android:checked="true"
+                        android:enabled="false"/>
 
 
                 </LinearLayout>

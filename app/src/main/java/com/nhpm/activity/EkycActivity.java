@@ -228,9 +228,8 @@ public class EkycActivity extends BaseActivity {
                 }
             }
         }
-        otpRadioButton.setVisibility(View.GONE);
-        irisRadioButton.setVisibility(View.GONE);
-        biometricRadioButton.setVisibility(View.GONE);
+
+
 
         if (ekycMode != null && !ekycMode.equalsIgnoreCase("")) {
             String mode = "";
@@ -278,6 +277,9 @@ public class EkycActivity extends BaseActivity {
             }
 
         }
+        otpRadioButton.setVisibility(View.VISIBLE);
+        irisRadioButton.setVisibility(View.VISIBLE);
+        biometricRadioButton.setVisibility(View.VISIBLE);
         return null;
     }
 

@@ -32,6 +32,7 @@ import com.nhpm.AadhaarUtils.Global;
 import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.AadharAuthItem;
 import com.nhpm.Models.request.LogRequestItem;
+import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.response.AadhaarCaptureDetailItem;
 import com.nhpm.Models.response.seccMembers.SeccMemberItem;
 import com.nhpm.Models.response.seccMembers.SelectedMemberItem;
@@ -107,6 +108,7 @@ public class FindBeneficiaryByManualFragment extends Fragment {
     private String aadharNo, currentYear;
     private LogRequestItem logRequestItem;
 
+
     public FindBeneficiaryByManualFragment() {
         // Required empty public constructor
     }
@@ -141,6 +143,8 @@ public class FindBeneficiaryByManualFragment extends Fragment {
 
 
     private void setUpScreen(View v) {
+        //logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+
         aadharAuthItem = new AadharAuthItem();
         dialogProcessRequest = new ProgressDialog(context);
         dialogProcessRequest.setIndeterminateDrawable(context.getResources().getDrawable(R.mipmap.nhps_logo));
@@ -917,6 +921,10 @@ public class FindBeneficiaryByManualFragment extends Fragment {
         aadhaarResponseItem.setGender(manualGenderSelection);
         aadhaarResponseItem.setResult("Y");
         //aadhaarResponseItem.setUid(manualAadharNumberET.getText().toString());
+        LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+        logRequestModel.setSubMethod("Manual");
+        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
         Intent intent = new Intent(context, FingerprintResultActivity.class);
         intent.putExtra("FindBeneficiaryByManualFragment","FindBeneficiaryByManualFragment");
         intent.putExtra("result", aadhaarResponseItem);
