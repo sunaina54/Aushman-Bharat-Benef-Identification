@@ -20,6 +20,15 @@ public class LogRequestModel implements Serializable {
     private String transactionId="";
     private String mobile="";
     private String source= "";
+    private String finalSave="";
+
+    public String getFinalSave() {
+        return finalSave;
+    }
+
+    public void setFinalSave(String finalSave) {
+        this.finalSave = finalSave;
+    }
 
     public String getSource() {
         return source;

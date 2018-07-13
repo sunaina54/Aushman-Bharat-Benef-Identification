@@ -102,6 +102,8 @@ public class AppUtility {
     public static final String SEARCH_BY_VILLAGE= "SEARCH_BY_VILLAGE";
     public static final String SEARCH_BY_RATION_CARD= "SEARCH_BY_RATION_CARD";
     public static final String SEARCH_BY_RSBY_URN= "SEARCH_BY_RSBY_URN";
+    public static final String SEARCH_BY_RSBY_ADCD= "SEARCH_BY_RSBY_ADCD";
+    public static final String SEARCH_BY_MSBY= "SEARCH_BY_MSBY";
     public static final String SEARCH_INTO_CDAC_API= "SEARCH_INTO_CDAC_API";
 
     public static final String SEARCH_BY_PARAMETER= "SEARCH_BY_PARAMETER";

@@ -111,7 +111,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="number"
                         android:paddingBottom="5dp"
-
                         android:paddingLeft="15dp"
                         android:paddingTop="5dp"
                         android:textAlignment="center"
@@ -185,6 +184,39 @@
                         android:textAlignment="center"
                         android:textSize="20sp"
                         android:visibility="visible"/>
+
+                    <EditText
+                        android:id="@+id/rsbyADCDET"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
+                        android:hint="RSBY Number (as per ADCD)"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="24"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:visibility="gone"/>
+                    <EditText
+                        android:id="@+id/msbyET"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_background_login"
+                        android:hint="MSBY Number (as per ADCD)"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="24"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:visibility="gone"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"

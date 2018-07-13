@@ -1043,6 +1043,17 @@ public class FamilyDetailsFragment extends Fragment {
 
                     if (familyResponse != null) {
                         genericResponse = new GenericResponse().create(familyResponse);
+
+                        LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+                        logRequestModel.setFinalSave("1");
+                        Log.d("Log Request Updated", logRequestModel.serialize());
+                        if (genericResponse != null && genericResponse.isStatus()) {
+                            //Hit log api to track the app
+                            HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
+                            String resp=searchLogAPI.get("response");
+                            Log.d("TAG"," Search Log Resp : "+resp);
+                        }
+
                         String ahltin = activity.benefItem.getAhl_tin();
                         GetSearchParaRequestModel getSearchParaRequestModel = GetSearchParaRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", context));
                         //getSearchParaRequestModel.setUser_id(loginResponse.getAadhaarNumber());
@@ -1069,17 +1080,7 @@ public class FamilyDetailsFragment extends Fragment {
 
                         }
 
-                        LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
-                        logRequestModel.setSource(AppConstant.MOBILE_SOURCE);
-                        Log.d("Log Request Updated", logRequestModel.serialize());
 
-                        if (genericResponse != null && genericResponse.isStatus()) {
-                            //Hit log api to track the app
-                            HashMap<String, String> logRes = CustomHttp.httpPostWithTokken(AppConstant.GET_SEARCH_PARA, logRequestModel.serialize(), AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
-                            String searchResponse = logRes.get("response");
-                            GetSearchParaResponseModel getSearchParaResponseModel = GetSearchParaResponseModel.create(searchResponse);
-
-                        }
 
                     }
 

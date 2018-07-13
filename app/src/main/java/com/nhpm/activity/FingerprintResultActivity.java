@@ -19,8 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.customComponent.CustomAlert;
 import com.customComponent.CustomAsyncTask;
+import com.customComponent.Networking.CustomVolley;
+import com.customComponent.Networking.VolleyTaskListener;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
@@ -38,6 +41,7 @@ import com.nhpm.Models.response.VillageResponseItem;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.AadhaarResponseItem;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
+import com.nhpm.Networking.HttpsTrustManager;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -447,13 +451,15 @@ public class FingerprintResultActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (kycVtc.hasFocus())
+                if (kycVtc.hasFocus()) {
                     if (isNetworkAvailable()) {
                         autoSuggestVillage(s.toString());
                     } else {
                         CustomAlert.alertWithOk(context, getResources().getString(R.string.internet_connection_msg));
 
                     }
+                }
+
                 // AppUtility.softKeyBoard(FingerprintResultActivity.this, 0);
             }
 
@@ -972,6 +978,99 @@ public class FingerprintResultActivity extends BaseActivity {
         temp=new ArrayList<>();
        */
     }
+/*
+    private void autoSuggestVillage(final String text) {
+        HttpsTrustManager.allowAllSSL();
+
+        VolleyTaskListener taskListener = new VolleyTaskListener() {
+            @Override
+            public void postExecute(String response) {
+
+
+                try {
+                    //String request = familyListRequestModel.serialize();
+                   // HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.AUTO_SUGGEST, request.serialize(), AppConstant.AUTHORIZATION, verifierLoginResponse.getAuthToken());
+                  //  String familyResponse = response.get("response");
+
+                  //  if (familyResponse != null) {
+                        villageResponse = new VillageResponseItem().create(response);
+                   // }
+                    temp = new ArrayList<>();
+                    distTemp = new ArrayList<>();
+                    if (villageResponse != null) {
+                        if (villageResponse != null && villageResponse.isStatus()) {
+                            if (villageResponse != null &&
+                                    villageResponse.getResult() != null && villageResponse.getResult().getResult() != null) {
+                                for (String str : villageResponse.getResult().getResult()) {
+                                    // if(str.contains(text)){
+                                    if (str != null && !str.equalsIgnoreCase("")) {
+                                        String tempArr[] = str.split(";");
+                                        try {
+                                            if (tempArr[0] != null) {
+                                                temp.add(tempArr[0]);
+                                            }
+                                            if (tempArr[1] != null) {
+                                                distTemp.add(tempArr[1]);
+                                            }
+                                        } catch (Exception e) {
+                                            Log.d("TAG", "exception :" + e.toString());
+                                        }
+                                    }
+                                    // }
+                                }
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
+                                        android.R.layout.simple_dropdown_item_1line, temp);
+                                kycVtc.setAdapter(adapter);
+
+                                kycVtc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view,
+                                                            int position, long id) {
+                                        String selected = temp.get(position);
+                                        vtcCheck.setChecked(true);
+                                        kycVtc.setText(selected);
+                                        kycDist.setText(distTemp.get(position));
+                                        distCheck.setChecked(true);
+                                    }
+                                });
+                            }
+                        } else if (villageResponse.getErrorCode() != null &&
+                                villageResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                                || villageResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            CustomAlert.alertWithOkLogout(context, villageResponse.getErrorMessage(), intent);
+                        }
+                    } else {
+                        CustomAlert.alertWithOk(context, "Internal server error");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                CustomAlert.alertWithOk(context, getResources().getString(R.string.slow_internet_connection_msg));
+
+            }
+        };
+
+        final AutoSuggestRequestItem request = new AutoSuggestRequestItem();
+        request.setVillageName(text.toLowerCase());
+        if (stateName != null && !stateName.equalsIgnoreCase("")) {
+            request.setStateName(stateName);
+        }
+        String district = kycDist.getText().toString().trim();
+        if (district != null && !district.equalsIgnoreCase("")) {
+            request.setDistrictName(district);
+        }
+        CustomVolley volley = new CustomVolley(taskListener, "https://pmrssm.gov.in/reportapi/suggest", request.serialize(), AppConstant.AUTHORIZATION, verifierLoginResponse.getAuthToken(), context);
+        volley.execute();
+
+    }*/
 
 
     private void autoSuggestVillage(final String text) {
@@ -1063,11 +1162,11 @@ public class FingerprintResultActivity extends BaseActivity {
 
         customAsyncTask = new CustomAsyncTask(taskListener, context);
         customAsyncTask.execute();
-        /*
-        String[] COUNTRIES = new String[] {
+  /*      String[] COUNTRIES = new String[] {
                 "Belgium", "Belance", "Betaly", "Bermany", "Beain"};
-        temp=new ArrayList<>();
-       */
+        temp=new ArrayList<>();*/
+
+
     }
 
    /* private void autoSuggestVillage(final String text){

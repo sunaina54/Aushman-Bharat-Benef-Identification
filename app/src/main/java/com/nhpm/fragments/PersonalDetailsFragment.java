@@ -143,6 +143,8 @@ public class PersonalDetailsFragment extends Fragment {
     private VillageResponseItem villageResponse, districtResponse;
     private CustomAsyncTask customAsyncTask;
     private String LOCATION_TAG = "villageTag";
+    private ArrayList<String> mobileList;
+    private ArrayList<StateItem> stateList2;
 
 
     public AadhaarResponseItem getAadhaarKycResponse() {
@@ -170,7 +172,7 @@ public class PersonalDetailsFragment extends Fragment {
     }
 
     private void setupScreen(View view) {
-        checkAppConfig(view);
+        //checkAppConfig(view);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
         location = SearchLocation.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.DIST_VILLAGE_LOCATION, context));
@@ -227,12 +229,9 @@ public class PersonalDetailsFragment extends Fragment {
         // if(name!=null){
         whoseMobileNoSP = (Spinner) view.findViewById(R.id.whoseMobileNoSP);
 
-        ArrayList<String> mobileList = new ArrayList<>();
-        mobileList.add("Self");
-        mobileList.add("Relative");
-        mobileList.add("Other");
-        whoseMobileStatus = "Self";
 
+        setMobileList();
+        whoseMobileStatus = "Self";
         whoseMobileNoSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -272,12 +271,11 @@ public class PersonalDetailsFragment extends Fragment {
 
                 String item = adapterView.getItemAtPosition(i).toString();
                 if (i == 0) {
-                   // ruralCheck.setChecked(false);
+                    // ruralCheck.setChecked(false);
                     ruralUrbanStatus = "";
                     ruralUrbanTag = "";
                     Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
-                } else
-                if (i == 1) {
+                } else if (i == 1) {
                     // ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
                     ruralUrbanTag = "R";
@@ -319,7 +317,7 @@ public class PersonalDetailsFragment extends Fragment {
         });
         Log.d("Splash", "ListSize:" + " " + stateList.size());
         //stateList.add(0, new StateItem("00", "Select State"));
-        final ArrayList<StateItem> stateList2 = new ArrayList<>();
+       stateList2 = new ArrayList<>();
         if (stateList != null) {
             for (StateItem item1 : stateList1) {
                 if (item1.getStateCode().equalsIgnoreCase("06")) {
@@ -539,6 +537,19 @@ public class PersonalDetailsFragment extends Fragment {
                     verifyMobBT.setEnabled(false);
                     verifyMobBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                 }
+                if (personalDetailItem.getMemberType() != null) {
+                    if (personalDetailItem.getMemberType().equalsIgnoreCase("Self")) {
+                        verifyMobBT.setVisibility(View.VISIBLE);
+                    } else {
+                        verifyMobBT.setVisibility(View.VISIBLE);
+                    }
+                    setMobileList();
+                    for(int i=0;i<mobileList.size();i++){
+                        if(mobileList.get(i).equalsIgnoreCase(personalDetailItem.getMemberType())){
+                            whoseMobileNoSP.setSelection(i);
+                        }
+                    }
+                }
 
                 if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
                     beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
@@ -603,8 +614,24 @@ public class PersonalDetailsFragment extends Fragment {
                 }
 
                 if (personalDetailItem.getState() != null) {
-                   // stateTV.setText(personalDetailItem.getState());
+                    // stateTV.setText(personalDetailItem.getState());
                     //stateSP.setse
+                    if(stateList2!=null && stateList2.size()>0){
+                        for (int i = 0; i < stateList2.size(); i++) {
+
+                            if (personalDetailItem.getState().equalsIgnoreCase(stateList2.get(i).getStateCode())) {
+
+                                stateSP.setSelection(i);
+                                // stateSP.setTitle(item.getStateName());
+
+                                stateName = stateList.get(i);
+
+                                Log.d("state name11 :", stateName);
+
+                                break;
+                            }
+                        }
+                    }
                 }
 
                 if (personalDetailItem.getVtcBen() != null) {
@@ -656,6 +683,20 @@ public class PersonalDetailsFragment extends Fragment {
 
                 }
 
+                if (personalDetailItem.getMemberType() != null) {
+                    if (personalDetailItem.getMemberType().equalsIgnoreCase("Self")) {
+                        verifyMobBT.setVisibility(View.VISIBLE);
+                    } else {
+                        verifyMobBT.setVisibility(View.VISIBLE);
+                    }
+                    setMobileList();
+                    for(int i=0;i<mobileList.size();i++){
+                        if(mobileList.get(i).equalsIgnoreCase(personalDetailItem.getMemberType())){
+                            whoseMobileNoSP.setSelection(i);
+                        }
+                    }
+                }
+
                 if (personalDetailItem.getMobileNo() != null) {
                     mobileNumberET.setTextColor(AppUtility.getColor(context, R.color.green));
                     mobileNumberET.setText(personalDetailItem.getMobileNo());
@@ -664,6 +705,7 @@ public class PersonalDetailsFragment extends Fragment {
                     verifyMobBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
 
                 }
+
 
                 if (personalDetailItem.getGovtIdNo() != null &&
                         !personalDetailItem.getGovtIdNo().equalsIgnoreCase("")) {
@@ -738,7 +780,24 @@ public class PersonalDetailsFragment extends Fragment {
                 }
 
                 if (personalDetailItem.getState() != null) {
-                  //  stateTV.setText(personalDetailItem.getState());
+                    // stateTV.setText(personalDetailItem.getState());
+                    //stateSP.setse
+                    if(stateList2!=null && stateList2.size()>0){
+                        for (int i = 0; i < stateList2.size(); i++) {
+
+                            if (personalDetailItem.getState().equalsIgnoreCase(stateList2.get(i).getStateCode())) {
+
+                                stateSP.setSelection(i);
+                                // stateSP.setTitle(item.getStateName());
+
+                                stateName = stateList.get(i);
+
+                                Log.d("state name11 :", stateName);
+
+                                break;
+                            }
+                        }
+                    }
                 }
 
                 if (personalDetailItem.getVtcBen() != null) {
@@ -808,12 +867,12 @@ public class PersonalDetailsFragment extends Fragment {
                 String beneficiaryName, nameAsKyc;
                 beneficiaryName = beneficiaryNameTV.getText().toString();
                 nameAsKyc = beneficiaryNamePerIdTV.getText().toString();
-                if(distACTV.getText().toString().equalsIgnoreCase("")){
-                    CustomAlert.alertWithOk(context,"Please select district");
+                if (distACTV.getText().toString().equalsIgnoreCase("")) {
+                    CustomAlert.alertWithOk(context, "Please select district");
                     return;
                 }
-                if(stateName.equalsIgnoreCase("")){
-                    CustomAlert.alertWithOk(context,"Please select state");
+                if (stateName.equalsIgnoreCase("")) {
+                    CustomAlert.alertWithOk(context, "Please select state");
                     return;
                 }
                 personalDetailItem.setDistrict(distACTV.getText().toString());
@@ -986,6 +1045,15 @@ public class PersonalDetailsFragment extends Fragment {
                             return;
                         }
 
+                        if (personalDetailItem != null && !whoseMobileStatus.equalsIgnoreCase("Self")) {
+                            personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
+                            personalDetailItem.setIsMobileAuth("N");
+                            operationId = storedLoginResponse.getAadhaarNumber();
+                            String operatorId = operationId.substring(operationId.length() - 4);
+                            Log.d("operator id :", operatorId);
+                            personalDetailItem.setOpertaorid(Integer.parseInt(operatorId));
+                        }
+
                         location.setVilageName(vtc);
                         location.setDistName(dist);
                         personalDetailItem.setState(stateName);
@@ -1060,6 +1128,16 @@ public class PersonalDetailsFragment extends Fragment {
                         if (dist.equalsIgnoreCase("")) {
                             CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterDist));
                             return;
+                        }
+
+
+                        if (personalDetailItem != null && !whoseMobileStatus.equalsIgnoreCase("Self")) {
+                            personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
+                            personalDetailItem.setIsMobileAuth("N");
+                            operationId = storedLoginResponse.getAadhaarNumber();
+                            String operatorId = operationId.substring(operationId.length() - 4);
+                            Log.d("operator id :", operatorId);
+                            personalDetailItem.setOpertaorid(Integer.parseInt(operatorId));
                         }
 
                         location.setVilageName(vtc);
@@ -1841,9 +1919,9 @@ public class PersonalDetailsFragment extends Fragment {
             govtIdLL.setVisibility(View.VISIBLE);
 
         }
-        aadharLL.setVisibility(View.VISIBLE);
+     /*   aadharLL.setVisibility(View.VISIBLE);
         noAadhaarLL.setVisibility(View.VISIBLE);
-        govtIdLL.setVisibility(View.VISIBLE);
+        govtIdLL.setVisibility(View.VISIBLE);*/
         return null;
     }
 
@@ -2092,6 +2170,14 @@ public class PersonalDetailsFragment extends Fragment {
                 "Belgium", "Belance", "Betaly", "Bermany", "Beain"};
         temp=new ArrayList<>();
        */
+    }
+
+    private void setMobileList(){
+        mobileList = new ArrayList<>();
+        mobileList.add("Self");
+        mobileList.add("Relative");
+        mobileList.add("Other");
+
     }
 
 }
