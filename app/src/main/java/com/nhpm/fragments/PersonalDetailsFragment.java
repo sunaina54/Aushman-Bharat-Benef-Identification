@@ -145,6 +145,7 @@ public class PersonalDetailsFragment extends Fragment {
     private String LOCATION_TAG = "villageTag";
     private ArrayList<String> mobileList;
     private ArrayList<StateItem> stateList2;
+    private ArrayList<String> ruralList;
 
 
     public AadhaarResponseItem getAadhaarKycResponse() {
@@ -189,7 +190,8 @@ public class PersonalDetailsFragment extends Fragment {
         }*/
         personalDetailItem = activity.benefItem.getPersonalDetail();
         matchBT = (Button) view.findViewById(R.id.matchBT);
-
+        mobileNumberET = (EditText) view.findViewById(R.id.mobileET);
+        mobileNumberET.requestFocus();
         noAadhaarTV = (TextView) view.findViewById(R.id.noAadhaarTV);
         aadharLL = (LinearLayout) view.findViewById(R.id.aadharLL);
         govtIdLL = (LinearLayout) view.findViewById(R.id.govtIdLL);
@@ -221,7 +223,7 @@ public class PersonalDetailsFragment extends Fragment {
         captureImageBT = (Button) view.findViewById(R.id.captureImageBT);
         verifyMobBT = (Button) view.findViewById(R.id.verifyMobBT);
         verifyAadharBT = (Button) view.findViewById(R.id.verifyAadharBT);
-        mobileNumberET = (EditText) view.findViewById(R.id.mobileET);
+
 
         kycDetailsLL = (LinearLayout) view.findViewById(R.id.kycDetailsLL);
         govtPhotoLabelTV = (TextView) view.findViewById(R.id.govtPhotoLabelTV);
@@ -260,30 +262,34 @@ public class PersonalDetailsFragment extends Fragment {
 
         ruralUrbanSP = (Spinner) view.findViewById(R.id.ruralUrbanSP);
         ruralUrbanSP.setEnabled(false);
-        final ArrayList<String> ruralList = new ArrayList<>();
+     /*   final ArrayList<String> ruralList = new ArrayList<>();
         ruralList.add("Select Rural/Urban");
         ruralList.add("Rural");
-        ruralList.add("Urban");
-
+        ruralList.add("Urban");*/
+getruralList();
         ruralUrbanSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String item = adapterView.getItemAtPosition(i).toString();
-                if (i == 0) {
+                /*if (i == 0) {
                     // ruralCheck.setChecked(false);
                     ruralUrbanStatus = "";
                     ruralUrbanTag = "";
                     Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
-                } else if (i == 1) {
+                } else*/ if (i == 0) {
                     // ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
                     ruralUrbanTag = "R";
+                    vtcACTV.setText("");
+                    distACTV.setText("");
                     Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
-                } else if (i == 2) {
+                } else if (i == 1) {
                     //  ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
                     ruralUrbanTag = "U";
+                    vtcACTV.setText("");
+                    distACTV.setText("");
                     Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
                 }
 
@@ -295,10 +301,10 @@ public class PersonalDetailsFragment extends Fragment {
             }
         });
 
-      /*  ruralUrbanSP.setSelection(0);
+        ruralUrbanSP.setSelection(0);
         ruralUrbanTag = "R";
 
-        Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);*/
+        Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
 
         ArrayAdapter<String> ruralAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, ruralList);
         ruralUrbanSP.setAdapter(ruralAdapter);
@@ -462,6 +468,27 @@ public class PersonalDetailsFragment extends Fragment {
                     distCheck.setChecked(true);
                 }*/
             }
+
+            if (!location.getRuralName().equalsIgnoreCase("")) {
+                getruralList();
+                if (ruralList != null && ruralList.size() > 0) {
+                    for (int i = 0; i < ruralList.size(); i++) {
+                        if (ruralList.get(i).equalsIgnoreCase(location.getRuralName())) {
+                            ruralUrbanSP.setSelection(i);
+                        }
+                    }
+
+                }
+
+                if (location.getRuralName().equalsIgnoreCase("Rural")) {
+                    ruralUrbanTag = "R";
+                }
+
+                if (location.getRuralName().equalsIgnoreCase("Urban")) {
+                    ruralUrbanTag = "U";
+                }
+
+            }
         } else {
             location = new SearchLocation();
         }
@@ -475,8 +502,10 @@ public class PersonalDetailsFragment extends Fragment {
                         removeSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", context);
                 Intent intent = new Intent(context, GovermentIDActivity.class);
                 // intent.putExtra("mobileNumber",mobileNumberET.getText().toString());
-                intent.putExtra("mobileNumber", personalDetailItem);
-
+               // PersonalDetailItem personalDetailItem1 = new PersonalDetailItem();
+                if(personalDetailItem!=null) {
+                    intent.putExtra("mobileNumber", personalDetailItem.serialize());
+                }
                 startActivityForResult(intent, GOVT_ID_REQUEST);
             }
         });
@@ -875,8 +904,13 @@ public class PersonalDetailsFragment extends Fragment {
                     CustomAlert.alertWithOk(context, "Please select state");
                     return;
                 }
+                if(vtcACTV.getText().toString().equalsIgnoreCase("")){
+                    CustomAlert.alertWithOk(context, "Please select village");
+                    return;
+                }
                 personalDetailItem.setDistrict(distACTV.getText().toString());
                 personalDetailItem.setState(stateName);
+                personalDetailItem.setVtcBen(vtcACTV.getText().toString());
                 Intent intent = new Intent(context, NameMatchScoreActivity.class);
                 intent.putExtra(NameMatchScoreActivity.PERSONAL_DETAIL_TAG, personalDetailItem);
                 intent.putExtra(NameMatchScoreActivity.SECC_DETAIL_TAG, beneficiaryListItem);
@@ -903,7 +937,8 @@ public class PersonalDetailsFragment extends Fragment {
                 status = "aadhar";
                 Intent intent = new Intent(context, EkycActivity.class);
                 intent.putExtra("screen", "PersonalDetailsFragment");
-                intent.putExtra("mobileNumber", personalDetailItem);
+               // intent.putExtra("mobileNumber", personalDetailItem);
+                intent.putExtra("mobileNumber", personalDetailItem.serialize());
                 intent.putExtra("aadharNo", aadharET.getText().toString());
                 SerachOptionItem item = new SerachOptionItem();
                 item.setAadhaarNo(aadharET.getText().toString());
@@ -1659,7 +1694,7 @@ public class PersonalDetailsFragment extends Fragment {
                 if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
                     beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
                 }
-                mobileNumberET.requestFocus();
+                //mobileNumberET.requestFocus();
             }
 
            /* if (aadhaarKycResponse != null) {
@@ -1807,7 +1842,7 @@ public class PersonalDetailsFragment extends Fragment {
                 if (personalDetailItem.getName() != null && !personalDetailItem.getName().equalsIgnoreCase("")) {
                     beneficiaryNamePerIdTV.setText(personalDetailItem.getName());
                 }
-                mobileNumberET.requestFocus();
+                //mobileNumberET.requestFocus();
 
             }
 
@@ -2178,6 +2213,12 @@ public class PersonalDetailsFragment extends Fragment {
         mobileList.add("Relative");
         mobileList.add("Other");
 
+    }
+
+    private void getruralList(){
+        ruralList = new ArrayList<>();
+        ruralList.add("Rural");
+        ruralList.add("Urban");
     }
 
 }

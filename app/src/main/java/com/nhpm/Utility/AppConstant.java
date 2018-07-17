@@ -241,6 +241,7 @@ public interface AppConstant {
     String SEARCH_BY_RATION=NEW_MAIN_DOMAIN_UPDATED+"searchByRation";
     String VALIDATE_URN = "https://pmrssm.gov.in/VIEWSTAT/api/validateURN";
     String SEARCH_BY_MOBILE_RATION =  NEW_MAIN_DOMAIN_UPDATED+"searchByMobileRationParameter";
+    String SEARCH_CONSOLIDATED_BY_URN =  NEW_MAIN_DOMAIN_UPDATED+"searchConsolidatedByURN";
     String SEARCH_LOG_API=NEW_MAIN_DOMAIN_UPDATED+"log/search";
    // String SEARCH_BY_VILLAGE =  "https://pmrssm.gov.in/reportapi/searchByMobileRationParameter";
     String GET_MEMBER_DETAIL="https://pmrssm.gov.in/reportapi/getMemberDetail";

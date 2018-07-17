@@ -22,6 +22,9 @@ public class MobileSearchResponseItem implements Serializable {
     private String ration_card;
     private String block_code;
     private String stateCode;
+    private String rsbyAdcdNo;
+    private String msbyAdcdNo;
+
 
 
     static public MobileSearchResponseItem create(String serializedData) {
@@ -33,6 +36,22 @@ public class MobileSearchResponseItem implements Serializable {
         // Serialize this class into a JSON string using GSON
         Gson gson = new Gson();
         return gson.toJson(this);
+    }
+
+    public String getRsbyAdcdNo() {
+        return rsbyAdcdNo;
+    }
+
+    public void setRsbyAdcdNo(String rsbyAdcdNo) {
+        this.rsbyAdcdNo = rsbyAdcdNo;
+    }
+
+    public String getMsbyAdcdNo() {
+        return msbyAdcdNo;
+    }
+
+    public void setMsbyAdcdNo(String msbyAdcdNo) {
+        this.msbyAdcdNo = msbyAdcdNo;
     }
 
     public String getVillage_code() {

@@ -1498,6 +1498,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                         personalDetailItem.setName(aadhaarKycResponse.getName());
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",
                                 personalDetailItem.serialize(),context);*/
+                        personalDetailItem = PersonalDetailItem.create(ekycActivity.getIntent().getStringExtra("mobileNumber"));
 
 
                         if (personalDetailItem != null) {

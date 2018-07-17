@@ -44,6 +44,8 @@ public class PersonalDetailItem implements Serializable {
     private String idPhoto1;
     private String memberType;
 
+
+
     public String getMemberType() {
         return memberType;
     }

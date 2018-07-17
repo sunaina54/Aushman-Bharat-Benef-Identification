@@ -95,6 +95,21 @@
                             style="@style/textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Village/Town : "/>
+                        <TextView
+                            style="@style/textView"
+                            android:id="@+id/villageTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            style="@style/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="Dist : "/>
                         <TextView
                             style="@style/textView"
@@ -196,6 +211,21 @@
                         <TextView
                             style="@style/textView"
                             android:id="@+id/kycageTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            style="@style/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Village/Town : "/>
+                        <TextView
+                            style="@style/textView"
+                            android:id="@+id/kycVillageTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>

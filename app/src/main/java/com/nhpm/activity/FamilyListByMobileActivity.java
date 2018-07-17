@@ -78,13 +78,13 @@ public class FamilyListByMobileActivity extends BaseActivity {
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
         verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
-        logRequestItem=LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,context));
+        logRequestItem = LogRequestItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, context));
 
         headerTV.setText("Family Data" + " by " + AppUtility.searchTitleHeader + " (" + selectedStateItem.getStateName() + ")");
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
-         logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+        logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
 
         AppUtility.navigateToHome(context, activity);
         //mobileRationRequestModel = (MobileRationRequestModel) getIntent().getSerializableExtra("SearchParam");
@@ -102,7 +102,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
         searchListRV.setLayoutManager(mLayoutManager);
         if (isNetworkAvailable()) {
-            if(mobileSearchResponseItem!=null && mobileSearchResponseItem.size()>0) {
+            if (mobileSearchResponseItem != null && mobileSearchResponseItem.size() > 0) {
                 refreshMembersList(mobileSearchResponseItem);
             }
         } else {
@@ -127,21 +127,21 @@ public class FamilyListByMobileActivity extends BaseActivity {
 
 
                     if (familyResponse != null) {
-                        if(logRequestItem==null){
-                            logRequestItem=new LogRequestItem();
+                        if (logRequestItem == null) {
+                            logRequestItem = new LogRequestItem();
                         }
                         logRequestItem.setOperatorinput(request);
                         familyListResponseModel = new MobileSearchResponseModel().create(familyResponse);
 
                         logRequestItem.setOperatoroutput(familyListResponseModel.serialize());
-                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.LOG_REQUEST,logRequestItem.serialize(),context);
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.LOG_REQUEST, logRequestItem.serialize(), context);
                         try {
-                            SaveLoginTransactionRequestModel logTransReq=new SaveLoginTransactionRequestModel();
+                            SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                             logTransReq.setCreated_by(verifierLoginResp.getAadhaarNumber());
                             HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
-                            SaveLoginTransactionResponseModel responseModel=SaveLoginTransactionResponseModel.create(responseTid.get("response"));
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"logTrans",responseModel.serialize(),context);
-                            BeneficiaryFamilySearchFragment.sequence=0;
+                            SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
+                            BeneficiaryFamilySearchFragment.sequence = 0;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -170,7 +170,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
                         }
                     } else if (familyListResponseModel != null &&
                             familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
-                            ||  familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN) ) {
+                            || familyListResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
                         Intent intent = new Intent(context, LoginActivity.class);
                         CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
 
@@ -209,8 +209,8 @@ public class FamilyListByMobileActivity extends BaseActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             private TextView familyStatusTV, mobileTV, shhCodeTV, ahlHHIdTV, stateTV, distTV, villageTV,
-                    blockNameTV, stateCodeTV, distCodeTV, blockCodeTV, villageCodeTV, rationTV;
-            private LinearLayout familyItemLL;
+                    blockNameTV, stateCodeTV, distCodeTV, blockCodeTV, villageCodeTV, rationTV,rsbyADCDTV,msbyTV;
+            private LinearLayout familyItemLL, rsbyLL, msbyLL;
 
 
             public ViewHolder(View v) {
@@ -227,8 +227,12 @@ public class FamilyListByMobileActivity extends BaseActivity {
                 blockNameTV = (TextView) v.findViewById(R.id.blockNameTV);
                 blockCodeTV = (TextView) v.findViewById(R.id.blockCodeTV);
                 villageCodeTV = (TextView) v.findViewById(R.id.villageCodeTV);
+                rsbyADCDTV = (TextView) v.findViewById(R.id.rsbyADCDTV);
+                msbyTV = (TextView) v.findViewById(R.id.msbyTV);
                 rationTV = (TextView) v.findViewById(R.id.rationTV);
                 familyItemLL = (LinearLayout) v.findViewById(R.id.familyItemLL);
+                rsbyLL = (LinearLayout) v.findViewById(R.id.rsbyLL);
+                msbyLL = (LinearLayout) v.findViewById(R.id.msbyLL);
 
 
             }
@@ -267,6 +271,8 @@ public class FamilyListByMobileActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final MobileSearchResponseItem item = mDataset.get(position);
+            holder.rsbyLL.setVisibility(View.GONE);
+            holder.msbyLL.setVisibility(View.GONE);
 
             if (item.getFamily_status() != null) {
                 holder.familyStatusTV.setText(item.getFamily_status());
@@ -310,6 +316,17 @@ public class FamilyListByMobileActivity extends BaseActivity {
                 holder.rationTV.setText(item.getRation_card());
             }
 
+            if(item.getRsbyAdcdNo()!=null && !item.getRsbyAdcdNo().equalsIgnoreCase("")){
+                holder.rsbyLL.setVisibility(View.VISIBLE);
+                holder.rsbyADCDTV.setText(item.getRsbyAdcdNo());
+            }
+
+            if(item.getMsbyAdcdNo()!=null && !item.getMsbyAdcdNo().equalsIgnoreCase("")){
+                holder.msbyLL.setVisibility(View.VISIBLE);
+                holder.msbyTV.setText(item.getMsbyAdcdNo());
+            }
+
+
             holder.familyItemLL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -321,6 +338,7 @@ public class FamilyListByMobileActivity extends BaseActivity {
 
                     if (mDataset.get(position).getAhl_hh_id() != null && !mDataset.get(position).getAhl_hh_id().equalsIgnoreCase("")) {
                         logRequestModel.setHhId(mDataset.get(position).getAhl_hh_id());
+
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
                         Intent intent = new Intent(context, FamilyMembersListActivity.class);
                         //intent.putExtra("result", beneficiaryModel);

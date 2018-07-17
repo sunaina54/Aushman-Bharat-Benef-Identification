@@ -529,7 +529,7 @@ public class GovermentIDActivity extends BaseActivity {
         currentYear = currentDate.substring(6, 10);
         Log.d("current year", currentYear);
 
-        mobileNumber = getIntent().getStringExtra("mobileNumber");
+        personalDetailItem = PersonalDetailItem.create(getIntent().getStringExtra("mobileNumber"));
         // nameLL= (LinearLayout) v.findViewById(R.id.nameBenefLL);
         //  nameLL.setVisibility(View.GONE);
         photoLayout = (LinearLayout) v.findViewById(R.id.photoLayout);
@@ -725,9 +725,9 @@ public class GovermentIDActivity extends BaseActivity {
 
 
                     if (personalDetailItem != null) {
-                        if (mobileNumber != null) {
+                        /*if (mobileNumber != null) {
                             personalDetailItem.setMobileNo(mobileNumber);
-                        }
+                        }*/
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
                         personalDetailItem.setIdPhoto(voterIdImg);
@@ -753,9 +753,9 @@ public class GovermentIDActivity extends BaseActivity {
                     } else {
 
                         personalDetailItem = new PersonalDetailItem();
-                        if (mobileNumber != null) {
+                     /*   if (mobileNumber != null) {
                             personalDetailItem.setMobileNo(mobileNumber);
-                        }
+                        }*/
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
                         personalDetailItem.setIdPhoto(voterIdImg);
@@ -1259,7 +1259,7 @@ public class GovermentIDActivity extends BaseActivity {
                 AppConstant.DIST_VILLAGE_LOCATION, context));
         govtIdSP = (Spinner) findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
-        mobileNumber = getIntent().getStringExtra("mobileNumber");
+        personalDetailItem = PersonalDetailItem.create(getIntent().getStringExtra("mobileNumber"));
         voterIdIV = (ImageView) findViewById(R.id.voterIdIV);
         voterIdBackIV = (ImageView) findViewById(R.id.voterIdBackIV);
         nameTV = (EditText) findViewById(R.id.nameET);
@@ -1718,9 +1718,9 @@ public class GovermentIDActivity extends BaseActivity {
 
 
                     if (personalDetailItem != null) {
-                        if (mobileNumber != null) {
+                        /*if (mobileNumber != null) {
                             personalDetailItem.setMobileNo(mobileNumber);
-                        }
+                        }*/
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
                         personalDetailItem.setIdPhoto(voterIdImg);
@@ -1745,9 +1745,9 @@ public class GovermentIDActivity extends BaseActivity {
                     } else {
 
                         personalDetailItem = new PersonalDetailItem();
-                        if (mobileNumber != null) {
+                        /*if (mobileNumber != null) {
                             personalDetailItem.setMobileNo(mobileNumber);
-                        }
+                        }*/
                         personalDetailItem.setBenefPhoto(benefImage);
                         personalDetailItem.setName(name);
 

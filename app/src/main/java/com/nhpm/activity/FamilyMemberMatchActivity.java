@@ -229,13 +229,16 @@ public class FamilyMemberMatchActivity extends BaseActivity {
                     holder.genderTV.setText("Other");
                 }
             }
-            if (item.getDob() != null) {
+            /*if (item.getDob() != null) {
                 String currentDate = DateTimeUtil.currentDate("dd MM yyyy");
                 Log.d("current date", currentDate);
                 String currentYear = currentDate.substring(6, 10);
                 Log.d("current year", currentYear);
                 int age = Integer.parseInt(currentYear) - Integer.parseInt(item.getDob());
                 holder.ageTV.setText(age + "");
+            }*/
+            if (item.getDob() != null) {
+                holder.ageTV.setText(item.getDob() + "");
             }
             if (item.getPincode() != null) {
                 holder.pincodeTV.setText(item.getPincode());

@@ -14,6 +14,25 @@ public class SearchLocation implements Serializable {
     private String distName="";
     private boolean isDistTrue;
     private boolean isVillageTrue;
+    private boolean isRuralTrue;
+    private String ruralName="";
+
+    public boolean isRuralTrue() {
+        return isRuralTrue;
+    }
+
+    public void setRuralTrue(boolean ruralTrue) {
+        isRuralTrue = ruralTrue;
+    }
+
+    public String getRuralName() {
+        return ruralName;
+    }
+
+    public void setRuralName(String ruralName) {
+        this.ruralName = ruralName;
+    }
+
     static public SearchLocation create(String serializedData) {
         // Use GSON to instantiate this class using the JSON representation of the state
         Gson gson = new Gson();

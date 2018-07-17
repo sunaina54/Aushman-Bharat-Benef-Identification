@@ -1406,6 +1406,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                         personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
                         personalDetailItem.setName(aadhaarKycResponse.getName());
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);*/
+                            personalDetailItem = PersonalDetailItem.create(ekycActivity.getIntent().getStringExtra("mobileNumber"));
 
                             if (personalDetailItem != null) {
                                 personalDetailItem.setGovtIdType("Aadhaar");

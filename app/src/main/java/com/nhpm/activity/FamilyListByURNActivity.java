@@ -25,8 +25,10 @@ import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.request.FamilyListRequestModel;
 import com.nhpm.Models.request.LogRequestModel;
 import com.nhpm.Models.request.ValidateUrnRequestModel;
+import com.nhpm.Models.response.ADCDDataItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
+import com.nhpm.Models.response.RSBYDataItem;
 import com.nhpm.Models.response.URNResponseItem;
 import com.nhpm.Models.response.URNResponseModel;
 import com.nhpm.Models.response.master.StateItem;
@@ -58,7 +60,8 @@ public class FamilyListByURNActivity extends BaseActivity {
     private FamilyListByURNActivity activity;
     private StateItem selectedStateItem;
     private VerifierLoginResponse verifierLoginResp;
-    private ArrayList<URNResponseItem> urnResponseItem;
+   // private ArrayList<URNResponseItem> urnResponseItem;
+    private ArrayList<Object> consolidatedRsbyList;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +86,10 @@ public class FamilyListByURNActivity extends BaseActivity {
 
         AppUtility.navigateToHome(context, activity);
         // validateUrnRequestModel = (ValidateUrnRequestModel) getIntent().getSerializableExtra("SearchParam");
-        urnResponseItem = (ArrayList<URNResponseItem>) getIntent().getSerializableExtra("SearchByURN");
+      //  urnResponseItem = (ArrayList<URNResponseItem>) getIntent().getSerializableExtra("SearchByURN");
+       consolidatedRsbyList = (ArrayList<Object>) getIntent().getSerializableExtra("SearchByURN");
+
+
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +104,8 @@ public class FamilyListByURNActivity extends BaseActivity {
         searchListRV.setLayoutManager(mLayoutManager);
         if (isNetworkAvailable()) {
             // familyListData();
-            if (urnResponseItem != null && urnResponseItem.size() > 0) {
-                refreshMembersList(urnResponseItem);
+            if (consolidatedRsbyList != null && consolidatedRsbyList.size() > 0) {
+                refreshMembersList(consolidatedRsbyList);
             }
 
         } else {
@@ -108,7 +114,7 @@ public class FamilyListByURNActivity extends BaseActivity {
     }
 
 
-    private void familyListData() {
+   /* private void familyListData() {
 
         TaskListener taskListener = new TaskListener() {
             @Override
@@ -172,9 +178,260 @@ public class FamilyListByURNActivity extends BaseActivity {
         customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
         customAsyncTask.execute();
 
+    }*/
+
+    private void refreshMembersList(ArrayList<Object> docsListItems) {
+
+        adapter = new CustomAdapter(docsListItems);
+        searchListRV.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
-    private void refreshMembersList(ArrayList<URNResponseItem> docsListItems) {
+    private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+        private ArrayList<Object> mDataset;
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            private TextView nameTV, relationTV, genderTV, ageTV,
+                    motherNameTV, spouseNameTV, memberIdTV, urnNoTV, stateTV, distTV, villageTV,
+                    blockTV, pincodeTV, familyIdTV, fatherNameTV;
+            private LinearLayout familyItemLL,familyItemAdcdLL;
+            private TextView familyStatusTV, mobileTV, shhCodeTV, ahlHHIdTV, stateADCDTV,
+                    distADCDTV, villageAdcdTV, blockNameTV,
+                    stateCodeTV, distCodeTV, blockCodeTV, villageCodeTV;
+
+            public ViewHolder(View v) {
+                super(v);
+                nameTV = (TextView) v.findViewById(R.id.nameTV);
+                stateTV = (TextView) v.findViewById(R.id.stateTV);
+                distTV = (TextView) v.findViewById(R.id.distTV);
+                villageTV = (TextView) v.findViewById(R.id.villageTV);
+                familyIdTV = (TextView) v.findViewById(R.id.familyIdTV);
+                relationTV = (TextView) v.findViewById(R.id.relationTV);
+                memberIdTV = (TextView) v.findViewById(R.id.memberIdTV);
+                urnNoTV = (TextView) v.findViewById(R.id.urnNoTV);
+                fatherNameTV = (TextView) v.findViewById(R.id.fatherNameTV);
+                genderTV = (TextView) v.findViewById(R.id.genderTV);
+                ageTV = (TextView) v.findViewById(R.id.ageTV);
+                familyItemLL = (LinearLayout) v.findViewById(R.id.familyItemLL);
+
+
+
+
+                familyStatusTV = (TextView) v.findViewById(R.id.familyStatusTV);
+                mobileTV = (TextView) v.findViewById(R.id.mobileTV);
+                shhCodeTV = (TextView) v.findViewById(R.id.shhCodeTV);
+                ahlHHIdTV = (TextView) v.findViewById(R.id.ahlHHIdTV);
+                stateADCDTV = (TextView) v.findViewById(R.id.stateADCDTV);
+                distADCDTV = (TextView) v.findViewById(R.id.distADCDTV);
+                villageAdcdTV = (TextView) v.findViewById(R.id.villageAdcdTV);
+                blockNameTV = (TextView) v.findViewById(R.id.blockNameTV);
+                stateCodeTV = (TextView) v.findViewById(R.id.stateCodeTV);
+                distCodeTV = (TextView) v.findViewById(R.id.distCodeTV);
+                blockCodeTV = (TextView) v.findViewById(R.id.blockCodeTV);
+                villageCodeTV = (TextView) v.findViewById(R.id.villageCodeTV);
+                familyItemAdcdLL = (LinearLayout) v.findViewById(R.id.familyItemAdcdLL);
+
+
+            }
+        }
+
+
+        public void add(int position, Object item) {
+            mDataset.add(position, item);
+            notifyItemInserted(position);
+        }
+
+        public void remove(String item) {
+            int position = mDataset.indexOf(item);
+            mDataset.remove(position);
+            notifyItemRemoved(position);
+        }
+
+        public void updateData(ArrayList<Object> itemList) {
+            mDataset.clear();
+            mDataset.addAll(itemList);
+            notifyDataSetChanged();
+        }
+
+        public CustomAdapter(ArrayList<Object> myDataset) {
+            mDataset = myDataset;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent,
+                                             int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.family_list_item_by_urn, parent, false);
+            ViewHolder vh = new ViewHolder(v);
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+
+            final Object object = mDataset.get(position);
+            final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+            holder.familyItemLL.setVisibility(View.GONE);
+            holder.familyItemAdcdLL.setVisibility(View.GONE);
+            if (object instanceof RSBYDataItem) {
+                holder.familyItemLL.setVisibility(View.VISIBLE);
+                holder.familyItemAdcdLL.setVisibility(View.GONE);
+                final RSBYDataItem item = (RSBYDataItem) object;
+
+                if (item.getFamilyid() != null) {
+                    holder.familyIdTV.setText(item.getFamilyid());
+                }
+                if (item.getEname() != null) {
+                    holder.nameTV.setText(item.getEname().trim());
+                }
+
+
+                //  holder.relationTV.setText(item.getRelationName());
+
+
+                //holder.stateTV.setText(item.getStateName());
+                //  holder.distTV.setText(item.getDistrictName());
+                if (item.getVillagename() != null) {
+                    holder.villageTV.setText(item.getVillagename());
+                }
+
+                if (item.getUrn() != null) {
+                    holder.urnNoTV.setText(item.getUrn());
+
+                }
+                if (item.getMemberid() != null) {
+                    holder.memberIdTV.setText(item.getMemberid());
+                }
+
+                holder.fatherNameTV.setText(item.getFatherhusbandname());
+                String gender = "";
+                if (item.getGender() != null) {
+                    if (item.getGender().equalsIgnoreCase("M")) {
+                        gender = "Male";
+                    } else if (item.getGender().equalsIgnoreCase("F")) {
+                        gender = "Female";
+                    } else {
+                        gender = "Other";
+                    }
+                    holder.genderTV.setText(gender);
+                }
+                String yob = "";
+              /*  if(item.getDob()!=null) {
+                    if (item.getDob() != null && item.getDob().length() > 4) {
+                        yob = item.getDob().substring(0, 4);
+                    } else {
+                        yob = item.getDob();
+                    }
+                    holder.ageTV.setText(yob);
+                }
+*/
+                holder.familyItemLL.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (item.getUrn() == null || item.getUrn().equalsIgnoreCase("")) {
+                            CustomAlert.alertWithOk(context, "Urn number is blank. You can't processed data");
+                            return;
+                        }
+
+                        if (item.getUrn() != null && !item.getUrn().equalsIgnoreCase("")) {
+                            logRequestModel.setHhId(item.getUrn());
+                            logRequestModel.setAhl_tin(item.getUrn() + "" + item.getMemberid());
+
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
+                            Intent intent = new Intent(context, FamilyMembersListActivity.class);
+                            //intent.putExtra("result", beneficiaryModel);
+                            intent.putExtra("urnNo", item.getUrn());
+                            startActivity(intent);
+
+                        }
+                    }
+                });
+
+            }
+
+
+            if (object instanceof ADCDDataItem) {
+                holder.familyItemLL.setVisibility(View.GONE);
+                holder.familyItemAdcdLL.setVisibility(View.VISIBLE);
+                final ADCDDataItem item = (ADCDDataItem) object;
+
+                if (item.getFamily_status() != null) {
+                    holder.familyStatusTV.setText(item.getFamily_status());
+                }
+
+                if (item.getMobile_number() != null) {
+                    holder.mobileTV.setText(item.getMobile_number());
+                }
+                if (item.getShh_code() != null) {
+                    holder.shhCodeTV.setText(item.getShh_code());
+                }
+                if (item.getAhl_hh_id() != null) {
+                    holder.ahlHHIdTV.setText(item.getAhl_hh_id());
+
+                }
+               /* if (item.getStateName() != null) {
+                    holder.stateTV.setText(item.getStateName());
+                }*/
+                if (item.getState_code() != null) {
+                    holder.stateCodeTV.setText(item.getState_code());
+                }
+               /* if (item.getDistrictName() != null) {
+                    holder.distTV.setText(item.getDistrictName());
+                }*/
+                if (item.getDistrict_code() != null) {
+                    holder.distCodeTV.setText(item.getDistrict_code());
+                }
+               /* if (item.getBlockName() != null) {
+                    holder.blockNameTV.setText(item.getBlockName());
+                }*/
+                if (item.getBlock_code() != null) {
+                    holder.blockCodeTV.setText(item.getBlock_code());
+                }
+                /*if (item.getVilageName() != null) {
+                    holder.villageTV.setText(item.getVilageName());
+                }*/
+                if (item.getVillage_mdds() != null) {
+                    holder.villageCodeTV.setText(item.getVillage_mdds());
+                }
+               /* if (item.getRation_card() != null) {
+                    holder.rationTV.setText(item.getRation_card());
+                }*/
+
+
+                holder.familyItemAdcdLL.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (item.getAhl_hh_id() == null || item.getAhl_hh_id().equalsIgnoreCase("")) {
+                            CustomAlert.alertWithOk(context, "HHID is blank. You can't processed data");
+                            return;
+                        }
+
+                        if (item.getAhl_hh_id() != null && !item.getAhl_hh_id().equalsIgnoreCase("")) {
+                            logRequestModel.setHhId(item.getAhl_hh_id());
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+                            Intent intent = new Intent(context, FamilyMembersListActivity.class);
+                            //intent.putExtra("result", beneficiaryModel);
+                            intent.putExtra("hhdNo",  item.getAhl_hh_id());
+                            startActivity(intent);
+
+                        }
+                    }
+                });
+
+
+            }
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mDataset.size();
+        }
+    }
+
+   /* private void refreshMembersList(ArrayList<URNResponseItem> docsListItems) {
 
         adapter = new CustomAdapter(docsListItems);
         searchListRV.setAdapter(adapter);
@@ -304,14 +561,14 @@ public class FamilyListByURNActivity extends BaseActivity {
                 }
             });
 
-            /*holder.collectDataBT.setOnClickListener(new View.OnClickListener() {
+            *//*holder.collectDataBT.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent= new Intent(context,CollectDataActivity.class);
                     intent.putExtra("Name",item.getName());
                     startActivity(intent);
                 }
-            });*/
+            });*//*
 
         }
 
@@ -320,5 +577,5 @@ public class FamilyListByURNActivity extends BaseActivity {
         public int getItemCount() {
             return mDataset.size();
         }
-    }
+    }*/
 }

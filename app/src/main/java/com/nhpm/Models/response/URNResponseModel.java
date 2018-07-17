@@ -11,7 +11,26 @@ import java.util.ArrayList;
 
 public class URNResponseModel extends GenericResponse implements Serializable {
     private String operation;
-    private ArrayList<URNResponseItem> urnResponse;
+    private ArrayList<RSBYDataItem> rsbyData;
+    private ArrayList<ADCDDataItem> adcdData;
+
+    public ArrayList<RSBYDataItem> getRsbyData() {
+        return rsbyData;
+    }
+
+    public void setRsbyData(ArrayList<RSBYDataItem> rsbyData) {
+        this.rsbyData = rsbyData;
+    }
+
+    public ArrayList<ADCDDataItem> getAdcdData() {
+        return adcdData;
+    }
+
+    public void setAdcdData(ArrayList<ADCDDataItem> adcdData) {
+        this.adcdData = adcdData;
+    }
+
+     private ArrayList<URNResponseItem> urnResponse;
 
 
     public ArrayList<URNResponseItem> getUrnResponse() {

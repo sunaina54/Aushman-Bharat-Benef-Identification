@@ -226,6 +226,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 searchType = AppConstant.SECC_PARAM;
                 logRequestModel = new LogRequestModel();
                 logRequestModel.setMethod(AppConstant.SECC_PARAM);
+                logRequestModel.setType_of_search(AppConstant.SECC_PARAM);
                 logRequestModel.setSource(AppConstant.MOBILE_SOURCE);
                 logRequestModel.setMobile(loginResponse.getAadhaarNumber());
                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
@@ -330,7 +331,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
         rsbyADCDET = (EditText) view.findViewById(R.id.rsbyADCDET);
         rsbyADCDET.setSelection(rsbyADCDET.getText().toString().length());
-        if (rsbyADCDET.getText().toString().length() == 3) {
+        if (rsbyADCDET.getText().toString().length() == 17) {
             rsbyADCDET.setTextColor(AppUtility.getColor(context, R.color.green));
 
         }
@@ -345,7 +346,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 if (charSequence.toString().length() > 0) {
 
                     rsbyADCDET.setTextColor(AppUtility.getColor(context, R.color.black_shine));
-                    if (rsbyADCDET.getText().toString().length() == 3) {
+                    if (rsbyADCDET.getText().toString().length() == 17) {
                         rsbyADCDET.setTextColor(AppUtility.getColor(context, R.color.green));
                     }
                 }
@@ -360,7 +361,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
         msbyET = (EditText) view.findViewById(R.id.msbyET);
         msbyET.setSelection(rsbyADCDET.getText().toString().length());
-        if (msbyET.getText().toString().length() == 3) {
+        if (msbyET.getText().toString().length() == 17) {
             msbyET.setTextColor(AppUtility.getColor(context, R.color.green));
 
         }
@@ -375,7 +376,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 if (charSequence.toString().length() > 0) {
 
                     msbyET.setTextColor(AppUtility.getColor(context, R.color.black_shine));
-                    if (msbyET.getText().toString().length() == 3) {
+                    if (msbyET.getText().toString().length() == 17) {
                         msbyET.setTextColor(AppUtility.getColor(context, R.color.green));
                     }
                 }
@@ -526,18 +527,21 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
             }
         });
         ArrayList<String> spinnerList = new ArrayList<>();
-        spinnerList.add("HHId Number");
-        spinnerList.add("AHLTIN");
-        spinnerList.add("RSBY URN");
-        spinnerList.add("Mobile Number");
+     /*   spinnerList.add("HHId Number");
+        spinnerList.add("AHLTIN");*/
+        //spinnerList.add("RSBY URN");
         spinnerList.add("Ration Card");
+        spinnerList.add("Mobile Number");
         spinnerList.add("Village Code");
-        spinnerList.add("RSBY Number (as per ADCD)");
-        spinnerList.add("MSBY Number (as per ADCD)");
+        spinnerList.add("RSBY URN");
+        spinnerList.add("MSBY Number");
+    /*    spinnerList.add("RSBY Number (as per ADCD)");
+        spinnerList.add("MSBY Number (as per ADCD)");*/
 
 
         cardTypeSpinner = (Spinner) view.findViewById(R.id.cardTypeSpinner);
-        cardType = "HHId Number";
+        //cardType = "HHId Number";
+        cardType ="Ration Card";
         cardTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -550,7 +554,43 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 villageCodeLL.setVisibility(View.GONE);
                 rsbyADCDET.setVisibility(View.GONE);
                 msbyET.setVisibility(View.GONE);
-                if (position == 0) {
+
+                /*if (position == 0) {
+                    cardType = "RSBY URN";
+                    rsbyET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+                    searchType = AppConstant.RSBY_PARAM;
+
+                } else*/ if (position == 0) {
+                    cardType = "Ration Card";
+                    rationCardET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+                    searchType = AppConstant.RATION_PARAM;
+
+                } else if (position == 1) {
+                    cardType = "Mobile Number";
+                    mobileET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+                    searchType = AppConstant.MOBILE_PARAM;
+                } else if (position == 2) {
+                    cardType = "Village Code";
+                    villageCodeLL.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.GONE);
+                    searchType = AppConstant.VILLAGE_PARAM;
+                } else if (position == 3) {
+                    cardType = "RSBY Number (as per ADCD)";
+                    rsbyADCDET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+                    searchType = AppConstant.RSBY_PARAM_ADCD;
+                } else if (position == 4) {
+                    cardType = "MSBY Number (as per ADCD)";
+                    msbyET.setVisibility(View.VISIBLE);
+                    microphoneLL.setVisibility(View.VISIBLE);
+                    searchType = AppConstant.MSBY_PARAM_ADCD;
+                }
+
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"Spinner_search_value",position+"",context);
+               /* if (position == 0) {
                     hhIdNoET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
 
@@ -614,7 +654,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     msbyET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
                     searchType = AppConstant.MSBY_PARAM_ADCD;
-                }
+                }*/
                     /*rationCardET.setVisibility(View.GONE);
                     rsbyET.setVisibility(View.VISIBLE);
                     ahlTinET.setVisibility(View.GONE);
@@ -663,7 +703,13 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         });
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.custom_drop_down, R.id.textView, spinnerList);
         cardTypeSpinner.setAdapter(adapter);
-        cardTypeSpinner.setSelection(0);
+
+        String selectedPos=  ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"Spinner_search_value",context);
+        if(selectedPos==null) {
+            cardTypeSpinner.setSelection(0);
+        }else if(selectedPos!=null && !selectedPos.equalsIgnoreCase("")){
+            cardTypeSpinner.setSelection(Integer.parseInt(selectedPos));
+        }
 
         searchBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -795,10 +841,10 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter RSBY Number (as per ADCD)");
                         return;
-                    }/* else if (cardNo.length() < 10) {
-                        CustomAlert.alertWithOk(context, "Please enter valid mobile number");
+                    } else if (cardNo.length() < 17) {
+                        CustomAlert.alertWithOk(context, "Please enter valid RSBY number");
                         return;
-                    }*/
+                    }
                     AppUtility.searchTitleHeader = "RSBY Number (as per ADCD)";
                     logRequestItem.setAction(AppUtility.SEARCH_BY_RSBY_ADCD);
                     familyListDataByMobileOrRation();
@@ -813,8 +859,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     if (cardNo.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please enter MSBY Number (as per ADCD)");
                         return;
-                    }/* else if (cardNo.length() < 10) {
-                        CustomAlert.alertWithOk(context, "Please enter valid mobile number");
+                    }/* else if (cardNo.length() < 17) {
+                        CustomAlert.alertWithOk(context, "Please enter valid MSBY Number");
                         return;
                     }*/
                     AppUtility.searchTitleHeader = "MSBY Number (as per ADCD)";
@@ -1115,7 +1161,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 //bsvjvsavk
         if (cardType.equalsIgnoreCase("HHId Number")) {
             familyListRequestModel.setHho_id(cardNo);
-            logRequestModel.setMethod(AppConstant.HHID_PARAM);
+            //logRequestModel.setMethod(AppConstant.HHID_PARAM);
             logRequestModel.setSearchParameter("hhidNo=" + cardNo);
         } else {
             familyListRequestModel.setHho_id("");
@@ -1136,7 +1182,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
         if (cardType.equalsIgnoreCase("AHLTIN")) {
             familyListRequestModel.setAhlTinno(cardNo);
-            logRequestModel.setMethod("0");
+           // logRequestModel.setMethod("0");
             logRequestModel.setSearchParameter("ahlTin=" + cardNo);
 
         } else {
@@ -1327,8 +1373,10 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 try {
                     ValidateUrnRequestModel requestModel = new ValidateUrnRequestModel();
                     requestModel.setUrn(cardNo);
+                    requestModel.setSelectedState(selectedStateItem1.getStateCode());
                     logRequestModel = new LogRequestModel();
                     logRequestModel.setMethod(searchType);
+                    logRequestModel.setType_of_search(searchType);
                     logRequestModel.setSearchParameter("URN=" + cardNo);
                     //.setTransactionId(responseModel.getTransactionId() + "");
                     logRequestModel.setSource(AppConstant.MOBILE_SOURCE);
@@ -1336,7 +1384,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                     String request = requestModel.serialize();
                     String url = AppConstant.SEARCH_BY_MOBILE_RATION;
-                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_BY_MOBILE_RATION, request, AppConstant.AUTHORIZATION, loginResponse.getAuthToken());
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.SEARCH_CONSOLIDATED_BY_URN, request, AppConstant.AUTHORIZATION, loginResponse.getAuthToken());
                     familyResponse = response.get("response");
                     if (familyResponse != null) {
                         urnResponseModel = new URNResponseModel().create(familyResponse);
@@ -1362,7 +1410,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
                         logRequestModel.setTransactionId(responseModel.getTransactionId() + "");
                         if (urnResponseModel != null && urnResponseModel.isStatus()) {
-                            if (urnResponseModel.getUrnResponse() != null && urnResponseModel.getUrnResponse().size() == 0) {
+                            if (urnResponseModel.getRsbyData() != null && urnResponseModel.getRsbyData().size() == 0 && urnResponseModel.getAdcdData()!=null
+                                    && urnResponseModel.getAdcdData().size()==0) {
                                 logRequestModel.setResult("0");
                                 HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
                                 String resp = searchLogAPI.get("response");
@@ -1398,13 +1447,45 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 if (urnResponseModel != null) {
                     noMemberTV.setVisibility(View.GONE);
                     if (urnResponseModel.isStatus()) {
-                        if (urnResponseModel.getUrnResponse() != null) {
-                            logRequestModel.setResult(urnResponseModel.getUrnResponse().size() + "");
-                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+                        if (urnResponseModel.getRsbyData() != null && urnResponseModel.getAdcdData()!=null) {
+                            //logRequestModel.setResult(urnResponseModel.getUrnResponse().size() + "");
+                        //    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
-                            if (urnResponseModel.getUrnResponse().size() > 0) {
+
+
+                            if(urnResponseModel.getRsbyData().size()==0 && urnResponseModel.getAdcdData().size()==0) {
+                                if (cardType.equalsIgnoreCase("RSBY URN")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for RSBY URN \n number: " + cardNo + " in " + selectedStateItem1.getStateName());
+                                }
+
+                            }
+
+                            if(urnResponseModel.getRsbyData().size()>0 || urnResponseModel.getAdcdData().size()>0){
+                                ArrayList<Object> consolidatedRsbyList = new ArrayList<>();
+                                consolidatedRsbyList.addAll(urnResponseModel.getRsbyData());
+                                consolidatedRsbyList.addAll(urnResponseModel.getAdcdData());
+
                                 Intent theIntent = new Intent(context, FamilyListByURNActivity.class);
-                                theIntent.putExtra("SearchByURN", urnResponseModel.getUrnResponse());
+                                theIntent.putExtra("SearchByURN", consolidatedRsbyList);
+                                startActivity(theIntent);
+                            }
+                           /* if (urnResponseModel.getRsbyData().size() > 0) {
+                                Intent theIntent = new Intent(context, FamilyListByURNActivity.class);
+                                theIntent.putExtra("SearchByURN", urnResponseModel.getRsbyData());
+                                startActivity(theIntent);
+                                // refreshMembersList(familyListResponseModel.getUrnResponse());
+                            } else {
+                                if (cardType.equalsIgnoreCase("RSBY URN")) {
+                                    noMemberTV.setVisibility(View.VISIBLE);
+                                    noMemberTV.setText("No family found for RSBY URN \n number: " + cardNo + " in " + selectedStateItem1.getStateName());
+                                }
+
+                            }*/
+                        }/*else if(urnResponseModel.getAdcdData()!=null){
+                            if (urnResponseModel.getRsbyData().size() > 0) {
+                                Intent theIntent = new Intent(context, FamilyListByURNActivity.class);
+                                theIntent.putExtra("SearchByURN", urnResponseModel.getAdcdData());
                                 startActivity(theIntent);
                                 // refreshMembersList(familyListResponseModel.getUrnResponse());
                             } else {
@@ -1414,7 +1495,13 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                                 }
 
                             }
-                        }
+                        }else if(urnResponseModel.getRsbyData() != null && urnResponseModel.getAdcdData()!=null){
+                            if(urnResponseModel.getRsbyData().size()>0 && urnResponseModel.getAdcdData().size()>0){
+                                ArrayList<Object> consolidatedRsbyList = new ArrayList<>();
+                                consolidatedRsbyList.add(urnResponseModel.getRsbyData());
+                                consolidatedRsbyList.add(urnResponseModel.getAdcdData());
+                            }
+                        }*/
                     } else if (urnResponseModel != null &&
                             urnResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
                             || urnResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
@@ -1483,6 +1570,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         requestModel.setShh("");
                         requestModel.setVillageCode("");
                         logRequestModel.setSearchParameter("RSBY(ADCD) No=" + cardNo);
+
                     }
 
                     if (cardType.equalsIgnoreCase("MSBY Number (as per ADCD)")) {
@@ -1502,6 +1590,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     }
 
                     logRequestModel.setMethod(requestModel.getParam());
+                    logRequestModel.setType_of_search(requestModel.getParam());
                     requestModel.setSelectedState(selectedStateItem1.getStateCode());
                     /*if(selectedStateItem1!=null){
                         requestModel.setSelectedState(selectedStateItem1.getStateCode());
@@ -1631,6 +1720,29 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             CustomAlert.alertWithOkLogout(context, mobileSearchResponseModel.getErrorMessage(), intent);
                         }
 
+                        if (cardType.equalsIgnoreCase("Ration Card")) {
+                            noMemberTV.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No family found for \n ration card number: " + cardNo + " in " + selectedStateItem1.getStateName());
+
+                        }
+
+                        if (cardType.equalsIgnoreCase("Mobile Number")) {
+                            noMemberTV.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No family found for \n mobile number: " + cardNo + " in " + selectedStateItem1.getStateName());
+                        }
+                        if (cardType.equalsIgnoreCase("Village Code")) {
+                            noMemberTV.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No family found for \n village code: " + villageCode + " in " + selectedStateItem1.getStateName());
+                        }
+                        if (cardType.equalsIgnoreCase("RSBY Number (as per ADCD)")) {
+                            noMemberTV.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No family found for \n RSBY Number (as per ADCD): " + cardNo + " in " + selectedStateItem1.getStateName());
+                        }
+                        if (cardType.equalsIgnoreCase("MSBY Number (as per ADCD)")) {
+                            noMemberTV.setVisibility(View.VISIBLE);
+                            noMemberTV.setText("No family found for \n MSBY Number (as per ADCD): " + cardNo + " in " + selectedStateItem1.getStateName());
+                        }
+
                     } else {
                         if (cardType.equalsIgnoreCase("Ration Card")) {
                             noMemberTV.setVisibility(View.VISIBLE);
@@ -1654,10 +1766,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                             noMemberTV.setVisibility(View.VISIBLE);
                             noMemberTV.setText("No family found for \n MSBY Number (as per ADCD): " + cardNo + " in " + selectedStateItem1.getStateName());
                         }
-                        //  CustomAlert.alertWithOk(context,mobileSearchResponseModel.getErrorMessage());
-                       /* noMemberLL.setVisibility(View.VISIBLE);
-                        noMemberTV.setText(familyListResponseModel.getErrorMessage());
-                        searchListRV.setVisibility(View.GONE);*/
+
                     }
                 } else {
                     CustomAlert.alertWithOk(context, "Internal Server Error");

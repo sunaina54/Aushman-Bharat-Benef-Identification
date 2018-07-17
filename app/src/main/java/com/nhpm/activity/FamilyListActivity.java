@@ -64,6 +64,7 @@ public class FamilyListActivity extends BaseActivity {
     private Button saveLogBT;
     private AlertDialog alert;
     private boolean logStatus;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
@@ -87,7 +88,7 @@ public class FamilyListActivity extends BaseActivity {
         noMemberLL = (LinearLayout) findViewById(R.id.noMemberLL);
         noMemberLL.setVisibility(View.VISIBLE);
         noMemberTV = (TextView) findViewById(R.id.noMemberTV);
-        saveLogBT=(Button)findViewById(R.id.saveLogBT);
+        saveLogBT = (Button) findViewById(R.id.saveLogBT);
 
         AppUtility.navigateToHome(context, activity);
         familyListRequestModel = (FamilyListRequestModel) getIntent().getSerializableExtra("SearchParam");
@@ -117,7 +118,7 @@ public class FamilyListActivity extends BaseActivity {
         }
     }
 
-    private void showAlert(){
+    private void showAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getResources().getString(com.customComponent.R.string.Alert));
 
@@ -139,18 +140,19 @@ public class FamilyListActivity extends BaseActivity {
         alert.show();
 
     }
+
     private void saveLogData() {
 
         TaskListener taskListener = new TaskListener() {
             @Override
             public void execute() {
                 try {
-                   // logRequestModel.setCorrectIncorrectFamilyStatus(familyStatus);
+                    // logRequestModel.setCorrectIncorrectFamilyStatus(familyStatus);
 
                     HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
-                    String resp=searchLogAPI.get("response");
-                    Log.d("TAG"," Search Log Resp : "+resp);
-                    logStatus=true;
+                    String resp = searchLogAPI.get("response");
+                    Log.d("TAG", " Search Log Resp : " + resp);
+                    logStatus = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -159,7 +161,7 @@ public class FamilyListActivity extends BaseActivity {
 
             @Override
             public void updateUI() {
-                        finish();
+                finish();
             }
         };
         if (customAsyncTask != null) {
@@ -229,6 +231,22 @@ public class FamilyListActivity extends BaseActivity {
                     if (familyResponse != null && !familyResponse.equalsIgnoreCase("")) {
                         familyListResponseModel = new FamilyListResponseItem().create(familyResponse);
                     }
+
+                    if (familyListResponseModel != null && familyListResponseModel.isStatus()
+                            && familyListResponseModel.getResult() != null && familyListResponseModel.getResult().getResponse() != null) {
+                        if (familyListResponseModel.getResult().getResponse().getNumFound() != null
+                                && !familyListResponseModel.getResult().getResponse().getNumFound().equalsIgnoreCase("")) {
+                            matchCount = Integer.parseInt(familyListResponseModel.getResult().getResponse().getNumFound());
+                        }
+                        if (matchCount == 0 || matchCount > 5) {
+                            logRequestModel.setResult(matchCount+"");
+                            HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
+                            String resp = searchLogAPI.get("response");
+                            Log.d("TAG", " Search Log Resp : " + resp);
+                            logStatus = true;
+                           // saveLogData();
+                        }
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -237,7 +255,7 @@ public class FamilyListActivity extends BaseActivity {
 
             @Override
             public void updateUI() {
-                saveLogBT.setVisibility(View.GONE);
+                // saveLogBT.setVisibility(View.GONE);
 
                 if (familyListResponseModel != null) {
 
@@ -253,8 +271,8 @@ public class FamilyListActivity extends BaseActivity {
                             if (matchCount <= 5) {
                                 noMemberTV.setText(matchCount + " matches found");
                             } else {
-                                saveLogBT.setVisibility(View.VISIBLE);
-                                logRequestModel.setResult(matchCount+"");
+                                // saveLogBT.setVisibility(View.VISIBLE);
+                                logRequestModel.setResult(matchCount + "");
                                 noMemberTV.setText(matchCount + " matches found. Kindly refine your search.");
                             }
                             if (familyListResponseModel.getResult().getResponse().getDocs() != null && familyListResponseModel.getResult().getResponse().getDocs().size() > 0) {
@@ -376,7 +394,7 @@ public class FamilyListActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final DocsListItem item = mDataset.get(position);
-            final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+           // final LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
 
             if (item.getName() != null) {
                 holder.nameTV.setText(item.getName().trim());
@@ -440,7 +458,7 @@ public class FamilyListActivity extends BaseActivity {
                         return;
                     }
                     if (mDataset.get(position).getHhd_no() != null && !mDataset.get(position).getHhd_no().equalsIgnoreCase("")) {
-                        logRequestModel.setResult(matchCount+"");
+                        logRequestModel.setResult(matchCount + "");
                         logRequestModel.setAhl_tin(mDataset.get(position).getAhl_tin());
                         logRequestModel.setHhId(mDataset.get(position).getHhd_no());
 

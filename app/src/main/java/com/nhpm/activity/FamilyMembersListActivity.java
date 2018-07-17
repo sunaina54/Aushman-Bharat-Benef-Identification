@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -96,6 +97,7 @@ public class FamilyMembersListActivity extends BaseActivity {
     private void setupScreen() {
         context = this;
         activity = this;
+        AppUtility.softKeyBoard(activity,0);
         logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
 
         centerText = (TextView) findViewById(R.id.centertext);
@@ -119,7 +121,7 @@ public class FamilyMembersListActivity extends BaseActivity {
         familyStatusList.add("Select Family Status");
         familyStatusList.add("Correct Family");
         familyStatusList.add("Incorrect Family");
-        familyStatusList.add("Family Not Found");
+        //familyStatusList.add("Family Not Found");
         saveLogBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,10 +147,10 @@ public class FamilyMembersListActivity extends BaseActivity {
                     familyStatus = familyStatusList.get(position);
                     familyStatus = "Incorrect Family";
 
-                } else if(position==3){
+                } /*else if(position==3){
                     familyStatus = familyStatusList.get(position);
                     //familyStatus = "Family";
-                }
+                }*/
             }
 
             @Override
@@ -193,6 +195,15 @@ public class FamilyMembersListActivity extends BaseActivity {
         }*/
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+      //  AppUtility.softKeyBoard(activity,0);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        verifierLoginResp = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
+                AppConstant.VERIFIER_CONTENT, context));
     }
 
     private void familyListData() {
@@ -326,10 +337,14 @@ public class FamilyMembersListActivity extends BaseActivity {
             public void execute() {
                 try {
                     logRequestModel.setCorrectIncorrectFamilyStatus(familyStatus);
+
+                    String logRequest = logRequestModel.serialize();
                     HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
                     String resp=searchLogAPI.get("response");
                     Log.d("TAG"," Search Log Resp : "+resp);
                     logStatus=true;
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -559,10 +574,10 @@ public class FamilyMembersListActivity extends BaseActivity {
                         return;
                     }
 
-                    if (familyStatus.equalsIgnoreCase("Family Not Found")) {
+                  /*  if (familyStatus.equalsIgnoreCase("Family Not Found")) {
                         CustomAlert.alertWithOk(context, "Family status is not found. You can not proceed for KYC");
                         return;
-                    }
+                    }*/
                     if(!logStatus){
                         CustomAlert.alertWithOk(context, "Please send search log to the server first to proceed for KYC");
                         return;
@@ -579,7 +594,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                                         }
 
                                         if (item.getState_code() != null && !item.getState_code().equalsIgnoreCase("")) {
-                                            requestModel.setStatecode(Integer.parseInt(verifierLoginResp.getStatecode()));
+                                            requestModel.setStatecode(Integer.parseInt(selectedStateItem.getStateCode()));
                                         }
 
                                         TaskListener taskListener = new TaskListener() {
@@ -838,7 +853,7 @@ public class FamilyMembersListActivity extends BaseActivity {
                     }*/
 
                                         // if (item1.getState_code() != null && !item1.getState_code().equalsIgnoreCase("")) {
-                                        requestModel.setStatecode(6);
+                                        requestModel.setStatecode(Integer.parseInt(selectedStateItem.getStateCode()));
                                         // }
 
                                         TaskListener taskListener = new TaskListener() {

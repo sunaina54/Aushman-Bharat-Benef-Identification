@@ -26,6 +26,7 @@ import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.PinRequestItem;
 import com.nhpm.Models.response.verifier.UpdatePinResponse;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
+import com.nhpm.Networking.HttpsTrustManager;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
@@ -210,6 +211,7 @@ public class SetPinActivity extends BaseActivity {
     }
 
     private void requestToUpdatePin() {
+        HttpsTrustManager.allowAllSSL();
         VolleyTaskListener taskListener = new VolleyTaskListener() {
             @Override
             public void postExecute(String response) {

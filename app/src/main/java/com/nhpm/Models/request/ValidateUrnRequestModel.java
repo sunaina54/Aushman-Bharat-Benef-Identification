@@ -10,6 +10,15 @@ import java.io.Serializable;
 
 public class ValidateUrnRequestModel implements Serializable {
     private String urn;
+    private String selectedState;
+
+    public String getSelectedState() {
+        return selectedState;
+    }
+
+    public void setSelectedState(String selectedState) {
+        this.selectedState = selectedState;
+    }
 
     public String getUrn() {
         return urn;

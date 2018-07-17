@@ -56,7 +56,7 @@ public class NameMatchScoreActivity extends BaseActivity {
     private DocsListItem docsListItem;
     public static String PERSONAL_DETAIL_TAG = "PERSONAL_DETAIL";
     public static String SECC_DETAIL_TAG = "SECC_DETAIL";
-    private TextView nameTV, genderTV, ageTV, distTV, stateTV, kycNameTV, kycgenderTV, kycageTV, kycdistTV, kycstateTV, pincodeTV, kycPincodeTV;
+    private TextView villageTV,kycVillageTV,nameTV, genderTV, ageTV, distTV, stateTV, kycNameTV, kycgenderTV, kycageTV, kycdistTV, kycstateTV, pincodeTV, kycPincodeTV;
     private CustomAsyncTask asyncTask;
     private GetTotalScoreRequestModel requestModel;
     private NameMatchScoreModelRequest request;
@@ -90,6 +90,7 @@ public class NameMatchScoreActivity extends BaseActivity {
             }
         });
         nameTV = (TextView) findViewById(R.id.nameTV);
+        villageTV = (TextView) findViewById(R.id.villageTV);
         genderTV = (TextView) findViewById(R.id.genderTV);
         ageTV = (TextView) findViewById(R.id.ageTV);
         distTV = (TextView) findViewById(R.id.distTV);
@@ -101,6 +102,7 @@ public class NameMatchScoreActivity extends BaseActivity {
         declineBT = (Button) findViewById(R.id.declineBT);
 
         kycNameTV = (TextView) findViewById(R.id.kycNameTV);
+        kycVillageTV = (TextView) findViewById(R.id.kycVillageTV);
         kycageTV = (TextView) findViewById(R.id.kycageTV);
         kycgenderTV = (TextView) findViewById(R.id.kycgenderTV);
         kycdistTV = (TextView) findViewById(R.id.kycdistTV);
@@ -126,6 +128,11 @@ public class NameMatchScoreActivity extends BaseActivity {
             if (personalDetailItem.getPinCode() != null) {
                 kycPincodeTV.setText(personalDetailItem.getPinCode());
             }
+
+            if(personalDetailItem.getVtcBen()!=null){
+                kycVillageTV.setText(personalDetailItem.getVtcBen());
+            }
+
             kycageTV.setText("");
             /*if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() >= 4) {
                 try {
@@ -201,6 +208,10 @@ public class NameMatchScoreActivity extends BaseActivity {
 
             if (docsListItem.getPincode() != null) {
                 pincodeTV.setText(docsListItem.getPincode());
+            }
+
+            if(docsListItem.getVillage_name_english()!=null){
+                villageTV.setText(docsListItem.getVillage_name_english());
             }
             if (docsListItem.getGenderid() != null) {
                 if (docsListItem.getGenderid().equalsIgnoreCase("1")
@@ -284,8 +295,8 @@ public class NameMatchScoreActivity extends BaseActivity {
         requestModel.setStrDistrict1(distTV.getText().toString().trim());
         requestModel.setChGender1(genderTV.getText().toString().trim());
         requestModel.setnAge1(ageTV.getText().toString().trim());
-        if (docsListItem != null && docsListItem.getVt_name() != null) {
-            requestModel.setStrVillage1(docsListItem.getVt_name().trim());
+        if (docsListItem != null && docsListItem.getVillage_name_english() != null) {
+            requestModel.setStrVillage1(docsListItem.getVillage_name_english().trim());
         } else {
             requestModel.setStrVillage1("");
         }
@@ -348,15 +359,15 @@ public class NameMatchScoreActivity extends BaseActivity {
                             if (matchResponse.getResult().getResult() != null) {
                                 Log.d("TAG", "Match Score : " + matchResponse.getResult().getResult());
                                 showConfirmationDialog(matchResponse.getResult().getResult());
+                            } else {
+                                CustomAlert.alertWithOk(context, matchResponse.getErrorMessage());
                             }
-                        } else if (matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED) ||
-                                matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
-                            Intent intent = new Intent(context, LoginActivity.class);
-                            CustomAlert.alertWithOkLogout(context, matchResponse.getErrorMessage(), intent);
-                        } else {
-                            CustomAlert.alertWithOk(context, matchResponse.getErrorMessage());
                         }
-                    } else {
+                    }else if (matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED) ||
+                            matchResponse.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, matchResponse.getErrorMessage(), intent);
+                    }else {
                         CustomAlert.alertWithOk(context, "Internal Server error");
 
                     }

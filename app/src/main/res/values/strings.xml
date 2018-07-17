@@ -336,7 +336,7 @@
     <string name="enterPin">Enter 4-digit Pin</string>
     <string name="Proceed">Proceed</string>
     <string name="forgotPin">Forgot pin?</string>
-    <string name="proceedToForgotPassword">Please login in this application with Aadhaar OTP Authentication and go to Reset Pin option top right menu</string>
+    <string name="proceedToForgotPassword">Please login in this application with Mobile OTP Authentication and go to Reset Pin option top right menu</string>
     <string name="plzEnterPin">Please enter pin</string>
     <string name="plzEnterConfirmPin">Please enter confirm pin</string>
     <string name="plzEnterValidPin">Please enter valid pin.</string>
@@ -1013,7 +1013,7 @@
     <string name="mobileTextHint">Mobile Number of Registered Operator</string>
     <string name="loginScreenLabel">Ayushman Bharat Validation Program</string>
     <string name="emailLoginBTN">Verify and Login</string>
-    <string name="label_find_beneficiary">Find Beneficiary Family</string>
+    <string name="label_find_beneficiary">Find Beneficiary Family By ADCD</string>
     <string name="hint_search_beneficiary">Ration Card Number/RSBY URN/AHLTIN/Mobile Number</string>
     <string name="searchBTN">Search</string>
     <string name="byNameText">Find Beneficiary by Name</string>

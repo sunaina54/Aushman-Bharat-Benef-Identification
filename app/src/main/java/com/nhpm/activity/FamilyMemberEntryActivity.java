@@ -106,7 +106,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
         currentYear = currentDate.substring(6, 10);
         Log.d("current year", currentYear);
 
-        yobET.addTextChangedListener(new TextWatcher() {
+   /*     yobET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -137,7 +137,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
             public void afterTextChanged(Editable editable) {
 
             }
-        });
+        });*/
 
         pincodeET.addTextChangedListener(new TextWatcher() {
             @Override
@@ -185,18 +185,24 @@ public class FamilyMemberEntryActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String yob = yobET.getText().toString();
-                String pincode = pincodeET.getText().toString();
+              //  String pincode = pincodeET.getText().toString();
                 if(familyMemberNameET.getText().toString().equalsIgnoreCase("")){
                     CustomAlert.alertWithOk(context,getResources().getString(R.string.please_enter_name));
                     return;
                 }
 
                 if (yob.trim().equalsIgnoreCase("")) {
-                    CustomAlert.alertWithOk(context, "Please enter year of birth");
+                    CustomAlert.alertWithOk(context, "Please enter age");
                     return;
                 }
 
-                if (yob != null && !yob.equalsIgnoreCase("")) {
+/*
+                if (yob.trim().equalsIgnoreCase("")) {
+                    CustomAlert.alertWithOk(context, "Please enter year of birth");
+                    return;
+                }*/
+
+               /* if (yob != null && !yob.equalsIgnoreCase("")) {
                     int yearRange = Integer.parseInt(currentYear) - 100;
 
                     if (yob.equalsIgnoreCase(currentYear) || Integer.parseInt(yob) < yearRange) {
@@ -204,7 +210,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
                         return;
                     }
 
-                }
+                }*/
 
 
                 if (manualGenderSelection != null && manualGenderSelection.equalsIgnoreCase("")) {
@@ -212,10 +218,10 @@ public class FamilyMemberEntryActivity extends BaseActivity {
                     return;
                 }
 
-                if (pincode.equalsIgnoreCase("")) {
+              /*  if (pincode.equalsIgnoreCase("")) {
                     CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterPincodeGovt));
                     return;
-                }
+                }*/
 
                 if(familyMemberModel!=null && familyMemberModel.size()>0){
                     String name =familyMemberNameET.getText().toString();
@@ -231,7 +237,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
 
                 if(familymemberItem!=null){
                     familymemberItem.setName(familyMemberNameET.getText().toString());
-                    familymemberItem.setPincode(pincode);
+                   // familymemberItem.setPincode(pincode);
                     familymemberItem.setGenderid(manualGenderSelection);
                     familymemberItem.setDob(yob);
 
@@ -239,7 +245,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
                 }else{
                     familymemberItem = new FamilyMemberModel();
                     familymemberItem.setName(familyMemberNameET.getText().toString());
-                    familymemberItem.setPincode(pincode);
+                 //   familymemberItem.setPincode(pincode);
                     familymemberItem.setGenderid(manualGenderSelection);
                     familymemberItem.setDob(yob);
 

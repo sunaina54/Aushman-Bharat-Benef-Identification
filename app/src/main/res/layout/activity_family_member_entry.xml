@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:padding="5dp"
-                        android:text="Year of birth"
+                        android:text="Age"
                         />
 
                     <EditText
@@ -74,10 +74,9 @@
                         style="@style/blueBorderEditText"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:hint="YYYY"
                         android:inputType="date"
                         android:imeOptions="actionNext"
-                        android:maxLength="4"
+                        android:maxLength="3"
                         android:textSize="@dimen/text_size_20sp"
                         android:maxLines="1"
                         android:paddingLeft="5dp"
@@ -142,7 +141,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:weightSum="2"
-                    android:id="@+id/pincodeLL">
+                    android:id="@+id/pincodeLL"
+                    android:visibility="gone">
 
                     <TextView
                         android:textSize="@dimen/text_size_20sp"
@@ -155,6 +155,7 @@
                  />
 
                     <EditText
+
                         android:background="@drawable/onfocus_edittext_shape"
                         android:layout_margin="@dimen/margine_5"
                         android:id="@+id/pincodeET"

@@ -16,11 +16,85 @@ public class LogRequestModel implements Serializable {
     private String result="";
     private String hhId="";
     private String ahl_tin="";
-    private String correctIncorrectFamilyStatus="";
-    private String transactionId="";
-    private String mobile="";
+    private String correctIncorrectFamilyStatus="Family not found";
+    private String tid="";
+    private String user_id="";
     private String source= "";
     private String finalSave="";
+    private String memberId="";
+
+    private String district_code="";
+    private Long endTime;
+    private Long startTime;
+    private String state_code="";
+    private String type_of_doc="0";
+    private String type_of_search="";
+    private String isaadhar="";
+
+
+    public String getDistrict_code() {
+        return district_code;
+    }
+
+    public void setDistrict_code(String district_code) {
+        this.district_code = district_code;
+    }
+
+    public Long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+    }
+
+    public Long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getState_code() {
+        return state_code;
+    }
+
+    public void setState_code(String state_code) {
+        this.state_code = state_code;
+    }
+
+    public String getType_of_doc() {
+        return type_of_doc;
+    }
+
+    public void setType_of_doc(String type_of_doc) {
+        this.type_of_doc = type_of_doc;
+    }
+
+    public String getType_of_search() {
+        return type_of_search;
+    }
+
+    public void setType_of_search(String type_of_search) {
+        this.type_of_search = type_of_search;
+    }
+
+    public String getIsaadhar() {
+        return isaadhar;
+    }
+
+    public void setIsaadhar(String isaadhar) {
+        this.isaadhar = isaadhar;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
 
     public String getFinalSave() {
         return finalSave;
@@ -39,19 +113,19 @@ public class LogRequestModel implements Serializable {
     }
 
     public String getTransactionId() {
-        return transactionId;
+        return tid;
     }
 
     public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+        this.tid = transactionId;
     }
 
     public String getMobile() {
-        return mobile;
+        return user_id;
     }
 
     public void setMobile(String mobile) {
-        this.mobile = mobile;
+        this.user_id = mobile;
     }
 
     public String getMethod() {

@@ -681,6 +681,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, loginResponse.serialize(), context);
                           //  setPin();*/
 
+                            personalDetailItem = PersonalDetailItem.create(ekycActivity.getIntent().getStringExtra("mobileNumber"));
 
 
                             if (personalDetailItem != null) {

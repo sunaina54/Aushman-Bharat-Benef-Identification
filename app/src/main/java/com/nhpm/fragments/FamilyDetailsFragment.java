@@ -16,7 +16,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -59,6 +61,7 @@ import com.nhpm.Models.response.GetSearchParaResponseModel;
 import com.nhpm.Models.response.GovernmentIdItem;
 import com.nhpm.Models.response.PersonalDetailResponse;
 import com.nhpm.Models.response.SearchResult;
+import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
@@ -124,6 +127,7 @@ public class FamilyDetailsFragment extends Fragment {
     private FamilyCardList familyCardList;
     private String FAMILY_CARD_LIST = "FAMILY_CARD_LIST";
     private String searchTag = "";
+    private StateItem selectedStateItem;
 
     public FamilyDetailsFragment() {
         // Required empty public constructor
@@ -151,9 +155,39 @@ public class FamilyDetailsFragment extends Fragment {
         fragmentManager = getActivity().getSupportFragmentManager();
         verifierDetail = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
+        selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
+
         // familyCardList=FamilyCardList.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,))
         govtIdSP = (Spinner) view.findViewById(R.id.govtIdSP);
         govtIdET = (EditText) view.findViewById(R.id.govtIdET);
+        govtIdET.setSelection(govtIdET.getText().toString().length());
+        if (govtIdET.getText().toString().length() == 14) {
+            govtIdET.setTextColor(AppUtility.getColor(context, R.color.green));
+
+        }
+        govtIdET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().length() > 0) {
+
+                    govtIdET.setTextColor(AppUtility.getColor(context, R.color.black_shine));
+                    if (govtIdET.getText().toString().length() == 14) {
+                        govtIdET.setTextColor(AppUtility.getColor(context, R.color.green));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         getFamilyScoreBT = (Button) view.findViewById(R.id.getFamilyScoreBT);
         submitBT = (Button) view.findViewById(R.id.submitBT);
         prepareGovernmentIdSpinner();
@@ -396,6 +430,8 @@ public class FamilyDetailsFragment extends Fragment {
                     return;
                 }
 
+
+
                 if (voterIdImg == null || voterIdImg.equalsIgnoreCase("")) {
                     CustomAlert.alertWithOk(context, "Please capture family id photo");
                     return;
@@ -524,10 +560,10 @@ public class FamilyDetailsFragment extends Fragment {
                     CustomAlert.alertWithOk(context, "SECC Family members and Family card members does not matching.");
                     return;
                 }
-                if (govtId.length() != 12) {
-                    CustomAlert.alertWithOk(context, "Please enter 12 -digit Rashan Card number");
+               /* if (govtId.length() != 14) {
+                    CustomAlert.alertWithOk(context, "Please enter 14 -digit Rashan Card number");
                     return;
-                }
+                }*/
                /* if (familyMembersList.size() < 2) {
                     CustomAlert.alertWithOk(context, "Please add atleast two member as per family id");
                     return;
@@ -963,6 +999,7 @@ public class FamilyDetailsFragment extends Fragment {
                     // beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
                     PersonalDetailItem personalDetailItem = beneficiaryListItem.getPersonalDetail();
                     FamilyDetailsItemModel familyMemberModel = beneficiaryListItem.getFamilyDetailsItemModel();
+                    LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
 
                     GetMemberDetail request = new GetMemberDetail();
                     request.setAhl_tin(beneficiaryListItem.getAhl_tin());
@@ -973,7 +1010,10 @@ public class FamilyDetailsFragment extends Fragment {
                         request.setDataSource(AppConstant.SECC_SOURCE_NEW);
 
                     }
-                    request.setStatecode(Integer.parseInt(verifierDetail.getStatecode()));
+                //    request.setStatecode(Integer.parseInt(verifierDetail.getStatecode()));
+                    StateItem selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
+
+                    request.setStatecode(Integer.parseInt(selectedStateItem.getStateCode()));
 
                     PersonalDetailResponse personalDetail = new PersonalDetailResponse();
 
@@ -995,6 +1035,10 @@ public class FamilyDetailsFragment extends Fragment {
                     personalDetail.setDistrictNameBen(personalDetailItem.getDistrict());
                     personalDetail.setSubDistrictBen(personalDetailItem.getSubDistrictBen());
                     personalDetail.setVtcBen(personalDetailItem.getVtcBen());
+                    if(logRequestModel.getMethod().equalsIgnoreCase(AppConstant.RSBY_PARAM_ADCD)){
+                        personalDetail.setRsby_no(logRequestModel.getSearchParameter());
+                        personalDetail.setRsby_source("ADCD");
+                    }
 
                     personalDetail.setDobBen(personalDetailItem.getYob());
                     personalDetail.setEmailBen(personalDetailItem.getEmailBen());
@@ -1044,15 +1088,15 @@ public class FamilyDetailsFragment extends Fragment {
                     if (familyResponse != null) {
                         genericResponse = new GenericResponse().create(familyResponse);
 
-                        LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
-                        logRequestModel.setFinalSave("1");
+                       // LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+                      /*  logRequestModel.setFinalSave("1");
                         Log.d("Log Request Updated", logRequestModel.serialize());
                         if (genericResponse != null && genericResponse.isStatus()) {
                             //Hit log api to track the app
                             HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
                             String resp=searchLogAPI.get("response");
                             Log.d("TAG"," Search Log Resp : "+resp);
-                        }
+                        }*/
 
                         String ahltin = activity.benefItem.getAhl_tin();
                         GetSearchParaRequestModel getSearchParaRequestModel = GetSearchParaRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "SEARCH_DATA", context));
@@ -1071,13 +1115,31 @@ public class FamilyDetailsFragment extends Fragment {
                         // getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
                         String request1 = getSearchParaRequestModel.serialize();
                         Log.d("Find by name", request1);
-                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "updated log", getSearchParaRequestModel.serialize(), context);
+                       /* ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "updated log", getSearchParaRequestModel.serialize(), context);
                         if (genericResponse != null && genericResponse.isStatus()) {
                             //Hit log api to track the app
                             HashMap<String, String> searchResRsby = CustomHttp.httpPostWithTokken(AppConstant.GET_SEARCH_PARA, getSearchParaRequestModel.serialize(), AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
                             String searchResponse = searchResRsby.get("response");
                             GetSearchParaResponseModel getSearchParaResponseModel = GetSearchParaResponseModel.create(searchResponse);
 
+                        }*/
+
+                        logRequestModel.setFinalSave("1");
+                        logRequestModel.setAhl_tin(getSearchParaRequestModel.getAhl_tin());
+                        logRequestModel.setDistrict_code(getSearchParaRequestModel.getDistrict_code());
+                        logRequestModel.setStartTime(getSearchParaRequestModel.getStartTime());
+                        logRequestModel.setEndTime(getSearchParaRequestModel.getEndTime());
+                        logRequestModel.setState_code(getSearchParaRequestModel.getState_code());
+                        logRequestModel.setType_of_doc(getSearchParaRequestModel.getType_of_doc());
+                      //  logRequestModel.setType_of_search(getSearchParaRequestModel.getType_of_search());
+                        logRequestModel.setIsaadhar(getSearchParaRequestModel.getUid_search_type());
+                        String logReq=logRequestModel.serialize();
+                        Log.d("Log Request Updated", logReq);
+                        if (genericResponse != null && genericResponse.isStatus()) {
+                            //Hit log api to track the app
+                            HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
+                            String resp=searchLogAPI.get("response");
+                            Log.d("TAG"," Search Log Resp : "+resp);
                         }
 
 
@@ -1491,17 +1553,22 @@ public class FamilyDetailsFragment extends Fragment {
                     holder.genderTV.setText("Other");
                 }
             }
-            if (item.getDob() != null) {
+           /* if (item.getDob() != null) {
                 String currentDate = DateTimeUtil.currentDate("dd MM yyyy");
                 Log.d("current date", currentDate);
                 String currentYear = currentDate.substring(6, 10);
                 Log.d("current year", currentYear);
                 int age = Integer.parseInt(currentYear) - Integer.parseInt(item.getDob());
                 holder.ageTV.setText(age + "");
+            }*/
+
+            if (item.getDob() != null) {
+                holder.ageTV.setText(item.getDob() + "");
             }
-            if (item.getPincode() != null) {
+
+          /*  if (item.getPincode() != null) {
                 holder.pincodeTV.setText(item.getPincode());
-            }
+            }*/
             if (beneficiaryListItem.getPrintCardDetail() != null) {
                 holder.menuLayout.setVisibility(View.GONE);
                 holder.settings.setVisibility(View.GONE);
@@ -1801,7 +1868,7 @@ public class FamilyDetailsFragment extends Fragment {
                 SearchByRationRequestModel requestModel = new SearchByRationRequestModel();
                 requestModel.setDocumentType(item.statusCode + "");
                 requestModel.setRationno(rationCard);
-                requestModel.setStatecode(Integer.parseInt(verifierDetail.getStatecode()));
+                requestModel.setStatecode(Integer.parseInt(selectedStateItem.getStateCode()));
                 String request = requestModel.serialize();
                 HashMap<String, String> response = null;
                 try {
@@ -1882,6 +1949,22 @@ public class FamilyDetailsFragment extends Fragment {
         familyMembersList = new ArrayList<>();
         FamilyMemberModel item = new FamilyMemberModel();
         item.setName(beneficiaryListItem.getName());
+        String yob="";
+        if (beneficiaryListItem.getDob() != null) {
+            if (beneficiaryListItem.getDob().length() > 4) {
+               yob = beneficiaryListItem.getDob().substring(0, 4);
+            }
+
+            if (beneficiaryListItem.getDob().length() == 4) {
+                yob=beneficiaryListItem.getDob();
+            }
+
+            String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+            currentYear = currentYear.substring(0, 4);
+            int age = Integer.parseInt(currentYear) - Integer.parseInt(yob);
+            item.setDob(age+"");
+        }
+        item.setGenderid(beneficiaryListItem.getGenderid());
         familyMembersList.add(item);
         refreshList(familyMembersList);
         voterIdImg = null;

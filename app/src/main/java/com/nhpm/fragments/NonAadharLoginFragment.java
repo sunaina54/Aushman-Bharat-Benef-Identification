@@ -210,15 +210,15 @@ public class NonAadharLoginFragment extends Fragment {
                 alertForToolTip(getResources().getString(R.string.login_tool_tip));
             }
         });
-        if (storedLoginResponse == null) {
+       /* if (storedLoginResponse == null) {
             verifyWithOfflineBT.setVisibility(View.GONE);
-        }
-        if (storedLoginResponse != null && storedLoginResponse.getPin().equalsIgnoreCase("")) {
+        }*/
+        /*if (storedLoginResponse != null && storedLoginResponse.getPin().equalsIgnoreCase("")) {
             verifyWithOfflineBT.setVisibility(View.GONE);
-        }
-        if (storedLoginResponse != null && !storedLoginResponse.getPin().equalsIgnoreCase("")) {
+        }*/
+      /*  if (storedLoginResponse != null && !storedLoginResponse.getPin().equalsIgnoreCase("")) {
             //verifyWithOfflineBT.setVisibility(View.VISIBLE);
-        }
+        }*/
         /*if (SeccDatabase.houseHoldCount(context) == 0) {
             verifyWithOfflineBT.setVisibility(View.GONE);
         }*/
@@ -424,7 +424,7 @@ public class NonAadharLoginFragment extends Fragment {
         }
         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, loginResponse.serialize(), context);
         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.WORNG_PIN_ENTERED_TIMESTAMP, 0 + "", context);
-        if (loginResponse.getPin() != null && loginResponse.getPin().equalsIgnoreCase("")) {
+        if (loginResponse.getPin()==null || (loginResponse.getPin() != null && loginResponse.getPin().equalsIgnoreCase(""))) {
             Intent theIntent = new Intent(context, SetPinActivity.class);
             startActivity(theIntent);
             activity.finish();

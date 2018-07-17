@@ -91,7 +91,7 @@ public class FingerprintResultActivity extends BaseActivity {
     private LogRequestItem logRequestItem;
     private SearchLocation location = new SearchLocation();
     private VerifierLoginResponse verifierLoginResponse;
-
+    private ArrayList<String> ruralList ;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
@@ -236,31 +236,35 @@ public class FingerprintResultActivity extends BaseActivity {
             }
         }
 
-
+/*
         final ArrayList<String> ruralList = new ArrayList<>();
-        ruralList.add("Select Rural/Urban");
+       // ruralList.add("Select Rural/Urban");
         ruralList.add("Rural");
-        ruralList.add("Urban");
-
+        ruralList.add("Urban");*/
+        getruralList();
         ruralUrbanSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String item = adapterView.getItemAtPosition(i).toString();
-                if (i == 0) {
+               /* if (i == 0) {
                     ruralCheck.setChecked(false);
                     ruralUrbanStatus = "";
                     ruralUrbanTag = "";
                     Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
-                } else if (i == 1) {
+                } else */if (i == 0) {
                     ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
                     ruralUrbanTag = "R";
+                    kycDist.setText("");
+                    kycVtc.setText("");
                     Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
-                } else if (i == 2) {
+                } else if (i == 1) {
                     ruralCheck.setChecked(true);
                     ruralUrbanStatus = ruralList.get(i);
                     ruralUrbanTag = "U";
+                    kycDist.setText("");
+                    kycVtc.setText("");
                     Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
                 }
 
@@ -272,9 +276,9 @@ public class FingerprintResultActivity extends BaseActivity {
             }
         });
 
-       // ruralUrbanSP.setSelection(0);
-       // ruralCheck.setChecked(true);
-        //ruralUrbanTag = "R";
+        ruralUrbanSP.setSelection(0);
+        ruralCheck.setChecked(true);
+        ruralUrbanTag = "R";
 
         Log.d("ruralUrbanStatus :", ruralUrbanStatus + ":" + ruralUrbanTag);
 
@@ -364,8 +368,10 @@ public class FingerprintResultActivity extends BaseActivity {
                     builder.append("State="+stateName+";");
 
                 }
+                location.setRuralTrue(false);
                 if (ruralCheck.isChecked()) {
                     request.setRural_urban(ruralUrbanTag.trim());
+                    location.setRuralTrue(true);
                     logRequestModel.setSearchParameter(temp+ruralUrbanTag+";");
                     temp=logRequestModel.getSearchParameter();
                     builder.append("RuralUrban="+ruralUrbanTag+";");
@@ -392,6 +398,8 @@ public class FingerprintResultActivity extends BaseActivity {
                 }
                 location.setVilageName(village);
                 location.setDistName(district);
+                location.setRuralName(ruralUrbanTag);
+
                 logRequestModel.setSearchParameter(builder.toString());
                 SaveLoginTransactionResponseModel tran= SaveLoginTransactionResponseModel.create(ProjectPrefrence.
                         getSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", context));
@@ -523,6 +531,30 @@ public class FingerprintResultActivity extends BaseActivity {
                 }, 500);
                 if (location.isDistTrue()) {
                     distCheck.setChecked(true);
+                }
+            }
+
+            if (!location.getRuralName().equalsIgnoreCase("")) {
+                getruralList();
+                if(ruralList!=null && ruralList.size()>0) {
+                    for(int i=0 ; i<ruralList.size();i++) {
+                        if(ruralList.get(i).equalsIgnoreCase(location.getRuralName())) {
+                            ruralUrbanSP.setSelection(i);
+                        }
+                    }
+
+                }
+
+                if(location.getRuralName().equalsIgnoreCase("Rural")){
+                    ruralUrbanTag="R";
+                }
+
+                if(location.getRuralName().equalsIgnoreCase("Urban")){
+                    ruralUrbanTag="U";
+                }
+
+                if (location.isRuralTrue()) {
+                    ruralCheck.setChecked(true);
                 }
             }
         } else {
@@ -1233,5 +1265,11 @@ public class FingerprintResultActivity extends BaseActivity {
        *//*
     }
 */
+
+    private void getruralList(){
+        ruralList = new ArrayList<>();
+        ruralList.add("Rural");
+        ruralList.add("Urban");
+    }
 
 }

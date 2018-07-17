@@ -10,6 +10,22 @@ import java.io.Serializable;
  */
 
 public class URNResponseItem implements Serializable {
+  /*
+     "urnResponse": [
+    {
+        "familyId": "220109645",
+            "urnNo": "22010100112000029",
+            "relationName": "Self",
+            "districtName": "Koriya",
+            "gender": "M",
+            "stateName": "Chhattisgarh",
+            "dob": "1963-06-01",
+            "memberName": "NANDU",
+            "villageName": "Badwahi",
+            "fatherhusbandname": "SHIV BALAK",
+            "memberId": "1"
+    }
+    ]*/
     private String familyId;
     private String urnNo;
     private String relationName;

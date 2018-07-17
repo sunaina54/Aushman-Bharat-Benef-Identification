@@ -32,6 +32,9 @@ public class PersonalDetailResponse implements Serializable{
     private String pinCodeBen="";
     private String emailBen="";
     private String memberType="";
+    private String rsby_no="";
+    private String rsby_mem_id="";
+    private String rsby_source="";
 
 
 
@@ -53,6 +56,31 @@ public class PersonalDetailResponse implements Serializable{
              "postOfficeBen" : "",
              "pinCodeBen" : "",
              "emailBen" : ""*/
+
+
+    public String getRsby_no() {
+        return rsby_no;
+    }
+
+    public void setRsby_no(String rsby_no) {
+        this.rsby_no = rsby_no;
+    }
+
+    public String getRsby_mem_id() {
+        return rsby_mem_id;
+    }
+
+    public void setRsby_mem_id(String rsby_mem_id) {
+        this.rsby_mem_id = rsby_mem_id;
+    }
+
+    public String getRsby_source() {
+        return rsby_source;
+    }
+
+    public void setRsby_source(String rsby_source) {
+        this.rsby_source = rsby_source;
+    }
 
     public String getMemberType() {
         return memberType;
