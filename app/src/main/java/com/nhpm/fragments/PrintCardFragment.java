@@ -249,7 +249,7 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
 
                 //request.setUserName(ApplicationGlobal.MOBILE_Username);
                 // request.setUserPass(ApplicationGlobal.MOBILE_Password);
-                SaveLoginTransactionResponseModel model=SaveLoginTransactionResponseModel.create(ProjectPrefrence.getSharedPrefrenceData(
+               /* SaveLoginTransactionResponseModel model=SaveLoginTransactionResponseModel.create(ProjectPrefrence.getSharedPrefrenceData(
                         AppConstant.PROJECT_PREF,"logTrans",context));
 
                 logRequestItem.setCreated_by(verifierDetail.getAadhaarNumber());
@@ -257,8 +257,8 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
                 logRequestItem.setTid(model.getTransactionId()+"");
                 logRequestItem.setSequence(String.valueOf(BeneficiaryFamilySearchFragment.sequence+1));
                 String payLoad = logRequestItem.serialize();
-                System.out.print(payLoad);
-                try {
+                System.out.print(payLoad);*/
+                /*try {
 
                     HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in//VIEWSTAT/api/login/saveLoginFlowLog", logRequestItem.serialize());
                     SaveLoginTransactionResponseModel responseModel=SaveLoginTransactionResponseModel.create(responseTid.get("response"));
@@ -268,7 +268,7 @@ public class PrintCardFragment extends Fragment implements UsbPermissionRequesto
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
 
             }
 

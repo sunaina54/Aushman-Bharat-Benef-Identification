@@ -913,7 +913,8 @@ getruralList();
                 personalDetailItem.setVtcBen(vtcACTV.getText().toString());
                 Intent intent = new Intent(context, NameMatchScoreActivity.class);
                 intent.putExtra(NameMatchScoreActivity.PERSONAL_DETAIL_TAG, personalDetailItem);
-                intent.putExtra(NameMatchScoreActivity.SECC_DETAIL_TAG, beneficiaryListItem);
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,NameMatchScoreActivity.SECC_DETAIL_TAG,beneficiaryListItem.serialize(),context);
+               // intent.putExtra(NameMatchScoreActivity.SECC_DETAIL_TAG, beneficiaryListItem);
                 startActivityForResult(intent, 3);
                /* if (beneficiaryName != null && !beneficiaryName.equalsIgnoreCase("")
                         && nameAsKyc != null && !nameAsKyc.equalsIgnoreCase("")) {
@@ -1062,10 +1063,10 @@ getruralList();
                             return;
                         }
 
-                        if (nameMatchScore != null && nameMatchScore.equalsIgnoreCase("0")) {
+                       /* if (nameMatchScore != null && nameMatchScore.equalsIgnoreCase("0")) {
                             CustomAlert.alertWithOk(context, "Name as an SECC and Name as an KYC is not matching");
                             return;
-                        }
+                        }*/
                         if (vtc.equalsIgnoreCase("")) {
                             CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterVTC));
                             return;
@@ -1146,10 +1147,10 @@ getruralList();
                             return;
                         }
 
-                        if (nameMatchScore != null && nameMatchScore.equalsIgnoreCase("0")) {
+                       /* if (nameMatchScore != null && nameMatchScore.equalsIgnoreCase("0")) {
                             CustomAlert.alertWithOk(context, "Name as SECC and Name as KYC is not matching");
                             return;
-                        }
+                        }*/
 
                         if (vtc.equalsIgnoreCase("")) {
                             CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzEnterVTC));

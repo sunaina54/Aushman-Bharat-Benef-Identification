@@ -222,6 +222,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         try {
             mCamera = Camera.open(cameraID);
             mPreviewView.setCamera(mCamera);
+
         } catch (Exception e) {
             Log.d(TAG, "Can't open camera with id " + cameraID);
             e.printStackTrace();
@@ -280,6 +281,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
     private void setCameraFocusReady(final boolean isFocusReady) {
         if (this.mPreviewView != null) {
             mPreviewView.setIsFocusReady(isFocusReady);
+
         }
     }
 
@@ -343,14 +345,22 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         Size bestPreviewSize = determineBestPreviewSize(parameters);
         Size bestPictureSize = determineBestPictureSize(parameters);
 
+
         parameters.setPreviewSize(bestPreviewSize.width, bestPreviewSize.height);
         parameters.setPictureSize(bestPictureSize.width, bestPictureSize.height);
-
-
+    /*    // set focus
+        parameters.setFocusMode(Camera.Parameters.FLASH_MODE_AUTO);*/
         // Set continuous picture focus, if it's supported
         if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
             parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+
+
+
         }
+
+     /*   parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_FIXED);*/
+
 
         final View changeCameraFlashModeBtn = getView().findViewById(R.id.flash);
         List<String> flashModes = parameters.getSupportedFlashModes();

@@ -219,6 +219,7 @@
                 android:textSize="@dimen/font_size" />
 
             <Button
+
                 android:id="@+id/logBT"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
@@ -228,7 +229,7 @@
                 android:padding="@dimen/margine_10"
                 android:text="Show Log"
                 android:textAllCaps="false"
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_size" />
 

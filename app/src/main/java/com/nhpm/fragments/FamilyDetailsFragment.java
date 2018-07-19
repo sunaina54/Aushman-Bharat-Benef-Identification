@@ -247,6 +247,9 @@ public class FamilyDetailsFragment extends Fragment {
                 }
                 if (familyMembersList != null && familyMembersList.size() > 0) {
                     intent.putExtra("Family_Card_Members", familyMembersList);
+                }else{
+                    CustomAlert.alertWithOk(context,"Please add member from family card");
+                    return;
                 }
                 startActivityForResult(intent, 3);
 
@@ -592,15 +595,13 @@ public class FamilyDetailsFragment extends Fragment {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     //do things
-                                    // printCard();
+
                                     submitMemberData();
                                     alert.dismiss();
                                 }
                             }).setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            //do things
-                            // printCard();
-                            // submitMemberData();
+
                             alert.dismiss();
                         }
                     });
@@ -1008,7 +1009,6 @@ public class FamilyDetailsFragment extends Fragment {
                         request.setDataSource(AppConstant.RSBY_SOURCE_NEW);
                     } else {
                         request.setDataSource(AppConstant.SECC_SOURCE_NEW);
-
                     }
                 //    request.setStatecode(Integer.parseInt(verifierDetail.getStatecode()));
                     StateItem selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
@@ -1181,9 +1181,9 @@ public class FamilyDetailsFragment extends Fragment {
             public void updateUI() {
                 if (genericResponse != null) {
                     if (genericResponse.isStatus()) {
-                        if (familyScore >= 80 && nameScore >= 80) {
+                       /* if (familyScore >= 80 && nameScore >= 80) {
                             printCard();
-                        } else {
+                        } else {*/
                             String msg = getResources().getString(R.string.submit_data_message);
                             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                             builder.setTitle(context.getResources().getString(com.customComponent.R.string.Alert));
@@ -1191,13 +1191,14 @@ public class FamilyDetailsFragment extends Fragment {
                                     .setCancelable(false)
                                     .setPositiveButton(context.getResources().getString(com.customComponent.R.string.OK), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-                                            activity.finish();
+                                            //activity.finish();
+                                            printCard();
                                             alert.dismiss();
                                         }
                                     });
                             alert = builder.create();
                             alert.show();
-                        }
+                        //}
 
                         // Intent intent = new Intent(context, FamilyMembersListActivity.class);
                         // CustomAlert.alertWithOk(context, getResources().getString(R.string.submit_data_message), intent);
@@ -1965,8 +1966,8 @@ public class FamilyDetailsFragment extends Fragment {
             item.setDob(age+"");
         }
         item.setGenderid(beneficiaryListItem.getGenderid());
-        familyMembersList.add(item);
-        refreshList(familyMembersList);
+       // familyMembersList.add(item);
+       // refreshList(familyMembersList);
         voterIdImg = null;
         beneficiaryPhotoIV.setImageBitmap(null);
         addFamilyMemberLL.setEnabled(true);

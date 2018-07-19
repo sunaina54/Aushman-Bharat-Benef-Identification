@@ -80,7 +80,8 @@ public class NameMatchScoreActivity extends BaseActivity {
                 ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
 
         personalDetailItem = (PersonalDetailItem) getIntent().getSerializableExtra(PERSONAL_DETAIL_TAG);
-        docsListItem = (DocsListItem) getIntent().getSerializableExtra(SECC_DETAIL_TAG);
+        docsListItem =DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,NameMatchScoreActivity.SECC_DETAIL_TAG,context));
+//(DocsListItem) getIntent().getSerializableExtra(SECC_DETAIL_TAG);
         backIV = (ImageView) findViewById(R.id.back);
         backIV.setOnClickListener(new View.OnClickListener() {
             @Override

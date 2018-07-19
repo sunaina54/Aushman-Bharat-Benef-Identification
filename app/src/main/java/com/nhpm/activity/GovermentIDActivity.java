@@ -2509,8 +2509,10 @@ public class GovermentIDActivity extends BaseActivity {
                         context.getString(R.string.squarecamera__app_name) + "/photoCapture/IMG_12345.jpg"));
                 Uri compressedUri = Uri.fromFile(new File(CommonUtilsImageCompression.compressImage(fileUri.getPath(), context, "/photoCapture")));
                 //  captureImageBM=(Bitmap)data.getExtras().get("data");
+
                 try {
                     captureImageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(), compressedUri);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

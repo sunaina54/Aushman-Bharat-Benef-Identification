@@ -60,6 +60,7 @@ import com.nhpm.Models.NotificationModel;
 import com.nhpm.Models.request.MobileOtpRequest;
 import com.nhpm.Models.response.ApplicationConfigListModel;
 import com.nhpm.Models.response.ApplicationConfigurationModel;
+import com.nhpm.Models.response.CofigDummyModel;
 import com.nhpm.Models.response.MobileOTPResponse;
 import com.nhpm.Models.response.NotificationResponse;
 import com.nhpm.Models.response.master.AadhaarStatusItem;
@@ -155,7 +156,7 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
     private SeccMemberRequest seccRequest;
     private SeccHouseholdResponse seccHouseHoldResponse;
     private SeccMemberResponse seccmemberResponse;
-private BlockDetailActivity blockDetailActivity;
+    private BlockDetailActivity blockDetailActivity;
     private RelativeLayout menuLayout;
     private Button syncAadhaarCollectedBT;
     private String CLEAN_DEVICE = "1", DELETE_DATA = "2";
@@ -219,8 +220,13 @@ private BlockDetailActivity blockDetailActivity;
                 AppConstant.VERIFIER_CONTENT, context));
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
         ArrayList<ConfigurationItem> configurationList = SeccDatabase.findAllConfiguration(context);
-        String comingFromSplash=getIntent().getStringExtra("Splash");
-        if(comingFromSplash!=null && comingFromSplash.equalsIgnoreCase(SplashNhps.COMING_FROM_SPLASH)){
+        CofigDummyModel model=new CofigDummyModel();
+        model.setConfigurationItems(configurationList);
+        String configData=  model.serialize();
+        Log.d("configuration data",configData);
+
+        String comingFromSplash = getIntent().getStringExtra("Splash");
+        if (comingFromSplash != null && comingFromSplash.equalsIgnoreCase(SplashNhps.COMING_FROM_SPLASH)) {
             askPinToLock();
         }
         if (isNetworkAvailable()) {
@@ -498,7 +504,7 @@ private BlockDetailActivity blockDetailActivity;
         } else {
             downloadMemberMasterData();
         }*/
-       // prepareBlockForDownloaddList();
+        // prepareBlockForDownloaddList();
         settings.setVisibility(View.VISIBLE);
         blockList.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
@@ -597,8 +603,8 @@ private BlockDetailActivity blockDetailActivity;
                                 theIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                                 startActivity(theIntent);
-                                ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,AppConstant.VERIFIER_CONTENT,context);
-                                ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_NAME,AppConstant.SESSION_EXPIRE_INVAILD_TOKEN,context);
+                                ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context);
+                                ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_NAME, AppConstant.SESSION_EXPIRE_INVAILD_TOKEN, context);
 
                                 rightTransition();
                                 //verifierDetail.setLoginSession(false);
@@ -655,7 +661,7 @@ private BlockDetailActivity blockDetailActivity;
             }
         });
         setData();
-       // openOptionFragment();
+        // openOptionFragment();
 
      /*   if (SeccDownloaded.equalsIgnoreCase("N")) {
             openWithoutSeccFragment();
@@ -723,7 +729,7 @@ private BlockDetailActivity blockDetailActivity;
         } else {
            // downloadMemberMasterData();
         }*/
-       // prepareBlockForDownloaddList();
+        // prepareBlockForDownloaddList();
         settings.setVisibility(View.VISIBLE);
         blockList.setHasFixedSize(true);
         // use a linear layout manager
@@ -905,10 +911,10 @@ private BlockDetailActivity blockDetailActivity;
     private void changePin() {
         if (isNetworkAvailable()) {
             String mobile = verifierDetail.getAadhaarNumber();
-            if(mobile!=null) {
+            if (mobile != null) {
                 requestForOTP(mobile);
             }
-        }else {
+        } else {
             AppUtility.alertWithOk(context, context.getResources().getString(R.string.internet_connection_msg));
         }
 
@@ -920,6 +926,7 @@ private BlockDetailActivity blockDetailActivity;
             AppUtility.alertWithOk(context, context.getResources().getString(R.string.internet_connection_msg));
         }*/
     }
+
     private void requestForOTP(final String mobileNumber) {
 
         TaskListener taskListener = new TaskListener() {
@@ -1149,7 +1156,7 @@ private BlockDetailActivity blockDetailActivity;
     }
 
     private void setData() {
-        headerTV.setText(context.getResources().getString(R.string.nhpsFieldValidation) +" ("+selectedStateItem.getStateName()+")");
+        headerTV.setText(context.getResources().getString(R.string.nhpsFieldValidation) + " (" + selectedStateItem.getStateName() + ")");
         //prepareBlockForNotDownloaded();
     }
 
@@ -2026,7 +2033,7 @@ private BlockDetailActivity blockDetailActivity;
         protected void onPreExecute() {
             if (progressBar != null && progressBar.isShowing()) {
                 progressBar.dismiss();
-                progressBar=null;
+                progressBar = null;
             }
             myCountDownTimer = new MyCountDownTimer(AppConstant.TIMMERTIME * 1000 + 1000, 1000);
             myCountDownTimer.start();
@@ -2092,6 +2099,7 @@ private BlockDetailActivity blockDetailActivity;
 //        });
         return downloadDialog.show();
     }
+
     private static AlertDialog showDialog(final Activity act, CharSequence title, CharSequence message, CharSequence buttonYes, CharSequence buttonNo, String faildApi) {
         AlertDialog.Builder downloadDialog = new AlertDialog.Builder(act);
         downloadDialog.setTitle(title);
@@ -2682,7 +2690,7 @@ private BlockDetailActivity blockDetailActivity;
                 }
 
 //                    by rajesh kumar
-                if (seccHousehold == null || seccHousehold.equalsIgnoreCase("0") || seccHousehold.equalsIgnoreCase("") ) {
+                if (seccHousehold == null || seccHousehold.equalsIgnoreCase("0") || seccHousehold.equalsIgnoreCase("")) {
 
                     showDialogBlock(BlockDetailActivity.this, context.getResources().getString(R.string.Alert), BLOCK_HOUSEHOLD_EMPTY_MSG, context.getResources().getString(R.string.tryAgain));
 
@@ -2725,7 +2733,7 @@ private BlockDetailActivity blockDetailActivity;
             try {
 
                 String url = AppConstant.APPLICATION_CONFIGURATION_URL + selectedStateItem.getStateCode();
-                HashMap<String, String> response = CustomHttp.getStringRequest(AppConstant.APPLICATION_CONFIGURATION_URL + selectedStateItem.getStateCode(), AppConstant.AUTHORIZATION,verifierDetail.getAuthToken());
+                HashMap<String, String> response = CustomHttp.getStringRequest(AppConstant.APPLICATION_CONFIGURATION_URL + selectedStateItem.getStateCode(), AppConstant.AUTHORIZATION, verifierDetail.getAuthToken());
                 String configurationResp = AppUtility.fixEncoding(response.get(AppConstant.RESPONSE_BODY));
                 System.out.print(configurationResp);
                 if (configurationResp != null) {
@@ -2741,9 +2749,9 @@ private BlockDetailActivity blockDetailActivity;
                                 //  return DOWNLOAD_COMPLETED;
                             }
                         }
-                    }else if(respItem!=null && respItem.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)){
-                       Intent intent = new Intent(context,LoginActivity.class);
-                        CustomAlert.alertWithOkLogout(context,respItem.getErrorMessage(),intent);
+                    } else if (respItem != null && respItem.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, respItem.getErrorMessage(), intent);
 
                     }
                 }
@@ -2879,9 +2887,9 @@ private BlockDetailActivity blockDetailActivity;
 
                             }
 
-                        }else if(respItem!=null && respItem.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)){
-                            Intent intent = new Intent(context,LoginActivity.class);
-                            CustomAlert.alertWithOkLogout(context,respItem.getErrorMessage(),intent);
+                        } else if (respItem != null && respItem.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)) {
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            CustomAlert.alertWithOkLogout(context, respItem.getErrorMessage(), intent);
 
                         }
                     }
@@ -3043,7 +3051,7 @@ private BlockDetailActivity blockDetailActivity;
                 AppConstant.VERIFIER_CONTENT, context));
         final EditText pinET = (EditText) alertView.findViewById(R.id.deletPinET);
         final TextView errorTV = (TextView) alertView.findViewById(R.id.invalidOtpTV);
-        final LinearLayout forgotPinLayout= (LinearLayout) alertView.findViewById(R.id.forgetPinBT);
+        final LinearLayout forgotPinLayout = (LinearLayout) alertView.findViewById(R.id.forgetPinBT);
         wrongAttempetCountText = (TextView) alertView.findViewById(R.id.wrongAttempetCountText);
         wrongAttempetCountValue = (TextView) alertView.findViewById(R.id.wrongAttempetCountValue);
 
@@ -3066,8 +3074,8 @@ private BlockDetailActivity blockDetailActivity;
         forgotPinLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,LoginActivity.class);
-                CustomAlert.alertWithYesNo(context, context.getResources().getString(R.string.proceedToForgotPassword),intent,blockDetailActivity);
+                Intent intent = new Intent(context, LoginActivity.class);
+                CustomAlert.alertWithYesNo(context, context.getResources().getString(R.string.proceedToForgotPassword), intent, blockDetailActivity);
             }
         });
         Button proceedBT = (Button) alertView.findViewById(R.id.proceedBT);

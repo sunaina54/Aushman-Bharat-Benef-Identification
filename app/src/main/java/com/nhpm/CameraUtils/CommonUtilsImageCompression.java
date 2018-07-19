@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
 import com.nhpm.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -89,10 +90,12 @@ public class CommonUtilsImageCompression {
         options.inTempStorage = new byte[16 * 1024];
         try {
             bmp = BitmapFactory.decodeFile(imagePath, options);
+
         } catch (OutOfMemoryError exception) {
             exception.printStackTrace();
         }
         try {
+
             scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.RGB_565);
         } catch (OutOfMemoryError exception) {
             exception.printStackTrace();
@@ -123,6 +126,7 @@ public class CommonUtilsImageCompression {
                 matrix.postRotate(270);
             }
             scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -133,7 +137,8 @@ public class CommonUtilsImageCompression {
             out = new FileOutputStream(filepath);
 
             //write the compressed bitmap at the destination specified by filename.
-            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 30, out);
+
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -142,6 +147,13 @@ public class CommonUtilsImageCompression {
         return filepath;
     }
 
+/*    //
+    Bitmap bitmap = BitmapFactory.decodeFile(imagePath.getAbsolutePath());
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,15,out);
+    byte[] byteArray = out.toByteArray();
+    Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteArray,0,byteArray.length);
+    bmp = Bitmap.createBitmap(compressedBitmap, 0, 0, compressedBitmap.getWidth(), compressedBitmap.getHeight(), matrix, true);*/
     public static String getFilename(Context context,String folderName) {
         File mediaStorageDir = new File(
                 DatabaseHelpers.DELETE_FOLDER_PATH,
