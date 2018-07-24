@@ -19,6 +19,15 @@ public class MobileOtpRequestLoginModel implements Serializable {
     private String userPass;
     private String applicationId;
     private String appVersion;
+    private String encryptionKey;
+
+    public String getEncryptionKey() {
+        return encryptionKey;
+    }
+
+    public void setEncryptionKey(String encryptionKey) {
+        this.encryptionKey = encryptionKey;
+    }
 
     public String getApplicationId() {
         return applicationId;

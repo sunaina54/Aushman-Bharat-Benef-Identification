@@ -292,9 +292,13 @@ public class FamilyMembersListActivity extends BaseActivity {
                         Intent intent = new Intent(context, LoginActivity.class);
                         CustomAlert.alertWithOkLogout(context, familyListResponseModel.getErrorMessage(), intent);
 
+                    }else {
+                        errorTV.setVisibility(View.VISIBLE);
+                        errorTV.setText("Internal server error");
                     }
                 } else {
-                    errorTV.setVisibility(View.GONE);
+                    errorTV.setVisibility(View.VISIBLE);
+                    errorTV.setText("Internal server error");
                 }
             }
         };

@@ -20,6 +20,7 @@
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -428,6 +429,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.ShowLogActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".activity.DummyImagePreviewClass"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
     </application>

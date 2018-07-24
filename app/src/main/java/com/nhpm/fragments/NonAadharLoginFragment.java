@@ -62,6 +62,7 @@ import com.nhpm.Models.response.verifier.MobileNumberOTPValidaationResponse;
 import com.nhpm.Models.response.verifier.VerifierLocationItem;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
+import com.nhpm.Utility.AESEncryption;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 import com.nhpm.Utility.ApplicationGlobal;
@@ -70,6 +71,7 @@ import com.nhpm.activity.BlockDetailActivity;
 import com.nhpm.activity.LoginActivity;
 import com.nhpm.activity.PinLoginActivity;
 import com.nhpm.activity.SetPinActivity;
+import com.nhpm.activity.SplashNhps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +80,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import pl.polidea.view.ZoomView;
+
+import static com.nhpm.Utility.AppUtility.printKeyHash;
 
 
 public class NonAadharLoginFragment extends Fragment {
@@ -122,7 +126,7 @@ public class NonAadharLoginFragment extends Fragment {
     private CustomAsyncTask mobileOtpAsyncTask;
     private MobileOTPResponse mobileOtpRequestModel;
     private MobileOTPResponse mobileOtpVerifyModel;
-
+    public static String releaseKey="";
     //private AlertDialog dialog;
     public NonAadharLoginFragment() {
     }
@@ -156,6 +160,8 @@ public class NonAadharLoginFragment extends Fragment {
     private void setupScreen(View v) {
         context = getActivity();
         mContext = getActivity();
+        releaseKey="asdfg";
+        releaseKey= printKeyHash(activity);
         mZoomLinearLayout = (LinearLayout) v.findViewById(R.id.mZoomLinearLayout);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, mContext));
         showNotification(v);
@@ -542,6 +548,10 @@ public class NonAadharLoginFragment extends Fragment {
 
     private void loginRequest() {
         // showHideProgressDialog(true);
+      /*  final String strMessage = "fSAKHBZIpOSjWqvnHp23iRI+UKDhHyxi4yM7nAsmXsWqgOjNYY73bGfzhuW0UOPB";
+
+        String encyKey=AESEncryption.decrypt(strMessage,"kHI6y7bpDiKIL7tmOYjXN3HogVc=");
+        Log.d(TAG,"Encrypted key :"+ encyKey);*/
         Log.d(TAG, "Login request : " + request.serialize() + " : URL : " + AppConstant.LOGIN_API);
         TaskListener taskListener = new TaskListener() {
             @Override
@@ -621,7 +631,7 @@ public class NonAadharLoginFragment extends Fragment {
     }
 
     private void validateStateAndData() {
-        popupForOTPValidation(request.getAadhaarNumber(), loginOTPResponseModel.getTransactionid());
+        popupForOTPValidation(request.getAadhaarNumber(), loginOTPResponseModel.getTransactionid(),loginOTPResponseModel.getEncryptedToken());
         //loginResponse.setLoginSession(true);
    /*     if (selectedStateItem != null && selectedStateItem.getStateCode() != null && loginResponse.getLocationList() != null && loginResponse.getLocationList().size() > 0) {
             if (!selectedStateItem.getStateCode().equalsIgnoreCase(loginResponse.getLocationList().get(0).getStateCode())) {
@@ -1592,9 +1602,10 @@ public class NonAadharLoginFragment extends Fragment {
         Log.d(TAG, "OTP Validate API : " + validateOTP);
         CustomVolleyGet volley = new CustomVolleyGet(taskListener, context.getResources().getString(R.string.please_wait), validateOTP.trim(), context);
         volley.execute();
+
     }
 
-    private void popupForOTPValidation(final String mobileNumber, final String sequence) {
+    private void popupForOTPValidation(final String mobileNumber, final String sequence,final String encryptedToken) {
         dialog = new AlertDialog.Builder(context).create();
         LayoutInflater factory = LayoutInflater.from(context);
         View alertView = factory.inflate(R.layout.opt_auth_layout, null);
@@ -1659,10 +1670,17 @@ public class NonAadharLoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String otp = optET.getText().toString();
+                releaseKey="kHI6y7bpDiKIL7tmOYjXN3HogVc=";
+                String encryptionkey= AESEncryption.decrypt(encryptedToken, releaseKey);
 
-                //  otpAuthMsg.setVisi bility(View.GONE);
+                AppUtility.writeFileToStorage(releaseKey, "Release Key");
+                AppUtility.writeFileToStorage(encryptedToken, "Encrypted Token");
+                AppUtility.writeFileToStorage(encryptionkey, "Encryption Key");
+                Log.d(TAG,"Encrypted key :"+ encryptionkey);
+                //  otpAuthMsg.setVisibility(View.GONE);
                 if (!otp.equalsIgnoreCase("")) {
-                    validateOTP(otp, mobileNumber, otpAuthMsg, loginOTPResponseModel.getTransactionid());
+
+                    validateOTP(otp, mobileNumber, otpAuthMsg, loginOTPResponseModel.getTransactionid(),encryptionkey);
 
                     //  updatedVersionApp();
                    /* if (mobileOtpRequestModel.getOtp().equalsIgnoreCase(otp)) {
@@ -1874,7 +1892,7 @@ public class NonAadharLoginFragment extends Fragment {
             @Override
             public void updateUI() {
                 if (mobileOtpRequestModel != null && mobileOtpRequestModel.getOtp() != null) {
-                    popupForOTPValidation(mobileNumber, mobileOtpRequestModel.getSequenceNo());
+                    popupForOTPValidation(mobileNumber, mobileOtpRequestModel.getSequenceNo(),loginOTPResponseModel.getEncryptedToken());
                 }
 
             }
@@ -1890,7 +1908,7 @@ public class NonAadharLoginFragment extends Fragment {
     }
 
 
-    private void validateOTP(final String otp, final String mobileNumber, final TextView authOtpTV, final String sequenceNo) {
+    private void validateOTP(final String otp, final String mobileNumber, final TextView authOtpTV, final String sequenceNo,final String encryptionKey) {
 
         TaskListener taskListener = new TaskListener() {
             @Override
@@ -1899,6 +1917,7 @@ public class NonAadharLoginFragment extends Fragment {
                 MobileOtpRequestLoginModel request = new MobileOtpRequestLoginModel();
                 request.setMobileNo(mobileNumber);
                 request.setOtp(otp);
+                request.setEncryptionKey(encryptionKey);
                 // request.setStatus("1");
                 request.setSequenceNo(sequenceNo);
                 request.setApplicationId(AppConstant.APPLICATION_ID);

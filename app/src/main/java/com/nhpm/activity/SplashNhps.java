@@ -118,6 +118,7 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
     private MessageDigest md = null;
     private SplashNhps activity;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,7 +127,7 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
 
         mContext = SplashNhps.this;
         activity=this;
-        printKeyHash(activity);
+
         createLogTable();
 
        /* try {

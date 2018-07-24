@@ -10,8 +10,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         multiDexEnabled = true
-        versionCode 55
-        versionName "1.2.0"
+        versionCode 56
+        versionName "1.2.1"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
@@ -35,6 +35,9 @@ android {
     }
     dexOptions {
         javaMaxHeapSize "4g"
+    }
+    lintOptions {
+        checkReleaseBuilds false
     }
     sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jni/'] } }
 }

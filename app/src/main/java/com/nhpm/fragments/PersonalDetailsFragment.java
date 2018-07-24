@@ -146,6 +146,7 @@ public class PersonalDetailsFragment extends Fragment {
     private ArrayList<String> mobileList;
     private ArrayList<StateItem> stateList2;
     private ArrayList<String> ruralList;
+    private LinearLayout personalLL;
 
 
     public AadhaarResponseItem getAadhaarKycResponse() {
@@ -190,8 +191,13 @@ public class PersonalDetailsFragment extends Fragment {
         }*/
         personalDetailItem = activity.benefItem.getPersonalDetail();
         matchBT = (Button) view.findViewById(R.id.matchBT);
+        matchBT.setVisibility(View.GONE);
+        nextBT = (Button) view.findViewById(R.id.nextBT);
+        nextBT.setVisibility(View.GONE);
         mobileNumberET = (EditText) view.findViewById(R.id.mobileET);
         mobileNumberET.requestFocus();
+        personalLL= (LinearLayout) view.findViewById(R.id.personalLL);
+        personalLL.setVisibility(View.GONE);
         noAadhaarTV = (TextView) view.findViewById(R.id.noAadhaarTV);
         aadharLL = (LinearLayout) view.findViewById(R.id.aadharLL);
         govtIdLL = (LinearLayout) view.findViewById(R.id.govtIdLL);
@@ -243,9 +249,15 @@ public class PersonalDetailsFragment extends Fragment {
                 } else if (position == 1) {
                     verifyMobBT.setVisibility(View.GONE);
                     whoseMobileStatus = "Relative";
+                    personalLL.setVisibility(View.VISIBLE);
+                    matchBT.setVisibility(View.VISIBLE);
+                    nextBT.setVisibility(View.VISIBLE);
                 } else if (position == 2) {
                     verifyMobBT.setVisibility(View.GONE);
                     whoseMobileStatus = "Others";
+                    personalLL.setVisibility(View.VISIBLE);
+                    matchBT.setVisibility(View.VISIBLE);
+                    nextBT.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -266,7 +278,7 @@ public class PersonalDetailsFragment extends Fragment {
         ruralList.add("Select Rural/Urban");
         ruralList.add("Rural");
         ruralList.add("Urban");*/
-getruralList();
+        getruralList();
         ruralUrbanSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -514,6 +526,9 @@ getruralList();
         }
 
         if (personalDetailItem != null) {
+            personalLL.setVisibility(View.VISIBLE);
+            matchBT.setVisibility(View.VISIBLE);
+            nextBT.setVisibility(View.VISIBLE);
             nameMatchScore = personalDetailItem.getNameMatchScore() + "";
             if (!nameMatchScore.equalsIgnoreCase("")) {
                 nameScoreLabelTV.setVisibility(View.VISIBLE);
@@ -522,6 +537,7 @@ getruralList();
             }
             if (!personalDetailItem.getFlowStatus().equalsIgnoreCase("")
                     && personalDetailItem.getFlowStatus().equalsIgnoreCase(AppConstant.AADHAR_STATUS)) {
+
                 vtcACTV.setEnabled(false);
                 distACTV.setEnabled(false);
                 stateSP.setEnabled(false);
@@ -1014,7 +1030,7 @@ getruralList();
 
             }
         });
-        nextBT = (Button) view.findViewById(R.id.nextBT);
+
         nextBT.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -1325,6 +1341,9 @@ getruralList();
                     // personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
                     //beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
                     Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
+                    personalLL.setVisibility(View.VISIBLE);
+                    matchBT.setVisibility(View.VISIBLE);
+                    nextBT.setVisibility(View.VISIBLE);
                     // CustomAlert.alertWithOk(context, "OTP verified successfully");
 
                     // AppUtility.hideSoftInput(getActivity());
@@ -1447,6 +1466,9 @@ getruralList();
                         personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
                         // beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
                         Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
+                        personalLL.setVisibility(View.VISIBLE);
+                        matchBT.setVisibility(View.VISIBLE);
+                        nextBT.setVisibility(View.VISIBLE);
                         //CustomAlert.alertWithOk(context, "OTP verified successfully");
                     } else {
                         otpAuthMsg.setText(context.getResources().getString(R.string.enterValidOtp));

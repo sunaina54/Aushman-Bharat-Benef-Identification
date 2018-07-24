@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Size;
@@ -17,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -179,7 +181,10 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
                 takePicture();
             }
         });
+
     }
+
+
 
     private void setupFlashMode() {
         View view = getView();
@@ -281,7 +286,6 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
     private void setCameraFocusReady(final boolean isFocusReady) {
         if (this.mPreviewView != null) {
             mPreviewView.setIsFocusReady(isFocusReady);
-
         }
     }
 
@@ -353,9 +357,9 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         // Set continuous picture focus, if it's supported
         if (parameters.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
             parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-
-
-
+            Log.d("focus11", "focus is not working");
+        }else {
+            Log.d("focus11", "set focus");
         }
 
      /*   parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_MACRO);
@@ -417,6 +421,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
     private int getBackCameraID() {
         return CameraInfo.CAMERA_FACING_BACK;
     }
+
+
 
     /**
      * Take a picture
@@ -590,5 +596,27 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
             rememberOrientation();
             return mRememberedNormalOrientation;
         }
+
+
     }
+
+ /*   protected void focusOnTouch(MotionEvent event) {
+        if (mCamera != null) {
+
+            mCamera.cancelAutoFocus();
+            Rect focusRect = calculateTapArea(event.getX(), event.getY(), 1f);
+            Rect meteringRect = calculateTapArea(event.getX(), event.getY(), 1.5f);
+
+            Camera.Parameters parameters = camera.getParameters();
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            parameters.setFocusAreas(Lists.newArrayList(new Camera.Area(focusRect, 1000)));
+
+            if (meteringAreaSupported) {
+                parameters.setMeteringAreas(Lists.newArrayList(new Camera.Area(meteringRect, 1000)));
+            }
+
+            mCamera.setParameters(parameters);
+            mCamera.autoFocus(this);
+        }
+    }*/
 }

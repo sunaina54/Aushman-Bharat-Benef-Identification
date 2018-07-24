@@ -52,6 +52,7 @@ import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 import com.nhpm.activity.BlockDetailActivity;
+import com.nhpm.activity.DummyImagePreviewClass;
 import com.nhpm.activity.FamilyListActivity;
 import com.nhpm.activity.FamilyListByHHIDActivity;
 import com.nhpm.activity.FamilyListByMobileActivity;
@@ -105,6 +106,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
     private BlockDetailActivity blockDetailActivity;
     private String searchType = "";
     private LogRequestModel logRequestModel;
+    private Button imageViewBTN;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,6 +126,14 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
         stateSP = (Spinner) view.findViewById(R.id.stateSP);
         searchBTN = (Button) view.findViewById(R.id.searchBTN);
+        imageViewBTN = (Button) view.findViewById(R.id.imageViewBTN);
+        imageViewBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DummyImagePreviewClass.class);
+                startActivity(intent);
+            }
+        });
         noMemberTV = (TextView) view.findViewById(R.id.noMemberTV);
         noMemberTV.setVisibility(View.GONE);
         microphoneLL = (RelativeLayout) view.findViewById(R.id.microphoneLL);

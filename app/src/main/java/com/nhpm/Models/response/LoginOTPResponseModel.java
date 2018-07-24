@@ -10,6 +10,15 @@ import java.io.Serializable;
 
 public class LoginOTPResponseModel extends GenericResponse implements Serializable {
     private String transactionid;
+    private String encryptedToken;
+
+    public String getEncryptedToken() {
+        return encryptedToken;
+    }
+
+    public void setEncryptedToken(String encryptedToken) {
+        this.encryptedToken = encryptedToken;
+    }
 
     public String getTransactionid() {
         return transactionid;

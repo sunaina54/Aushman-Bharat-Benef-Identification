@@ -313,6 +313,21 @@
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
+            <Button
+                android:id="@+id/imageViewBTN"
+                android:layout_width="250dp"
+                android:visibility="gone"
+                android:layout_height="50dp"
+                android:layout_below="@+id/adhar"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_shape_yello_button"
+                android:padding="@dimen/margine_10"
+                android:text="Image Click"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/findByNameTV"
                 style="@style/textView"

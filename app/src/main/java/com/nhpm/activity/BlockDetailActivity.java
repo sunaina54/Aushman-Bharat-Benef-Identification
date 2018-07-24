@@ -205,6 +205,7 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
     private long currentTime;
     private TextView wrongAttempetCountValue, wrongAttempetCountText;
     private long millisecond24 = 86400000;
+    public static String releaseKey="";
 
     public BlockDetailActivity() {
     }
@@ -215,7 +216,7 @@ public class BlockDetailActivity extends BaseActivity implements ComponentCallba
         context = this;
         activity = this;
         blockDetailActivity = this;
-        printKeyHash(activity);
+        releaseKey=printKeyHash(activity);
         verifierDetail = VerifierLoginResponse.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,
                 AppConstant.VERIFIER_CONTENT, context));
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, context));
