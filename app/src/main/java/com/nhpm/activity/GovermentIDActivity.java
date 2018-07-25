@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -51,6 +52,7 @@ import com.nhpm.BaseActivity;
 import com.nhpm.CameraUtils.CommonUtilsImageCompression;
 import com.nhpm.CameraUtils.FaceCropper;
 import com.nhpm.CameraUtils.squarecamera.CameraActivity;
+import com.nhpm.DocCamera.ImageUtil;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
 import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.SearchLocation;
@@ -74,6 +76,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,6 +88,7 @@ import java.util.regex.Pattern;
 
 import pl.polidea.view.ZoomView;
 
+import static com.nhpm.DocCamera.ImageUtil.rotateImage;
 import static com.nhpm.Utility.AppUtility.isCheckFirstTwoChar;
 import static com.nhpm.fragments.NonAadharLoginFragment.isEmailValid;
 
@@ -180,7 +185,8 @@ public class GovermentIDActivity extends BaseActivity {
     private VerifierLoginResponse verifierLoginResponse;
 
     private String blockCharacterSet = ":-/\\\\\\.";
-
+    private Bitmap bitmap;
+    private String purpose = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -839,12 +845,10 @@ public class GovermentIDActivity extends BaseActivity {
         captureVoterIdBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtility.capturingType = AppConstant.capturingModeGovId;
-              /*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-              //  Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto" +".jpg"));
-                Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto/IMG_12345.jpg"));
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(cameraIntent, 2);*/
+                AppUtility.openCamera(activity, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
+
+              /*  AppUtility.capturingType = AppConstant.capturingModeGovId;
+
                 File mediaStorageDir = new File(
                         DatabaseHelpers.DELETE_FOLDER_PATH,
                         context.getString(R.string.squarecamera__app_name) + "/photoCapture"
@@ -854,7 +858,7 @@ public class GovermentIDActivity extends BaseActivity {
                     deleteDir(mediaStorageDir);
                 }
                 Intent startCustomCameraIntent = new Intent(context, CameraActivity.class);
-                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_REQUEST);
+                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_REQUEST);*/
 
             }
         });
@@ -862,12 +866,10 @@ public class GovermentIDActivity extends BaseActivity {
         captureVoterIdBackBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtility.capturingType = AppConstant.capturingModeGovId;
-              /*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-              //  Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto" +".jpg"));
-                Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto/IMG_12345.jpg"));
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(cameraIntent, 2);*/
+                AppUtility.openCameraForGovtId(activity, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
+
+               /* AppUtility.capturingType = AppConstant.capturingModeGovId;
+
                 File mediaStorageDir = new File(
                         DatabaseHelpers.DELETE_FOLDER_PATH,
                         context.getString(R.string.squarecamera__app_name) + "/photoCapture"
@@ -877,7 +879,7 @@ public class GovermentIDActivity extends BaseActivity {
                     deleteDir(mediaStorageDir);
                 }
                 Intent startCustomCameraIntent = new Intent(context, CameraActivity.class);
-                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_BACK_REQUEST);
+                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_BACK_REQUEST);*/
 
             }
         });
@@ -2015,12 +2017,14 @@ public class GovermentIDActivity extends BaseActivity {
         captureVoterIdBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtility.capturingType = AppConstant.capturingModeGovId;
-              /*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                AppUtility.openCamera(activity, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
+
+           /*     AppUtility.capturingType = AppConstant.capturingModeGovId;
+              *//*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
               //  Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto" +".jpg"));
                 Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto/IMG_12345.jpg"));
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(cameraIntent, 2);*/
+                startActivityForResult(cameraIntent, 2);*//*
                 File mediaStorageDir = new File(
                         DatabaseHelpers.DELETE_FOLDER_PATH,
                         context.getString(R.string.squarecamera__app_name) + "/photoCapture"
@@ -2030,7 +2034,7 @@ public class GovermentIDActivity extends BaseActivity {
                     deleteDir(mediaStorageDir);
                 }
                 Intent startCustomCameraIntent = new Intent(context, CameraActivity.class);
-                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_REQUEST);
+                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_REQUEST);*/
 
             }
         });
@@ -2039,12 +2043,14 @@ public class GovermentIDActivity extends BaseActivity {
         captureVoterIdBackBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtility.capturingType = AppConstant.capturingModeGovId;
-              /*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                AppUtility.openCameraForGovtId(activity, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
+
+            /*    AppUtility.capturingType = AppConstant.capturingModeGovId;
+              *//*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
               //  Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto" +".jpg"));
                 Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto/IMG_12345.jpg"));
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(cameraIntent, 2);*/
+                startActivityForResult(cameraIntent, 2);*//*
                 File mediaStorageDir = new File(
                         DatabaseHelpers.DELETE_FOLDER_PATH,
                         context.getString(R.string.squarecamera__app_name) + "/photoCapture"
@@ -2054,7 +2060,7 @@ public class GovermentIDActivity extends BaseActivity {
                     deleteDir(mediaStorageDir);
                 }
                 Intent startCustomCameraIntent = new Intent(context, CameraActivity.class);
-                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_BACK_REQUEST);
+                startActivityForResult(startCustomCameraIntent, CAMERA_PIC_BACK_REQUEST);*/
 
             }
         });
@@ -2498,13 +2504,100 @@ public class GovermentIDActivity extends BaseActivity {
         //   if(data!=null) {
 
         if (resultCode != Activity.RESULT_CANCELED) {
-            if (requestCode == CAMERA_PIC_REQUEST) {
-               /* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
+            if (requestCode == AppConstant.REQ_CAMERA && resultCode == RESULT_OK) {
+                final Intent intent = data;//new Intent();
+                String path = intent.getStringExtra("response");
+                Uri uri = Uri.fromFile(new File(path));
+                if (uri == null) {
+                    Log.d("uri", "null");
+                } else {
+                    bitmap = null;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    File mediaFile = null;
+                    if (bitmap != null) {
+                        byte[] imageBytes = ImageUtil.bitmapToByteArray(rotateImage(bitmap, 270));
+
+                        File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_DCIM), "");
+                        mediaFile = new File(mediaStorageDir.getPath() + File.separator + purpose + ".jpg");
+                        if (mediaFile != null) {
+                            try {
+                                FileOutputStream fos = new FileOutputStream(mediaFile);
+                                fos.write(imageBytes);
+                                fos.close();
+                            } catch (FileNotFoundException e) {
+                                // Crashlytics.log(1, getClass().getName(), e.getMessage());
+                                // Crashlytics.logException(e);
+                            } catch (IOException e) {
+                                //  Crashlytics.log(1, getClass().getName(), e.getMessage());
+                                //  Crashlytics.logException(e);
+                            }
+                        }
+                    }
+                }
+
+                voterIdImg = AppUtility.converBitmapToBase64(bitmap);
+                if(voterIdImg!=null) {
+                    voterIdIV.setImageBitmap(bitmap);
+                }else {
+                    voterIdIV.setImageBitmap(null);
+                }
+                    //image.setImageBitmap(bitmap);
+            }
+
+            if (requestCode == AppConstant.BACK_REQ_CAMERA && resultCode == RESULT_OK) {
+                final Intent intent = data;//new Intent();
+                String path = intent.getStringExtra("response");
+                Uri uri = Uri.fromFile(new File(path));
+                if (uri == null) {
+                    Log.d("uri", "null");
+                } else {
+                    bitmap = null;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    File mediaFile = null;
+                    if (bitmap != null) {
+                        byte[] imageBytes = ImageUtil.bitmapToByteArray(rotateImage(bitmap, 270));
+
+                        File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_DCIM), "");
+                        mediaFile = new File(mediaStorageDir.getPath() + File.separator + purpose + ".jpg");
+                        if (mediaFile != null) {
+                            try {
+                                FileOutputStream fos = new FileOutputStream(mediaFile);
+                                fos.write(imageBytes);
+                                fos.close();
+                            } catch (FileNotFoundException e) {
+                                // Crashlytics.log(1, getClass().getName(), e.getMessage());
+                                // Crashlytics.logException(e);
+                            } catch (IOException e) {
+                                //  Crashlytics.log(1, getClass().getName(), e.getMessage());
+                                //  Crashlytics.logException(e);
+                            }
+                        }
+                    }
+                }
+
+                voterIdBackImg = AppUtility.converBitmapToBase64(bitmap);
+                if(voterIdBackImg!=null) {
+                    voterIdBackIV.setImageBitmap(bitmap);
+                }else {
+                    voterIdBackIV.setImageBitmap(null);
+                }
+                //image.setImageBitmap(bitmap);
+            }
+         /*   if (requestCode == CAMERA_PIC_REQUEST) {
+                Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
                 try {
                     captureImageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri); //(Bitmap)imageUri;//data.getExtras().get("data");
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
+                }
                 Uri fileUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,
                         context.getString(R.string.squarecamera__app_name) + "/photoCapture/IMG_12345.jpg"));
                 Uri compressedUri = Uri.fromFile(new File(CommonUtilsImageCompression.compressImage(fileUri.getPath(), context, "/photoCapture")));
@@ -2519,22 +2612,22 @@ public class GovermentIDActivity extends BaseActivity {
                 // Log.d(TAG," Bitmap Size : "+image.getAllocationByteCount());
                 voterIdImg = AppUtility.convertBitmapToString(captureImageBM);
                 updateScreen(voterIdImg);
-            }/* else if (requestCode == RASHAN_CARD_REQUEST) {
+            } else if (requestCode == RASHAN_CARD_REQUEST) {
                 Log.d("Govt id capture","rashan card calling");
                 captureImageBM = (Bitmap) data.getExtras().get("data");
                 rashanCardImg=AppUtility.convertBitmapToString(captureImageBM);
                 rashanCardIV.setImageBitmap(AppUtility.convertStringToBitmap(rashanCardImg));
-            }*/
-       /* }else{
+            }
+        }else{
 
-        }*/
+        }
             if (requestCode == CAMERA_PIC_BACK_REQUEST) {
-               /* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
+                Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
                 try {
                     captureImageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri); //(Bitmap)imageUri;//data.getExtras().get("data");
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
+                }
                 Uri fileUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,
                         context.getString(R.string.squarecamera__app_name) + "/photoCapture/IMG_12345.jpg"));
                 Uri compressedUri = Uri.fromFile(new File(CommonUtilsImageCompression.compressImage(fileUri.getPath(), context, "/photoCapture")));
@@ -2547,7 +2640,7 @@ public class GovermentIDActivity extends BaseActivity {
                 // Log.d(TAG," Bitmap Size : "+image.getAllocationByteCount());
                 voterIdBackImg = AppUtility.convertBitmapToString(captureImageBackBM);
                 updateBackImageScreen(voterIdBackImg);
-            }
+            }*/
         } else {
             if (requestCode == VOTER_ID_REQUEST) {
                /* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));

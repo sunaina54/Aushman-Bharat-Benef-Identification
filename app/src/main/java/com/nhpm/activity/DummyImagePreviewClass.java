@@ -6,21 +6,25 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.nhpm.CameraUtils.CommonUtilsImageCompression;
-import com.nhpm.CameraUtils.squarecamera.CameraActivity;
-import com.nhpm.LocalDataBase.DatabaseHelpers;
+import com.nhpm.DocCamera.ImageUtil;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static com.nhpm.DocCamera.ImageUtil.rotateImage;
 
 /**
  * Created by SUNAINA on 23-07-2018.
@@ -36,6 +40,8 @@ public class DummyImagePreviewClass extends BaseActivity {
     private ImageView back;
     private RelativeLayout backLayout;
     private DummyImagePreviewClass activity;
+    private Bitmap bitmap;
+    private String purpose = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,12 +72,15 @@ public class DummyImagePreviewClass extends BaseActivity {
         clickBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtility.capturingType = AppConstant.capturingModeGovId;
-              /*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                AppUtility.openCamera(activity, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
+
+              /*  AppUtility.capturingType = AppConstant.capturingModeGovId;
+              *//*  Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
               //  Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto" +".jpg"));
                 Uri imageUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,context.getString(R.string.squarecamera__app_name)+"/govtIdPhoto/IMG_12345.jpg"));
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(cameraIntent, 2);*/
+                startActivityForResult(cameraIntent, 2);*//*
                 File mediaStorageDir = new File(
                         DatabaseHelpers.DELETE_FOLDER_PATH,
                         context.getString(R.string.squarecamera__app_name) + "/photoCapture"
@@ -82,12 +91,12 @@ public class DummyImagePreviewClass extends BaseActivity {
                 }
                 Intent startCustomCameraIntent = new Intent(context, CameraActivity.class);
                 startActivityForResult(startCustomCameraIntent, CAMERA_PIC_BACK_REQUEST);
-
+*/
             }
         });
     }
 
-    private void deleteDir(File file) {
+ /*   private void deleteDir(File file) {
 
         if (file.isDirectory()) {
             String[] children = file.list();
@@ -101,19 +110,20 @@ public class DummyImagePreviewClass extends BaseActivity {
         Uri fileContentUri = Uri.fromFile(file);
         mediaScannerIntent.setData(fileContentUri);
         context.sendBroadcast(mediaScannerIntent);
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_CANCELED) {
+
+     /*   if (resultCode != Activity.RESULT_CANCELED) {
             if (requestCode == CAMERA_PIC_BACK_REQUEST) {
-               /* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
+               *//* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
                 try {
                     captureImageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri); //(Bitmap)imageUri;//data.getExtras().get("data");
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
+                }*//*
                 Uri fileUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,
                         context.getString(R.string.squarecamera__app_name) + "/photoCapture/IMG_12345.jpg"));
                 Uri compressedUri = Uri.fromFile(new File(CommonUtilsImageCompression.compressImage(fileUri.getPath(), context, "/photoCapture")));
@@ -127,6 +137,45 @@ public class DummyImagePreviewClass extends BaseActivity {
                 voterIdBackImg = AppUtility.convertBitmapToString(captureImageBackBM);
                 updateBackImageScreen(voterIdBackImg);
             }
+        }*/
+
+        if (requestCode == AppConstant.REQ_CAMERA && resultCode == RESULT_OK) {
+            final Intent intent = data;//new Intent();
+            String path = intent.getStringExtra("response");
+            Uri uri = Uri.fromFile(new File(path));
+            if (uri == null) {
+                Log.d("uri", "null");
+            } else {
+                bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                File mediaFile = null;
+                if (bitmap != null) {
+                    byte[] imageBytes = ImageUtil.bitmapToByteArray(rotateImage(bitmap, 270));
+
+                    File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_DCIM), "");
+                    mediaFile = new File(mediaStorageDir.getPath() + File.separator + purpose + ".jpg");
+                    if (mediaFile != null) {
+                        try {
+                            FileOutputStream fos = new FileOutputStream(mediaFile);
+                            fos.write(imageBytes);
+                            fos.close();
+                        } catch (FileNotFoundException e) {
+                            // Crashlytics.log(1, getClass().getName(), e.getMessage());
+                            // Crashlytics.logException(e);
+                        } catch (IOException e) {
+                            //  Crashlytics.log(1, getClass().getName(), e.getMessage());
+                            //  Crashlytics.logException(e);
+                        }
+                    }
+                }
+            }
+
+            String base64 = AppUtility.converBitmapToBase64(bitmap);
+            image.setImageBitmap(bitmap);
         }
 
     }

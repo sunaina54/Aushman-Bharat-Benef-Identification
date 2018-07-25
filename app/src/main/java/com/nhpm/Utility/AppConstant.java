@@ -9,7 +9,8 @@ public interface AppConstant {
     String RSBY_DATE_FORMAT = "yyyy-MM-dd";
     String SUBMIT_MEMBER_ADDITIONAL_DATA="https://pmrssm.gov.in/reportapi/submitMemberAdditionalData";
     String DIST_VILLAGE_LOCATION="DistVillageLocation";
-
+    public final static int REQ_CAMERA = 1003;
+    public final static int BACK_REQ_CAMERA = 1004;
     String MOBILE_PARAM="6";
     String VILLAGE_PARAM="7";
     String RATION_PARAM="2";
@@ -20,6 +21,8 @@ public interface AppConstant {
     String MSBY_PARAM_ADCD="11"; //MSBY
 
     String MOBILE_SOURCE="2";
+    public static final int FRONT_CAMREA_OPEN = 1;
+    public static final int BACK_CAMREA_OPEN = 2;
 
 
     String MATCH_SCORE_STATUS="MATCH_SCORE_STATUS";

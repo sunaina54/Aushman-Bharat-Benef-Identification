@@ -14,6 +14,7 @@ import android.hardware.display.DisplayManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.PowerManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -59,6 +60,7 @@ import com.nhpm.Models.response.seccMembers.SelectedMemberItem;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.activity.BlockDetailActivity;
+import com.nhpm.activity.DocCameraActivity;
 import com.nhpm.activity.LoginActivity;
 import com.nhpm.activity.MemberPreviewActivity;
 import com.nhpm.activity.SearchActivityWithHouseHold;
@@ -1945,5 +1947,34 @@ public class AppUtility {
 
     }
 
+    public static String converBitmapToBase64(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
 
+    public static void openCamera(Activity activity, int cameraMode, String purpose, String screenName) {
+        Intent i = new Intent(activity, DocCameraActivity.class);
+        i.putExtra("camera_key", cameraMode);
+        i.putExtra("purpose", purpose);
+        i.putExtra("screen",screenName);
+        activity.startActivityForResult(i, AppConstant.REQ_CAMERA);
+    }
+
+    public static void openCameraForGovtId(Activity activity, int cameraMode, String purpose, String screenName) {
+        Intent i = new Intent(activity, DocCameraActivity.class);
+        i.putExtra("camera_key", cameraMode);
+        i.putExtra("purpose", purpose);
+        i.putExtra("screen",screenName);
+        activity.startActivityForResult(i, AppConstant.BACK_REQ_CAMERA);
+    }
+
+    public static void openCamera(Activity activity, Fragment fragment, int cameraMode, String purpose, String screenName) {
+        Intent i = new Intent(activity, DocCameraActivity.class);
+        i.putExtra("camera_key", cameraMode);
+        i.putExtra("purpose", purpose);
+        i.putExtra("screen",screenName);
+        fragment.startActivityForResult(i, AppConstant.REQ_CAMERA);
+    }
 }

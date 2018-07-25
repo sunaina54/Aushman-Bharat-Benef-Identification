@@ -10,8 +10,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         multiDexEnabled = true
-        versionCode 56
-        versionName "1.2.1"
+        versionCode 57
+        versionName "1.2.2"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
@@ -26,7 +26,7 @@ android {
 
         debug {
             debuggable true;
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -38,6 +38,9 @@ android {
     }
     lintOptions {
         checkReleaseBuilds false
+    }
+    aaptOptions {
+        cruncherEnabled = false
     }
     sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jni/'] } }
 }
@@ -89,7 +92,7 @@ dependencies {
     implementation files('libs/sc-light-jdk15on-1.47.0.2.jar')
     implementation files('libs/scpkix-jdk15on-1.47.0.2.jar')
     implementation files('libs/scprov-jdk15on-1.47.0.2.jar')
-
+    compile 'id.zelory:compressor:1.0.4'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 }
 

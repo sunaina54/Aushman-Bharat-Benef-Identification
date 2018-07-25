@@ -76,10 +76,12 @@ public class NameMatchScoreActivity extends BaseActivity {
     }
 
     private void setupScreen() {
+        Log.d("name match11","go for name match");
         verifierLoginResponse = VerifierLoginResponse.create(
                 ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
 
-        personalDetailItem = (PersonalDetailItem) getIntent().getSerializableExtra(PERSONAL_DETAIL_TAG);
+      //  personalDetailItem = (PersonalDetailItem) getIntent().getSerializableExtra(PERSONAL_DETAIL_TAG);
+        personalDetailItem =PersonalDetailItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,NameMatchScoreActivity.PERSONAL_DETAIL_TAG,context));
         docsListItem =DocsListItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,NameMatchScoreActivity.SECC_DETAIL_TAG,context));
 //(DocsListItem) getIntent().getSerializableExtra(SECC_DETAIL_TAG);
         backIV = (ImageView) findViewById(R.id.back);

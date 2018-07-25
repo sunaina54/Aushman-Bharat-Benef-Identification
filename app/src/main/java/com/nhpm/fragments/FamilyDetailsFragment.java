@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -43,6 +44,7 @@ import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.CameraUtils.CommonUtilsImageCompression;
 import com.nhpm.CameraUtils.squarecamera.CameraActivity;
+import com.nhpm.DocCamera.ImageUtil;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
 import com.nhpm.Models.FamilyCardList;
 import com.nhpm.Models.FamilyMemberModel;
@@ -75,9 +77,14 @@ import com.nhpm.activity.LoginActivity;
 import com.nhpm.activity.ViewMemberDataActivity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static android.app.Activity.RESULT_OK;
+import static com.nhpm.DocCamera.ImageUtil.rotateImage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -128,6 +135,8 @@ public class FamilyDetailsFragment extends Fragment {
     private String FAMILY_CARD_LIST = "FAMILY_CARD_LIST";
     private String searchTag = "";
     private StateItem selectedStateItem;
+    private Bitmap bitmap;
+    private String purpose = "";
 
     public FamilyDetailsFragment() {
         // Required empty public constructor
@@ -263,7 +272,9 @@ public class FamilyDetailsFragment extends Fragment {
         captureImageBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCamera();
+                AppUtility.openCamera(activity,FamilyDetailsFragment.this, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
+
+                //openCamera();
             }
         });
 
@@ -1336,14 +1347,56 @@ public class FamilyDetailsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AppConstant.REQ_CAMERA && resultCode == RESULT_OK) {
+            final Intent intent = data;//new Intent();
+            String path = intent.getStringExtra("response");
+            Uri uri = Uri.fromFile(new File(path));
+            if (uri == null) {
+                Log.d("uri", "null");
+            } else {
+                bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                File mediaFile = null;
+                if (bitmap != null) {
+                    byte[] imageBytes = ImageUtil.bitmapToByteArray(rotateImage(bitmap, 270));
 
-        if (requestCode == CAMERA_PIC_REQUEST) {
-               /* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
+                    File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_DCIM), "");
+                    mediaFile = new File(mediaStorageDir.getPath() + File.separator + purpose + ".jpg");
+                    if (mediaFile != null) {
+                        try {
+                            FileOutputStream fos = new FileOutputStream(mediaFile);
+                            fos.write(imageBytes);
+                            fos.close();
+                        } catch (FileNotFoundException e) {
+                            // Crashlytics.log(1, getClass().getName(), e.getMessage());
+                            // Crashlytics.logException(e);
+                        } catch (IOException e) {
+                            //  Crashlytics.log(1, getClass().getName(), e.getMessage());
+                            //  Crashlytics.logException(e);
+                        }
+                    }
+                }
+            }
+
+            voterIdImg = AppUtility.converBitmapToBase64(bitmap);
+            if(voterIdImg!=null) {
+                beneficiaryPhotoIV.setImageBitmap(bitmap);
+            }else {
+                beneficiaryPhotoIV.setImageBitmap(null);
+            }
+            //image.setImageBitmap(bitmap);
+        }
+       /* if (requestCode == CAMERA_PIC_REQUEST) {
+               *//* Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"govtIdPhoto" +".jpg"));
                 try {
                     captureImageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri); //(Bitmap)imageUri;//data.getExtras().get("data");
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
+                }*//*
             Uri fileUri = Uri.fromFile(new File(DatabaseHelpers.DELETE_FOLDER_PATH,
                     context.getString(R.string.squarecamera__app_name) + "/photoCapture/IMG_12345.jpg"));
             Uri compressedUri = Uri.fromFile(new File(CommonUtilsImageCompression.compressImage(fileUri.getPath(), context, "/photoCapture")));
@@ -1356,10 +1409,10 @@ public class FamilyDetailsFragment extends Fragment {
             // Log.d(TAG," Bitmap Size : "+image.getAllocationByteCount());
             voterIdImg = AppUtility.convertBitmapToString(captureImageBM);
             updateScreen(voterIdImg);
-        }
+        }*/
 
         if (requestCode == AppConstant.FAMILY_MEMBER_REQUEST_CODE_VALUE) {
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == RESULT_OK) {
 
                 // Utility.scrollToEnd(scrollView);
                 //  Toast.makeText(context, "Result Recieved", Toast.LENGTH_LONG).show();

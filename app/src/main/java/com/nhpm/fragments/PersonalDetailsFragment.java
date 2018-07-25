@@ -928,10 +928,13 @@ public class PersonalDetailsFragment extends Fragment {
                 personalDetailItem.setState(stateName);
                 personalDetailItem.setVtcBen(vtcACTV.getText().toString());
                 Intent intent = new Intent(context, NameMatchScoreActivity.class);
-                intent.putExtra(NameMatchScoreActivity.PERSONAL_DETAIL_TAG, personalDetailItem);
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,NameMatchScoreActivity.PERSONAL_DETAIL_TAG,personalDetailItem.serialize(),context);
+
+              //  intent.putExtra(NameMatchScoreActivity.PERSONAL_DETAIL_TAG, personalDetailItem.serialize());
                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,NameMatchScoreActivity.SECC_DETAIL_TAG,beneficiaryListItem.serialize(),context);
                // intent.putExtra(NameMatchScoreActivity.SECC_DETAIL_TAG, beneficiaryListItem);
                 startActivityForResult(intent, 3);
+                Log.d("name match","go for name match");
                /* if (beneficiaryName != null && !beneficiaryName.equalsIgnoreCase("")
                         && nameAsKyc != null && !nameAsKyc.equalsIgnoreCase("")) {
                     alertForValidateLater(beneficiaryName, nameAsKyc);

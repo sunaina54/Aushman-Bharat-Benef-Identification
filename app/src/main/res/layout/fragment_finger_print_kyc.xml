@@ -273,7 +273,7 @@
                             android:layout_height="150sp"
                             android:layout_marginBottom="5sp"
                             android:contentDescription="@string/content_fingerprint"
-                            android:src="@drawable/abc_ab_stacked_transparent_dark_holo" />
+                            android:src="@drawable/abc_ab_stacked_transparent_dark_holo9" />
 
                         <ProgressBar
                             android:id="@+id/progressBarFPQuality"

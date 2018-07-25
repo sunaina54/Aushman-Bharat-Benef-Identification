@@ -316,7 +316,7 @@
             <Button
                 android:id="@+id/imageViewBTN"
                 android:layout_width="250dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_height="50dp"
                 android:layout_below="@+id/adhar"
                 android:layout_gravity="center"
