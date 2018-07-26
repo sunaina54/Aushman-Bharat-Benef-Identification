@@ -75,7 +75,9 @@ public class AESEncryption {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
            // Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return new String(cipher.doFinal(Base64.decode(strToDecrypt,Base64.DEFAULT)));
+            //return new String(cipher.doFinal(Base64.decode(strToDecrypt.getBytes(),Base64.DEFAULT)));
+
+            return new String(cipher.doFinal(Base64.decode(strToDecrypt.trim(),Base64.DEFAULT)));
 
         }
         catch (Exception e)
