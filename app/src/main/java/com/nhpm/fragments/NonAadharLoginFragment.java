@@ -126,7 +126,8 @@ public class NonAadharLoginFragment extends Fragment {
     private CustomAsyncTask mobileOtpAsyncTask;
     private MobileOTPResponse mobileOtpRequestModel;
     private MobileOTPResponse mobileOtpVerifyModel;
-    public static String releaseKey="";
+    public static String releaseKey = "";
+
     //private AlertDialog dialog;
     public NonAadharLoginFragment() {
     }
@@ -160,8 +161,11 @@ public class NonAadharLoginFragment extends Fragment {
     private void setupScreen(View v) {
         context = getActivity();
         mContext = getActivity();
-        releaseKey="asdfg";
-        releaseKey= printKeyHash(activity);
+        releaseKey = "asdfg";
+        releaseKey = printKeyHash(activity);
+        // Check Encryption Decryption
+      //  checkEncryptionData();
+      //  checkEncyptedToken();
         mZoomLinearLayout = (LinearLayout) v.findViewById(R.id.mZoomLinearLayout);
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE, mContext));
         showNotification(v);
@@ -430,7 +434,7 @@ public class NonAadharLoginFragment extends Fragment {
         }
         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, loginResponse.serialize(), context);
         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.WORNG_PIN_ENTERED_TIMESTAMP, 0 + "", context);
-        if (loginResponse.getPin()==null || (loginResponse.getPin() != null && loginResponse.getPin().equalsIgnoreCase(""))) {
+        if (loginResponse.getPin() == null || (loginResponse.getPin() != null && loginResponse.getPin().equalsIgnoreCase(""))) {
             Intent theIntent = new Intent(context, SetPinActivity.class);
             startActivity(theIntent);
             activity.finish();
@@ -631,7 +635,7 @@ public class NonAadharLoginFragment extends Fragment {
     }
 
     private void validateStateAndData() {
-        popupForOTPValidation(request.getAadhaarNumber(), loginOTPResponseModel.getTransactionid(),loginOTPResponseModel.getEncryptedToken());
+        popupForOTPValidation(request.getAadhaarNumber(), loginOTPResponseModel.getTransactionid(), loginOTPResponseModel.getEncryptedToken());
         //loginResponse.setLoginSession(true);
    /*     if (selectedStateItem != null && selectedStateItem.getStateCode() != null && loginResponse.getLocationList() != null && loginResponse.getLocationList().size() > 0) {
             if (!selectedStateItem.getStateCode().equalsIgnoreCase(loginResponse.getLocationList().get(0).getStateCode())) {
@@ -1605,7 +1609,7 @@ public class NonAadharLoginFragment extends Fragment {
 
     }
 
-    private void popupForOTPValidation(final String mobileNumber, final String sequence,final String encryptedToken) {
+    private void popupForOTPValidation(final String mobileNumber, final String sequence, final String encryptedToken) {
         dialog = new AlertDialog.Builder(context).create();
         LayoutInflater factory = LayoutInflater.from(context);
         View alertView = factory.inflate(R.layout.opt_auth_layout, null);
@@ -1671,16 +1675,17 @@ public class NonAadharLoginFragment extends Fragment {
             public void onClick(View v) {
                 String otp = optET.getText().toString();
                 //releaseKey="kHI6y7bpDiKIL7tmOYjXN3HogVc=";
-                String encryptionkey= AESEncryption.decrypt(encryptedToken, releaseKey);
+
+                String encryptionkey = AESEncryption.decrypt(encryptedToken, releaseKey);
 
                 AppUtility.writeFileToStorage(releaseKey, "Release Key");
                 AppUtility.writeFileToStorage(encryptedToken, "Encrypted Token");
                 AppUtility.writeFileToStorage(encryptionkey, "Encryption Key");
-                Log.d(TAG,"Encrypted key :"+ encryptionkey);
+                Log.d(TAG, "Encrypted key :" + encryptionkey);
                 //  otpAuthMsg.setVisibility(View.GONE);
                 if (!otp.equalsIgnoreCase("")) {
 
-                    validateOTP(otp, mobileNumber, otpAuthMsg, loginOTPResponseModel.getTransactionid(),encryptionkey);
+                    validateOTP(otp, mobileNumber, otpAuthMsg, loginOTPResponseModel.getTransactionid(), encryptionkey);
 
                     //  updatedVersionApp();
                    /* if (mobileOtpRequestModel.getOtp().equalsIgnoreCase(otp)) {
@@ -1892,7 +1897,7 @@ public class NonAadharLoginFragment extends Fragment {
             @Override
             public void updateUI() {
                 if (mobileOtpRequestModel != null && mobileOtpRequestModel.getOtp() != null) {
-                    popupForOTPValidation(mobileNumber, mobileOtpRequestModel.getSequenceNo(),loginOTPResponseModel.getEncryptedToken());
+                    popupForOTPValidation(mobileNumber, mobileOtpRequestModel.getSequenceNo(), loginOTPResponseModel.getEncryptedToken());
                 }
 
             }
@@ -1908,7 +1913,7 @@ public class NonAadharLoginFragment extends Fragment {
     }
 
 
-    private void validateOTP(final String otp, final String mobileNumber, final TextView authOtpTV, final String sequenceNo,final String encryptionKey) {
+    private void validateOTP(final String otp, final String mobileNumber, final TextView authOtpTV, final String sequenceNo, final String encryptionKey) {
 
         TaskListener taskListener = new TaskListener() {
             @Override
@@ -1967,5 +1972,55 @@ public class NonAadharLoginFragment extends Fragment {
 
     }
 
+
+    private void checkEncryptionData() {
+        String originalString = "Android Encryption";
+        AppUtility.writeFileToStorage(originalString, "Original_String");
+        String secretKey = "NHPM";
+        AppUtility.writeFileToStorage(secretKey, "secretKey");
+        String encryptedString = AESEncryption.encrypt(originalString, secretKey);
+        Log.d("Encrypted_String", encryptedString);
+        AppUtility.writeFileToStorage(encryptedString, "Encrypted_String");
+
+        String decryptedString = AESEncryption.decrypt(encryptedString, secretKey);
+        Log.d("Decrypted_String", decryptedString);
+        AppUtility.writeFileToStorage(decryptedString, "Decrypted_String");
+
+    /*    String encToken="6EqGESIeSDVQ4zjvPM0veNHEqws4Cak3ixNV9J6Go1Y=";
+        releaseKey="kHI6y7bpDiKIL7tmOYjXN3HogVc=";
+        AppUtility.writeFileToStorage(releaseKey, "release static key");
+        AppUtility.writeFileToStorage(encToken, "Encry_Token");
+
+        String decryptedString1 = AESEncryption.decrypt(encToken, releaseKey);
+        Log.d("Decrypted_String", decryptedString1);
+        AppUtility.writeFileToStorage(decryptedString1, "Decrypted_String_Token");*/
+
+    }
+
+    private void checkEncyptedToken() {
+        //String originalString = "db66cdcc-219f-4261-af72-950837b532e6";
+        String originalString = "auD58XlhNRT7fNv/rOF0wCb09cfTp3WEMm5YvdHE91TDNMlo0cJZBN94ULb3O+hm";
+        AppUtility.writeFileToStorage(originalString, "Original_String1");
+        String secretKey = "kHI6y7bpDiKIL7tmOYjXN3HogVc=";
+        AppUtility.writeFileToStorage(secretKey, "secretKey1");
+        String encryptedString = AESEncryption.encrypt(originalString, secretKey);
+        Log.d("Encrypted_String", encryptedString);
+        AppUtility.writeFileToStorage(encryptedString, "Encrypted_String1");
+
+        String decryptedString = AESEncryption.decrypt(encryptedString, secretKey);
+        Log.d("Decrypted_String", decryptedString);
+        AppUtility.writeFileToStorage(decryptedString, "Decrypted_String1");
+
+/*        //String encToken="6EqGESIeSDVQ4zjvPM0veNHEqws4Cak3ixNV9J6Go1Y=";
+        String encToken="NROl3yKRgWtkzv8xNcdb1HeE/Lc1l9+nHyGk5SSLpGOost0nHAfoeYz1wWWHfw0M";
+        releaseKey="kHI6y7bpDiKIL7tmOYjXN3HogVc=";
+        AppUtility.writeFileToStorage(releaseKey, "release static key");
+        AppUtility.writeFileToStorage(encToken, "Encry_Token");
+
+        String decryptedString1 = AESEncryption.decrypt(encToken, releaseKey);
+        Log.d("Decrypted_String", decryptedString1);
+        AppUtility.writeFileToStorage(decryptedString1, "Decrypted_String_Token");*/
+
+    }
 
 }
