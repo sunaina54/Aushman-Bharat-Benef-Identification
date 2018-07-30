@@ -54,6 +54,7 @@ import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 import com.nhpm.activity.CollectDataActivity;
 import com.nhpm.activity.FamilyMemberEntryActivity;
+import com.nhpm.activity.ViewDocImageActivity;
 import com.nhpm.activity.ViewMemberDataActivity;
 
 import java.io.File;
@@ -197,6 +198,19 @@ public class ViewFamilyDetailsFragment extends Fragment {
                 activity.printEcardLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
                 Fragment fragment = new ViewPrintCardFragment();
                 CallFragment(fragment);
+            }
+        });
+
+
+        beneficiaryPhotoIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(familyDetailResponse!=null && familyDetailResponse.getIdImage()!=null
+                        && !familyDetailResponse.getIdImage().equalsIgnoreCase("")){
+                    Intent intent = new Intent(context, ViewDocImageActivity.class);
+                    intent.putExtra("DocImage",familyDetailResponse.getIdImage());
+                    startActivity(intent);
+                }
             }
         });
     }

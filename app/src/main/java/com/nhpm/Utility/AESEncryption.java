@@ -43,8 +43,10 @@ public class AESEncryption {
             key = Arrays.copyOf(key, 16);
             secretKey = new SecretKeySpec(key, "AES");
         } catch (NoSuchAlgorithmException e) {
+            AppUtility.writeFileToStorage(e.toString(), "Exception1");
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
+            AppUtility.writeFileToStorage(e.toString(), "Exception2");
             e.printStackTrace();
         }
     }
@@ -52,8 +54,8 @@ public class AESEncryption {
     public static String encrypt(String strToEncrypt, String secret) {
         try {
             setKey(secret);
-           // Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+           // Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return Base64.encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")), Base64.DEFAULT);
         } catch (Exception e) {
@@ -67,12 +69,13 @@ public class AESEncryption {
     public static String decrypt(String strToDecrypt, String secret) {
         try {
             setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+           // Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             // Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             //return new String(cipher.doFinal(Base64.decode(strToDecrypt.getBytes(),Base64.DEFAULT)));
             //cipher.update(Base64.decode(strToDecrypt, Base64.NO_PADDING));
-            return new String(cipher.doFinal(Base64.decode(strToDecrypt, Base64.DEFAULT)));
+            return new String(cipher.doFinal(Base64.decode(strToDecrypt, Base64.NO_WRAP)));
 
         } catch (Exception e) {
             AppUtility.writeFileToStorage(e.toString(), "Exception");

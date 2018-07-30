@@ -551,7 +551,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
         cardTypeSpinner = (Spinner) view.findViewById(R.id.cardTypeSpinner);
         //cardType = "HHId Number";
-        cardType ="Ration Card";
+        cardType = "Ration Card";
         cardTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -571,7 +571,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     microphoneLL.setVisibility(View.VISIBLE);
                     searchType = AppConstant.RSBY_PARAM;
 
-                } else*/ if (position == 0) {
+                } else*/
+                if (position == 0) {
                     cardType = "Ration Card";
                     rationCardET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
@@ -599,7 +600,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                     searchType = AppConstant.MSBY_PARAM_ADCD;
                 }
 
-                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"Spinner_search_value",position+"",context);
+                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "Spinner_search_value", position + "", context);
                /* if (position == 0) {
                     hhIdNoET.setVisibility(View.VISIBLE);
                     microphoneLL.setVisibility(View.VISIBLE);
@@ -714,10 +715,10 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.custom_drop_down, R.id.textView, spinnerList);
         cardTypeSpinner.setAdapter(adapter);
 
-        String selectedPos=  ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"Spinner_search_value",context);
-        if(selectedPos==null) {
+        String selectedPos = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "Spinner_search_value", context);
+        if (selectedPos == null) {
             cardTypeSpinner.setSelection(0);
-        }else if(selectedPos!=null && !selectedPos.equalsIgnoreCase("")){
+        } else if (selectedPos != null && !selectedPos.equalsIgnoreCase("")) {
             cardTypeSpinner.setSelection(Integer.parseInt(selectedPos));
         }
 
@@ -1192,7 +1193,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
         if (cardType.equalsIgnoreCase("AHLTIN")) {
             familyListRequestModel.setAhlTinno(cardNo);
-           // logRequestModel.setMethod("0");
+            // logRequestModel.setMethod("0");
             logRequestModel.setSearchParameter("ahlTin=" + cardNo);
 
         } else {
@@ -1420,8 +1421,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         getSearchParaRequestModel.setSource(AppConstant.MOBILE_SOURCE);
                         logRequestModel.setTransactionId(responseModel.getTransactionId() + "");
                         if (urnResponseModel != null && urnResponseModel.isStatus()) {
-                            if (urnResponseModel.getRsbyData() != null && urnResponseModel.getRsbyData().size() == 0 && urnResponseModel.getAdcdData()!=null
-                                    && urnResponseModel.getAdcdData().size()==0) {
+                            if (urnResponseModel.getRsbyData() != null && urnResponseModel.getRsbyData().size() == 0 && urnResponseModel.getAdcdData() != null
+                                    && urnResponseModel.getAdcdData().size() == 0) {
                                 logRequestModel.setResult("0");
                                 HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
                                 String resp = searchLogAPI.get("response");
@@ -1457,13 +1458,12 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                 if (urnResponseModel != null) {
                     noMemberTV.setVisibility(View.GONE);
                     if (urnResponseModel.isStatus()) {
-                        if (urnResponseModel.getRsbyData() != null && urnResponseModel.getAdcdData()!=null) {
+                        if (urnResponseModel.getRsbyData() != null && urnResponseModel.getAdcdData() != null) {
                             //logRequestModel.setResult(urnResponseModel.getUrnResponse().size() + "");
-                        //    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
+                            //    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, logRequestModel.serialize(), context);
 
 
-
-                            if(urnResponseModel.getRsbyData().size()==0 && urnResponseModel.getAdcdData().size()==0) {
+                            if (urnResponseModel.getRsbyData().size() == 0 && urnResponseModel.getAdcdData().size() == 0) {
                                 if (cardType.equalsIgnoreCase("RSBY URN")) {
                                     noMemberTV.setVisibility(View.VISIBLE);
                                     noMemberTV.setText("No family found for RSBY URN \n number: " + cardNo + " in " + selectedStateItem1.getStateName());
@@ -1471,7 +1471,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                             }
 
-                            if(urnResponseModel.getRsbyData().size()>0 || urnResponseModel.getAdcdData().size()>0){
+                            if (urnResponseModel.getRsbyData().size() > 0 || urnResponseModel.getAdcdData().size() > 0) {
                                 ArrayList<Object> consolidatedRsbyList = new ArrayList<>();
                                 consolidatedRsbyList.addAll(urnResponseModel.getRsbyData());
                                 consolidatedRsbyList.addAll(urnResponseModel.getAdcdData());

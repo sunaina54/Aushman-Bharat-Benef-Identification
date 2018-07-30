@@ -184,7 +184,7 @@
                         android:paddingTop="5dp"
                         android:textAlignment="center"
                         android:textSize="20sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <EditText
                         android:id="@+id/rsbyADCDET"
@@ -201,7 +201,8 @@
                         android:paddingTop="5dp"
                         android:textAlignment="center"
                         android:textSize="20sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
+
                     <EditText
                         android:id="@+id/msbyET"
                         android:layout_width="match_parent"
@@ -217,42 +218,41 @@
                         android:paddingTop="5dp"
                         android:textAlignment="center"
                         android:textSize="20sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <LinearLayout
+                        android:id="@+id/villageCodeLL"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:orientation="horizontal"
-                        android:id="@+id/villageCodeLL"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <EditText
-                            android:background="@drawable/edittext_background_login"
-
                             android:id="@+id/villageCodeET"
+
                             android:layout_width="250dp"
                             android:layout_height="60dp"
+                            android:layout_marginRight="@dimen/margine_10"
                             android:layout_marginTop="10dp"
+                            android:background="@drawable/edittext_background_login"
                             android:hint="Village Code"
                             android:imeOptions="actionNext"
                             android:inputType="number"
-                            android:layout_marginRight="@dimen/margine_10"
                             android:maxLength="6"
                             android:paddingBottom="5dp"
                             android:paddingLeft="15dp"
                             android:paddingTop="5dp"
                             android:textAlignment="center"
                             android:textSize="20sp"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
 
                         <EditText
                             android:id="@+id/shhidET"
                             android:layout_width="250dp"
                             android:layout_height="60dp"
                             android:layout_marginTop="10dp"
-                            android:hint="SHHID"
                             android:background="@drawable/edittext_background_login"
+                            android:hint="SHHID"
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:maxLength="4"
@@ -261,7 +261,7 @@
                             android:paddingTop="5dp"
                             android:textAlignment="center"
                             android:textSize="20sp"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
 
                     </LinearLayout>
 
@@ -316,7 +316,6 @@
             <Button
                 android:id="@+id/imageViewBTN"
                 android:layout_width="250dp"
-                android:visibility="visible"
                 android:layout_height="50dp"
                 android:layout_below="@+id/adhar"
                 android:layout_gravity="center"
@@ -326,7 +325,8 @@
                 android:text="Image Click"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/findByNameTV"

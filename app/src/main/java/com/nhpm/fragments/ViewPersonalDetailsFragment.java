@@ -57,6 +57,7 @@ import com.nhpm.Utility.Verhoeff;
 import com.nhpm.activity.CollectDataActivity;
 import com.nhpm.activity.EkycActivity;
 import com.nhpm.activity.GovermentIDActivity;
+import com.nhpm.activity.ViewDocImageActivity;
 import com.nhpm.activity.ViewMemberDataActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
@@ -291,7 +292,18 @@ public class ViewPersonalDetailsFragment extends Fragment {
                     if(personalDetailItem.getIdPhoto()!=null &&
                             !personalDetailItem.getIdPhoto().equalsIgnoreCase("")){
                         govtIdPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getIdPhoto()));
+
+                        govtIdPhotoIV.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, ViewDocImageActivity.class);
+                                intent.putExtra("DocImage",personalDetailItem.getIdPhoto());
+                                startActivity(intent);
+                            }
+                        });
                     }
+
+
                 }
             }
         }

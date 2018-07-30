@@ -435,7 +435,14 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
 
-        <activity android:name=".activity.DocCameraActivity"></activity>
+        <activity android:name=".activity.DocCameraActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            ></activity>
+        <activity android:name=".activity.ViewDocImageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            ></activity>
     </application>
 
 </manifest>

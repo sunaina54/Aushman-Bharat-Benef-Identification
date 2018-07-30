@@ -409,7 +409,7 @@ public class AppUtility {
         //  return "358520071002666"; //gera sir
        //  return "358520071087378"; //gera sir current
        return device_id;
-       //return "358520071094929"; //samsung tab no
+      // return "358520071094929"; //samsung tab no
       // return "352356078907011"; //wahid
         //  return "358187072515557";
         // return "867802027718791"; //saurabh
@@ -1923,7 +1923,7 @@ public class AppUtility {
             for (Signature signature : packageInfo.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                key = new String(Base64.encode(md.digest(), 0));
+                key = new String(Base64.encode(md.digest(), Base64.NO_WRAP));
 
                 // String key = new String(Base64.encodeBytes(md.digest()));
                 Log.d("Key Hash=", key);
