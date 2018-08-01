@@ -170,8 +170,8 @@ public interface AppConstant {
 
     // String LOGIN_API = MAIN_DOMAIN + "nhps/test/verifier/login";
     //String LOGIN_API = NEW_MAIN_DOMAIN + "authenticateVerifier/1.0.0/authenticateVerifier";
-    //String LOGIN_API = NEW_MAIN_DOMAIN_UPDATED + "login";
-    String LOGIN_API = "https://pmrssm.gov.in/securityapi/login";
+    String LOGIN_API = NEW_MAIN_DOMAIN_UPDATED + "login";
+    //String LOGIN_API = "https://pmrssm.gov.in/securityapi/login";
 
     String USER_NAME_LOGIN = MAIN_DOMAIN + "nhps/verifier/login";
     //AADHAAR AUTH API OLDER VERSION
@@ -286,8 +286,8 @@ public interface AppConstant {
     String GET_RSBY_RELATION_MASTER = "http://164.100.58.98/rsbyRelation/1.0.0/rsbyRelation";
     String REQUEST_FOR_MOBILE_OTP = "http://164.100.58.98:80/sendMessage/1.0.0/sendMessage";
     String REQUEST_FOR_OTP_VERIFICATION = "http://164.100.58.98:80/verifyOtp/1.0.0/verifyOtp";
-    //String REQUEST_FOR_OTP_VERIFICATION_GATEWAY = NEW_MAIN_DOMAIN_UPDATED + "verifyLogin";
-    String REQUEST_FOR_OTP_VERIFICATION_GATEWAY = "https://pmrssm.gov.in/securityapi/verifyLogin";
+    String REQUEST_FOR_OTP_VERIFICATION_GATEWAY = NEW_MAIN_DOMAIN_UPDATED + "verifyLogin";
+    //String REQUEST_FOR_OTP_VERIFICATION_GATEWAY = "https://pmrssm.gov.in/securityapi/verifyLogin";
     String REQUEST_FOR_OTP_EKYC = "http://164.100.58.98:80/getOtpKyc/1.0.0/getOtpKyc";
     String REQUEST_FOR_OTP_EKYC1 = "http://164.100.58.98:80/getOtpKycRD/1.0.0/getOtpKycRD";
     String REQUEST_FOR_OTP_AUTH_OLD = "http://164.100.58.98:80/getAuth/1.0.0/getAuth";

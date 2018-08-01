@@ -7,7 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.R;
+import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
 
 /**
@@ -18,14 +20,14 @@ public class ViewDocImageActivity extends BaseActivity {
     private Context context;
     private ViewDocImageActivity activity;
     private ImageView docIV,backIV;
-    private String docImage="";
+    private String docImage="",screenName="";
     private TextView headerTV;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
         activity = this;
-        setContentView(R.layout.activity_search_result);
+        setContentView(R.layout.activity_view_doc_image);
         setupScreen();
     }
 
@@ -33,11 +35,23 @@ public class ViewDocImageActivity extends BaseActivity {
         headerTV = (TextView) findViewById(R.id.centertext);
         headerTV.setText("View Document Image");
         docIV= (ImageView) findViewById(R.id.docIV);
-        docImage = getIntent().getStringExtra("DocImage");
+        screenName=getIntent().getStringExtra("ScreenName");
+        if(screenName!=null && !screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("ViewFamilyDetailsFragment")){
+            docImage = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImageFamily",context);
+
+        }
+
+        if(screenName!=null && !screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("ViewPersonalDetailsFragment")) {
+
+            docImage = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "DocImage", context);
+        }
         docIV.setImageBitmap(null);
         if(docImage!=null && !docImage.equalsIgnoreCase("")){
             docIV.setImageBitmap(AppUtility.
                     convertStringToBitmap(docImage));
+            ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImage",context);
+            ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImageFamily",context);
+
         }
 
         backIV = (ImageView) findViewById(R.id.back);
@@ -45,6 +59,8 @@ public class ViewDocImageActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
+             //   ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImage",personalDetailItem.getIdPhoto(),context);
+
                 rightTransition();
             }
         });

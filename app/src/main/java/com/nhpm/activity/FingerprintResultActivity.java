@@ -176,7 +176,7 @@ public class FingerprintResultActivity extends BaseActivity {
         final ArrayList<StateItem> stateList2 = new ArrayList<>();
         if (stateList != null) {
             for (StateItem item1 : stateList1) {
-                if (item1.getStateCode().equalsIgnoreCase("06")) {
+               /* if (item1.getStateCode().equalsIgnoreCase("06")) {
                     stateList.add("Haryana");
                     stateList2.add(item1);
                 } else if (item1.getStateCode().equalsIgnoreCase("22")) {
@@ -188,7 +188,9 @@ public class FingerprintResultActivity extends BaseActivity {
                 } else if (item1.getStateCode().equalsIgnoreCase("09")) {
                     stateList.add("Uttar Pradesh");
                     stateList2.add(item1);
-                }
+                }*/
+               stateList.add(item1.getStateName());
+               stateList2.add(item1);
             }
 
         }

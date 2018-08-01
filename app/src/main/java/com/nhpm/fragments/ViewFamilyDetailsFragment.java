@@ -36,6 +36,7 @@ import com.customComponent.CustomAlert;
 import com.customComponent.CustomAsyncTask;
 import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
+import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.CameraUtils.CommonUtilsImageCompression;
 import com.nhpm.CameraUtils.squarecamera.CameraActivity;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
@@ -208,7 +209,8 @@ public class ViewFamilyDetailsFragment extends Fragment {
                 if(familyDetailResponse!=null && familyDetailResponse.getIdImage()!=null
                         && !familyDetailResponse.getIdImage().equalsIgnoreCase("")){
                     Intent intent = new Intent(context, ViewDocImageActivity.class);
-                    intent.putExtra("DocImage",familyDetailResponse.getIdImage());
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImageFamily",familyDetailResponse.getIdImage(),context);
+                    intent.putExtra("ScreenName","ViewFamilyDetailsFragment");
                     startActivity(intent);
                 }
             }

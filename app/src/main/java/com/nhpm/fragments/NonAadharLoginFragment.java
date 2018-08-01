@@ -1674,7 +1674,6 @@ public class NonAadharLoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String otp = optET.getText().toString();
-                //releaseKey="kHI6y7bpDiKIL7tmOYjXN3HogVc=";
 
                 String encryptionkey = AESEncryption.decrypt(encryptedToken, releaseKey);
 
@@ -1987,7 +1986,7 @@ public class NonAadharLoginFragment extends Fragment {
         AppUtility.writeFileToStorage(decryptedString, "Decrypted_String");
 
     /*    String encToken="6EqGESIeSDVQ4zjvPM0veNHEqws4Cak3ixNV9J6Go1Y=";
-        releaseKey="kHI6y7bpDiKIL7tmOYjXN3HogVc=";
+       dgfshkey send
         AppUtility.writeFileToStorage(releaseKey, "release static key");
         AppUtility.writeFileToStorage(encToken, "Encry_Token");
 
@@ -2001,7 +2000,8 @@ public class NonAadharLoginFragment extends Fragment {
         //String originalString = "db66cdcc-219f-4261-af72-950837b532e6";
         String originalString = "auD58XlhNRT7fNv/rOF0wCb09cfTp3WEMm5YvdHE91TDNMlo0cJZBN94ULb3O+hm";
         AppUtility.writeFileToStorage(originalString, "Original_String1");
-        String secretKey = "kHI6y7bpDiKIL7tmOYjXN3HogVc=";
+
+        String secretKey = "";
         AppUtility.writeFileToStorage(secretKey, "secretKey1");
         String encryptedString = AESEncryption.encrypt(originalString, secretKey);
         Log.d("Encrypted_String", encryptedString);
@@ -2013,7 +2013,7 @@ public class NonAadharLoginFragment extends Fragment {
 
 /*        //String encToken="6EqGESIeSDVQ4zjvPM0veNHEqws4Cak3ixNV9J6Go1Y=";
         String encToken="NROl3yKRgWtkzv8xNcdb1HeE/Lc1l9+nHyGk5SSLpGOost0nHAfoeYz1wWWHfw0M";
-        releaseKey="kHI6y7bpDiKIL7tmOYjXN3HogVc=";
+        key send
         AppUtility.writeFileToStorage(releaseKey, "release static key");
         AppUtility.writeFileToStorage(encToken, "Encry_Token");
 

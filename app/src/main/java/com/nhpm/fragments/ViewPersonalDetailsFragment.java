@@ -296,8 +296,12 @@ public class ViewPersonalDetailsFragment extends Fragment {
                         govtIdPhotoIV.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
                                 Intent intent = new Intent(context, ViewDocImageActivity.class);
-                                intent.putExtra("DocImage",personalDetailItem.getIdPhoto());
+                                ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImage",personalDetailItem.getIdPhoto(),context);
+                                //  intent.putExtra("DocImage",personalDetailItem.getIdPhoto());
+                                intent.putExtra("ScreenName","ViewPersonalDetailsFragment");
+
                                 startActivity(intent);
                             }
                         });

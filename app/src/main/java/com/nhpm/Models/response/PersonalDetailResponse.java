@@ -1,5 +1,8 @@
 package com.nhpm.Models.response;
 
+import com.google.gson.Gson;
+import com.nhpm.Models.ApplicationDataModel;
+
 import java.io.Serializable;
 
 public class PersonalDetailResponse implements Serializable{
@@ -312,5 +315,18 @@ public class PersonalDetailResponse implements Serializable{
 
     public void setOpertaorid(Integer opertaorid) {
         this.opertaorid = opertaorid;
+    }
+
+
+    static public PersonalDetailResponse create(String serializedData) {
+        // Use GSON to instantiate this class using the JSON representation of the state
+        Gson gson = new Gson();
+        return gson.fromJson(serializedData, PersonalDetailResponse.class);
+    }
+
+    public String serialize() {
+        // Serialize this class into a JSON string using GSON
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

@@ -10,8 +10,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         multiDexEnabled = true
-        versionCode 58
-        versionName "1.2.3"
+        versionCode 59
+        versionName "1.2.4"
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
@@ -20,8 +20,9 @@ android {
     }
     buildTypes {
         release {
+            shrinkResources true
             debuggable true;
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 

@@ -338,7 +338,7 @@ public class PersonalDetailsFragment extends Fragment {
        stateList2 = new ArrayList<>();
         if (stateList != null) {
             for (StateItem item1 : stateList1) {
-                if (item1.getStateCode().equalsIgnoreCase("06")) {
+              /*  if (item1.getStateCode().equalsIgnoreCase("06")) {
                     stateList.add("Haryana"); //HARYANA
                     stateList2.add(item1);
                 } else if (item1.getStateCode().equalsIgnoreCase("22")) {
@@ -350,7 +350,10 @@ public class PersonalDetailsFragment extends Fragment {
                 } else if (item1.getStateCode().equalsIgnoreCase("09")) {
                     stateList.add("Uttar Pradesh"); //UTTAR PRADESH
                     stateList2.add(item1);
-                }
+                }*/
+
+                stateList.add(item1.getStateName());
+                stateList2.add(item1);
             }
 
         }

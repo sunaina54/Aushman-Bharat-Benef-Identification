@@ -16,7 +16,7 @@
    public *;
 }
 -dontskipnonpubliclibraryclassmembers
-
+-ignorewarnings
 -dontwarn org.apache.**
 -dontobfuscate
 -keep class android.support.v4.app.** { *; }
