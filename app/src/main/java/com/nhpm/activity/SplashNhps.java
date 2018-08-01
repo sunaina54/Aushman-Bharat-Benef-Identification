@@ -103,7 +103,7 @@ public class SplashNhps extends Activity implements GoogleApiClient.ConnectionCa
     private String language;
     private static int SPLASH_TIME_OUT = 6 * 1000;
     public static boolean isEmulator = false;
-    public static final String GOOGLE_API_VERIFY_URL = "https://www.googleapis.com/androidcheck/v1/attestations/";
+    public static final String GOOGLE_API_VERIFY_URL = AppConstant.GOOGLE_API_VERIFY;
 
     private ArrayList<StateItem> stateListArray;
     public static String COMING_FROM_SPLASH="ComingFromSplash";

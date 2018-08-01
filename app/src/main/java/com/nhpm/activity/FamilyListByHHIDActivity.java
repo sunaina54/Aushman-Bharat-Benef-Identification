@@ -182,7 +182,7 @@ public class FamilyListByHHIDActivity extends BaseActivity {
                         try {
                             SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                             logTransReq.setCreated_by(verifierLoginResp.getAadhaarNumber());
-                            HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                            HashMap<String, String> responseTid = CustomHttp.httpPost(AppConstant.SAVE_LOGIN_TRANSACTION, logTransReq.serialize());
                             SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                             BeneficiaryFamilySearchFragment.sequence = 0;

@@ -44,7 +44,156 @@ public class PersonalDetailItem implements Serializable {
     private String idPhoto1;
     private String memberType;
 
+    private String aadhaarConsent;
+    private String careOfTypeDec;
+    private String careOfDec;
+    private String addressDec;
+    private String sourceOfData;
+    private String uidToken;
+    private String uidAuthType;
+    private int stateCodeLgdBen;
+    private int districtCodeLgdBen;
+    private int subDistrictCodeLgdBen;
+    private int villageTownCodeLgdBen;
+    private String ruralUrbanBen;
+    private String aadhaarConsentVer;
 
+
+
+
+
+                /*"aadhaarConsent": "y",
+                        "careOfTypeDec": "careOfTypeDec",
+                        "careOfDec": "careOfDec",
+                        "addressDec": "addressDec",
+                        "sourceOfData": "R",
+                        "uidToken": "uidToken",
+                        "uidAuthType": "OTP",
+                        "stateCodeLgdBen": 5,
+                        "districtCodeLgdBen": 68,
+                        "subDistrictCodeLgdBen": 97969,
+                        "villageTownCodeLgdBen": 123456,
+                        "ruralUrbanBen": "r",
+                        "aadhaarConsentVer": "consent",*/
+
+
+    	/*"guid": "guid",
+                "stateCode": "s",
+                "districtCode": "d",
+                "blockCode": "b",
+                "villageCode": "v",
+                "ruralUrbanCode": "r",
+                  "channel": 1,
+                   "amRelationHAId": "HAId",
+                "amRelation": "amRelation",
+                "amProofDocType": "amProofDocType",
+                "amProofDocNo": "amProofDocNo",
+                "amProofDocPhoto": "/9jg45g4gwg534ww/4AA"*/
+
+
+    public String getAadhaarConsent() {
+        return aadhaarConsent;
+    }
+
+    public void setAadhaarConsent(String aadhaarConsent) {
+        this.aadhaarConsent = aadhaarConsent;
+    }
+
+    public String getCareOfTypeDec() {
+        return careOfTypeDec;
+    }
+
+    public void setCareOfTypeDec(String careOfTypeDec) {
+        this.careOfTypeDec = careOfTypeDec;
+    }
+
+    public String getCareOfDec() {
+        return careOfDec;
+    }
+
+    public void setCareOfDec(String careOfDec) {
+        this.careOfDec = careOfDec;
+    }
+
+    public String getAddressDec() {
+        return addressDec;
+    }
+
+    public void setAddressDec(String addressDec) {
+        this.addressDec = addressDec;
+    }
+
+    public String getSourceOfData() {
+        return sourceOfData;
+    }
+
+    public void setSourceOfData(String sourceOfData) {
+        this.sourceOfData = sourceOfData;
+    }
+
+    public String getUidToken() {
+        return uidToken;
+    }
+
+    public void setUidToken(String uidToken) {
+        this.uidToken = uidToken;
+    }
+
+    public String getUidAuthType() {
+        return uidAuthType;
+    }
+
+    public void setUidAuthType(String uidAuthType) {
+        this.uidAuthType = uidAuthType;
+    }
+
+    public int getStateCodeLgdBen() {
+        return stateCodeLgdBen;
+    }
+
+    public void setStateCodeLgdBen(int stateCodeLgdBen) {
+        this.stateCodeLgdBen = stateCodeLgdBen;
+    }
+
+    public int getDistrictCodeLgdBen() {
+        return districtCodeLgdBen;
+    }
+
+    public void setDistrictCodeLgdBen(int districtCodeLgdBen) {
+        this.districtCodeLgdBen = districtCodeLgdBen;
+    }
+
+    public int getSubDistrictCodeLgdBen() {
+        return subDistrictCodeLgdBen;
+    }
+
+    public void setSubDistrictCodeLgdBen(int subDistrictCodeLgdBen) {
+        this.subDistrictCodeLgdBen = subDistrictCodeLgdBen;
+    }
+
+    public int getVillageTownCodeLgdBen() {
+        return villageTownCodeLgdBen;
+    }
+
+    public void setVillageTownCodeLgdBen(int villageTownCodeLgdBen) {
+        this.villageTownCodeLgdBen = villageTownCodeLgdBen;
+    }
+
+    public String getRuralUrbanBen() {
+        return ruralUrbanBen;
+    }
+
+    public void setRuralUrbanBen(String ruralUrbanBen) {
+        this.ruralUrbanBen = ruralUrbanBen;
+    }
+
+    public String getAadhaarConsentVer() {
+        return aadhaarConsentVer;
+    }
+
+    public void setAadhaarConsentVer(String aadhaarConsentVer) {
+        this.aadhaarConsentVer = aadhaarConsentVer;
+    }
 
     public String getMemberType() {
         return memberType;

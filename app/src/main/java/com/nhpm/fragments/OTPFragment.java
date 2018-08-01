@@ -114,7 +114,8 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
     public String pidDataXML = "";
     private String IPaddress = "";
     private TextView txtView_info;
-    private String kyc_ver = "2.1";
+    // chages kyc version 2.1 to 2.5 by wahid
+    private String kyc_ver = "2.5";
     private Intent intentCapture;
     private Intent intentInfo;
     private static int capture_finger = 1;

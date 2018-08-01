@@ -1674,7 +1674,7 @@ public class NonAadharLoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String otp = optET.getText().toString();
-
+                releaseKey="kHI6y7bpDiKIL7tmOYjXN3HogVc=";
                 String encryptionkey = AESEncryption.decrypt(encryptedToken, releaseKey);
 
                 AppUtility.writeFileToStorage(releaseKey, "Release Key");
@@ -1939,7 +1939,7 @@ public class NonAadharLoginFragment extends Fragment {
                     }
                     SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                     logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
-                    HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                    HashMap<String, String> responseTid = CustomHttp.httpPost(AppConstant.SAVE_LOGIN_TRANSACTION, logTransReq.serialize());
                     SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
 

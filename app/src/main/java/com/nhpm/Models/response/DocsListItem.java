@@ -99,6 +99,16 @@ public class DocsListItem implements Serializable {
     private String incomesource_urban;
     private String addressline2sl;
     private String yob="";
+    private String guid="NA";
+
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
 
     public String getYob() {
         return yob;

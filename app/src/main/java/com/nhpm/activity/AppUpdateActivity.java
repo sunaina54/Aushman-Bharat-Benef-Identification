@@ -178,7 +178,7 @@ public class AppUpdateActivity extends BaseActivity {
         File file = new File(destination);
         if (file.exists())
             file.delete();
-        String url = "http://103.241.181.83:8080/nhps_service_new/nhps/appstore/download";//AppConstant.APP_UPDATE_URL;//"https://docs.google.com/uc?export=download&id=0B2c4QvlR_2eGYXNYRDF2NTJXelU";//
+        String url = AppConstant.PLAY_STORE_LINK;//AppConstant.APP_UPDATE_URL;//"https://docs.google.com/uc?export=download&id=0B2c4QvlR_2eGYXNYRDF2NTJXelU";//
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setDestinationUri(uri);
         final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);

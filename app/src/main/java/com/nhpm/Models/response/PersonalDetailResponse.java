@@ -38,8 +38,48 @@ public class PersonalDetailResponse implements Serializable{
     private String rsby_no="";
     private String rsby_mem_id="";
     private String rsby_source="";
+    private String guid="";
+    private String stateCode="";
+    private String districtCode="";
+    private String blockCode="";
+    private String villageCode="";
+    private String ruralUrbanCode="";
+    private String channel="1";
+    private String amRelationHAId="";
+    private String amRelation="";
+    private String amProofDocType="";
+    private String amProofDocNo="";
+    private String amProofDocPhoto="";
 
 
+
+    private String aadhaarConsent;
+    private String careOfTypeDec;
+    private String careOfDec;
+    private String addressDec;
+    private String sourceOfData;
+    private String uidToken;
+    private String uidAuthType;
+    private int stateCodeLgdBen;
+    private int districtCodeLgdBen;
+    private int subDistrictCodeLgdBen;
+    private int villageTownCodeLgdBen;
+    private String ruralUrbanBen;
+    private String aadhaarConsentVer;
+
+
+    	/*"guid": "guid",
+                "stateCode": "s",
+                "districtCode": "d",
+                "blockCode": "b",
+                "villageCode": "v",
+                "ruralUrbanCode": "r",
+                  "channel": 1,
+                   "amRelationHAId": "HAId",
+                "amRelation": "amRelation",
+                "amProofDocType": "amProofDocType",
+                "amProofDocNo": "amProofDocNo",
+                "amProofDocPhoto": "/9jg45g4gwg534ww/4AA"*/
 
 
 
@@ -60,6 +100,206 @@ public class PersonalDetailResponse implements Serializable{
              "pinCodeBen" : "",
              "emailBen" : ""*/
 
+
+    public String getAadhaarConsent() {
+        return aadhaarConsent;
+    }
+
+    public void setAadhaarConsent(String aadhaarConsent) {
+        this.aadhaarConsent = aadhaarConsent;
+    }
+
+    public String getCareOfTypeDec() {
+        return careOfTypeDec;
+    }
+
+    public void setCareOfTypeDec(String careOfTypeDec) {
+        this.careOfTypeDec = careOfTypeDec;
+    }
+
+    public String getCareOfDec() {
+        return careOfDec;
+    }
+
+    public void setCareOfDec(String careOfDec) {
+        this.careOfDec = careOfDec;
+    }
+
+    public String getAddressDec() {
+        return addressDec;
+    }
+
+    public void setAddressDec(String addressDec) {
+        this.addressDec = addressDec;
+    }
+
+    public String getSourceOfData() {
+        return sourceOfData;
+    }
+
+    public void setSourceOfData(String sourceOfData) {
+        this.sourceOfData = sourceOfData;
+    }
+
+    public String getUidToken() {
+        return uidToken;
+    }
+
+    public void setUidToken(String uidToken) {
+        this.uidToken = uidToken;
+    }
+
+    public String getUidAuthType() {
+        return uidAuthType;
+    }
+
+    public void setUidAuthType(String uidAuthType) {
+        this.uidAuthType = uidAuthType;
+    }
+
+    public int getStateCodeLgdBen() {
+        return stateCodeLgdBen;
+    }
+
+    public void setStateCodeLgdBen(int stateCodeLgdBen) {
+        this.stateCodeLgdBen = stateCodeLgdBen;
+    }
+
+    public int getDistrictCodeLgdBen() {
+        return districtCodeLgdBen;
+    }
+
+    public void setDistrictCodeLgdBen(int districtCodeLgdBen) {
+        this.districtCodeLgdBen = districtCodeLgdBen;
+    }
+
+    public int getSubDistrictCodeLgdBen() {
+        return subDistrictCodeLgdBen;
+    }
+
+    public void setSubDistrictCodeLgdBen(int subDistrictCodeLgdBen) {
+        this.subDistrictCodeLgdBen = subDistrictCodeLgdBen;
+    }
+
+    public int getVillageTownCodeLgdBen() {
+        return villageTownCodeLgdBen;
+    }
+
+    public void setVillageTownCodeLgdBen(int villageTownCodeLgdBen) {
+        this.villageTownCodeLgdBen = villageTownCodeLgdBen;
+    }
+
+    public String getRuralUrbanBen() {
+        return ruralUrbanBen;
+    }
+
+    public void setRuralUrbanBen(String ruralUrbanBen) {
+        this.ruralUrbanBen = ruralUrbanBen;
+    }
+
+    public String getAadhaarConsentVer() {
+        return aadhaarConsentVer;
+    }
+
+    public void setAadhaarConsentVer(String aadhaarConsentVer) {
+        this.aadhaarConsentVer = aadhaarConsentVer;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
+    public String getStateCode() {
+        return stateCode;
+    }
+
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
+    }
+
+    public String getDistrictCode() {
+        return districtCode;
+    }
+
+    public void setDistrictCode(String districtCode) {
+        this.districtCode = districtCode;
+    }
+
+    public String getBlockCode() {
+        return blockCode;
+    }
+
+    public void setBlockCode(String blockCode) {
+        this.blockCode = blockCode;
+    }
+
+    public String getVillageCode() {
+        return villageCode;
+    }
+
+    public void setVillageCode(String villageCode) {
+        this.villageCode = villageCode;
+    }
+
+    public String getRuralUrbanCode() {
+        return ruralUrbanCode;
+    }
+
+    public void setRuralUrbanCode(String ruralUrbanCode) {
+        this.ruralUrbanCode = ruralUrbanCode;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+
+    public String getAmRelationHAId() {
+        return amRelationHAId;
+    }
+
+    public void setAmRelationHAId(String amRelationHAId) {
+        this.amRelationHAId = amRelationHAId;
+    }
+
+    public String getAmRelation() {
+        return amRelation;
+    }
+
+    public void setAmRelation(String amRelation) {
+        this.amRelation = amRelation;
+    }
+
+    public String getAmProofDocType() {
+        return amProofDocType;
+    }
+
+    public void setAmProofDocType(String amProofDocType) {
+        this.amProofDocType = amProofDocType;
+    }
+
+    public String getAmProofDocNo() {
+        return amProofDocNo;
+    }
+
+    public void setAmProofDocNo(String amProofDocNo) {
+        this.amProofDocNo = amProofDocNo;
+    }
+
+    public String getAmProofDocPhoto() {
+        return amProofDocPhoto;
+    }
+
+    public void setAmProofDocPhoto(String amProofDocPhoto) {
+        this.amProofDocPhoto = amProofDocPhoto;
+    }
 
     public String getRsby_no() {
         return rsby_no;

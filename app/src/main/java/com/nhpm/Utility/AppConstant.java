@@ -278,7 +278,7 @@ public interface AppConstant {
     String GET_NAME_MATCH_SCORE="https://pmrssm.gov.in/reportapi/nameMatch/getTotalScore";
     //String GET_FAMILY_MATCH_SCORE="http://10.247.173.73/NameMatcherHISP/NameMatch/ GetFamilyScore";
     String GET_FAMILY_MATCH_SCORE="https://pmrssm.gov.in/reportapi/nameMatch/GetFamilyScore";
-
+    String SAVE_LOGIN_TRANSACTION="https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction";
 
     String GET_RSBY_CATEGORY_MASTER = "http://164.100.58.98/rsbyCategory/1.0.0/rsbyCategory";
     String GET_RSBY_POLICIES_MASTER = "http://164.100.58.98/rsbyPolicies/1.0.0/rsbyPolicies";
@@ -509,6 +509,8 @@ public interface AppConstant {
     String SubBlockWiseDownloading = "S";
     String AadharNumber = "AadharNumber";
 
+    String PLAY_STORE_LINK ="http://103.241.181.83:8080/nhps_service_new/nhps/appstore/download";
+    String GOOGLE_API_VERIFY ="https://www.googleapis.com/androidcheck/v1/attestations/";
 
     String aadhaarCertificate = "MIIFVDCCBDygAwIBAgIEAMwvlTANBgkqhkiG9w0BAQsFADCBkDELMAkGA1UEBhMC\n" +
             "SU4xKjAoBgNVBAoTIWVNdWRocmEgQ29uc3VtZXIgU2VydmljZXMgTGltaXRlZDEd\n" +

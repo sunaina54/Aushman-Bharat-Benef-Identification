@@ -256,8 +256,8 @@ public class FamilyDetailsFragment extends Fragment {
                 }
                 if (familyMembersList != null && familyMembersList.size() > 0) {
                     intent.putExtra("Family_Card_Members", familyMembersList);
-                }else{
-                    CustomAlert.alertWithOk(context,"Please add member from family card");
+                } else {
+                    CustomAlert.alertWithOk(context, "Please add member from family card");
                     return;
                 }
                 startActivityForResult(intent, 3);
@@ -272,7 +272,7 @@ public class FamilyDetailsFragment extends Fragment {
         captureImageBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtility.openCamera(activity,FamilyDetailsFragment.this, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
+                AppUtility.openCamera(activity, FamilyDetailsFragment.this, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
 
                 //openCamera();
             }
@@ -443,7 +443,6 @@ public class FamilyDetailsFragment extends Fragment {
                     CustomAlert.alertWithOk(context, "Please enter family id number");
                     return;
                 }
-
 
 
                 if (voterIdImg == null || voterIdImg.equalsIgnoreCase("")) {
@@ -1021,7 +1020,7 @@ public class FamilyDetailsFragment extends Fragment {
                     } else {
                         request.setDataSource(AppConstant.SECC_SOURCE_NEW);
                     }
-                //    request.setStatecode(Integer.parseInt(verifierDetail.getStatecode()));
+                    //    request.setStatecode(Integer.parseInt(verifierDetail.getStatecode()));
                     StateItem selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
 
                     request.setStatecode(Integer.parseInt(selectedStateItem.getStateCode()));
@@ -1046,7 +1045,7 @@ public class FamilyDetailsFragment extends Fragment {
                     personalDetail.setDistrictNameBen(personalDetailItem.getDistrict());
                     personalDetail.setSubDistrictBen(personalDetailItem.getSubDistrictBen());
                     personalDetail.setVtcBen(personalDetailItem.getVtcBen());
-                    if(logRequestModel.getMethod().equalsIgnoreCase(AppConstant.RSBY_PARAM_ADCD)){
+                    if (logRequestModel.getMethod().equalsIgnoreCase(AppConstant.RSBY_PARAM_ADCD)) {
                         personalDetail.setRsby_no(logRequestModel.getSearchParameter());
                         personalDetail.setRsby_source("ADCD");
                     }
@@ -1080,6 +1079,28 @@ public class FamilyDetailsFragment extends Fragment {
                     personalDetail.setMotherNameSecc(beneficiaryListItem.getMothername());
                     personalDetail.setGenderIdSecc(beneficiaryListItem.getGenderid());
 
+                    // new parameters added
+                    personalDetail.setGuid(beneficiaryListItem.getGuid());
+                    personalDetail.setStateCode(beneficiaryListItem.getStatecode());
+                    personalDetail.setDistrictCode(beneficiaryListItem.getDistrict_code());
+                    personalDetail.setBlockCode(beneficiaryListItem.getBlock_code());
+                    personalDetail.setVillageCode(beneficiaryListItem.getVillage_code());
+                    personalDetail.setRuralUrbanCode(beneficiaryListItem.getRural_urban());
+                    personalDetail.setChannel("1");
+
+                    personalDetail.setAadhaarConsent(personalDetailItem.getAadhaarConsent());
+                    personalDetail.setCareOfTypeDec(personalDetailItem.getCareOfTypeDec());
+                    personalDetail.setCareOfDec(personalDetailItem.getCareOfDec());
+                    personalDetail.setAddressDec(personalDetailItem.getAddressDec());
+                    personalDetail.setSourceOfData(personalDetailItem.getSourceOfData());// source get
+                    personalDetail.setUidToken(personalDetail.getUidToken());
+                    personalDetail.setUidAuthType(personalDetail.getUidAuthType());
+                    personalDetail.setStateCodeLgdBen(personalDetailItem.getStateCodeLgdBen());
+                    personalDetail.setDistrictCodeLgdBen(personalDetailItem.getDistrictCodeLgdBen());
+                    personalDetail.setSubDistrictBen(personalDetailItem.getSubDistrictBen());
+                    personalDetail.setVillageTownCodeLgdBen(personalDetailItem.getVillageTownCodeLgdBen());
+                    personalDetail.setRuralUrbanBen(personalDetailItem.getRuralUrbanBen());
+                    personalDetail.setAadhaarConsentVer(personalDetailItem.getAadhaarConsentVer());
                     FamilyDetailResponse familyDetail = new FamilyDetailResponse();
 
                     familyDetail.setFamilyMemberModels(familyMemberModel.getFamilyMemberModels());
@@ -1099,7 +1120,7 @@ public class FamilyDetailsFragment extends Fragment {
                     if (familyResponse != null) {
                         genericResponse = new GenericResponse().create(familyResponse);
 
-                       // LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
+                        // LogRequestModel logRequestModel = LogRequestModel.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SAVE_LOG_REQUEST, context));
                       /*  logRequestModel.setFinalSave("1");
                         Log.d("Log Request Updated", logRequestModel.serialize());
                         if (genericResponse != null && genericResponse.isStatus()) {
@@ -1142,17 +1163,16 @@ public class FamilyDetailsFragment extends Fragment {
                         logRequestModel.setEndTime(getSearchParaRequestModel.getEndTime());
                         logRequestModel.setState_code(getSearchParaRequestModel.getState_code());
                         logRequestModel.setType_of_doc(getSearchParaRequestModel.getType_of_doc());
-                      //  logRequestModel.setType_of_search(getSearchParaRequestModel.getType_of_search());
+                        //  logRequestModel.setType_of_search(getSearchParaRequestModel.getType_of_search());
                         logRequestModel.setIsaadhar(getSearchParaRequestModel.getUid_search_type());
-                        String logReq=logRequestModel.serialize();
+                        String logReq = logRequestModel.serialize();
                         Log.d("Log Request Updated", logReq);
                         if (genericResponse != null && genericResponse.isStatus()) {
                             //Hit log api to track the app
                             HashMap<String, String> searchLogAPI = CustomHttp.httpPost(AppConstant.SEARCH_LOG_API, logRequestModel.serialize());
-                            String resp=searchLogAPI.get("response");
-                            Log.d("TAG"," Search Log Resp : "+resp);
+                            String resp = searchLogAPI.get("response");
+                            Log.d("TAG", " Search Log Resp : " + resp);
                         }
-
 
 
                     }
@@ -1195,20 +1215,20 @@ public class FamilyDetailsFragment extends Fragment {
                        /* if (familyScore >= 80 && nameScore >= 80) {
                             printCard();
                         } else {*/
-                            String msg = getResources().getString(R.string.submit_data_message);
-                            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle(context.getResources().getString(com.customComponent.R.string.Alert));
-                            builder.setMessage(msg)
-                                    .setCancelable(false)
-                                    .setPositiveButton(context.getResources().getString(com.customComponent.R.string.OK), new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            //activity.finish();
-                                            printCard();
-                                            alert.dismiss();
-                                        }
-                                    });
-                            alert = builder.create();
-                            alert.show();
+                        String msg = getResources().getString(R.string.submit_data_message);
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle(context.getResources().getString(com.customComponent.R.string.Alert));
+                        builder.setMessage(msg)
+                                .setCancelable(false)
+                                .setPositiveButton(context.getResources().getString(com.customComponent.R.string.OK), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //activity.finish();
+                                        printCard();
+                                        alert.dismiss();
+                                    }
+                                });
+                        alert = builder.create();
+                        alert.show();
                         //}
 
                         // Intent intent = new Intent(context, FamilyMembersListActivity.class);
@@ -1383,9 +1403,9 @@ public class FamilyDetailsFragment extends Fragment {
             }
 
             voterIdImg = AppUtility.converBitmapToBase64(bitmap);
-            if(voterIdImg!=null) {
+            if (voterIdImg != null) {
                 beneficiaryPhotoIV.setImageBitmap(bitmap);
-            }else {
+            } else {
                 beneficiaryPhotoIV.setImageBitmap(null);
             }
             //image.setImageBitmap(bitmap);
@@ -2003,24 +2023,24 @@ public class FamilyDetailsFragment extends Fragment {
         familyMembersList = new ArrayList<>();
         FamilyMemberModel item = new FamilyMemberModel();
         item.setName(beneficiaryListItem.getName());
-        String yob="";
+        String yob = "";
         if (beneficiaryListItem.getDob() != null) {
             if (beneficiaryListItem.getDob().length() > 4) {
-               yob = beneficiaryListItem.getDob().substring(0, 4);
+                yob = beneficiaryListItem.getDob().substring(0, 4);
             }
 
             if (beneficiaryListItem.getDob().length() == 4) {
-                yob=beneficiaryListItem.getDob();
+                yob = beneficiaryListItem.getDob();
             }
 
             String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
             currentYear = currentYear.substring(0, 4);
             int age = Integer.parseInt(currentYear) - Integer.parseInt(yob);
-            item.setDob(age+"");
+            item.setDob(age + "");
         }
         item.setGenderid(beneficiaryListItem.getGenderid());
-       // familyMembersList.add(item);
-       // refreshList(familyMembersList);
+        // familyMembersList.add(item);
+        // refreshList(familyMembersList);
         voterIdImg = null;
         beneficiaryPhotoIV.setImageBitmap(null);
         addFamilyMemberLL.setEnabled(true);

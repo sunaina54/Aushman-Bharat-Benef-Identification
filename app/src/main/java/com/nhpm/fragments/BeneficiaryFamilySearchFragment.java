@@ -1029,7 +1029,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
 
                     SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                     logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
-                    HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                    HashMap<String, String> responseTid = CustomHttp.httpPost(AppConstant.SAVE_LOGIN_TRANSACTION, logTransReq.serialize());
                     SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                     ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                     sequence = 0;
@@ -1235,7 +1235,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         try {
                             SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                             logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
-                            HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                            HashMap<String, String> responseTid = CustomHttp.httpPost(AppConstant.SAVE_LOGIN_TRANSACTION, logTransReq.serialize());
                             SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                             BeneficiaryFamilySearchFragment.sequence = 0;
@@ -1401,7 +1401,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         urnResponseModel = new URNResponseModel().create(familyResponse);
                         SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                         logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
-                        HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                        HashMap<String, String> responseTid = CustomHttp.httpPost(AppConstant.SAVE_LOGIN_TRANSACTION, logTransReq.serialize());
                         SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                         BeneficiaryFamilySearchFragment.sequence = 0;
@@ -1631,7 +1631,7 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
                         try {
                             SaveLoginTransactionRequestModel logTransReq = new SaveLoginTransactionRequestModel();
                             logTransReq.setCreated_by(loginResponse.getAadhaarNumber());
-                            HashMap<String, String> responseTid = CustomHttp.httpPost("https://pmrssm.gov.in/VIEWSTAT/api/login/saveLoginTransaction", logTransReq.serialize());
+                            HashMap<String, String> responseTid = CustomHttp.httpPost(AppConstant.SAVE_LOGIN_TRANSACTION, logTransReq.serialize());
                             SaveLoginTransactionResponseModel responseModel = SaveLoginTransactionResponseModel.create(responseTid.get("response"));
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "logTrans", responseModel.serialize(), context);
                             BeneficiaryFamilySearchFragment.sequence = 0;
