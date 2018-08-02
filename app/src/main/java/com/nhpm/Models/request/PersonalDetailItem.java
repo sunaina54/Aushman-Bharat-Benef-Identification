@@ -58,8 +58,8 @@ public class PersonalDetailItem implements Serializable {
     private String ruralUrbanBen;
     private String aadhaarConsentVer;
 
-
-
+    // define by sunaina -> co type and value
+    private String coTypeValue;
 
 
                 /*"aadhaarConsent": "y",
@@ -90,6 +90,13 @@ public class PersonalDetailItem implements Serializable {
                 "amProofDocNo": "amProofDocNo",
                 "amProofDocPhoto": "/9jg45g4gwg534ww/4AA"*/
 
+    public String getCoTypeValue() {
+        return coTypeValue;
+    }
+
+    public void setCoTypeValue(String coTypeValue) {
+        this.coTypeValue = coTypeValue;
+    }
 
     public String getAadhaarConsent() {
         return aadhaarConsent;

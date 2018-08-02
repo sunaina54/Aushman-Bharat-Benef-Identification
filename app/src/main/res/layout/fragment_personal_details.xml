@@ -122,26 +122,165 @@
                         android:orientation="vertical"
                         android:id="@+id/personalLL">
 
-                        <TextView
-                            style="@style/textView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/personal_detail_tv"
-                            android:textStyle="bold" />
-
                         <LinearLayout
-                            android:id="@+id/aadharLL"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-
+                            android:orientation="vertical"
+                            android:id="@+id/kycLL">
                             <TextView
                                 style="@style/textView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/enterAadharNo" />
+                                android:text="@string/personal_detail_tv"
+                                android:textStyle="bold" />
 
+                            <LinearLayout
+                                android:id="@+id/aadharLL"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/enterAadharNo" />
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/aadharET"
+                                        android:layout_width="250dp"
+                                        android:layout_height="60dp"
+                                        android:layout_marginTop="10dp"
+                                        android:background="@drawable/edittext_background_white"
+                                        android:imeOptions="actionNext"
+                                        android:inputType="number"
+                                        android:maxLength="12"
+                                        android:paddingBottom="5dp"
+                                        android:paddingLeft="15dp"
+                                        android:paddingTop="5dp"
+                                        android:textAlignment="center"
+                                        android:textSize="20sp" />
+
+
+                                    <Button
+                                        android:id="@+id/verifyAadharBT"
+                                        android:layout_width="150dp"
+                                        android:layout_height="45dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="@dimen/margine_20"
+                                        android:background="@drawable/rounded_shape_yello_button"
+                                        android:padding="@dimen/margine_10"
+                                        android:text="@string/verify"
+                                        android:textAllCaps="false"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/font_size" />
+
+
+                                    <TextView
+                                        style="@style/textView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/margine_10"
+                                        android:paddingBottom="@dimen/margine_5"
+                                        android:paddingTop="@dimen/margine_5"
+                                        android:text="@string/match_score_tv"
+                                        android:textSize="12sp"
+                                        android:textStyle="bold"
+                                        android:visibility="gone" />
+
+                                    <TextView
+                                        style="@style/textView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingBottom="@dimen/margine_5"
+                                        android:paddingTop="@dimen/margine_5"
+                                        android:text="76%"
+                                        android:textSize="12sp"
+                                        android:visibility="gone" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/noAadhaarLL"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <TextView
+                                    android:id="@+id/noAadhaarTV"
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/margine_10"
+                                    android:text="@string/no_aadhar"
+                                    android:textColor="@color/textSearch" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:id="@+id/beneficiaryDetailsLL">
+                            <TextView
+                                style="@style/textView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/beneficiary_img" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/beneficiaryPhotoIV"
+                                    android:layout_width="200dp"
+                                    android:layout_height="200dp"
+                                    android:background="@drawable/edittext_background_white" />
+
+
+                                <Button
+                                    android:id="@+id/captureImageBT"
+                                    android:layout_width="150dp"
+                                    android:layout_height="45dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="@dimen/margine_20"
+                                    android:background="@drawable/rounded_shape_yello_button"
+                                    android:padding="@dimen/margine_10"
+                                    android:text="@string/capture"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/font_size"
+                                    android:visibility="gone" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margine_5"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/margine_5"
+                                    android:text="@string/nameAsPerId" />
+
+
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -150,36 +289,24 @@
 
 
                                 <AutoCompleteTextView
-                                    android:id="@+id/aadharET"
+                                    android:id="@+id/beneficiaryNamePerIdTV"
                                     android:layout_width="250dp"
                                     android:layout_height="60dp"
                                     android:layout_marginTop="10dp"
                                     android:background="@drawable/edittext_background_white"
+                                    android:enabled="false"
                                     android:imeOptions="actionNext"
                                     android:inputType="number"
-                                    android:maxLength="12"
                                     android:paddingBottom="5dp"
                                     android:paddingLeft="15dp"
                                     android:paddingTop="5dp"
                                     android:textAlignment="center"
+                                    android:textColor="@color/tiffiny_blue"
                                     android:textSize="20sp" />
 
 
-                                <Button
-                                    android:id="@+id/verifyAadharBT"
-                                    android:layout_width="150dp"
-                                    android:layout_height="45dp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="@dimen/margine_20"
-                                    android:background="@drawable/rounded_shape_yello_button"
-                                    android:padding="@dimen/margine_10"
-                                    android:text="@string/verify"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/font_size" />
-
-
                                 <TextView
+                                    android:id="@+id/nameScoreLabelTV"
                                     style="@style/textView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -192,131 +319,18 @@
                                     android:visibility="gone" />
 
                                 <TextView
+                                    android:id="@+id/nameScorePercentTV"
                                     style="@style/textView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:paddingBottom="@dimen/margine_5"
                                     android:paddingTop="@dimen/margine_5"
-                                    android:text="76%"
+                                    android:text="80%"
                                     android:textSize="12sp"
                                     android:visibility="gone" />
                             </LinearLayout>
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:id="@+id/noAadhaarLL"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-
-                            <TextView
-                                android:id="@+id/noAadhaarTV"
-                                style="@style/textView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/margine_10"
-                                android:text="@string/no_aadhar"
-                                android:textColor="@color/textSearch" />
-                        </LinearLayout>
-
-                        <TextView
-                            style="@style/textView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/beneficiary_img" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/beneficiaryPhotoIV"
-                                android:layout_width="200dp"
-                                android:layout_height="200dp"
-                                android:background="@drawable/edittext_background_white" />
-
-
-                            <Button
-                                android:id="@+id/captureImageBT"
-                                android:layout_width="150dp"
-                                android:layout_height="45dp"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/margine_20"
-                                android:background="@drawable/rounded_shape_yello_button"
-                                android:padding="@dimen/margine_10"
-                                android:text="@string/capture"
-                                android:textAllCaps="false"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/font_size"
-                                android:visibility="gone" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margine_5"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/textView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="@dimen/margine_5"
-                                android:text="@string/nameAsPerId" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-
-                            <AutoCompleteTextView
-                                android:id="@+id/beneficiaryNamePerIdTV"
-                                android:layout_width="250dp"
-                                android:layout_height="60dp"
-                                android:layout_marginTop="10dp"
-                                android:background="@drawable/edittext_background_white"
-                                android:enabled="false"
-                                android:imeOptions="actionNext"
-                                android:inputType="number"
-                                android:paddingBottom="5dp"
-                                android:paddingLeft="15dp"
-                                android:paddingTop="5dp"
-                                android:textAlignment="center"
-                                android:textColor="@color/tiffiny_blue"
-                                android:textSize="20sp" />
-
-
-                            <TextView
-                                android:id="@+id/nameScoreLabelTV"
-                                style="@style/textView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margine_10"
-                                android:paddingBottom="@dimen/margine_5"
-                                android:paddingTop="@dimen/margine_5"
-                                android:text="@string/match_score_tv"
-                                android:textSize="12sp"
-                                android:textStyle="bold"
-                                android:visibility="gone" />
-
-                            <TextView
-                                android:id="@+id/nameScorePercentTV"
-                                style="@style/textView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingBottom="@dimen/margine_5"
-                                android:paddingTop="@dimen/margine_5"
-                                android:text="80%"
-                                android:textSize="12sp"
-                                android:visibility="gone" />
-                        </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/govtIdLL"
@@ -664,119 +678,232 @@
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
-
-
-                            android:id="@+id/ruralUrbanLL"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            android:orientation="vertical"
-                            android:weightSum="2">
-
-                            <TextView
-                                style="@style/textView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:padding="5dp"
-                                android:text="Rural/Urban"
-                                android:textSize="@dimen/text_size_20sp" />
-
-                            <Spinner
-                                android:id="@+id/ruralUrbanSP"
-                                android:layout_width="match_parent"
-                                android:layout_height="45dp"
-                                android:spinnerMode="dropdown"
-
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-
-
-                            android:id="@+id/vtcLL"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:weightSum="2">
+                            android:id="@+id/locationLL">
 
-                            <TextView
-                                style="@style/textView"
+                            <LinearLayout
+                                android:id="@+id/coLL"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:padding="5dp"
-                                android:text="Village/Town"
-                                android:textSize="@dimen/text_size_20sp" />
 
-                            <AutoCompleteTextView
-                                android:id="@+id/vtcACTV"
+                                android:orientation="vertical"
+                                android:weightSum="2">
+
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:padding="5dp"
+                                    android:text="Care Of"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                                <Spinner
+                                    android:id="@+id/cardTypeSpinner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:spinnerMode="dropdown"
+
+                                    />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:id="@+id/fatherLL"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:enabled="true"
-                                android:hint="Type few characters of village"
-                                android:inputType="none"
-                                android:paddingLeft="5dp"
-                                android:textSize="@dimen/text_size_20sp" />
+                                android:orientation="vertical"
+                                android:weightSum="2">
 
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/FatherName"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                                <EditText
+                                    android:id="@+id/kycFather"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:enabled="true"
+                                    android:inputType="text"
+                                    android:paddingLeft="5dp"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/motherLL"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:weightSum="2">
+
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/motherName"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                                <EditText
+                                    android:id="@+id/kycMother"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:enabled="true"
+                                    android:inputType="text"
+                                    android:paddingLeft="5dp"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/spouseLL"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:weightSum="2">
+
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:padding="5dp"
+                                    android:text="Spouse Name"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                                <EditText
+                                    android:id="@+id/kycSpouse"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:enabled="true"
+                                    android:inputType="text"
+                                    android:paddingLeft="5dp"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:id="@+id/ruralUrbanLL"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+
+                                android:orientation="vertical"
+                                android:weightSum="2">
+
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:padding="5dp"
+                                    android:text="Rural/Urban"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                                <Spinner
+                                    android:id="@+id/ruralUrbanSP"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:spinnerMode="dropdown"
+
+                                    />
+                            </LinearLayout>
+                            <LinearLayout
+
+
+                                android:id="@+id/vtcLL"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:weightSum="2">
+
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:padding="5dp"
+                                    android:text="Village/Town"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/vtcACTV"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:enabled="true"
+                                    android:hint="Type few characters of village"
+                                    android:inputType="none"
+                                    android:paddingLeft="5dp"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+
+
+                                android:id="@+id/distLL"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:weightSum="2">
+
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:padding="5dp"
+                                    android:text="District"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                                <AutoCompleteTextView
+                                    android:id="@+id/distACTV"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:enabled="true"
+                                    android:hint="Type few characters of district"
+                                    android:inputType="none"
+                                    android:paddingLeft="5dp"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+
+                                android:layout_marginBottom="60dp"
+                                android:id="@+id/stateLL"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:weightSum="2">
+
+                                <TextView
+                                    style="@style/textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:padding="5dp"
+                                    android:text="State"
+                                    android:textSize="@dimen/text_size_20sp" />
+
+                                <Spinner
+                                    android:id="@+id/stateSP"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="45dp"
+                                    android:spinnerMode="dropdown"
+
+
+                                    />
+                            </LinearLayout>
                         </LinearLayout>
 
-                        <LinearLayout
-
-
-                            android:id="@+id/distLL"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:weightSum="2">
-
-                            <TextView
-                                style="@style/textView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:padding="5dp"
-                                android:text="District"
-                                android:textSize="@dimen/text_size_20sp" />
-
-                            <AutoCompleteTextView
-                                android:id="@+id/distACTV"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:enabled="true"
-                                android:hint="Type few characters of district"
-                                android:inputType="none"
-                                android:paddingLeft="5dp"
-                                android:textSize="@dimen/text_size_20sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-
-                            android:layout_marginBottom="60dp"
-                            android:id="@+id/stateLL"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:weightSum="2">
-
-                            <TextView
-                                style="@style/textView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:padding="5dp"
-                                android:text="State"
-                                android:textSize="@dimen/text_size_20sp" />
-
-                            <Spinner
-                                android:id="@+id/stateSP"
-                                android:layout_width="match_parent"
-                                android:layout_height="45dp"
-                                android:spinnerMode="dropdown"
-
-
-                                />
-                        </LinearLayout>
 
 
 

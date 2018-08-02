@@ -467,6 +467,8 @@ public class FamilyListActivity extends BaseActivity {
                         Intent intent = new Intent(context, FamilyMembersListActivity.class);
                         //intent.putExtra("result", beneficiaryModel);
                         intent.putExtra("hhdNo", mDataset.get(position).getHhd_no());
+                        intent.putExtra("AHLTIN_Number", mDataset.get(position).getAhl_tin());
+
                         startActivity(intent);
                     }
                 }

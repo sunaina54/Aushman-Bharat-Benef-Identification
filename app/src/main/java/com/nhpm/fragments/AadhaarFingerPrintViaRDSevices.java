@@ -60,6 +60,7 @@ import com.nhpm.Utility.ApplicationGlobal;
 import com.nhpm.activity.CaptureAadharDetailActivity;
 import com.nhpm.activity.EkycActivity;
 import com.nhpm.activity.FingerprintResultActivity;
+import com.nhpm.activity.KycPreviewActivity;
 import com.nhpm.activity.WithAadhaarActivity;
 import com.sec.biometric.license.SecBiometricLicenseManager;
 
@@ -1410,6 +1411,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                             personalDetailItem = PersonalDetailItem.create(ekycActivity.getIntent().getStringExtra("mobileNumber"));
 
                             if (personalDetailItem != null) {
+                               personalDetailItem.setCoTypeValue(aadhaarKycResponse.getCo());
                                 personalDetailItem.setGovtIdType("Aadhaar");
                                 personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                                 personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
@@ -1435,6 +1437,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                             } else {
 
                                 personalDetailItem = new PersonalDetailItem();
+                                personalDetailItem.setCoTypeValue(aadhaarKycResponse.getCo());
                                 personalDetailItem.setGovtIdType("Aadhaar");
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                                 personalDetailItem.setIdName("13");
@@ -1457,6 +1460,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                                 personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
+
                             }
                             ekycActivity.finish();
                         /*PersonalDetailsFragment fragment = new PersonalDetailsFragment();

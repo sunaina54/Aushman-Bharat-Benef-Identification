@@ -58,6 +58,7 @@ import com.nhpm.Utility.ErrorCodeDescriptions;
 import com.nhpm.activity.CaptureAadharDetailActivity;
 import com.nhpm.activity.EkycActivity;
 import com.nhpm.activity.FingerprintResultActivity;
+import com.nhpm.activity.KycPreviewActivity;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -686,6 +687,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
 
 
                             if (personalDetailItem != null) {
+                                personalDetailItem.setCoTypeValue(aadhaarKycResponse.getCo());
                                 personalDetailItem.setGovtIdType("Aadhaar");
                                 personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                                 personalDetailItem.setMobileNo(aadhaarKycResponse.getPhone());
@@ -710,6 +712,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                             }else {
 
                                 personalDetailItem = new PersonalDetailItem();
+                                personalDetailItem.setCoTypeValue(aadhaarKycResponse.getCo());
                                 personalDetailItem.setGovtIdType("Aadhaar");
                                 personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
@@ -730,6 +733,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
                                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
+
                             }
                          /*   PersonalDetailItem personalDetailItem = new PersonalDetailItem();
                             personalDetailItem.setBenefPhoto(aadhaarKycResponse.getBase64());

@@ -17,6 +17,7 @@
             android:orientation="vertical"
             android:layout_weight="0.75"
             android:padding="@dimen/margine_20"
+            android:id="@+id/familyMemberDetailsLL"
             android:background="@color/darkGrey">
 
             <LinearLayout
