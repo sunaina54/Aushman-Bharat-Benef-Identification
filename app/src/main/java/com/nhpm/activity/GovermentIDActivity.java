@@ -589,6 +589,43 @@ public class GovermentIDActivity extends BaseActivity {
             }
         });
 
+        voterIdIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(voterIdImg!=null && !voterIdImg.equalsIgnoreCase("")){
+                    PersonalDetailItem personalDetailItem= new PersonalDetailItem();
+                    personalDetailItem.setIdPhoto(voterIdImg);
+                    Intent intent = new Intent(context, ViewDocImageActivity.class);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"GovtDocImage",personalDetailItem.getIdPhoto(),context);
+                    //  intent.putExtra("DocImage",personalDetailItem.getIdPhoto());
+                    intent.putExtra("ScreenName","GovernmentIdActivity");
+                    startActivity(intent);
+                }else {
+                    CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzCaptureGovId));
+                    return;
+                }
+            }
+        });
+
+        voterIdBackIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(voterIdBackImg!=null && !voterIdBackImg.equalsIgnoreCase("")){
+                    PersonalDetailItem personalDetailItem= new PersonalDetailItem();
+                    personalDetailItem.setIdPhoto1(voterIdBackImg);
+                    Intent intent = new Intent(context, ViewDocImageActivity.class);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"GovtDocImage",personalDetailItem.getIdPhoto1(),context);
+                    //  intent.putExtra("DocImage",personalDetailItem.getIdPhoto());
+                    intent.putExtra("ScreenName","GovernmentIdActivity");
+
+                    startActivity(intent);
+                }else {
+                    CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzCaptureGovId));
+                    return;
+                }
+            }
+        });
+
         voterIdSubmitBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1581,6 +1618,43 @@ public class GovermentIDActivity extends BaseActivity {
                     consent = "N";
                 } else {
                     consent = "Y";
+                }
+            }
+        });
+
+        voterIdIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(voterIdImg!=null && !voterIdImg.equalsIgnoreCase("")){
+                    PersonalDetailItem personalDetailItem= new PersonalDetailItem();
+                    personalDetailItem.setIdPhoto(voterIdImg);
+                    Intent intent = new Intent(context, ViewDocImageActivity.class);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"GovtDocImage",personalDetailItem.getIdPhoto(),context);
+                    //  intent.putExtra("DocImage",personalDetailItem.getIdPhoto());
+                    intent.putExtra("ScreenName","GovernmentIdActivity");
+                    startActivity(intent);
+                }else {
+                    CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzCaptureGovId));
+                    return;
+                }
+            }
+        });
+
+        voterIdBackIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(voterIdBackImg!=null && !voterIdBackImg.equalsIgnoreCase("")){
+                    PersonalDetailItem personalDetailItem= new PersonalDetailItem();
+                    personalDetailItem.setIdPhoto1(voterIdBackImg);
+                    Intent intent = new Intent(context, ViewDocImageActivity.class);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"GovtDocImage",personalDetailItem.getIdPhoto1(),context);
+                    //  intent.putExtra("DocImage",personalDetailItem.getIdPhoto());
+                    intent.putExtra("ScreenName","GovernmentIdActivity");
+
+                    startActivity(intent);
+                }else {
+                    CustomAlert.alertWithOk(context, context.getResources().getString(R.string.plzCaptureGovId));
+                    return;
                 }
             }
         });

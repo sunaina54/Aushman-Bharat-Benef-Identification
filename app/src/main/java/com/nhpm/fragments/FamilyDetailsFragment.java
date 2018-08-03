@@ -74,6 +74,7 @@ import com.nhpm.activity.FamilyMemberEntryActivity;
 import com.nhpm.activity.FamilyMemberMatchActivity;
 import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.LoginActivity;
+import com.nhpm.activity.ViewDocImageActivity;
 import com.nhpm.activity.ViewMemberDataActivity;
 
 import java.io.File;
@@ -278,6 +279,8 @@ public class FamilyDetailsFragment extends Fragment {
             }
         });
 
+
+
         if (beneficiaryListItem != null) {
             beneficiaryNameTV.setText(beneficiaryListItem.getName());
             if (beneficiaryListItem.getOldMembers() != null && beneficiaryListItem.getOldMembers().size() > 0) {
@@ -426,7 +429,23 @@ public class FamilyDetailsFragment extends Fragment {
                 fragmentTransection.commitAllowingStateLoss();
             }
         });
-
+        beneficiaryPhotoIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(voterIdImg!=null
+                        && !voterIdImg.equalsIgnoreCase("")){
+                    FamilyDetailsItemModel  familyDetailsItemModel = new FamilyDetailsItemModel();
+                    familyDetailsItemModel.setIdImage(voterIdImg);
+                    Intent intent = new Intent(context, ViewDocImageActivity.class);
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImageFamilyCapture",familyDetailsItemModel.getIdImage(),context);
+                    intent.putExtra("ScreenName","FamilyDetailsFragment");
+                    startActivity(intent);
+                }else {
+                    CustomAlert.alertWithOk(context, "Please capture family id photo");
+                    return;
+                }
+            }
+        });
         nextBT = (Button) view.findViewById(R.id.nextBT);
         nextBT.setVisibility(View.GONE);
         nextBT.setOnClickListener(new View.OnClickListener() {

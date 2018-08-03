@@ -684,59 +684,71 @@
                             android:id="@+id/locationLL">
 
                             <LinearLayout
-                                android:id="@+id/coLL"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="1">
 
-                                android:orientation="vertical"
-                                android:weightSum="2">
-
-                                <TextView
-                                    style="@style/textView"
-                                    android:layout_width="match_parent"
+                                <LinearLayout
+                                    android:id="@+id/coLL"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="0.25"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:padding="5dp"
-                                    android:text="Care Of"
-                                    android:textSize="@dimen/text_size_20sp" />
+                                    android:orientation="vertical"
+                                   >
 
-                                <Spinner
-                                    android:id="@+id/cardTypeSpinner"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="45dp"
-                                    android:spinnerMode="dropdown"
+                                    <TextView
+                                        style="@style/textView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:padding="5dp"
+                                        android:text="Care of Type"
+                                        android:textSize="@dimen/text_size_20sp" />
 
-                                    />
+                                    <Spinner
+                                        android:id="@+id/cardTypeSpinner"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="45dp"
+                                        android:spinnerMode="dropdown"
+                                        />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/fatherLL"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="0.75"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:weightSum="2">
+
+                                    <TextView
+                                        style="@style/textView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:padding="5dp"
+                                        android:text="Care of Name"
+                                        android:textSize="@dimen/text_size_20sp" />
+
+                                    <EditText
+                                        android:id="@+id/kycFather"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:enabled="true"
+                                        android:inputType="text"
+                                        android:paddingLeft="5dp"
+                                        android:textSize="@dimen/text_size_20sp" />
+
+                                </LinearLayout>
+
                             </LinearLayout>
 
 
+
+
+
                             <LinearLayout
-                                android:id="@+id/fatherLL"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:weightSum="2">
-
-                                <TextView
-                                    style="@style/textView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:padding="5dp"
-                                    android:text="@string/FatherName"
-                                    android:textSize="@dimen/text_size_20sp" />
-
-                                <EditText
-                                    android:id="@+id/kycFather"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:enabled="true"
-                                    android:inputType="text"
-                                    android:paddingLeft="5dp"
-                                    android:textSize="@dimen/text_size_20sp" />
-
-                            </LinearLayout>
-                            <LinearLayout
+                                android:visibility="gone"
                                 android:id="@+id/motherLL"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -763,6 +775,7 @@
 
                             </LinearLayout>
                             <LinearLayout
+                                android:visibility="gone"
                                 android:id="@+id/spouseLL"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -834,7 +847,7 @@
                                     android:textSize="@dimen/text_size_20sp" />
 
                                 <AutoCompleteTextView
-                                    android:id="@+id/vtcACTV"
+                                    android:id="@+id/vtcACTV1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:enabled="true"
@@ -864,7 +877,7 @@
                                     android:textSize="@dimen/text_size_20sp" />
 
                                 <AutoCompleteTextView
-                                    android:id="@+id/distACTV"
+                                    android:id="@+id/distACTV1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:enabled="true"

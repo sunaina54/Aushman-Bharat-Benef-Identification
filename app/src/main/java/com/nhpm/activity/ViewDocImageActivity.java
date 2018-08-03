@@ -40,7 +40,14 @@ public class ViewDocImageActivity extends BaseActivity {
             docImage = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImageFamily",context);
 
         }
+        if(screenName!=null && !screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("GovernmentIdActivity")){
+            docImage = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"GovtDocImage",context);
 
+        }
+        if(screenName!=null && !screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("FamilyDetailsFragment")){
+            docImage = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImageFamilyCapture",context);
+
+        }
         if(screenName!=null && !screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("ViewPersonalDetailsFragment")) {
 
             docImage = ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "DocImage", context);
@@ -51,6 +58,8 @@ public class ViewDocImageActivity extends BaseActivity {
                     convertStringToBitmap(docImage));
             ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImage",context);
             ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImageFamily",context);
+            ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,"GovtDocImage",context);
+            ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF,"DocImageFamilyCapture",context);
 
         }
 
