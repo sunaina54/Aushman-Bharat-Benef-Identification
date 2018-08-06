@@ -242,6 +242,7 @@ public interface AppConstant {
     String SECC_MEMBER_DOWNLOAD_API = MAIN_DOMAIN + "nhps/secc/members";
     String SECC_HOUSEHOLD_DOWNLOAD_API = MAIN_DOMAIN + "nhps/secc/houseHolds";
     String SEARCH_FAMILY_LIST = NEW_MAIN_DOMAIN_UPDATED+"search";
+    String GET_FAMILY_STATUS = NEW_MAIN_DOMAIN_UPDATED+"getFamilyStatus";
     String SEARCH_BY_RATION=NEW_MAIN_DOMAIN_UPDATED+"searchByRation";
     String VALIDATE_URN = "https://pmrssm.gov.in/VIEWSTAT/api/validateURN";
     String SEARCH_BY_MOBILE_RATION =  NEW_MAIN_DOMAIN_UPDATED+"searchByMobileRationParameter";

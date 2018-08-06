@@ -100,7 +100,15 @@ public class DocsListItem implements Serializable {
     private String addressline2sl;
     private String yob="";
     private String guid="NA";
+    private String verificationStatus="";
 
+    public String getVerificationStatus() {
+        return verificationStatus;
+    }
+
+    public void setVerificationStatus(String verificationStatus) {
+        this.verificationStatus = verificationStatus;
+    }
 
     public String getGuid() {
         return guid;

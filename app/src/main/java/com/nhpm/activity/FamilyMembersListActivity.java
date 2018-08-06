@@ -28,6 +28,7 @@ import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
 import com.nhpm.Models.FamilyMemberModel;
 import com.nhpm.Models.request.FamilyListRequestModel;
+import com.nhpm.Models.request.GetFamilyStatusRequestModel;
 import com.nhpm.Models.request.GetMemberDetail;
 import com.nhpm.Models.request.GetMemberDetailRequestModel;
 import com.nhpm.Models.request.LogRequestModel;
@@ -36,6 +37,8 @@ import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.BeneficiaryModel;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyListResponseItem;
+import com.nhpm.Models.response.FamilyMemberListItem;
+import com.nhpm.Models.response.GetFamilyStatusResponseModel;
 import com.nhpm.Models.response.URNResponseItem;
 import com.nhpm.Models.response.URNResponseModel;
 import com.nhpm.Models.response.master.StateItem;
@@ -68,6 +71,7 @@ public class FamilyMembersListActivity extends BaseActivity {
     private URNResponseModel urnResponseModel;
     private String hhdNo = "", urnNo = "", ahltin_number;
     private boolean logStatus;
+    private ArrayList<DocsListItem> tempDocList;
 
     public static String SELECTED_MEMBER = "SELECTED-MEMBER";
     private FamilyListRequestModel familyListRequestModel;
@@ -77,6 +81,7 @@ public class FamilyMembersListActivity extends BaseActivity {
     private TextView errorTV;
     private StateItem selectedStateItem;
     private GetMemberDetail getMemberDetailResponse;
+    private GetFamilyStatusResponseModel getFamilyStatusResponseModel;
     private ValidateUrnRequestModel urRequest;
     private FamilyListRequestModel seccRequest;
     private CustomAdapterRSBY adapterRSBY;
@@ -269,8 +274,88 @@ public class FamilyMembersListActivity extends BaseActivity {
                                 //  if (matchCount<=familyListResponseModel.getResponse().getDocs().size()) {
                                 try {
                                     familyMembersNoTV.setText(familyListResponseModel.getResult().getResponse().getDocs().size() + "");
+                                    // Hit nic api to get family member status
+                                    final GetFamilyStatusRequestModel requestModel = new GetFamilyStatusRequestModel();
 
-                                    refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
+                                    requestModel.setHhd_no(hhdNo);
+                                    requestModel.setStatecode(Integer.parseInt(selectedStateItem.getStateCode()));
+
+                                    TaskListener taskListener = new TaskListener() {
+                                        @Override
+                                        public void execute() {
+                                            try {
+                                                String request = requestModel.serialize();
+                                                HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.GET_FAMILY_STATUS, request, AppConstant.AUTHORIZATION, verifierLoginResp.getAuthToken());
+                                                String familyResponse = response.get("response");
+
+                                                if (familyResponse != null) {
+                                                    getFamilyStatusResponseModel = new GetFamilyStatusResponseModel().create(familyResponse);
+
+                                                }
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void updateUI() {
+                                            if (getFamilyStatusResponseModel != null) {
+                                                if (getFamilyStatusResponseModel.isStatus()) {
+
+                                                    if (getFamilyStatusResponseModel.getFamilyMemberList() != null && getFamilyStatusResponseModel.getFamilyMemberList().size() > 0) {
+                                                        tempDocList = new ArrayList<>();
+                                                        tempDocList.addAll(familyListResponseModel.getResult().getResponse().getDocs());
+                                                      /*  for (DocsListItem item : familyListResponseModel.getResult().getResponse().getDocs()) {
+                                                            for (FamilyMemberListItem item1 : getFamilyStatusResponseModel.getFamilyMemberList()) {
+                                                                if (item.getAhl_tin().equalsIgnoreCase(item1.getAhltin())) {
+                                                                    item.setVerificationStatus(item1.getVerificationStatus());
+                                                                    tempDocList.set(item);
+                                                                }
+                                                            }
+                                                        }*/
+                                                        for (int i = 0; i < familyListResponseModel.getResult().getResponse().getDocs().size(); i++) {
+                                                            for (DocsListItem item : familyListResponseModel.getResult().getResponse().getDocs()) {
+                                                                for (FamilyMemberListItem item1 : getFamilyStatusResponseModel.getFamilyMemberList()) {
+                                                                    if (item.getAhl_tin().equalsIgnoreCase(item1.getAhltin())) {
+                                                                        item.setVerificationStatus(item1.getVerificationStatus());
+                                                                        tempDocList.set(i, item);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        refreshMembersList(tempDocList);
+                                                    }
+
+                                                    if (getFamilyStatusResponseModel.getFamilyMemberList().size() < 0) {
+                                                        refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
+                                                    }
+
+                                                } else if (getFamilyStatusResponseModel!=null && getFamilyStatusResponseModel.getFamilyMemberList()==null || getFamilyStatusResponseModel.getFamilyMemberList().size() == 0) {
+                                                    refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
+                                                } else if (getFamilyStatusResponseModel != null && getFamilyStatusResponseModel.getErrorCode() != null &&
+                                                        getFamilyStatusResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                                                        || getFamilyStatusResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                                                    Intent intent = new Intent(context, LoginActivity.class);
+                                                    CustomAlert.alertWithOkLogout(context, getFamilyStatusResponseModel.getErrorMessage(), intent);
+
+                                                } else {
+                                                    CustomAlert.alertWithOk(context, getFamilyStatusResponseModel.getErrorMessage());
+                                                }
+                                            } else {
+                                                CustomAlert.alertWithOk(context, "Inetrnal server error");
+                                            }
+                                        }
+                                    };
+                                    if (customAsyncTask != null) {
+                                        customAsyncTask.cancel(true);
+                                        customAsyncTask = null;
+                                    }
+
+                                    customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+                                    customAsyncTask.execute();
+                                    // getMemberStatusData(hhdNo);
+                                    //  refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
                                 } catch (Exception e) {
                                     Log.d("TAG", "Exception : " + e.toString());
                                 }
@@ -511,10 +596,24 @@ public class FamilyMembersListActivity extends BaseActivity {
         public void onBindViewHolder(CustomAdapter.ViewHolder holder, final int position) {
             final DocsListItem item = mDataset.get(position);
             holder.familyMemberDetailsLL.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-
+            holder.collectDataBT.setText("Collect KYC");
             if (ahltin_number != null && !ahltin_number.equalsIgnoreCase("")) {
                 if (ahltin_number.equalsIgnoreCase(mDataset.get(position).getAhl_tin())) {
                     holder.familyMemberDetailsLL.setBackgroundColor(getResources().getColor(R.color.green));
+                }
+            }
+
+            if (item.getVerificationStatus() != null) {
+                if (!item.getVerificationStatus().equalsIgnoreCase("")) {
+                    if (item.getVerificationStatus().equalsIgnoreCase("P")) {
+                        holder.collectDataBT.setText("Yet to approve");
+                    } else if (item.getVerificationStatus().equalsIgnoreCase("A")) {
+                        holder.collectDataBT.setText("Approved");
+                    } else if (item.getVerificationStatus().equalsIgnoreCase("R")) {
+                        holder.collectDataBT.setText("Rejected");
+                    }
+                } else {
+                    holder.collectDataBT.setText("Collect KYC");
                 }
             }
             holder.nameTV.setText(item.getName());
@@ -1058,6 +1157,78 @@ public class FamilyMembersListActivity extends BaseActivity {
 
         customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
         customAsyncTask.execute();
+
+    }
+
+    private void getMemberStatusData(String hhdNumber) {
+        // Hit Nic Api to get member status
+
+        final GetFamilyStatusRequestModel requestModel = new GetFamilyStatusRequestModel();
+
+        requestModel.setHhd_no(hhdNumber);
+        requestModel.setStatecode(Integer.parseInt(selectedStateItem.getStateCode()));
+
+        TaskListener taskListener = new TaskListener() {
+            @Override
+            public void execute() {
+                try {
+                    String request = requestModel.serialize();
+                    HashMap<String, String> response = CustomHttp.httpPostWithTokken(AppConstant.GET_FAMILY_STATUS, request, AppConstant.AUTHORIZATION, verifierLoginResp.getAuthToken());
+                    String familyResponse = response.get("response");
+
+                    if (familyResponse != null) {
+                        getFamilyStatusResponseModel = new GetFamilyStatusResponseModel().create(familyResponse);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void updateUI() {
+                if (getFamilyStatusResponseModel != null) {
+                    if (getFamilyStatusResponseModel.isStatus()) {
+
+                        if (getFamilyStatusResponseModel.getFamilyMemberList() != null && getFamilyStatusResponseModel.getFamilyMemberList().size() > 0) {
+                            tempDocList = new ArrayList<>();
+                            tempDocList.addAll(familyListResponseModel.getResult().getResponse().getDocs());
+                            for (DocsListItem item : familyListResponseModel.getResult().getResponse().getDocs()) {
+                                for (FamilyMemberListItem item1 : getFamilyStatusResponseModel.getFamilyMemberList()) {
+                                    if (item.getAhl_tin().equalsIgnoreCase(item1.getAhltin())) {
+                                        item.setVerificationStatus(item1.getVerificationStatus());
+                                        tempDocList.add(item);
+                                    }
+                                }
+                            }
+                            refreshMembersList(tempDocList);
+                        } else {
+                            refreshMembersList(familyListResponseModel.getResult().getResponse().getDocs());
+                        }
+
+                    } else if (getFamilyStatusResponseModel != null &&
+                            getFamilyStatusResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                            || getFamilyStatusResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        CustomAlert.alertWithOkLogout(context, getFamilyStatusResponseModel.getErrorMessage(), intent);
+
+                    } else {
+                        CustomAlert.alertWithOk(context, getFamilyStatusResponseModel.getErrorMessage());
+                    }
+                } else {
+                    CustomAlert.alertWithOk(context, "Inetrnal server error");
+                }
+            }
+        };
+        if (customAsyncTask != null) {
+            customAsyncTask.cancel(true);
+            customAsyncTask = null;
+        }
+
+        customAsyncTask = new CustomAsyncTask(taskListener, "Please wait", context);
+        customAsyncTask.execute();
+
 
     }
 }

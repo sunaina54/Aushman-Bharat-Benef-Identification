@@ -57,6 +57,7 @@ import com.nhpm.activity.FamilyListActivity;
 import com.nhpm.activity.FamilyListByHHIDActivity;
 import com.nhpm.activity.FamilyListByMobileActivity;
 import com.nhpm.activity.FamilyListByURNActivity;
+import com.nhpm.activity.FamilyMemberEntryActivity;
 import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.LoginActivity;
 import com.nhpm.activity.PhoneNumberActivity;
@@ -130,7 +131,8 @@ public class BeneficiaryFamilySearchFragment extends Fragment {
         imageViewBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DummyImagePreviewClass.class);
+                //Intent intent = new Intent(context, DummyImagePreviewClass.class);
+                Intent intent = new Intent(context, FamilyMemberEntryActivity.class);
                 startActivity(intent);
             }
         });

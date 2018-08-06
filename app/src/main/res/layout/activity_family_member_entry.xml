@@ -48,8 +48,39 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="2"
+                    android:id="@+id/ageLL">
 
+                    <TextView
+                        style="@style/labelTextView"
+                        android:textSize="@dimen/text_size_20sp"
 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="5dp"
+                        android:text="Age"
+                        />
+
+                    <EditText
+                        android:id="@+id/ageET"
+                        android:background="@drawable/onfocus_edittext_shape"
+                        android:layout_margin="@dimen/margine_5"
+                        style="@style/blueBorderEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="date"
+                        android:imeOptions="actionNext"
+                        android:maxLength="3"
+                        android:textSize="@dimen/text_size_20sp"
+                        android:maxLines="1"
+                        android:paddingLeft="5dp"
+                        android:singleLine="true" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -64,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:padding="5dp"
-                        android:text="Age"
+                        android:text="Year of Birth"
                         />
 
                     <EditText
@@ -76,7 +107,7 @@
                         android:layout_height="40dp"
                         android:inputType="date"
                         android:imeOptions="actionNext"
-                        android:maxLength="3"
+                        android:maxLength="4"
                         android:textSize="@dimen/text_size_20sp"
                         android:maxLines="1"
                         android:paddingLeft="5dp"

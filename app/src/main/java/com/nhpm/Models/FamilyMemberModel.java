@@ -13,6 +13,16 @@ public class FamilyMemberModel implements Serializable {
     private String genderid;
     private String pincode;
     private String dob;
+    private String yob;
+
+
+    public String getYob() {
+        return yob;
+    }
+
+    public void setYob(String yob) {
+        this.yob = yob;
+    }
 
     public String getGenderid() {
         return genderid;

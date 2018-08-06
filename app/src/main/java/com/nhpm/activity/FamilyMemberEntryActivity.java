@@ -41,7 +41,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
     private FamilyMemberModel familymemberItem;
     private Intent theIntent;
     private String index;
-    private EditText yobET,pincodeET;
+    private EditText yobET,pincodeET,ageET;
     private RadioGroup genderRG;
     private RadioButton maleRB, femaleRB, otherRB;
     private String manualGenderSelection="",currentYear;
@@ -81,6 +81,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
         AppUtility.softKeyBoard(activity, 1);
 
         yobET = (EditText) findViewById(R.id.yobET);
+        ageET = (EditText) findViewById(R.id.ageET);
         pincodeET = (EditText)findViewById(R.id.pincodeET);
         genderRG = (RadioGroup) findViewById(R.id.genderRG);
         maleRB= (RadioButton) findViewById(R.id.maleRB);
@@ -101,12 +102,34 @@ public class FamilyMemberEntryActivity extends BaseActivity {
 
         });
 
+        ageET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() > 0) {
+                    String age= s.toString();
+                    int yearOfBirth = Integer.parseInt(currentYear)-Integer.parseInt(age);
+                    yobET.setText(yearOfBirth+"");
+                    yobET.setTextColor(context.getResources().getColor(R.color.green));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         String currentDate = DateTimeUtil.currentDate("dd MM yyyy");
         Log.d("current date", currentDate);
         currentYear = currentDate.substring(6, 10);
         Log.d("current year", currentYear);
 
-   /*     yobET.addTextChangedListener(new TextWatcher() {
+        yobET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -137,7 +160,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
             public void afterTextChanged(Editable editable) {
 
             }
-        });*/
+        });
 
         pincodeET.addTextChangedListener(new TextWatcher() {
             @Override
@@ -185,24 +208,24 @@ public class FamilyMemberEntryActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String yob = yobET.getText().toString();
+                String age = ageET.getText().toString();
               //  String pincode = pincodeET.getText().toString();
                 if(familyMemberNameET.getText().toString().equalsIgnoreCase("")){
                     CustomAlert.alertWithOk(context,getResources().getString(R.string.please_enter_name));
                     return;
                 }
 
-                if (yob.trim().equalsIgnoreCase("")) {
+                if (age.trim().equalsIgnoreCase("")) {
                     CustomAlert.alertWithOk(context, "Please enter age");
                     return;
                 }
 
-/*
                 if (yob.trim().equalsIgnoreCase("")) {
                     CustomAlert.alertWithOk(context, "Please enter year of birth");
                     return;
-                }*/
+                }
 
-               /* if (yob != null && !yob.equalsIgnoreCase("")) {
+                if (yob != null && !yob.equalsIgnoreCase("")) {
                     int yearRange = Integer.parseInt(currentYear) - 100;
 
                     if (yob.equalsIgnoreCase(currentYear) || Integer.parseInt(yob) < yearRange) {
@@ -210,7 +233,7 @@ public class FamilyMemberEntryActivity extends BaseActivity {
                         return;
                     }
 
-                }*/
+                }
 
 
                 if (manualGenderSelection != null && manualGenderSelection.equalsIgnoreCase("")) {
@@ -239,7 +262,8 @@ public class FamilyMemberEntryActivity extends BaseActivity {
                     familymemberItem.setName(familyMemberNameET.getText().toString());
                    // familymemberItem.setPincode(pincode);
                     familymemberItem.setGenderid(manualGenderSelection);
-                    familymemberItem.setDob(yob);
+                    familymemberItem.setDob(age);
+                    familymemberItem.setYob(yob);
 
 
                 }else{
@@ -247,7 +271,8 @@ public class FamilyMemberEntryActivity extends BaseActivity {
                     familymemberItem.setName(familyMemberNameET.getText().toString());
                  //   familymemberItem.setPincode(pincode);
                     familymemberItem.setGenderid(manualGenderSelection);
-                    familymemberItem.setDob(yob);
+                    familymemberItem.setDob(age);
+                    familymemberItem.setYob(yob);
 
 
                 }

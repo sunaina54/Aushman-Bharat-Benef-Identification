@@ -699,6 +699,7 @@
 
                                     <TextView
                                         style="@style/textView"
+                                        android:visibility="gone"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
@@ -715,6 +716,7 @@
                                 </LinearLayout>
                                 <LinearLayout
                                     android:id="@+id/fatherLL"
+                                    android:layout_marginLeft="@dimen/margine_10"
                                     android:layout_width="0dp"
                                     android:layout_weight="0.75"
                                     android:layout_height="wrap_content"
@@ -727,6 +729,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
                                         android:padding="5dp"
+                                        android:visibility="gone"
                                         android:text="Care of Name"
                                         android:textSize="@dimen/text_size_20sp" />
 
