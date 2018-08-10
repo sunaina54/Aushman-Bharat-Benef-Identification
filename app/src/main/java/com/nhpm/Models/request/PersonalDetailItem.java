@@ -60,6 +60,11 @@ public class PersonalDetailItem implements Serializable {
 
     // define by sunaina -> co type and value
     private String coTypeValue;
+    private String amRelationHAId;
+    private String amRelation;
+    private String amProofDocType;
+    private String amProofDocNo;
+    private String amProofDocPhoto;
 
 
                 /*"aadhaarConsent": "y",
@@ -89,6 +94,46 @@ public class PersonalDetailItem implements Serializable {
                 "amProofDocType": "amProofDocType",
                 "amProofDocNo": "amProofDocNo",
                 "amProofDocPhoto": "/9jg45g4gwg534ww/4AA"*/
+
+    public String getAmRelationHAId() {
+        return amRelationHAId;
+    }
+
+    public void setAmRelationHAId(String amRelationHAId) {
+        this.amRelationHAId = amRelationHAId;
+    }
+
+    public String getAmRelation() {
+        return amRelation;
+    }
+
+    public void setAmRelation(String amRelation) {
+        this.amRelation = amRelation;
+    }
+
+    public String getAmProofDocType() {
+        return amProofDocType;
+    }
+
+    public void setAmProofDocType(String amProofDocType) {
+        this.amProofDocType = amProofDocType;
+    }
+
+    public String getAmProofDocNo() {
+        return amProofDocNo;
+    }
+
+    public void setAmProofDocNo(String amProofDocNo) {
+        this.amProofDocNo = amProofDocNo;
+    }
+
+    public String getAmProofDocPhoto() {
+        return amProofDocPhoto;
+    }
+
+    public void setAmProofDocPhoto(String amProofDocPhoto) {
+        this.amProofDocPhoto = amProofDocPhoto;
+    }
 
     public String getCoTypeValue() {
         return coTypeValue;

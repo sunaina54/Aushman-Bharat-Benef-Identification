@@ -93,7 +93,7 @@ import static com.nhpm.Utility.AppUtility.isCheckFirstTwoChar;
 import static com.nhpm.fragments.NonAadharLoginFragment.isEmailValid;
 
 public class GovermentIDActivity extends BaseActivity {
-
+    private String screenName="";
     private Spinner govtIdSP;
     private Context context;
     private ArrayList<GovernmentIdItem> govtIdStatusList;
@@ -534,8 +534,36 @@ public class GovermentIDActivity extends BaseActivity {
         Log.d("current date", currentDate);
         currentYear = currentDate.substring(6, 10);
         Log.d("current year", currentYear);
+        screenName = getIntent().getStringExtra("ScreenNameMember");
+        if(!screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("MemberPersonalDetailsFragment")){
+            personalDetailItem= PersonalDetailItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"member_personal_data",context));
+            nameTV.setText(personalDetailItem.getBenefName());
+            nameTV.setEnabled(false);
+            yobET.setText(personalDetailItem.getYob());
+            yobET.setTextColor(context.getResources().getColor(R.color.green));
+            yobET.setTextColor(context.getResources().getColor(R.color.green));
+            yobET.setEnabled(false);
+            if (personalDetailItem.getGender() != null &&
+                    !personalDetailItem.getGender().equalsIgnoreCase("")) {
 
-        personalDetailItem = PersonalDetailItem.create(getIntent().getStringExtra("mobileNumber"));
+                if (personalDetailItem.getGender().equalsIgnoreCase("M") || personalDetailItem.getGender().equalsIgnoreCase("1")) {
+                    maleRB.setChecked(true);
+                    manualGenderSelection = "1";
+                } else if (personalDetailItem.getGender().equalsIgnoreCase("F") ||
+                        personalDetailItem.getGender().equalsIgnoreCase("2")) {
+                    femaleRB.setChecked(true);
+                    manualGenderSelection = "2";
+                } else {
+                    otherRB.setChecked(true);
+                    manualGenderSelection = "3";
+                }
+                maleRB.setEnabled(false);
+                femaleRB.setEnabled(false);
+                otherRB.setEnabled(false);
+            }
+        }else {
+            personalDetailItem = PersonalDetailItem.create(getIntent().getStringExtra("mobileNumber"));
+        }
         // nameLL= (LinearLayout) v.findViewById(R.id.nameBenefLL);
         //  nameLL.setVisibility(View.GONE);
         photoLayout = (LinearLayout) v.findViewById(R.id.photoLayout);
@@ -1298,12 +1326,57 @@ public class GovermentIDActivity extends BaseActivity {
                 AppConstant.DIST_VILLAGE_LOCATION, context));
         govtIdSP = (Spinner) findViewById(R.id.govtIdSP);
         prepareGovernmentIdSpinner();
-        personalDetailItem = PersonalDetailItem.create(getIntent().getStringExtra("mobileNumber"));
+        nameTV = (EditText) findViewById(R.id.nameET);
+        yobET = (EditText) findViewById(R.id.yobET);
+        genderRG = (RadioGroup) findViewById(R.id.genderRG);
+        maleRB = (RadioButton) findViewById(R.id.maleRB);
+        femaleRB = (RadioButton) findViewById(R.id.femaleRB);
+        otherRB = (RadioButton) findViewById(R.id.otherRB);
+        genderRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == maleRB.getId()) {
+                    manualGenderSelection = "1";
+                } else if (checkedId == femaleRB.getId()) {
+                    manualGenderSelection = "2";
+                } else if (checkedId == otherRB.getId()) {
+                    manualGenderSelection = "3";
+                }
+
+            }
+
+        });
+        screenName = getIntent().getStringExtra("ScreenNameMember");
+        if(!screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("MemberPersonalDetailsFragment")){
+            personalDetailItem= PersonalDetailItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"member_personal_data",context));
+            nameTV.setText(personalDetailItem.getBenefName());
+            nameTV.setEnabled(false);
+            yobET.setText(personalDetailItem.getYob());
+            yobET.setEnabled(false);
+            if (personalDetailItem.getGender() != null &&
+                    !personalDetailItem.getGender().equalsIgnoreCase("")) {
+
+                if (personalDetailItem.getGender().equalsIgnoreCase("M") || personalDetailItem.getGender().equalsIgnoreCase("1")) {
+                    maleRB.setChecked(true);
+                    manualGenderSelection = "1";
+                } else if (personalDetailItem.getGender().equalsIgnoreCase("F") ||
+                        personalDetailItem.getGender().equalsIgnoreCase("2")) {
+                    femaleRB.setChecked(true);
+                    manualGenderSelection = "2";
+                } else {
+                    otherRB.setChecked(true);
+                    manualGenderSelection = "3";
+                }
+                maleRB.setEnabled(false);
+                femaleRB.setEnabled(false);
+                otherRB.setEnabled(false);
+            }
+        }else {
+            personalDetailItem = PersonalDetailItem.create(getIntent().getStringExtra("mobileNumber"));
+        }
         voterIdIV = (ImageView) findViewById(R.id.voterIdIV);
         voterIdBackIV = (ImageView) findViewById(R.id.voterIdBackIV);
-        nameTV = (EditText) findViewById(R.id.nameET);
 
-        yobET = (EditText) findViewById(R.id.yobET);
         pincodeET = (EditText) findViewById(R.id.pincodeET);
 
         emailET = (EditText) findViewById(R.id.emailET);
@@ -1458,24 +1531,7 @@ public class GovermentIDActivity extends BaseActivity {
             }
         }
 
-        genderRG = (RadioGroup) findViewById(R.id.genderRG);
-        maleRB = (RadioButton) findViewById(R.id.maleRB);
-        femaleRB = (RadioButton) findViewById(R.id.femaleRB);
-        otherRB = (RadioButton) findViewById(R.id.otherRB);
-        genderRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == maleRB.getId()) {
-                    manualGenderSelection = "1";
-                } else if (checkedId == femaleRB.getId()) {
-                    manualGenderSelection = "2";
-                } else if (checkedId == otherRB.getId()) {
-                    manualGenderSelection = "3";
-                }
 
-            }
-
-        });
 
         yobET.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1721,10 +1777,10 @@ public class GovermentIDActivity extends BaseActivity {
                         return;
                     }*/
 
-                    if (benefImage != null && benefImage.equalsIgnoreCase("")) {
+                   /* if (benefImage != null && benefImage.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please capture beneficiary image");
                         return;
-                    }
+                    }*/
 
                     if (benefImage == null || benefImage.equalsIgnoreCase("")) {
                         CustomAlert.alertWithOk(context, "Please capture beneficiary image");

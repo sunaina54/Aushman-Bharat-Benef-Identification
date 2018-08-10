@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include android:id="@+id/headerLayout" layout="@layout/header_layout"></include>
+    <ScrollView
+        android:layout_below="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margine_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margine_20"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Search Parameter"
+                    android:textAlignment="center"
+                    android:textSize="22sp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_shape_edittext">
+
+                    <Spinner
+                        android:id="@+id/searchSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:id="@+id/searchLL">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7">
+
+
+                        <EditText
+                            android:id="@+id/mobileET"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edittext_background_login"
+                            android:hint="Enter Mobile Number"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:visibility="visible" />
+
+                        <EditText
+
+                            android:id="@+id/hhIdNoET"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edittext_background_login"
+                            android:hint="Enter HHID "
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="24"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:visibility="gone" />
+
+                        <EditText
+                            android:id="@+id/nhaIdET"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edittext_background_login"
+                            android:hint="Enter NHA ID"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLength="17"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:visibility="gone" />
+
+
+
+                        <EditText
+                            android:id="@+id/rationCardET"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/edittext_background_login"
+                            android:hint="Enter Ration Card Number"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/microphoneLL"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+
+                        >
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="18dp"
+                            android:src="@drawable/microphone"
+
+                            />
+
+
+                            <Button
+                                android:layout_marginTop="@dimen/margine_15"
+                                android:gravity="center"
+                                android:id="@+id/searchBTN"
+                                android:layout_width="140dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="@dimen/margine_10"
+                                android:background="@drawable/rounded_shape_yello_button"
+
+                                android:text="@string/searchBTN"
+                                android:textAlignment="center"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                />
+
+
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/cardTypeTV"
+                        style="@style/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margine_15"
+                        android:layout_weight="0.2"
+                        android:inputType="number"
+                        android:text="Ration Card"
+                        android:textAlignment="center"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margine_10"
+                    android:padding="@dimen/margine_10"
+                    android:visibility="gone">
+                    <Button
+                        android:layout_width="250dp"
+                        android:layout_height="50dp"
+                        android:layout_below="@+id/adhar"
+                        android:layout_marginLeft="@dimen/margine_10"
+                        android:background="@drawable/rounded_shape_yello_button"
+                        android:padding="@dimen/margine_10"
+                        android:text="@string/searchBTN"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/margine_10">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/api_error"
+                    style="@style/textView"
+                    android:textAlignment="center"
+                    android:id="@+id/errorTV"
+                    android:background="@color/white"
+                    android:visibility="gone"
+
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_margin="@dimen/margine_10"
+                    android:id="@+id/memberListRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:visibility="visible"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
+
+

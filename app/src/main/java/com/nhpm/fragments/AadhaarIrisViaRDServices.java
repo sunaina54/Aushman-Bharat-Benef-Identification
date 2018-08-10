@@ -150,7 +150,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
     private String IPaddress = "";
     private TextView txtView_info;
     // chages kyc version 2.1 to 2.5 by wahid
-    private String kyc_ver = "2.5";
+    private String kyc_ver = "2.1";
     private Intent intentCapture;
     private Intent intentInfo;
     private static int capture_finger = 1;
@@ -158,6 +158,7 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
     private static final int REQUEST_PERMISSION_SETTING = 101;
     private CheckConnection checkConnection;
     private boolean checkNetwork;
+    private String flagUserConsent = "N";
     private long startTime;
     private AadhaarResponseItem aadhaarKycResponse;
     private LinearLayout kycDetailLayoutNew, kycErrorLayout;
@@ -372,6 +373,11 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
         if (edtxt_Aadhaar.getText().toString().equalsIgnoreCase("")) {
             CustomAlert.alertWithOk(context, context.getResources().getString(R.string.enterValidAadhaar));
             return;
+        }
+        if (aadharConsetCB.isChecked()) {
+            flagUserConsent = "Y";
+        } else {
+            flagUserConsent = "N";
         }
         if (validAadhaar) {
 
@@ -1523,6 +1529,10 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setEmailBen(aadhaarKycResponse.getEmail());
 
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                            personalDetailItem.setAadhaarConsent(flagUserConsent);
+                            personalDetailItem.setUidAuthType("Iris");
+                            personalDetailItem.setUidToken(aadhaarKycResponse.getVendorToken());
+                            personalDetailItem.setAadhaarConsentVer("consent");
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
 
                         } else {
@@ -1548,6 +1558,10 @@ public class AadhaarIrisViaRDServices extends Fragment implements View.OnClickLi
                             personalDetailItem.setName(aadhaarKycResponse.getName());
                             personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
                             personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                            personalDetailItem.setAadhaarConsent(flagUserConsent);
+                            personalDetailItem.setUidAuthType("Iris");
+                            personalDetailItem.setUidToken(aadhaarKycResponse.getVendorToken());
+                            personalDetailItem.setAadhaarConsentVer("consent");
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
                         }
                         ekycActivity.finish();

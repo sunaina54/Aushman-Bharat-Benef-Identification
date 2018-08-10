@@ -303,27 +303,24 @@ public class FamilyMembersListActivity extends BaseActivity {
                                             if (getFamilyStatusResponseModel != null) {
                                                 if (getFamilyStatusResponseModel.isStatus()) {
 
-                                                    if (getFamilyStatusResponseModel.getFamilyMemberList() != null && getFamilyStatusResponseModel.getFamilyMemberList().size() > 0) {
+                                                    if (getFamilyStatusResponseModel.getFamilyMemberList() != null &&
+                                                            getFamilyStatusResponseModel.getFamilyMemberList().size() > 0) {
                                                         tempDocList = new ArrayList<>();
                                                         tempDocList.addAll(familyListResponseModel.getResult().getResponse().getDocs());
-                                                      /*  for (DocsListItem item : familyListResponseModel.getResult().getResponse().getDocs()) {
-                                                            for (FamilyMemberListItem item1 : getFamilyStatusResponseModel.getFamilyMemberList()) {
-                                                                if (item.getAhl_tin().equalsIgnoreCase(item1.getAhltin())) {
-                                                                    item.setVerificationStatus(item1.getVerificationStatus());
-                                                                    tempDocList.set(item);
-                                                                }
-                                                            }
-                                                        }*/
-                                                        for (int i = 0; i < familyListResponseModel.getResult().getResponse().getDocs().size(); i++) {
-                                                            for (DocsListItem item : familyListResponseModel.getResult().getResponse().getDocs()) {
-                                                                for (FamilyMemberListItem item1 : getFamilyStatusResponseModel.getFamilyMemberList()) {
-                                                                    if (item.getAhl_tin().equalsIgnoreCase(item1.getAhltin())) {
-                                                                        item.setVerificationStatus(item1.getVerificationStatus());
-                                                                        tempDocList.set(i, item);
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
+
+                                                       for (int i = 0; i < familyListResponseModel.getResult().
+                                                               getResponse().getDocs().size(); i++) {
+                                                           for(int j=0;j<getFamilyStatusResponseModel.getFamilyMemberList().size();j++){
+                                                               if (familyListResponseModel.getResult().getResponse().getDocs().get(i).getAhl_tin().
+                                                                       equalsIgnoreCase(getFamilyStatusResponseModel.getFamilyMemberList().get(j).getAhltin())) {
+                                                                   familyListResponseModel.getResult().getResponse().getDocs().get(i).setVerificationStatus
+                                                                           (getFamilyStatusResponseModel.getFamilyMemberList().get(j).getVerificationStatus());
+
+                                                                   tempDocList.set(i, familyListResponseModel.getResult().getResponse().getDocs().get(i));
+                                                               }
+                                                           }
+
+                                                       }
                                                         refreshMembersList(tempDocList);
                                                     }
 

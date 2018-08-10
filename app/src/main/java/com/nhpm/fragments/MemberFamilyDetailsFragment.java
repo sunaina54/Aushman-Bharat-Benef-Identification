@@ -18,7 +18,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +41,6 @@ import com.customComponent.TaskListener;
 import com.customComponent.utility.CustomHttp;
 import com.customComponent.utility.DateTimeUtil;
 import com.customComponent.utility.ProjectPrefrence;
-import com.nhpm.CameraUtils.CommonUtilsImageCompression;
 import com.nhpm.CameraUtils.squarecamera.CameraActivity;
 import com.nhpm.DocCamera.ImageUtil;
 import com.nhpm.LocalDataBase.DatabaseHelpers;
@@ -57,25 +55,20 @@ import com.nhpm.Models.request.PrintCardItem;
 import com.nhpm.Models.request.SearchByRationRequestModel;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.FamilyDetailResponse;
-import com.nhpm.Models.response.FamilyListResponseItem;
 import com.nhpm.Models.response.GenericResponse;
-import com.nhpm.Models.response.GetSearchParaResponseModel;
 import com.nhpm.Models.response.GovernmentIdItem;
 import com.nhpm.Models.response.PersonalDetailResponse;
-import com.nhpm.Models.response.SearchResult;
 import com.nhpm.Models.response.master.StateItem;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
 import com.nhpm.Utility.AppConstant;
 import com.nhpm.Utility.AppUtility;
-import com.nhpm.activity.BlockDetailActivity;
 import com.nhpm.activity.CollectDataActivity;
+import com.nhpm.activity.CollectMemberDataActivity;
 import com.nhpm.activity.FamilyMemberEntryActivity;
 import com.nhpm.activity.FamilyMemberMatchActivity;
-import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.LoginActivity;
 import com.nhpm.activity.ViewDocImageActivity;
-import com.nhpm.activity.ViewMemberDataActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -90,7 +83,7 @@ import static com.nhpm.DocCamera.ImageUtil.rotateImage;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FamilyDetailsFragment extends Fragment {
+public class MemberFamilyDetailsFragment extends Fragment {
     private Integer familyScore, nameScore;
     private AlertDialog alert;
     private View view;
@@ -112,7 +105,7 @@ public class FamilyDetailsFragment extends Fragment {
     private GovernmentIdItem item;
     private Button captureImageBT;
     private Bitmap captureImageBM;
-    private CollectDataActivity activity;
+    private CollectMemberDataActivity activity;
     private DocsListItem beneficiaryListItem;
     private String voterIdImg;
     private ImageView beneficiaryPhotoIV;
@@ -139,7 +132,7 @@ public class FamilyDetailsFragment extends Fragment {
     private Bitmap bitmap;
     private String purpose = "";
 
-    public FamilyDetailsFragment() {
+    public MemberFamilyDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -149,7 +142,7 @@ public class FamilyDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_family_details, container, false);
+        view = inflater.inflate(R.layout.fragment_member_family_details, container, false);
         context = getActivity();
         setupScreen(view);
         return view;
@@ -199,6 +192,7 @@ public class FamilyDetailsFragment extends Fragment {
         });
 
         getFamilyScoreBT = (Button) view.findViewById(R.id.getFamilyScoreBT);
+        getFamilyScoreBT.setVisibility(View.GONE);
         submitBT = (Button) view.findViewById(R.id.submitBT);
         prepareGovernmentIdSpinner();
         searchBT = (Button) view.findViewById(R.id.searchBT);
@@ -273,7 +267,7 @@ public class FamilyDetailsFragment extends Fragment {
         captureImageBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppUtility.openCamera(activity, FamilyDetailsFragment.this, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
+                AppUtility.openCamera(activity, MemberFamilyDetailsFragment.this, AppConstant.BACK_CAMREA_OPEN, "ForStore", "DummyImagePreviewClass");
 
                 //openCamera();
             }
@@ -389,7 +383,7 @@ public class FamilyDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Fragment fragment = new PersonalDetailsFragment();
+                Fragment fragment = new MemberPersonalDetailsFragment();
 
                 //Bundle args = new Bundle();
 
@@ -583,15 +577,15 @@ public class FamilyDetailsFragment extends Fragment {
                     CustomAlert.alertWithOk(context, "Please capture family id photo");
                     return;
                 }
-                if (familyMatchScore == null || familyMatchScore.equalsIgnoreCase("")) {
+               /* if (familyMatchScore == null || familyMatchScore.equalsIgnoreCase("")) {
                     CustomAlert.alertWithOk(context, "Please match family score");
                     return;
-                }
-                if (familyMatchScore.equalsIgnoreCase("0")) {
+                }*/
+               /* if (familyMatchScore.equalsIgnoreCase("0")) {
                     // printCard();
                     CustomAlert.alertWithOk(context, "SECC Family members and Family card members does not matching.");
                     return;
-                }
+                }*/
                /* if (govtId.length() != 14) {
                     CustomAlert.alertWithOk(context, "Please enter 14 -digit Rashan Card number");
                     return;
@@ -605,16 +599,18 @@ public class FamilyDetailsFragment extends Fragment {
                 familyDetailsItemModel.setIdType(item.status);
                 familyDetailsItemModel.setIdName(item.statusCode + "");
                 familyDetailsItemModel.setIdImage(voterIdImg);
-                familyDetailsItemModel.setFamilyMatchScore(Integer.parseInt(familyMatchScore));
+                if(!familyMatchScore.equalsIgnoreCase("")) {
+                    familyDetailsItemModel.setFamilyMatchScore(Integer.parseInt(familyMatchScore));
+                }
                 familyDetailsItemModel.setOperatorMatchScoreStatus(familyMatchScoreStatus);
 
                 // familyDetailsItemModel.setFamilyMatchScore(78);
                 familyDetailsItemModel.setFamilyMemberModels(familyMembersList);
                 beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
 
-                if (familyMatchScore != null && !familyMatchScore.equalsIgnoreCase("")) {
-                    familyScore = Integer.parseInt(familyMatchScore);
-                    nameScore = beneficiaryListItem.getPersonalDetail().getNameMatchScore();
+               // if (familyMatchScore != null && !familyMatchScore.equalsIgnoreCase("")) {
+                   // familyScore = Integer.parseInt(familyMatchScore);
+                  //  nameScore = beneficiaryListItem.getPersonalDetail().getNameMatchScore();
 
                     String msg = getResources().getString(R.string.score_message_verification);
                     final AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -657,7 +653,7 @@ public class FamilyDetailsFragment extends Fragment {
                         alert = builder.create();
                         alert.show();
                     }*/
-                }
+            //    }
                 /*if (activity.isNetworkAvailable()) {
                     submitMemberData();
                 } else {
@@ -1011,12 +1007,13 @@ public class FamilyDetailsFragment extends Fragment {
         beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
         activity.benefItem = beneficiaryListItem;
 
+        activity.addFamilyRelationLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
         activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
         activity.printEcardLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
 
 
-        Fragment fragment = new PrintCardFragment();
+        Fragment fragment = new MemberPrintCardFragment();
         CallFragment(fragment);
     }
 
@@ -1120,6 +1117,12 @@ public class FamilyDetailsFragment extends Fragment {
                     personalDetail.setVillageTownCodeLgdBen(personalDetailItem.getVillageTownCodeLgdBen());
                     personalDetail.setRuralUrbanBen(personalDetailItem.getRuralUrbanBen());
                     personalDetail.setAadhaarConsentVer(personalDetailItem.getAadhaarConsentVer());
+                  personalDetail.setAmRelationHAId(personalDetailItem.getAmRelationHAId());
+                  personalDetail.setAmRelation(personalDetailItem.getAmRelation());
+                  personalDetail.setAmProofDocNo(personalDetailItem.getAmProofDocNo());
+                  personalDetail.setAmProofDocPhoto(personalDetailItem.getAmProofDocPhoto());
+                  personalDetail.setAmProofDocType(personalDetailItem.getAmProofDocType());
+
                     FamilyDetailResponse familyDetail = new FamilyDetailResponse();
 
                     familyDetail.setFamilyMemberModels(familyMemberModel.getFamilyMemberModels());
@@ -1359,7 +1362,7 @@ public class FamilyDetailsFragment extends Fragment {
         super.onAttach(context);
         //activity = (CaptureAadharDetailActivity) context;
         // if (activity instanceof CollectDataActivity) {
-        activity = (CollectDataActivity) context;
+        activity = (CollectMemberDataActivity) context;
 
         beneficiaryListItem = activity.benefItem;
         // }

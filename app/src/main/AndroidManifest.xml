@@ -447,6 +447,14 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
             ></activity>
+        <activity android:name=".activity.AddMemberActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            ></activity>
+        <activity android:name=".activity.CollectMemberDataActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+            ></activity>
     </application>
 
 </manifest>

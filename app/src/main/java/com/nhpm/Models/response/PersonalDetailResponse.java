@@ -60,10 +60,11 @@ public class PersonalDetailResponse implements Serializable{
     private String sourceOfData;
     private String uidToken;
     private String uidAuthType;
-    private int stateCodeLgdBen;
-    private int districtCodeLgdBen;
-    private int subDistrictCodeLgdBen;
-    private int villageTownCodeLgdBen;
+
+    private int stateCodeLgdBen=0;
+    private int districtCodeLgdBen=0;
+    private int subDistrictCodeLgdBen=0;
+    private int villageTownCodeLgdBen=0;
     private String ruralUrbanBen;
     private String aadhaarConsentVer;
 

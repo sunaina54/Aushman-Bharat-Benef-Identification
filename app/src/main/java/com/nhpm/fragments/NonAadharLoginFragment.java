@@ -1674,7 +1674,7 @@ public class NonAadharLoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String otp = optET.getText().toString();
-
+                releaseKey="kHI6y7bpDiKIL7tmOYjXN3HogVc=";
                 String encryptionkey = AESEncryption.decrypt(encryptedToken, releaseKey);
 
                 AppUtility.writeFileToStorage(releaseKey, "Release Key");

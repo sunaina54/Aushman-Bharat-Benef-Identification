@@ -298,20 +298,58 @@
                     android:visibility="gone" />
             </LinearLayout>
 
-
             <Button
-                android:id="@+id/searchBTN"
+                android:id="@+id/searchBTN1"
+                android:visibility="gone"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/adhar"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/adhar"
+                android:layout_marginLeft="@dimen/margine_10"
                 android:background="@drawable/rounded_shape_yello_button"
                 android:padding="@dimen/margine_10"
                 android:text="@string/searchBTN"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                />
+<RelativeLayout
+    android:visibility="visible"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="@dimen/margine_10"
+    android:padding="@dimen/margine_10">
+    <Button
+        android:id="@+id/searchBTN"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/adhar"
+        android:layout_marginLeft="@dimen/margine_10"
+        android:background="@drawable/rounded_shape_yello_button"
+        android:padding="@dimen/margine_10"
+        android:text="@string/searchBTN"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        />
+
+    <Button
+        android:id="@+id/addMemberBTN"
+        android:visibility="visible"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/margine_20"
+        android:layout_below="@+id/adhar"
+        android:layout_toRightOf="@+id/searchBTN"
+        android:background="@drawable/rounded_shape_yello_button"
+        android:padding="@dimen/margine_10"
+        android:text="Add Member"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+</RelativeLayout>
+
 
             <Button
                 android:id="@+id/imageViewBTN"

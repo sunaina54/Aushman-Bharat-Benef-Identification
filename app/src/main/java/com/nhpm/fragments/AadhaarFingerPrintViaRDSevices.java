@@ -154,7 +154,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
     private String IPaddress = "";
     private TextView txtView_info;
     // chages kyc version 2.1 to 2.5 by wahid
-    private String kyc_ver = "2.5";
+    private String kyc_ver = "2.1";
     private Intent intentCapture;
     private Intent intentInfo;
     private static int capture_finger = 1;
@@ -175,6 +175,7 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
     private AlertDialog internetDiaolg;
     private VerifierLoginResponse loginResponse;
     private PersonalDetailItem personalDetailItem;
+    private String flagUserConsent = "N";
 
 
     @Override
@@ -316,6 +317,13 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
             CustomAlert.alertWithOk(context, context.getResources().getString(R.string.enterValidAadhaar));
             return;
         }
+
+        if (aadharConsetCB.isChecked()) {
+            flagUserConsent = "Y";
+        } else {
+            flagUserConsent = "N";
+        }
+
         if (validAadhaar) {
 
             try {
@@ -1432,6 +1440,10 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                                 personalDetailItem.setName(aadhaarKycResponse.getName());
                                 personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                                personalDetailItem.setAadhaarConsent(flagUserConsent);
+                                personalDetailItem.setUidAuthType("FingerPrint");
+                                personalDetailItem.setUidToken(aadhaarKycResponse.getVendorToken());
+                                personalDetailItem.setAadhaarConsentVer("consent");
                                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
 
                             } else {
@@ -1459,6 +1471,10 @@ public class AadhaarFingerPrintViaRDSevices extends Fragment implements View.OnC
                                 personalDetailItem.setName(aadhaarKycResponse.getName());
                                 personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                                personalDetailItem.setAadhaarConsent(flagUserConsent);
+                                personalDetailItem.setUidAuthType("FingerPrint");
+                                personalDetailItem.setUidToken(aadhaarKycResponse.getVendorToken());
+                                personalDetailItem.setAadhaarConsentVer("consent");
                                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", personalDetailItem.serialize(), context);
 
                             }

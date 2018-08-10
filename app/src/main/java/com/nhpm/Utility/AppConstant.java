@@ -246,6 +246,7 @@ public interface AppConstant {
     String SEARCH_BY_RATION=NEW_MAIN_DOMAIN_UPDATED+"searchByRation";
     String VALIDATE_URN = "https://pmrssm.gov.in/VIEWSTAT/api/validateURN";
     String SEARCH_BY_MOBILE_RATION =  NEW_MAIN_DOMAIN_UPDATED+"searchByMobileRationParameter";
+    String GET_VERIFIED_FAMILY_LIST =  NEW_MAIN_DOMAIN_UPDATED+"getVerifiedFamilyList";
     String SEARCH_CONSOLIDATED_BY_URN =  NEW_MAIN_DOMAIN_UPDATED+"searchConsolidatedByURN";
     String SEARCH_LOG_API=NEW_MAIN_DOMAIN_UPDATED+"log/search";
    // String SEARCH_BY_VILLAGE =  "https://pmrssm.gov.in/reportapi/searchByMobileRationParameter";
@@ -512,6 +513,10 @@ public interface AppConstant {
 
     String PLAY_STORE_LINK ="http://103.241.181.83:8080/nhps_service_new/nhps/appstore/download";
     String GOOGLE_API_VERIFY ="https://www.googleapis.com/androidcheck/v1/attestations/";
+    String BY_MOBILE="By Mobile";
+    String By_HHID="By HHID";
+    String BY_NHA_ID="BY NHA ID";
+    String BY_RATION_CARD="BY Ration Card";
 
     String aadhaarCertificate = "MIIFVDCCBDygAwIBAgIEAMwvlTANBgkqhkiG9w0BAQsFADCBkDELMAkGA1UEBhMC\n" +
             "SU4xKjAoBgNVBAoTIWVNdWRocmEgQ29uc3VtZXIgU2VydmljZXMgTGltaXRlZDEd\n" +

@@ -1018,6 +1018,7 @@
     <string name="searchBTN">Search</string>
     <string name="byNameText">Find Beneficiary by Name</string>
     <string name="personal_detail_tv">Personal Details</string>
+    <string name="family_relation_tv">Family Relation</string>
     <string name="family_detail_tv">Family Details</string>
     <string name="print_card">Print E-Card</string>
     <string name="beneficiaryName">Beneficiary Name:</string>

@@ -116,7 +116,7 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
     private String IPaddress = "";
     private TextView txtView_info;
     // chages kyc version 2.1 to 2.5 by wahid
-    private String kyc_ver = "2.5";
+    private String kyc_ver = "2.1";
     private Intent intentCapture;
     private Intent intentInfo;
     private static int capture_finger = 1;
@@ -695,6 +695,10 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setGovtIdNo(edtxt_Aadhaar.getText().toString());
                                 personalDetailItem.setIdName("13");
                                 personalDetailItem.setIsAadhar("Y");
+                                personalDetailItem.setAadhaarConsent(flagUserConsent);
+                                personalDetailItem.setUidAuthType("OTP");
+                                personalDetailItem.setUidToken(aadhaarKycResponse.getVendorToken());
+                                personalDetailItem.setAadhaarConsentVer("consent");
 
                                 personalDetailItem.setSubDistrictBen(aadhaarKycResponse.getSubdist());
                               //  personalDetailItem.setVtcBen(aadhaarKycResponse.getVtc());
@@ -732,6 +736,10 @@ public class OTPFragment extends Fragment implements View.OnClickListener {
                                 personalDetailItem.setName(aadhaarKycResponse.getName());
                                 personalDetailItem.setPinCode(aadhaarKycResponse.getPc());
                                 personalDetailItem.setFlowStatus(AppConstant.AADHAR_STATUS);
+                                personalDetailItem.setAadhaarConsent(flagUserConsent);
+                                personalDetailItem.setUidAuthType("OTP");
+                                personalDetailItem.setUidToken(aadhaarKycResponse.getVendorToken());
+                                personalDetailItem.setAadhaarConsentVer("consent");
                                 ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_NAME,"AADHAAR_DATA",personalDetailItem.serialize(),context);
 
                             }

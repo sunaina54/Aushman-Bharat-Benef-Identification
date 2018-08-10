@@ -144,6 +144,13 @@
 
     </style>
 
+    <style name="addMemberTabLayout">
+        <item name="android:padding">10dip</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
     <style name="textViewFamilMember">
         <item name="android:padding">5dip</item>
         <item name="android:textSize">@dimen/text_size_20sp</item>

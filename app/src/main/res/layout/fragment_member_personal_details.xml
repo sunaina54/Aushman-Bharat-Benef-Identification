@@ -47,7 +47,28 @@
                             android:textSize="22sp" />
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margine_10"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            style="@style/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NHA ID:"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/nhaIdTV"
+                            style="@style/textViewYellow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="22sp" />
+
+                    </LinearLayout>
                     <TextView
                         style="@style/textView"
                         android:layout_width="match_parent"
@@ -962,10 +983,22 @@
             android:background="@drawable/rounded_shape_yello_button"
             android:padding="@dimen/margine_10"
             android:text="Match Name"
+            android:visibility="gone"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/font_size" />
-
+        <Button
+            android:id="@+id/previousBT"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_shape_yello_button"
+            android:padding="@dimen/margine_10"
+            android:text="Previous"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size" />
 
 
         <Button
@@ -975,7 +1008,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/margine_20"
             android:layout_marginLeft="@dimen/margine_20"
-            android:layout_toRightOf="@+id/matchBT"
+            android:layout_toRightOf="@+id/previousBT"
             android:background="@drawable/rounded_shape_yello_button"
             android:padding="@dimen/margine_10"
             android:text="@string/next"

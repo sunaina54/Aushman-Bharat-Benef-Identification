@@ -71,7 +71,16 @@ public class AadhaarResponseItem implements Serializable {
     private String lmLg;
     private String lm;
     private String ts;
+    private String vendorToken;
     private GovtDetailsModel govtDetailsModel;
+
+    public String getVendorToken() {
+        return vendorToken;
+    }
+
+    public void setVendorToken(String vendorToken) {
+        this.vendorToken = vendorToken;
+    }
 
     public GovtDetailsModel getGovtDetailsModel() {
         return govtDetailsModel;

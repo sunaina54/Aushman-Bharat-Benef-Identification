@@ -1149,10 +1149,10 @@ public class FingerprintResultActivity extends BaseActivity {
                                     String tempArr[] = str.split(";");
                                     try {
                                         if (tempArr[0] != null) {
-                                            temp.add(tempArr[0]);
+                                            temp.add(tempArr[0]);//village name, temp[1]-village code
                                         }
-                                        if (tempArr[1] != null) {
-                                            distTemp.add(tempArr[1]);
+                                        if (tempArr[2] != null) {
+                                            distTemp.add(tempArr[2]); // district name, temp[3]-district code
                                         }
                                     } catch (Exception e) {
                                         Log.d("TAG", "exception :" + e.toString());

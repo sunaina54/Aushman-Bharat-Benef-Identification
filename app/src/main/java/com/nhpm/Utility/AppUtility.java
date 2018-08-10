@@ -47,6 +47,7 @@ import com.nhpm.LocalDataBase.dto.SeccDatabase;
 import com.nhpm.Models.ApplicationLanguageItem;
 import com.nhpm.Models.NotificationModel;
 import com.nhpm.Models.response.GovernmentIdItem;
+import com.nhpm.Models.response.ProofRelationItem;
 import com.nhpm.Models.response.RelationItem;
 import com.nhpm.Models.response.WhoseMobileItem;
 import com.nhpm.Models.response.master.StateItem;
@@ -500,6 +501,15 @@ public class AppUtility {
         govtIdStatusList.add(new GovernmentIdItem(9, "Government ID with no Photograph"));*/
 
         return govtIdStatusList;
+    }
+
+    public static ArrayList<ProofRelationItem> prepareProofOfRelationList() {
+        ArrayList<ProofRelationItem> proofRelationItems = new ArrayList<>();
+        proofRelationItems.add(new ProofRelationItem(0, "Select Proof of Relation"));
+        proofRelationItems.add(new ProofRelationItem(1, "Birth Certificate"));
+        proofRelationItems.add(new ProofRelationItem(2, "Marriage Certificate"));
+        proofRelationItems.add(new ProofRelationItem(3, "Ration Card"));
+        return proofRelationItems;
     }
 
     public static ArrayList<ApplicationLanguageItem> prepareLanguageSpinner(Context context) {

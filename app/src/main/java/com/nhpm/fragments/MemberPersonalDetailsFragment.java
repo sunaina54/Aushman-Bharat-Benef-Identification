@@ -9,10 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,7 +20,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -30,7 +27,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,13 +47,12 @@ import com.nhpm.Models.SerachOptionItem;
 import com.nhpm.Models.request.AutoSuggestRequestItem;
 import com.nhpm.Models.request.MobileOtpRequest;
 import com.nhpm.Models.request.PersonalDetailItem;
-import com.nhpm.Models.response.BeneficiaryListItem;
 import com.nhpm.Models.response.DocsListItem;
 import com.nhpm.Models.response.MobileOTPResponse;
+import com.nhpm.Models.response.RelationItem;
 import com.nhpm.Models.response.VillageResponseItem;
 import com.nhpm.Models.response.master.ConfigurationItem;
 import com.nhpm.Models.response.master.StateItem;
-import com.nhpm.Models.response.seccMembers.SeccMemberItem;
 import com.nhpm.Models.response.verifier.AadhaarResponseItem;
 import com.nhpm.Models.response.verifier.VerifierLoginResponse;
 import com.nhpm.R;
@@ -66,14 +61,11 @@ import com.nhpm.Utility.AppUtility;
 import com.nhpm.Utility.ApplicationGlobal;
 import com.nhpm.Utility.Verhoeff;
 import com.nhpm.activity.CollectDataActivity;
+import com.nhpm.activity.CollectMemberDataActivity;
 import com.nhpm.activity.EkycActivity;
-import com.nhpm.activity.FamilyMembersListActivity;
 import com.nhpm.activity.GovermentIDActivity;
-import com.nhpm.activity.GovermentIDCaptureActivity;
 import com.nhpm.activity.LoginActivity;
 import com.nhpm.activity.NameMatchScoreActivity;
-import com.nhpm.activity.PhoneNumberActivity;
-import com.nhpm.activity.PhotoCaptureActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -86,12 +78,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
-import static com.nhpm.AadhaarUtils.CommonMethods.isNetworkAvailable;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PersonalDetailsFragment extends Fragment {
+public class MemberPersonalDetailsFragment extends Fragment {
     private View view;
     private String careofDec = "", careOfType = "";
     private AadhaarResponseItem aadhaarKycResponse;
@@ -109,7 +100,7 @@ public class PersonalDetailsFragment extends Fragment {
             emailTV, poTV, vtcTV, subDistTV, distTV, stateTV;
     private AutoCompleteTextView vtcACTV, distACTV;
     private LinearLayout govtIdLL, locationLL, beneficiaryDetailsLL, kycLL;
-    private CollectDataActivity activity;
+    private CollectMemberDataActivity activity;
     private FaceCropper mFaceCropper;
     private Button nextBT, captureImageBT, verifyAadharBT;
     private boolean isVeroff;
@@ -124,7 +115,7 @@ public class PersonalDetailsFragment extends Fragment {
     private Bitmap memberPhoto;
     private EditText mobileNumberET;
     private String name;
-    private TextView beneficiaryNameTV, beneficiaryNamePerIdTV, noAadhaarTV, nameScoreLabelTV, nameScorePercentTV;
+    private TextView beneficiaryNameTV,nhaIdTV, beneficiaryNamePerIdTV, noAadhaarTV, nameScoreLabelTV, nameScorePercentTV;
     private DocsListItem beneficiaryListItem;
     private PersonalDetailItem personalDetailItem;
     private String status = "";
@@ -148,9 +139,13 @@ public class PersonalDetailsFragment extends Fragment {
     private ArrayList<String> mobileList;
     private ArrayList<StateItem> stateList2;
     private ArrayList<String> ruralList, spinnerCareOfList;
+    private ArrayList<RelationItem> relationList;
     private LinearLayout personalLL, spouseLL;
     private Spinner cardTypeSpinner;
     private EditText kycCareOf, kycSpouse, kycMother, kycFather;
+    private String screen="";
+    private Button previousBT;
+    private RelationItem relationItem;
 
     public AadhaarResponseItem getAadhaarKycResponse() {
         return aadhaarKycResponse;
@@ -160,7 +155,7 @@ public class PersonalDetailsFragment extends Fragment {
         this.aadhaarKycResponse = aadhaarKycResponse;
     }
 
-    public PersonalDetailsFragment() {
+    public MemberPersonalDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -169,7 +164,7 @@ public class PersonalDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_personal_details, container, false);
+        view = inflater.inflate(R.layout.fragment_member_personal_details, container, false);
         context = getActivity();
         setupScreen(view);
         return view;
@@ -189,14 +184,17 @@ public class PersonalDetailsFragment extends Fragment {
 
         // personalDetailItem = beneficiaryListItem.getPersonalDetail();
 
-        //Bundle bundle = getArguments();
-        //bundle.getString("personalDetail");
+        Bundle bundle = getArguments();
+        if(bundle!=null) {
+            screen = bundle.getString("Family_Rel");
+        }
         /*if (bundle != null) {
             personalDetailItem = PersonalDetailItem.create(bundle.getString("personalDetail"));
         }*/
         personalDetailItem = activity.benefItem.getPersonalDetail();
         matchBT = (Button) view.findViewById(R.id.matchBT);
         matchBT.setVisibility(View.GONE);
+        previousBT = (Button) view.findViewById(R.id.previousBT);
         nextBT = (Button) view.findViewById(R.id.nextBT);
         nextBT.setVisibility(View.GONE);
         mobileNumberET = (EditText) view.findViewById(R.id.mobileET);
@@ -238,6 +236,7 @@ public class PersonalDetailsFragment extends Fragment {
         beneficiaryNamePerIdTV = (TextView) view.findViewById(R.id.beneficiaryNamePerIdTV);
 
         //govtIdLL.setVisibility(View.GONE);
+        nhaIdTV = (TextView) view.findViewById(R.id.nhaIdTV);
         beneficiaryNameTV = (TextView) view.findViewById(R.id.beneficiaryNameTV);
         beneficiaryPhotoIV = (ImageView) view.findViewById(R.id.beneficiaryPhotoIV);
         govtIdPhotoIV = (ImageView) view.findViewById(R.id.govtIdPhotoIV);
@@ -270,20 +269,22 @@ public class PersonalDetailsFragment extends Fragment {
                 if (position == 0) {
                     verifyMobBT.setVisibility(View.VISIBLE);
                     whoseMobileStatus = "Self";
+                    personalLL.setVisibility(View.GONE);
+                    nextBT.setVisibility(View.GONE);
                     setDefaultLocation();
                 } else if (position == 1) {
                     verifyMobBT.setVisibility(View.GONE);
                     whoseMobileStatus = "Relative";
                     personalLL.setVisibility(View.VISIBLE);
                     setDefaultLocation();
-                    matchBT.setVisibility(View.VISIBLE);
+                    //matchBT.setVisibility(View.VISIBLE);
                     nextBT.setVisibility(View.VISIBLE);
                 } else if (position == 2) {
                     verifyMobBT.setVisibility(View.GONE);
                     whoseMobileStatus = "Others";
                     personalLL.setVisibility(View.VISIBLE);
                     setDefaultLocation();
-                    matchBT.setVisibility(View.VISIBLE);
+                  //  matchBT.setVisibility(View.VISIBLE);
                     nextBT.setVisibility(View.VISIBLE);
                 }
             }
@@ -547,27 +548,35 @@ public class PersonalDetailsFragment extends Fragment {
                 Intent intent = new Intent(context, GovermentIDActivity.class);
                 // intent.putExtra("mobileNumber",mobileNumberET.getText().toString());
                 // PersonalDetailItem personalDetailItem1 = new PersonalDetailItem();
+                intent.putExtra("ScreenNameMember","MemberPersonalDetailsFragment");
                 if (personalDetailItem != null) {
-                    intent.putExtra("mobileNumber", personalDetailItem.serialize());
+                    ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF,"member_personal_data",personalDetailItem.serialize(),context);
+                    //intent.putExtra("mobileNumber", personalDetailItem.serialize());
                 }
                 startActivityForResult(intent, GOVT_ID_REQUEST);
             }
         });
-        if (beneficiaryListItem != null) {
-            beneficiaryNameTV.setText(beneficiaryListItem.getName());
-        }
+      //  if (beneficiaryListItem != null) {
+         //   beneficiaryNameTV.setText(beneficiaryListItem.getName());
+      //  }
 
         if (personalDetailItem != null) {
+            if(screen.equalsIgnoreCase("FamilyRelationFrag")){
+                personalLL.setVisibility(View.GONE);
+            }
             personalLL.setVisibility(View.VISIBLE);
-            matchBT.setVisibility(View.VISIBLE);
+           // matchBT.setVisibility(View.VISIBLE);
             nextBT.setVisibility(View.VISIBLE);
+            beneficiaryNameTV.setText(personalDetailItem.getBenefName());
+            nhaIdTV.setText(personalDetailItem.getAmRelationHAId());
+
             nameMatchScore = personalDetailItem.getNameMatchScore() + "";
             if (!nameMatchScore.equalsIgnoreCase("")) {
-                nameScoreLabelTV.setVisibility(View.VISIBLE);
-                nameScorePercentTV.setVisibility(View.VISIBLE);
+                nameScoreLabelTV.setVisibility(View.GONE);
+                nameScorePercentTV.setVisibility(View.GONE);
                 nameScorePercentTV.setText(nameMatchScore + "%");
             }
-            if (!personalDetailItem.getFlowStatus().equalsIgnoreCase("")
+            if (personalDetailItem.getFlowStatus()!=null && !personalDetailItem.getFlowStatus().equalsIgnoreCase("")
                     && personalDetailItem.getFlowStatus().equalsIgnoreCase(AppConstant.AADHAR_STATUS)) {
                 cardTypeSpinner.setEnabled(false);
                 kycFather.setEnabled(false);
@@ -607,8 +616,8 @@ public class PersonalDetailsFragment extends Fragment {
                     verifyAadharBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
 
                 }
-                matchBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
-                matchBT.setEnabled(false);
+               // matchBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+               // matchBT.setEnabled(false);
                 if (personalDetailItem.getMobileNo() != null) {
                     mobileNumberET.setEnabled(false);
                     mobileNumberET.setTextColor(AppUtility.getColor(context, R.color.green));
@@ -738,7 +747,7 @@ public class PersonalDetailsFragment extends Fragment {
 
                 if (personalDetailItem.getCareOfTypeDec() != null &&
                         !personalDetailItem.getCareOfTypeDec().equalsIgnoreCase("")) {
-                    getCareOfList();
+                 /*   getCareOfList();
                     if (spinnerCareOfList != null && spinnerCareOfList.size() > 0) {
                         for (int i = 0; i < spinnerCareOfList.size(); i++) {
                             if (spinnerCareOfList.get(i).equalsIgnoreCase(personalDetailItem.getCareOfTypeDec())) {
@@ -747,13 +756,23 @@ public class PersonalDetailsFragment extends Fragment {
                                 break;
                             }
                         }
+                    }*/
+
+                    getRelationList();
+                    if (relationList != null && relationList.size() > 0) {
+                        for (int i = 0; i < relationList.size(); i++) {
+                            if (relationList.get(i).getRelationName().equalsIgnoreCase(personalDetailItem.getCareOfTypeDec())) {
+                                cardTypeSpinner.setSelection(i);
+                                careOfType = relationList.get(i).getRelationName();
+                            }
+                        }
                     }
 
                 }
 
             }
 
-            if (!personalDetailItem.getFlowStatus().equalsIgnoreCase("")
+            if (personalDetailItem.getFlowStatus()!=null && !personalDetailItem.getFlowStatus().equalsIgnoreCase("")
                     && personalDetailItem.getFlowStatus().equalsIgnoreCase(AppConstant.GOVT_STATUS)) {
                 cardTypeSpinner.setEnabled(false);
                 kycFather.setEnabled(false);
@@ -775,8 +794,8 @@ public class PersonalDetailsFragment extends Fragment {
                 if (personalDetailItem.getBenefPhoto() != null) {
                     beneficiaryPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getBenefPhoto()));
                 }
-                matchBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
-                matchBT.setEnabled(false);
+              //  matchBT.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
+              //  matchBT.setEnabled(false);
 
                 if (personalDetailItem.getIdPhoto() != null && !personalDetailItem.getIdPhoto().equalsIgnoreCase("")) {
                     govtIdPhotoIV.setImageBitmap(AppUtility.convertStringToBitmap(personalDetailItem.getIdPhoto()));
@@ -932,13 +951,23 @@ public class PersonalDetailsFragment extends Fragment {
 
                 if (personalDetailItem.getCareOfTypeDec() != null &&
                         !personalDetailItem.getCareOfTypeDec().equalsIgnoreCase("")) {
-                    getCareOfList();
+                   /* getCareOfList();
                     if (spinnerCareOfList != null && spinnerCareOfList.size() > 0) {
                         for (int i = 0; i < spinnerCareOfList.size(); i++) {
                             if (spinnerCareOfList.get(i).equalsIgnoreCase(personalDetailItem.getCareOfTypeDec())) {
                                 cardTypeSpinner.setSelection(i);
                                 careOfType = spinnerCareOfList.get(i);
                                 break;
+                            }
+                        }
+                    }*/
+
+                    getRelationList();
+                    if (relationList != null && relationList.size() > 0) {
+                        for (int i = 0; i < relationList.size(); i++) {
+                            if (relationList.get(i).getRelationName().equalsIgnoreCase(personalDetailItem.getCareOfTypeDec())) {
+                                cardTypeSpinner.setSelection(i);
+                                careOfType = relationList.get(i).getRelationName();
                             }
                         }
                     }
@@ -953,9 +982,28 @@ public class PersonalDetailsFragment extends Fragment {
 
         }
 
-        getCareOfList();
+       // getCareOfList();
+        getRelationList();
         careOfType = "Father";
+
         cardTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+             /*   if (position == 0) {
+
+                } else {*/
+                relationItem = relationList.get(position);
+                careOfType = relationItem.getRelationName();
+                Log.d("Rel name: ", careOfType);
+                //}
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+     /*   cardTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
@@ -972,7 +1020,7 @@ public class PersonalDetailsFragment extends Fragment {
             }
         });
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.spinner_layout, R.id.textView, spinnerCareOfList);
-        cardTypeSpinner.setAdapter(adapter);
+        cardTypeSpinner.setAdapter(adapter);*/
         //setDefaultLocation();
 
         mobileNumberET.addTextChangedListener(new TextWatcher() {
@@ -1192,10 +1240,10 @@ public class PersonalDetailsFragment extends Fragment {
                             }
                         }
 
-                        if (nameMatchScore == null || nameMatchScore.equalsIgnoreCase("")) {
+                        /*if (nameMatchScore == null || nameMatchScore.equalsIgnoreCase("")) {
                             CustomAlert.alertWithOk(context, "Please match beneficiary name");
                             return;
-                        }
+                        }*/
 
                        /* if (nameMatchScore != null && nameMatchScore.equalsIgnoreCase("0")) {
                             CustomAlert.alertWithOk(context, "Name as an SECC and Name as an KYC is not matching");
@@ -1251,15 +1299,16 @@ public class PersonalDetailsFragment extends Fragment {
                         personalDetailItem.setVillageTownCodeLgdBen(lgdVilCode);
                         personalDetailItem.setStateCodeLgdBen(Integer.parseInt(selectedStateItem.getStateCode()));
 
-
+                        activity.addFamilyRelationLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                         activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+
                         beneficiaryListItem.setPersonalDetail(personalDetailItem);
 
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
 
                         activity.benefItem = beneficiaryListItem;
-                        Fragment fragment = new FamilyDetailsFragment();
+                        Fragment fragment = new MemberFamilyDetailsFragment();
                         Bundle args = new Bundle();
                         // args.putString("personalDetail", personalDetailItem.serialize());
 
@@ -1296,10 +1345,10 @@ public class PersonalDetailsFragment extends Fragment {
                             CustomAlert.alertWithOk(context, "Govt id photo cannot be blank");
                             return;
                         }
-                        if (nameMatchScore == null || nameMatchScore.equalsIgnoreCase("")) {
+                       /* if (nameMatchScore == null || nameMatchScore.equalsIgnoreCase("")) {
                             CustomAlert.alertWithOk(context, "Please match beneficiary name");
                             return;
-                        }
+                        }*/
 
                        /* if (nameMatchScore != null && nameMatchScore.equalsIgnoreCase("0")) {
                             CustomAlert.alertWithOk(context, "Name as SECC and Name as KYC is not matching");
@@ -1356,14 +1405,15 @@ public class PersonalDetailsFragment extends Fragment {
                         personalDetailItem.setDistrictCodeLgdBen(lgdDistCode);
                         personalDetailItem.setVillageTownCodeLgdBen(lgdVilCode);
                         personalDetailItem.setStateCodeLgdBen(Integer.parseInt(selectedStateItem.getStateCode()));
-
-
                         beneficiaryListItem.setPersonalDetail(personalDetailItem);
+
+                        activity.addFamilyRelationLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                         activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+
                         ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
 
-                        Fragment fragment = new FamilyDetailsFragment();
+                        Fragment fragment = new MemberFamilyDetailsFragment();
                         Bundle args = new Bundle();
                         activity.benefItem = beneficiaryListItem;
                         //args.putString("personalDetail", beneficiaryListItem.serialize());
@@ -1376,6 +1426,116 @@ public class PersonalDetailsFragment extends Fragment {
                 }
 
 
+            }
+        });
+
+        previousBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (status != null && !status.equalsIgnoreCase("")) {
+                    if (status.equalsIgnoreCase("aadhar")) {
+                        String vtc = vtcACTV.getText().toString();
+                        String dist = distACTV.getText().toString();
+                        careofDec = kycFather.getText().toString();
+
+                        personalDetailItem.setCareOfTypeDec(careOfType);
+                        personalDetailItem.setCareOfDec(careofDec);
+                        if (personalDetailItem != null && !whoseMobileStatus.equalsIgnoreCase("Self")) {
+                            personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
+                            personalDetailItem.setIsMobileAuth("N");
+                            operationId = storedLoginResponse.getAadhaarNumber();
+                            String operatorId = operationId.substring(operationId.length() - 4);
+                            Log.d("operator id :", operatorId);
+                            personalDetailItem.setOpertaorid(Integer.parseInt(operatorId));
+                        }
+
+                        location.setVilageName(vtc);
+                        location.setDistName(dist);
+                        personalDetailItem.setState(stateName);
+                        personalDetailItem.setDistrict(dist);
+                        personalDetailItem.setVtcBen(vtc);
+                        personalDetailItem.setMemberType(whoseMobileStatus);
+                        personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
+                        personalDetailItem.setOperatorMatchScoreStatus(nameMatchScoreStatus);
+
+                        activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                        activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+
+                        if(beneficiaryListItem!=null && beneficiaryListItem.getFamilyDetailsItemModel()!=null) {
+                            beneficiaryListItem.setFamilyDetailsItemModel(beneficiaryListItem.getFamilyDetailsItemModel());
+                            activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                            activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+                          //  activity.addFamilyRelationLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                        }
+
+                        beneficiaryListItem.setPersonalDetail(personalDetailItem);
+
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "add member per", personalDetailItem.serialize(), context);
+
+                        activity.benefItem = beneficiaryListItem;
+                        Fragment fragment = new FamilyRelationFragment();
+                        Bundle args = new Bundle();
+                        // args.putString("personalDetail", personalDetailItem.serialize());
+
+                        fragment.setArguments(args);
+                        CallFragment(fragment);
+                    }
+
+                    if (status.equalsIgnoreCase("govt")) {
+                        String vtc = vtcACTV.getText().toString();
+                        String dist = distACTV.getText().toString();
+                        careofDec = kycFather.getText().toString();
+
+                        personalDetailItem.setCareOfTypeDec(careOfType);
+                        personalDetailItem.setCareOfDec(careofDec);
+
+                        if (personalDetailItem != null && !whoseMobileStatus.equalsIgnoreCase("Self")) {
+                            personalDetailItem.setMobileNo(mobileNumberET.getText().toString());
+                            personalDetailItem.setIsMobileAuth("N");
+                            operationId = storedLoginResponse.getAadhaarNumber();
+                            String operatorId = operationId.substring(operationId.length() - 4);
+                            Log.d("operator id :", operatorId);
+                            personalDetailItem.setOpertaorid(Integer.parseInt(operatorId));
+                        }
+
+                        location.setVilageName(vtc);
+                        location.setDistName(dist);
+
+                        personalDetailItem.setState(stateName);
+                        personalDetailItem.setDistrict(dist);
+                        personalDetailItem.setVtcBen(vtc);
+                        personalDetailItem.setMemberType(whoseMobileStatus);
+                        personalDetailItem.setNameMatchScore(Integer.parseInt(nameMatchScore));
+                        personalDetailItem.setOperatorMatchScoreStatus(nameMatchScoreStatus);
+                        beneficiaryListItem.setPersonalDetail(personalDetailItem);
+
+                        activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                        activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+
+                        if(beneficiaryListItem!=null && beneficiaryListItem.getFamilyDetailsItemModel()!=null) {
+                            beneficiaryListItem.setFamilyDetailsItemModel(beneficiaryListItem.getFamilyDetailsItemModel());
+                            activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                            activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+                           // activity.addFamilyRelationLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                            ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "member-family",beneficiaryListItem.getFamilyDetailsItemModel().serialize(), context);
+
+                        }
+                        activity.benefItem = beneficiaryListItem;
+                    //    activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
+                    //    activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.DIST_VILLAGE_LOCATION, location.serialize(), context);
+                        ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "add member per",personalDetailItem.serialize(), context);
+
+                        Fragment fragment = new FamilyRelationFragment();
+                        Bundle args = new Bundle();
+
+                        //args.putString("personalDetail", beneficiaryListItem.serialize());
+                        fragment.setArguments(args);
+                        CallFragment(fragment);
+                    }
+
+                }
             }
         });
     }
@@ -1394,7 +1554,7 @@ public class PersonalDetailsFragment extends Fragment {
         super.onAttach(context);
         //activity = (CaptureAadharDetailActivity) context;
         // if (activity instanceof CollectDataActivity) {
-        activity = (CollectDataActivity) context;
+        activity = (CollectMemberDataActivity) context;
 
         beneficiaryListItem = activity.benefItem;
         // }
@@ -1499,7 +1659,7 @@ public class PersonalDetailsFragment extends Fragment {
                     //beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
                     Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
                     personalLL.setVisibility(View.VISIBLE);
-                    matchBT.setVisibility(View.VISIBLE);
+                 //   matchBT.setVisibility(View.VISIBLE);
                     nextBT.setVisibility(View.VISIBLE);
                     // CustomAlert.alertWithOk(context, "OTP verified successfully");
 
@@ -1624,7 +1784,7 @@ public class PersonalDetailsFragment extends Fragment {
                         // beneficiaryListItem.getPersonalDetail().setMobileNo(mobileNumberET.getText().toString());
                         Toast.makeText(context, "OTP verified successfully", Toast.LENGTH_SHORT).show();
                         personalLL.setVisibility(View.VISIBLE);
-                        matchBT.setVisibility(View.VISIBLE);
+                    //    matchBT.setVisibility(View.VISIBLE);
                         nextBT.setVisibility(View.VISIBLE);
                         //CustomAlert.alertWithOk(context, "OTP verified successfully");
                     } else {
@@ -1727,8 +1887,8 @@ public class PersonalDetailsFragment extends Fragment {
                         nameScoreLabelTV.setVisibility(View.GONE);
                         nameScorePercentTV.setVisibility(View.GONE);
                         if (!nameMatchScore.equalsIgnoreCase("")) {
-                            nameScoreLabelTV.setVisibility(View.VISIBLE);
-                            nameScorePercentTV.setVisibility(View.VISIBLE);
+                            nameScoreLabelTV.setVisibility(View.GONE);
+                            nameScorePercentTV.setVisibility(View.GONE);
                             nameScorePercentTV.setText(nameMatchScore + "%");
                         }
                     }
@@ -2442,9 +2602,7 @@ public class PersonalDetailsFragment extends Fragment {
             @Override
             public void updateUI() {
                 temp = new ArrayList<>();
-                villCodeTemp=new ArrayList<>();
                 distTemp = new ArrayList<>();
-                distCodeTemp=new ArrayList<>();
                 if (villageResponse != null) {
                     if (villageResponse != null && villageResponse.isStatus()) {
                         if (villageResponse != null &&
@@ -2485,7 +2643,6 @@ public class PersonalDetailsFragment extends Fragment {
                                     // vtcCheck.setChecked(true);
                                     vtcACTV.setText(selected);
                                     distACTV.setText(distTemp.get(position));
-
                                     lgdVilCode= Integer.parseInt(villCodeTemp.get(position));
                                     lgdDistCode= Integer.parseInt(distCodeTemp.get(position));
                                     Log.d("Vill code :",lgdVilCode+""+ "Dist Code :" + lgdDistCode+"");
@@ -2540,6 +2697,18 @@ public class PersonalDetailsFragment extends Fragment {
         spinnerCareOfList.add("Father");
         spinnerCareOfList.add("Mother");
         spinnerCareOfList.add("Spouse");
+    }
+
+    private void getRelationList() {
+        relationList = SeccDatabase.getRelationList(context);
+        ArrayList<String> spinnerRelationList = new ArrayList<>();
+        //spinnerRelationList.add("Select Relation");
+
+        for (RelationItem item : relationList) {
+            spinnerRelationList.add(item.getRelationName());
+        }
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(context, R.layout.custom_drop_down, R.id.textView, spinnerRelationList);
+        cardTypeSpinner.setAdapter(adapter1);
     }
 
     private void setDefaultLocation() {
