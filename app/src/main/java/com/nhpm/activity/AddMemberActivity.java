@@ -81,10 +81,13 @@ public class AddMemberActivity extends BaseActivity {
 
     private void setupScreen() {
         ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, "add member per", context);
+
         verifierLoginResponse = VerifierLoginResponse.create(
                 ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.VERIFIER_CONTENT, context));
 
         selectedStateItem = StateItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF, AppConstant.SELECTED_STATE_SEARCH, context));
+        ProjectPrefrence.removeSharedPrefrenceData(AppConstant.PROJECT_PREF, "member-family", context);
+
         headerTV = (TextView) findViewById(R.id.centertext);
 
         headerTV.setText("Search Data " + "(" + selectedStateItem.getStateName() + ")");
@@ -265,8 +268,8 @@ public class AddMemberActivity extends BaseActivity {
                             CustomAlert.alertWithOk(context, "Please enter valid mobile number");
                             return;
                         }
-                        getMemberRecord();
-                       // getVerifiedFamilyList();
+                       // getMemberRecord();
+                        getVerifiedFamilyList();
                     }
 
                     if (searchType.equalsIgnoreCase(AppConstant.By_HHID)) {
@@ -278,8 +281,8 @@ public class AddMemberActivity extends BaseActivity {
                             CustomAlert.alertWithOk(context, "Please enter valid HHId number");
                             return;
                         }
-                        getMemberRecord();
-                      //  getVerifiedFamilyList();
+                       // getMemberRecord();
+                       getVerifiedFamilyList();
                     }
 
                     if (searchType.equalsIgnoreCase(AppConstant.BY_NHA_ID)) {
@@ -288,8 +291,8 @@ public class AddMemberActivity extends BaseActivity {
                             CustomAlert.alertWithOk(context, "Please enter NHA ID");
                             return;
                         }
-                        getMemberRecord();
-                       // getVerifiedFamilyList();
+                        //getMemberRecord();
+                        getVerifiedFamilyList();
                     }
 
                     if (searchType.equalsIgnoreCase(AppConstant.BY_RATION_CARD)) {
@@ -298,8 +301,8 @@ public class AddMemberActivity extends BaseActivity {
                             CustomAlert.alertWithOk(context, "Please enter ration card number");
                             return;
                         }
-                        getMemberRecord();
-                        //getVerifiedFamilyList();
+                        //getMemberRecord();
+                        getVerifiedFamilyList();
                     }
                 }
             }
@@ -321,21 +324,22 @@ public class AddMemberActivity extends BaseActivity {
     }
 
     private void getVerifiedFamilyList() {
+        AppUtility.softKeyBoard(addMemberActivity,0);
         TaskListener taskListener = new TaskListener() {
             @Override
             public void execute() {
                 VerifiedFamilyRequestModel requestModel = new VerifiedFamilyRequestModel();
                 if(searchType.equalsIgnoreCase(AppConstant.BY_NHA_ID)){
-                    requestModel.setNha_id(searchValue);
+                    requestModel.setNha_id(searchValue.trim());
                 }
                 if(searchType.equalsIgnoreCase(AppConstant.By_HHID)){
-                    requestModel.setHhd_no(searchValue);
+                    requestModel.setHhd_no(searchValue.trim());
                 }
                 if(searchType.equalsIgnoreCase(AppConstant.BY_MOBILE)){
-                    requestModel.setHhd_no(searchValue);
+                    requestModel.setHhd_no(searchValue.trim());
                 }
                 if(searchType.equalsIgnoreCase(AppConstant.BY_RATION_CARD)){
-                    requestModel.setHhd_no(searchValue);
+                    requestModel.setHhd_no(searchValue.trim());
                 }
                 requestModel.setParam(param);
                 requestModel.setStatecode(Integer.parseInt(selectedStateItem.getStateCode()));
@@ -355,29 +359,31 @@ public class AddMemberActivity extends BaseActivity {
 
             @Override
             public void updateUI() {
-                if (verifiedFamilyResponseModel != null) {
-                    if (verifiedFamilyResponseModel.isStatus()) {
-                        if(verifiedFamilyResponseModel.getFamilyMemberList()!=null && verifiedFamilyResponseModel.getFamilyMemberList().size()>0) {
+                    if (verifiedFamilyResponseModel != null) {
+                        if (verifiedFamilyResponseModel.isStatus()) {
+                            if (verifiedFamilyResponseModel.getFamilyMemberList() != null &&
+                                    verifiedFamilyResponseModel.getFamilyMemberList().size() > 0) {
 
-                            errorTV.setVisibility(View.GONE);
-                            memberListRV.setVisibility(View.VISIBLE);
-                            refreshMembersList(verifiedFamilyResponseModel.getFamilyMemberList());
-                        }else {
-                            memberListRV.setVisibility(View.GONE);
-                            errorTV.setVisibility(View.VISIBLE);
+                                errorTV.setVisibility(View.GONE);
+                                memberListRV.setVisibility(View.VISIBLE);
+                                refreshMembersList(verifiedFamilyResponseModel.getFamilyMemberList());
+                            } else {
+                                memberListRV.setVisibility(View.GONE);
+                                errorTV.setVisibility(View.VISIBLE);
 
+                            }
+                        } else if (verifiedFamilyResponseModel != null &&
+                                verifiedFamilyResponseModel.getErrorcode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
+                                || verifiedFamilyResponseModel.getErrorcode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            CustomAlert.alertWithOkLogout(context, verifiedFamilyResponseModel.getErrorMessage(), intent);
+                        } else {
+                            CustomAlert.alertWithOk(context, verifiedFamilyResponseModel.getErrorMessage());
                         }
-                    } else if (verifiedFamilyResponseModel != null &&
-                            verifiedFamilyResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.SESSION_EXPIRED)
-                            || verifiedFamilyResponseModel.getErrorCode().equalsIgnoreCase(AppConstant.INVALID_TOKEN)) {
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        CustomAlert.alertWithOkLogout(context, verifiedFamilyResponseModel.getErrorMessage(), intent);
                     } else {
-                        CustomAlert.alertWithOk(context, verifiedFamilyResponseModel.getErrorMessage());
+                        CustomAlert.alertWithOk(context, "Server Error");
                     }
-                } else {
-                    CustomAlert.alertWithOk(context, "Server Error");
-                }
+
             }
         };
 

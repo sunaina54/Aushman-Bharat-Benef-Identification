@@ -195,6 +195,7 @@ public class MemberPersonalDetailsFragment extends Fragment {
         matchBT = (Button) view.findViewById(R.id.matchBT);
         matchBT.setVisibility(View.GONE);
         previousBT = (Button) view.findViewById(R.id.previousBT);
+        previousBT.setVisibility(View.GONE);
         nextBT = (Button) view.findViewById(R.id.nextBT);
         nextBT.setVisibility(View.GONE);
         mobileNumberET = (EditText) view.findViewById(R.id.mobileET);
@@ -578,6 +579,7 @@ public class MemberPersonalDetailsFragment extends Fragment {
             }
             if (personalDetailItem.getFlowStatus()!=null && !personalDetailItem.getFlowStatus().equalsIgnoreCase("")
                     && personalDetailItem.getFlowStatus().equalsIgnoreCase(AppConstant.AADHAR_STATUS)) {
+                previousBT.setVisibility(View.VISIBLE);
                 cardTypeSpinner.setEnabled(false);
                 kycFather.setEnabled(false);
                 vtcACTV.setEnabled(false);
@@ -750,7 +752,7 @@ public class MemberPersonalDetailsFragment extends Fragment {
                  /*   getCareOfList();
                     if (spinnerCareOfList != null && spinnerCareOfList.size() > 0) {
                         for (int i = 0; i < spinnerCareOfList.size(); i++) {
-                            if (spinnerCareOfList.get(i).equalsIgnoreCase(personalDetailItem.getCareOfTypeDec())) {
+                             if (spinnerCareOfList.get(i).equalsIgnoreCase(personalDetailItem.getCareOfTypeDec())) {
                                 cardTypeSpinner.setSelection(i);
                                 careOfType = spinnerCareOfList.get(i);
                                 break;
@@ -770,10 +772,20 @@ public class MemberPersonalDetailsFragment extends Fragment {
 
                 }
 
+                if(screen.equalsIgnoreCase("FamilyRelationFrag")){
+                    cardTypeSpinner.setEnabled(true);
+                    kycFather.setEnabled(true);
+                    vtcACTV.setEnabled(true);
+                    distACTV.setEnabled(true);
+
+                }
+
             }
 
             if (personalDetailItem.getFlowStatus()!=null && !personalDetailItem.getFlowStatus().equalsIgnoreCase("")
                     && personalDetailItem.getFlowStatus().equalsIgnoreCase(AppConstant.GOVT_STATUS)) {
+
+                previousBT.setVisibility(View.VISIBLE);
                 cardTypeSpinner.setEnabled(false);
                 kycFather.setEnabled(false);
                 vtcACTV.setEnabled(false);
@@ -971,6 +983,14 @@ public class MemberPersonalDetailsFragment extends Fragment {
                             }
                         }
                     }
+
+                }
+
+                if(screen.equalsIgnoreCase("FamilyRelationFrag")){
+                    cardTypeSpinner.setEnabled(true);
+                    kycFather.setEnabled(true);
+                    vtcACTV.setEnabled(true);
+                    distACTV.setEnabled(true);
 
                 }
 
@@ -1432,6 +1452,7 @@ public class MemberPersonalDetailsFragment extends Fragment {
         previousBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (status != null && !status.equalsIgnoreCase("")) {
                     if (status.equalsIgnoreCase("aadhar")) {
                         String vtc = vtcACTV.getText().toString();
@@ -1459,12 +1480,12 @@ public class MemberPersonalDetailsFragment extends Fragment {
                         personalDetailItem.setOperatorMatchScoreStatus(nameMatchScoreStatus);
 
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
-                        activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+                       // activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
 
                         if(beneficiaryListItem!=null && beneficiaryListItem.getFamilyDetailsItemModel()!=null) {
                             beneficiaryListItem.setFamilyDetailsItemModel(beneficiaryListItem.getFamilyDetailsItemModel());
                             activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
-                            activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+                         //   activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
                           //  activity.addFamilyRelationLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                         }
 
@@ -1511,12 +1532,12 @@ public class MemberPersonalDetailsFragment extends Fragment {
                         beneficiaryListItem.setPersonalDetail(personalDetailItem);
 
                         activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
-                        activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+                      //  activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
 
                         if(beneficiaryListItem!=null && beneficiaryListItem.getFamilyDetailsItemModel()!=null) {
                             beneficiaryListItem.setFamilyDetailsItemModel(beneficiaryListItem.getFamilyDetailsItemModel());
                             activity.personalDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
-                            activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
+                         //   activity.familyDetailsLL.setBackground(context.getResources().getDrawable(R.drawable.arrow_yellow));
                            // activity.addFamilyRelationLL.setBackground(context.getResources().getDrawable(R.drawable.arrow));
                             ProjectPrefrence.saveSharedPrefrenceData(AppConstant.PROJECT_PREF, "member-family",beneficiaryListItem.getFamilyDetailsItemModel().serialize(), context);
 
@@ -1904,6 +1925,7 @@ public class MemberPersonalDetailsFragment extends Fragment {
                     getSharedPrefrenceData(AppConstant.PROJECT_NAME, "AADHAAR_DATA", context));//(AadhaarResponseItem) getActivity().getIntent().getSerializableExtra("result");
 
             if (personalDetailItem != null) {
+                previousBT.setVisibility(View.VISIBLE);
                 vtcACTV.setEnabled(true);
                 distACTV.setEnabled(true);
                 stateSP.setEnabled(false);
@@ -1940,8 +1962,6 @@ public class MemberPersonalDetailsFragment extends Fragment {
                 }
                 if (personalDetailItem.getGovtIdNo() != null &&
                         !personalDetailItem.getGovtIdNo().equalsIgnoreCase("")) {
-
-
                     govtIdNumberTV.setText(personalDetailItem.getGovtIdNo());
 
                 }
@@ -2170,6 +2190,7 @@ public class MemberPersonalDetailsFragment extends Fragment {
             personalDetailItem = PersonalDetailItem.create(ProjectPrefrence.
                     getSharedPrefrenceData(AppConstant.PROJECT_NAME, "GOVT_ID_DATA", context));//(AadhaarResponseItem) getActivity().getIntent().getSerializableExtra("result");
             if (personalDetailItem != null) {
+                previousBT.setVisibility(View.VISIBLE);
                 vtcACTV.setEnabled(true);
                 distACTV.setEnabled(true);
                 stateSP.setEnabled(false);

@@ -535,7 +535,7 @@ public class GovermentIDActivity extends BaseActivity {
         currentYear = currentDate.substring(6, 10);
         Log.d("current year", currentYear);
         screenName = getIntent().getStringExtra("ScreenNameMember");
-        if(!screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("MemberPersonalDetailsFragment")){
+        if(screenName!=null && !screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("MemberPersonalDetailsFragment")){
             personalDetailItem= PersonalDetailItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"member_personal_data",context));
             nameTV.setText(personalDetailItem.getBenefName());
             nameTV.setEnabled(false);
@@ -1347,7 +1347,7 @@ public class GovermentIDActivity extends BaseActivity {
 
         });
         screenName = getIntent().getStringExtra("ScreenNameMember");
-        if(!screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("MemberPersonalDetailsFragment")){
+        if(screenName!=null && !screenName.equalsIgnoreCase("") && screenName.equalsIgnoreCase("MemberPersonalDetailsFragment")){
             personalDetailItem= PersonalDetailItem.create(ProjectPrefrence.getSharedPrefrenceData(AppConstant.PROJECT_PREF,"member_personal_data",context));
             nameTV.setText(personalDetailItem.getBenefName());
             nameTV.setEnabled(false);

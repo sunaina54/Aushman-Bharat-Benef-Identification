@@ -265,11 +265,51 @@ public class FamilyRelationFragment extends Fragment {
                 proofIdET.setEnabled(false);
             }
 
-            if (personalDetailItem.getYob() != null &&
-                    !personalDetailItem.getYob().equalsIgnoreCase("")) {
+            if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() > 4) {
+
+                String currentYear = DateTimeUtil.currentDate(AppConstant.DATE_FORMAT);
+
+                currentYear = currentYear.substring(0, 4);
+                String date = DateTimeUtil.
+                        convertTimeMillisIntoStringDate(DateTimeUtil.convertDateIntoTimeMillis(personalDetailItem.getYob()), AppConstant.DATE_FORMAT);
+                String arr[];
+                String aadhaarYear = null;
+                if (personalDetailItem.getYob().contains("-")) {
+                    arr = personalDetailItem.getYob().split("-");
+                    if (arr[0].length() == 4) {
+                        aadhaarYear = arr[0];
+                    } else if (arr[2].length() == 4) {
+                        aadhaarYear = arr[2];
+                    }
+                } else if (personalDetailItem.getYob().contains("/")) {
+                    arr = personalDetailItem.getYob().split("/");
+                    if (arr[0].length() == 4) {
+                        aadhaarYear = arr[0];
+                    } else if (arr[2].length() == 4) {
+                        aadhaarYear = arr[2];
+                    }
+                }
+                if (aadhaarYear != null) {
+                    yobET.setText(aadhaarYear);
+                    yobET.setEnabled(false);
+                  /*  int age = Integer.parseInt(currentYear) - Integer.parseInt(aadhaarYear);
+                    kycageTV.setText(age + "");*/
+                }
+
+            } else if (personalDetailItem.getYob() != null && personalDetailItem.getYob().length() == 4) {
+                /*String currentYear = DateTimeUtil.currentDate("dd-mm-yyyy");
+                currentYear = currentYear.substring(6, 10);
+                int age = Integer.parseInt(currentYear) - Integer.parseInt(personalDetailItem.getYob());
+                kycageTV.setText(age + "");*/
                 yobET.setText(personalDetailItem.getYob());
                 yobET.setEnabled(false);
             }
+
+            /*if (personalDetailItem.getYob() != null &&
+                    !personalDetailItem.getYob().equalsIgnoreCase("")) {
+                yobET.setText(personalDetailItem.getYob());
+                yobET.setEnabled(false);
+            }*/
             if (personalDetailItem.getGender() != null &&
                     !personalDetailItem.getGender().equalsIgnoreCase("")) {
 
@@ -378,6 +418,7 @@ public class FamilyRelationFragment extends Fragment {
                 personalDetailItem.setBenefName(name);
                 personalDetailItem.setYob(yob);
                 personalDetailItem.setGender(manualGenderSelection);
+
                 Log.d("member personal detail", personalDetailItem.serialize());
                 if (beneficiaryListItem == null) {
                     beneficiaryListItem = new DocsListItem();
@@ -386,8 +427,14 @@ public class FamilyRelationFragment extends Fragment {
                 if (familyDetailsItemModel != null) {
                     beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
 
+                }else {
+                    familyDetailsItemModel = new FamilyDetailsItemModel();
+                    familyDetailsItemModel.setIdNumber(memberListModel.getFamilyIdNumber());
+                    beneficiaryListItem.setFamilyDetailsItemModel(familyDetailsItemModel);
+
                 }
                 beneficiaryListItem.setPersonalDetail(personalDetailItem);
+                beneficiaryListItem.setHhd_no(memberListModel.getHhdNo());
                 activity.benefItem = beneficiaryListItem;
 
 

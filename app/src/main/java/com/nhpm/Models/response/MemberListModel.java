@@ -22,6 +22,9 @@ public class MemberListModel implements Serializable {
     private String hhidType; // RSBY/SECC
     private String familyIdNumber;
     private String familyIdType;
+    private String hhdNo;
+
+
 
     /*{
         "ahltin": null,
@@ -38,6 +41,14 @@ public class MemberListModel implements Serializable {
             "familyIdNumber": "q32425356363464564644",
             "familyIdType": "1"
     }*/
+
+    public String getHhdNo() {
+        return hhdNo;
+    }
+
+    public void setHhdNo(String hhdNo) {
+        this.hhdNo = hhdNo;
+    }
 
     public String getAhltin() {
         return ahltin;

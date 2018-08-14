@@ -14,7 +14,7 @@ public class GetMemberDetail implements Serializable {
         private String ahl_tin;
         private String hhd_no;
         private Integer statecode;
-        private String dataSource;
+        private String dataSource="";
         private PersonalDetailResponse personalDetail;
         private FamilyDetailResponse familyDetailsItem;
 
